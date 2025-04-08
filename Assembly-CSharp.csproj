@@ -41,13 +41,15 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\UIText.cs" />
-     <Compile Include="Assets\Scripts\UIButton.cs" />
-     <Compile Include="Assets\Scripts\UIEarnMoneyBtn.cs" />
-     <Compile Include="Assets\Scripts\MyCharacterManager.cs" />
      <Compile Include="Assets\Scripts\GameStartManager.cs" />
      <Compile Include="Assets\Scripts\ServerManager.cs" />
+     <Compile Include="Assets\Scripts\UIButton.cs" />
+     <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\MyCharacterManager.cs" />
+     <Compile Include="Assets\Scripts\UIEarnMoneyBtn.cs" />
+     <Compile Include="Assets\Scripts\ServerData.cs" />
+     <Compile Include="Assets\Scripts\UIStudyTimer.cs" />
      <Folder Include="Assets" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
