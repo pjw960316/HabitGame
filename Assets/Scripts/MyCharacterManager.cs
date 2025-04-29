@@ -17,6 +17,7 @@ public class MyCharacterManager : MonoBehaviour //Mono 없애자
             {
                 _myCharacterManager = FindObjectOfType<MyCharacterManager>(); //이 방식 X
             }
+
             return _myCharacterManager;
         }
     }
@@ -29,10 +30,8 @@ public class MyCharacterManager : MonoBehaviour //Mono 없애자
 
     public void Handle()
     {
-        
-        
     }
-    
+
     private void GetServerData()
     {
         _budget = 0; //test code
