@@ -9,10 +9,5 @@ public class UIEarnMoneyBtn : UIButton
 
     private void EarnMoney()
     {
-        //서버 요청 코드
-        //test
-
-        var budget = MyCharacterManager.Instance.GetBudget();
-        Debug.Log("all budget : " + budget);
     }
 }
