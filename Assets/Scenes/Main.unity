@@ -385,7 +385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicPlayer: {fileID: 1190809063}
-  thirtyMinutesSound: {fileID: 8300000, guid: ed3e9794fc0f03b448f0a7ed7d66b2f2, type: 3}
+  thirtyMinutesSound: {fileID: 8300000, guid: 13346d2b21b538e4f9fb491a4828f575, type: 3}
   alarmSound: {fileID: 8300000, guid: 3f1352428e2ea604d82b2c754e4b2d94, type: 3}
 --- !u!4 &166104371
 Transform:
