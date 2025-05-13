@@ -1,4 +1,3 @@
-using Not_Mono;
 using UnityEngine;
 
 public class UIText : MonoBehaviour

@@ -47,10 +47,10 @@
      <Compile Include="Assets\Scripts\SoundManager.cs" />
      <Compile Include="Assets\Scripts\GameStartManager.cs" />
      <Compile Include="Assets\Scripts\ServerManager.cs" />
-     <Compile Include="Assets\Scripts\Mono\UIButton.cs" />
+     <Compile Include="Assets\Scripts\UIButton.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\UIManager.cs" />
-     <Compile Include="Assets\Scripts\Not Mono\MyCharacterManager.cs" />
+     <Compile Include="Assets\Scripts\MyCharacterManager.cs" />
      <Compile Include="Assets\Scripts\UIAlarmButton.cs" />
      <Compile Include="Assets\Scripts\UIEarnMoneyBtn.cs" />
      <Folder Include="Assets" />

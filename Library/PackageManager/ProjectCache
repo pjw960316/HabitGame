@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638789890133208227
-    m_Hash: 1515549601
+      ticks: 638823872428135267
+    m_Hash: 1150746740
   m_LockFileStatus:
     m_FilePath: C:/AtomicHabitsWithMoney/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638789890167274450
-    m_Hash: 2671941888
+      ticks: 638823872428135267
+    m_Hash: 3300684578
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_PackageAssets:
@@ -119,6 +119,8 @@ m_PackageAssets:
         - 2.5.2
         - 2.6.0
         - 2.7.1
+        - 2.8.1
+        - 2.8.2
         compatible:
         - 2.0.4
         - 2.0.5
@@ -239,6 +241,7 @@ m_PackageAssets:
         - 3.0.31
         - 3.0.34
         - 3.0.35
+        - 3.0.36
         compatible:
         - 1.0.2
         - 1.0.6
@@ -285,7 +288,8 @@ m_PackageAssets:
         - 3.0.31
         - 3.0.34
         - 3.0.35
-        verified: 3.0.35
+        - 3.0.36
+        verified: 3.0.36
       dependencies:
       - name: com.unity.ext.nunit
         version: 1.0.6
