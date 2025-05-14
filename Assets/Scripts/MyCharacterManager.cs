@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class MyCharacterManager
 {
     // field
@@ -16,8 +18,11 @@ public class MyCharacterManager
 
     public int Budget { get; private set; }
 
-    private MyCharacterManager()
+    // Constructor
+    public MyCharacterManager()
     {
+        Debug.Log("MyCharacterManager Constructor");
+        
         Budget = 0;
     }
 }
