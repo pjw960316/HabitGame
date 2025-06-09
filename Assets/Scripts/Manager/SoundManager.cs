@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class SoundManager : SingletonMaker<SoundManager>, IManager
+public class SoundManager : SingletonBase<SoundManager>, IManager
 {
     public SoundManager()
     {

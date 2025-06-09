@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SingletonMaker<T> where T : IManager, new()
+public class SingletonBase<T> where T : IManager, new()
 {
     private static T _instance;
     public static T Instance
@@ -14,7 +14,7 @@ public class SingletonMaker<T> where T : IManager, new()
     }
 }
 
-public class MyCharacterManager : SingletonMaker<MyCharacterManager>, IManager
+public class MyCharacterManager : SingletonBase<MyCharacterManager>, IManager
 {
     public MyCharacterManager()
     {
