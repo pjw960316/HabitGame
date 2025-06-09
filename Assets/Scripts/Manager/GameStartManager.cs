@@ -19,8 +19,6 @@ public class GameStartManager : MonoBehaviour
 {
     private void Awake()
     {
-        SingletonInitializeManager singletonInitializeManager = new SingletonInitializeManager();
-        
         ChangeSceneManager changeSceneManager = new ChangeSceneManager();
         changeSceneManager.ChangeScene();
         
@@ -33,15 +31,7 @@ public class GameStartManager : MonoBehaviour
     }
 }
 
-public class SingletonInitializeManager
-{
-    public SingletonInitializeManager()
-    {
-        // TODO : Singleton을 여기서 항상 초기화 -> 매 번 하는 게 귀찮고 유지보수가 불가능 (회사에서도...)
-        // TODO : singleton의 초기화 순서 여부에 따라 null이 나올 수 있음. 답 없는 문제임
-        MyCharacterManager myCharacterManager = new MyCharacterManager();
-    }
-}
+
 
 public class ChangeSceneManager
 {

@@ -44,7 +44,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "settings.editor.selected.configurable": "preferences.keymap",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -110,6 +110,7 @@
       <workItem from="1747705327795" duration="1780000" />
       <workItem from="1747727489452" duration="62000" />
       <workItem from="1747727564664" duration="2246000" />
+      <workItem from="1749440652540" duration="1164000" />
     </task>
     <servers />
   </component>
@@ -118,7 +119,6 @@
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityProjectDiscoverer">
-    <option name="hasUnityReference" value="true" />
     <option name="unityProject" value="true" />
     <option name="unityProjectFolder" value="true" />
   </component>

@@ -1,8 +1,12 @@
 using UnityEngine;
 using System.Collections;
 
-public class SoundManager : MonoBehaviour
+public class SoundManager : SingletonMaker<SoundManager>, IManager
 {
+    public SoundManager()
+    {
+        
+    }
     // 싱글턴 인스턴스를 담는 정적 변수
     private static SoundManager _soundManager;
 
@@ -15,19 +19,6 @@ public class SoundManager : MonoBehaviour
     private const float PLAY_TIME = 30*60;
 
     // 외부에서 접근 가능한 프로퍼티
-    public static SoundManager Instance
-    {
-        get
-        {
-            // 인스턴스가 없으면 새로 생성 (옵션)
-            if (_soundManager == null)
-            {
-                _soundManager = FindObjectOfType<SoundManager>(); //이 방식 X
-            }
-
-            return _soundManager;
-        }
-    }
 
     public IEnumerator Play()
     {
