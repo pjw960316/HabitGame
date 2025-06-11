@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,18 +18,16 @@ public class GameStartManager : MonoBehaviour
 {
     private void Awake()
     {
-        ChangeSceneManager changeSceneManager = new ChangeSceneManager();
+        var changeSceneManager = new ChangeSceneManager();
         changeSceneManager.ChangeScene();
-        
+
         DontDestroyOnLoad(this); //TODO : Should need? 너의 책임은 시작시키고 죽는건데?
     }
 
     private void Start()
     {
-        
     }
 }
-
 
 
 public class ChangeSceneManager
