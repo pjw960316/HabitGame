@@ -7,7 +7,8 @@ public class UIAlarmButton : MonoBehaviour
 
     private void Awake()
     {
-        if (button != null)
+        // TODO : Binding 여기서 X
+        if (button)
         {
             button.onClick.AddListener(OnClicked);
         }
@@ -16,6 +17,7 @@ public class UIAlarmButton : MonoBehaviour
 
     private void OnClicked()
     {
+        // TODO : soundManager를 너는 몰라야 해
         var soundManager = SoundManager.Instance;
 
         if (soundManager.IsMusicPlaying())

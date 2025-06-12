@@ -1,18 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class AlarmPresenter : MonoBehaviour
+public class AlarmPresenter : IPresenter
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private UIAlarmButton _alarmButton;
+    private SoundData _soundData;
 
-    // Update is called once per frame
-    void Update()
+    public void BindData()
     {
-        
+        throw new System.NotImplementedException();
     }
 }
