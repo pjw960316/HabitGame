@@ -1,2 +1,2 @@
-# AtomicHabitsWithMoney
+# HabitGame
  GameProject
