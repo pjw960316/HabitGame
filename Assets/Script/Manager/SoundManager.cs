@@ -1,12 +1,15 @@
+using System;
 using UnityEngine;
 using System.Collections;
 
-public class SoundManager : SingletonBase<SoundManager>, IManager
+[Serializable]
+public class SoundManager : SingletonBase<SoundManager>, IManager  
 {
-    public SoundManager()
+    [SerializeField] private SoundData _soundData;
+    /*public SoundManager()
     {
         
-    }
+    }*/
     // 싱글턴 인스턴스를 담는 정적 변수
     private static SoundManager _soundManager;
 

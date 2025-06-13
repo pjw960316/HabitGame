@@ -14,6 +14,7 @@ using UnityEngine.SceneManagement;
  * Awake와 Start에서 정확히 어떤 걸 초기화하면 좋을 지 연습해서 Personal Coding Style에 적자.
  *  예를 들면 Binding 같은건.
  */
+
 public class GameStartManager : MonoBehaviour
 {
     private void Awake()
@@ -24,8 +25,10 @@ public class GameStartManager : MonoBehaviour
         DontDestroyOnLoad(this); //TODO : Should need? 너의 책임은 시작시키고 죽는건데?
     }
 
-    private void Start()
+    // TODO : 여기서 scriptableObject 들을 연결 후 -> 각각의 Manager들에 전달한다.
+    private class ScriptableObjectLoader
     {
+        
     }
 }
 
