@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
  *  예를 들면 Binding 같은건.
  */
 
-public class GameStartManager : MonoBehaviour
+public class GameStartManagerMono : MonoBehaviour
 {
     private List<IManager> _managers = new List<IManager>();
     private void Awake()
