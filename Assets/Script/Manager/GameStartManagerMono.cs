@@ -1,12 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-/*
- * TODO:
- * loadScene에서 모든 동작을 완료했을 때 -> MainScene을 진입하도록
- * 모든 싱글턴을 초기화 시키기
- * 이건 Mono가 상속이 필요한가?
- */
 
 /*
  * TODO:
@@ -17,18 +11,24 @@ using UnityEngine.SceneManagement;
 
 public class GameStartManager : MonoBehaviour
 {
+    private List<IManager> _managers = new List<IManager>();
     private void Awake()
+    {
+        LoadInitialGameState();
+        
+        ConvertMainScene(); //TODO : 생성한 게 존재할 거야.
+        DontDestroyOnLoad(this); //TODO : 필요한 가?
+    }
+    
+    private void ConvertMainScene()
     {
         var changeSceneManager = new ChangeSceneManager();
         changeSceneManager.ChangeScene();
-
-        DontDestroyOnLoad(this); //TODO : Should need? 너의 책임은 시작시키고 죽는건데?
     }
 
-    // TODO : 여기서 scriptableObject 들을 연결 후 -> 각각의 Manager들에 전달한다.
-    private class ScriptableObjectLoader
+    //TODO : 이게 많아지면 private nested class로 분할 해서 각각 호출 되도록?
+    private void LoadInitialGameState() 
     {
-        
     }
 }
 

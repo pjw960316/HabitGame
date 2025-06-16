@@ -6,50 +6,14 @@
   <component name="ChangeListManager">
     <list default="true" id="01364720-00e8-4241-b8f0-a3e4f6be4df6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.AtomicHabitsWithMoney/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AtomicHabitsWithMoney/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/CameraManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/CameraManager.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/GameStartManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/GameStartManager.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/IManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/IManager.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/MyCharacterManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/MyCharacterManager.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/SoundManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/SoundManager.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/UIManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Manager/UIManager.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/IData.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/IData.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/MyCharacterData.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/MyCharacterData.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/ServerData.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/ServerData.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/SoundData.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Model/SoundData.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Presenter.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Presenter/AlarmPresenter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Presenter/AlarmPresenter.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Presenter/IPresenter.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Presenter/IPresenter.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/UIAlarmButton.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/UIAlarmButton.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/UIButton.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/UIButton.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/UIEarnMoneyBtn.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/UIEarnMoneyBtn.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/UIStudyTimer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/UIStudyTimer.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/UIText.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/View/UIText.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sounds.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sounds/alarm.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sounds/alarm.mp3.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sounds/sound_airplane.ogg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Sounds/sound_airplane.ogg.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PracticeScripts.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PracticeScripts/FirstChild.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PracticeScripts/FirstChild.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PracticeScripts/PracticeManager.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PracticeScripts/PracticeManager.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/Manager/GameStartManagerMono.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Manager/GameStartManagerMono.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/Manager/MyCharacterManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Manager/MyCharacterManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/Manager/UIManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Manager/UIManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,12 +28,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Assets/PracticeScripts/FirstChild.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/AtomicHabitsWithMoney/Assets/Script/Manager/SoundManager.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/AtomicHabitsWithMoney/Assets/Script/Manager/SoundManager.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/25578071f6e44201aac745680e5c8dfc76fe00/56/690503be/View.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/25578071f6e44201aac745680e5c8dfc76fe00/a1/8d4f2771/EditorWindow.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/913bb12059fd4cef8da5cc94ad2f093313e400/12/426ab2a1/CreateAssetMenuAttribute.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/913bb12059fd4cef8da5cc94ad2f093313e400/e3/d3746a87/ScriptableObject.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Script/Manager/StringManager.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -93,7 +52,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Inspections-C#&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -134,15 +93,13 @@
       <option name="useMixedMode" value="false" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" ignored-value-for-modified-check="13156">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
       <option name="listenPortForConnections" value="false" />
-      <option name="pid" value="13156" />
+      <option name="pid" />
       <option name="projectPathOnTarget" />
       <option name="runtimes">
-        <list>
-          <MonoRuntime />
-        </list>
+        <list />
       </option>
       <option name="selectedOptions">
         <list />
@@ -166,6 +123,11 @@
       <workItem from="1749702918502" duration="592000" />
       <workItem from="1749735171328" duration="2290000" />
       <workItem from="1749799188469" duration="4904000" />
+      <workItem from="1749820998649" duration="27000" />
+      <workItem from="1749821047448" duration="21000" />
+      <workItem from="1750039532420" duration="2635000" />
+      <workItem from="1750042313282" duration="164000" />
+      <workItem from="1750044215494" duration="29000" />
     </task>
     <servers />
   </component>
@@ -213,14 +175,7 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/913bb12059fd4cef8da5cc94ad2f093313e400/e3/d3746a87/ScriptableObject.cs</url>
           <line>26</line>
-          <properties documentPath="C:\Users\USER\AppData\Roaming\JetBrains\Rider2025.1\resharper-host\DecompilerCache\decompiler\913bb12059fd4cef8da5cc94ad2f093313e400\e3\d3746a87\ScriptableObject.cs" containingFunctionPresentation="Constructor 'ScriptableObject'">
-            <startOffsets>
-              <option value="1049" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1094" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\USER\AppData\Roaming\JetBrains\Rider2025.1\resharper-host\DecompilerCache\decompiler\913bb12059fd4cef8da5cc94ad2f093313e400\e3\d3746a87\ScriptableObject.cs" containingFunctionPresentation="Constructor 'ScriptableObject'" />
           <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>

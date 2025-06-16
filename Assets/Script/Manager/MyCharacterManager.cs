@@ -3,12 +3,14 @@
  2. _myCharacterData를 이용해서 캐릭터의 동작을 관리한다.
  3. MyCharacterManager 보다 추상화 단계가 낮은 1개의 책임을 수행하는 여러 클래스 (Controller 분해)로 component 채우는. 
 */
+
+using UniRx;
+
 public class MyCharacterManager : SingletonBase<MyCharacterManager>, IManager
 {
     private MyCharacterData _myCharacterData;
     public MyCharacterManager()
     {
-        //TODO : data load -> GameStartManager에서 한 번에
         
     }
 }
