@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,13 +14,13 @@ using UnityEngine.SceneManagement;
 
 public class GameStartManagerMono : MonoBehaviour
 {
-    private List<IManager> _managers = new List<IManager>();
+    private List<IManager> _managers;
     private void Awake()
     {
         LoadInitialGameState();
         
-        ConvertMainScene(); //TODO : 생성한 게 존재할 거야.
-        DontDestroyOnLoad(this); //TODO : 필요한 가?
+        //ConvertMainScene(); //TODO : 생성한 게 존재할 거야.
+        //DontDestroyOnLoad(this); //TODO : 필요한 가?
     }
     
     private void ConvertMainScene()
@@ -27,8 +30,23 @@ public class GameStartManagerMono : MonoBehaviour
     }
 
     //TODO : 이게 많아지면 private nested class로 분할 해서 각각 호출 되도록?
-    private void LoadInitialGameState() 
+    private void LoadInitialGameState()
     {
+        Debug.Log("hi");
+        var cSharpAssembly = AppDomain.CurrentDomain.GetAssemblies()
+            .FirstOrDefault(asm => asm.GetName().Name == "Assembly-CSharp");
+        
+        var managerTypes = cSharpAssembly?.GetTypes()
+            .Where(type => typeof(IManager).IsAssignableFrom(type) && type.IsClass)
+            .ToList();
+
+        foreach (var type in managerTypes)
+        {
+            var tmp = Activator.CreateInstance(type);
+            var tmp2 = tmp as IManager;
+            
+            tmp2.Init();
+        }
     }
 }
 

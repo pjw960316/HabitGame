@@ -1,5 +1,6 @@
 public interface IManager
 {
+    public void Init();
 }
 
 // IManager Script에 넣음으로 cohesion을 높인다.

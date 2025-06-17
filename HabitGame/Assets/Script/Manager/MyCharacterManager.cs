@@ -11,4 +11,7 @@ public class MyCharacterManager : SingletonBase<MyCharacterManager>, IManager
     {
         
     }
+    public void Init()
+    {
+    }
 }

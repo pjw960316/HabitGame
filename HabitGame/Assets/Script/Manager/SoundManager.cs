@@ -23,6 +23,10 @@ public class SoundManager : SingletonBase<SoundManager>, IManager
 
     // 외부에서 접근 가능한 프로퍼티
 
+    public void Init()
+    {
+        Debug.Log("SoundManager");
+    }
     public IEnumerator Play()
     {
         Debug.Log("Play");
