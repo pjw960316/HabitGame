@@ -32,7 +32,6 @@ public class GameStartManagerMono : MonoBehaviour
     //TODO : 이게 많아지면 private nested class로 분할 해서 각각 호출 되도록?
     private void LoadInitialGameState()
     {
-        Debug.Log("hi");
         var cSharpAssembly = AppDomain.CurrentDomain.GetAssemblies()
             .FirstOrDefault(asm => asm.GetName().Name == "Assembly-CSharp");
         
