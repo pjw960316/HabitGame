@@ -6,27 +6,16 @@ using System.Collections;
 public class SoundManager : SingletonBase<SoundManager>, IManager  
 {
     [SerializeField] private SoundData _soundData;
-    /*public SoundManager()
-    {
-        
-    }*/
-    // 싱글턴 인스턴스를 담는 정적 변수
-    private static SoundManager _soundManager;
-
     [SerializeField] private AudioSource musicPlayer;
-
     [SerializeField] private AudioClip thirtyMinutesSound;
-
     [SerializeField] private AudioClip alarmSound;
-
-    private const float PLAY_TIME = 30*60;
-
-    // 외부에서 접근 가능한 프로퍼티
 
     public void Init()
     {
         Debug.Log("SoundManager");
     }
+    
+    // TODO : Erase - 여기 들어가기에는 너무 specific
     public IEnumerator Play()
     {
         Debug.Log("Play");
@@ -34,7 +23,7 @@ public class SoundManager : SingletonBase<SoundManager>, IManager
         musicPlayer.loop = false;
         musicPlayer.PlayOneShot(thirtyMinutesSound);
 
-        yield return new WaitForSeconds(PLAY_TIME);
+        //yield return new WaitForSeconds(PLAY_TIME);
 
         Debug.Log("Stop");
         musicPlayer.Stop();
