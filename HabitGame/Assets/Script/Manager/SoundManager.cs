@@ -28,10 +28,20 @@ public class SoundManager : SingletonBase<SoundManager>, IManager
 
     public void Init()
     {
-        //_soundData = ScriptableObject.CreateInstance<SoundData>();
+    }
+    
+    public void InitializeScriptableObject(IData data)
+    {
+        if (data is SoundData soundData)
+        {
+            _soundData = soundData;
+        }
         
-        Test();
-
+        //TODO : test Code
+        if (_soundData != null)
+        {
+            Debug.Log("today end");
+        }
     }
 
     // TODO : Erase - 여기 들어가기에는 너무 specific

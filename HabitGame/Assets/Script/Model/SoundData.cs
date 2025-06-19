@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SoundData", menuName = "ScriptableObjects/SoundData", order = 1)]
-public class SoundData : ScriptableObject
+public class SoundData : ScriptableObject, IData
 {
     #region 1. Fields
 
@@ -20,14 +20,7 @@ public class SoundData : ScriptableObject
     #endregion
 
     #region 3. Constructor
-
-    public SoundData()
-    {
-        Debug.Log("Sound Data Created");
-        var a = AlarmSound;
-        Debug.Log(a.length);
-
-    }
+    
     // default
 
     #endregion
