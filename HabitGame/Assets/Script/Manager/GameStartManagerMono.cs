@@ -8,12 +8,14 @@ public class GameStartManagerMono : MonoBehaviour
 {
     private List<IManager> _managers;
 	private const string MAIN_ASSEMBLY = "Assembly-CSharp";
+    private const string MAIN_SCENE_NAME = "MainScene";
+    
     private void Awake()
     {
         LoadInitialGameState();
 
-        //ConvertMainScene(); //TODO : 생성한 게 존재할 거야.
-        //DontDestroyOnLoad(this); //TODO : 필요한 가?
+        ChangeScene();
+        //TODO : GameStartManagerMono를 Interface 기반으로 죽여.
     }
 
     private void LoadInitialGameState()
@@ -43,17 +45,8 @@ public class GameStartManagerMono : MonoBehaviour
         }
     }
 
-    private void ConvertMainScene()
+    private void ChangeScene()
     {
-        var changeSceneManager = new ChangeSceneManager();
-        changeSceneManager.ChangeScene();
-    }
-}
-
-public class ChangeSceneManager
-{
-    public void ChangeScene()
-    {
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene(MAIN_SCENE_NAME);
     }
 }

@@ -10,10 +10,4 @@ public class AlarmPresenter : IPresenter
     {
         throw new System.NotImplementedException();
     }
-
-    private void Test()
-    {
-        SoundData obj = new SoundData();
-        //_test = SoundData.AlarmSound;
-    }
 }

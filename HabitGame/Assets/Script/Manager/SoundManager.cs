@@ -13,7 +13,7 @@ public class SoundManager : SingletonBase<SoundManager>, IManager
 
     #region 2. Properties
 
-    [SerializeField] private SoundData _soundData;
+    private SoundData _soundData;
     [SerializeField] private AudioSource musicPlayer;
 
     #endregion
@@ -28,7 +28,10 @@ public class SoundManager : SingletonBase<SoundManager>, IManager
 
     public void Init()
     {
-        Debug.Log("SoundManager");
+        //_soundData = ScriptableObject.CreateInstance<SoundData>();
+        
+        Test();
+
     }
 
     // TODO : Erase - 여기 들어가기에는 너무 specific
@@ -54,6 +57,10 @@ public class SoundManager : SingletonBase<SoundManager>, IManager
     public bool IsMusicPlaying()
     {
         return musicPlayer.isPlaying;
+    }
+
+    private void Test()
+    {
     }
 
     #endregion
