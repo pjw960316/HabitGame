@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameStartManagerMono : MonoBehaviour
 {
     private List<IManager> _managers;
-
+	private const string MAIN_ASSEMBLY = "Assembly-CSharp";
     private void Awake()
     {
         LoadInitialGameState();
@@ -24,7 +24,7 @@ public class GameStartManagerMono : MonoBehaviour
     private void CreateManagerClassByReflection()
     {
         var cSharpAssembly = AppDomain.CurrentDomain.GetAssemblies()
-            .FirstOrDefault(asm => asm.GetName().Name == "Assembly-CSharp");
+            .FirstOrDefault(asm => asm.GetName().Name == MAIN_ASSEMBLY);
 
         var managerTypes = cSharpAssembly?.GetTypes()
             .Where(type => typeof(IManager).IsAssignableFrom(type) && type.IsClass)

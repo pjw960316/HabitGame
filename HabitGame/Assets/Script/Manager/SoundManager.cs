@@ -1,27 +1,43 @@
 using System;
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 [Serializable]
-public class SoundManager : SingletonBase<SoundManager>, IManager  
+public class SoundManager : SingletonBase<SoundManager>, IManager
 {
+    #region 1. Fields
+
+    // default
+
+    #endregion
+
+    #region 2. Properties
+
     [SerializeField] private SoundData _soundData;
     [SerializeField] private AudioSource musicPlayer;
-    [SerializeField] private AudioClip thirtyMinutesSound;
-    [SerializeField] private AudioClip alarmSound;
+
+    #endregion
+
+    #region 3. Constructor
+
+    // default
+
+    #endregion
+
+    #region 4. Methods
 
     public void Init()
     {
         Debug.Log("SoundManager");
     }
-    
+
     // TODO : Erase - 여기 들어가기에는 너무 specific
     public IEnumerator Play()
     {
         Debug.Log("Play");
         musicPlayer.volume = 0.5f;
         musicPlayer.loop = false;
-        musicPlayer.PlayOneShot(thirtyMinutesSound);
+        //musicPlayer.PlayOneShot(thirtyMinutesSound);
 
         //yield return new WaitForSeconds(PLAY_TIME);
 
@@ -29,7 +45,7 @@ public class SoundManager : SingletonBase<SoundManager>, IManager
         musicPlayer.Stop();
 
         musicPlayer.volume = 1f;
-        musicPlayer.clip = alarmSound;
+        //musicPlayer.clip = alarmSound;
         musicPlayer.loop = true;
         yield return new WaitForSeconds(0.5f);
         musicPlayer.Play();
@@ -39,4 +55,6 @@ public class SoundManager : SingletonBase<SoundManager>, IManager
     {
         return musicPlayer.isPlaying;
     }
+
+    #endregion
 }
