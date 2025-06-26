@@ -4,7 +4,7 @@ public interface IManager
     public void Init();
 
     // 일단 default
-    public void InitializeScriptableObject(IData data)
+    public void InitializeScriptableObject(IModel data)
     {
     }
 }

@@ -2,8 +2,16 @@ using UnityEngine;
 
 public class AlarmPresenter : IPresenter
 {
-    private UIAlarmButton _alarmButton;
-    private SoundData _soundData;
+    private IView _view;
+    private IModel _model;
 
-    private static AudioClip _test;
+    public AlarmPresenter()
+    {
+        
+    }
+
+    public void InjectView(IView view)
+    {
+        _view = view;
+    }
 }
