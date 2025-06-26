@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class UIAlarmButton : UIButton
 {
+    private AlarmPresenter  _alarmPresenter;
     protected override void Awake()
     {
         base.Awake();

@@ -6,8 +6,4 @@ public class AlarmPresenter : IPresenter
     private SoundData _soundData;
 
     private static AudioClip _test;
-    public void BindData()
-    {
-        throw new System.NotImplementedException();
-    }
 }
