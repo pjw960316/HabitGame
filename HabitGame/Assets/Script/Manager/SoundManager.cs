@@ -40,7 +40,7 @@ public class SoundManager : SingletonBase<SoundManager>, IManager
         //TODO : test Code
         if (_soundData != null)
         {
-            Debug.Log("today end");
+            //Debug.Log("today end");
         }
     }
 

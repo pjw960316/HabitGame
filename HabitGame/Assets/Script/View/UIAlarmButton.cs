@@ -1,30 +1,19 @@
 using UnityEngine;
-using UnityEngine.UI;
 
-public class UIAlarmButton : MonoBehaviour
+public class UIAlarmButton : UIButton
 {
-    [SerializeField] private Button button;
-
-    private void Awake()
+    protected override void Awake()
     {
-        // TODO : Binding 여기서 X
-        if (button)
-        {
-            button.onClick.AddListener(OnClicked);
-        }
+        base.Awake();
     }
 
+    protected override void BindEvent()
+    {
+        button?.onClick.AddListener(OnClicked);
+    }
 
     private void OnClicked()
     {
-        // TODO : soundManager를 너는 몰라야 해
-        var soundManager = SoundManager.Instance;
-
-        if (soundManager.IsMusicPlaying())
-        {
-            return;
-        }
-
-        StartCoroutine(soundManager.Play());
+        
     }
 }

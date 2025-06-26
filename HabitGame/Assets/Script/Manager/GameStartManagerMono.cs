@@ -52,7 +52,7 @@ public class GameStartManagerMono : MonoBehaviour
     {
         if (_soundData != null)
         {
-            Debug.Log("not null");
+            //Debug.Log("not null");
         }
     }
 
