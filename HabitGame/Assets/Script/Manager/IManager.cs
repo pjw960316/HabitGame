@@ -1,5 +1,5 @@
 // MONO가 아닌 Manager에 대해서만 inherit 할 것
-public interface IManager
+public interface IManager : IFactory
 {
     public void Init();
 
