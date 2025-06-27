@@ -1,4 +1,4 @@
-public class MyCharacterData : IData
+public class MyCharacterData : IModel
 {
     public int Budget { get; private set; }
 

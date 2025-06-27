@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SoundData", menuName = "ScriptableObjects/SoundData", order = 1)]
-public class SoundData : ScriptableObject, IData
+public class SoundData : ScriptableObject, IModel
 {
     #region 1. Fields
 

@@ -30,7 +30,7 @@ public class SoundManager : SingletonBase<SoundManager>, IManager
     {
     }
     
-    public void InitializeScriptableObject(IData data)
+    public void InitializeScriptableObject(IModel data)
     {
         if (data is SoundData soundData)
         {
