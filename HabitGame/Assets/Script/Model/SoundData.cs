@@ -6,7 +6,7 @@ public class SoundData : ScriptableObject, IModel
     #region 1. Fields
 
     // default
-
+    public int testValue = 5;
     #endregion
 
     #region 2. Properties

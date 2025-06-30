@@ -1983,8 +1983,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 1884363893}
-  buttonText: {fileID: 0}
-  test: 5
+  buttonText: {fileID: 154696928}
 --- !u!114 &1884363893
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -21,7 +21,7 @@ public class UIAlarmButton : UIButton
 
     private void OnClicked()
     {
-        
+        buttonText.text = _alarmPresenter.TestModelViewConnection().ToString();
     }
 
     //TODO : 일단

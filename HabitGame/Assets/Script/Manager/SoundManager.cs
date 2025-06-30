@@ -29,11 +29,21 @@ public class SoundManager : SingletonBase<SoundManager>, IManager
     {
     }
 
+    //TODO : 일단 돌아가게
+    public void InjectModel(SoundData soundData)
+    {
+        _soundData = soundData;
+    }
+    
     // TODO : 다형성 쓰면 뭔가 연결 될 것 같은데?????
     public void ConnectViewWithPresenter(IView view, IPresenter presenter)
     {
         //일단 테스트
         AlarmPresenter alarmPresenter = new  AlarmPresenter(view , _soundData);
+        if (view is UIAlarmButton uiAlarmButton)
+        {
+            uiAlarmButton.InjectPresenter(alarmPresenter);
+        }
     }
     
     public void InitializeScriptableObject(IModel data)

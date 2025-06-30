@@ -1,9 +1,7 @@
-using UnityEngine;
-
 public class AlarmPresenter : IPresenter
 {
     private IView _view;
-    private IModel _model;
+    private readonly IModel _model;
 
     public AlarmPresenter(IView view, IModel model)
     {
@@ -11,13 +9,13 @@ public class AlarmPresenter : IPresenter
         _model = model;
     }
 
-    public void InjectView(IView view)
+    public int TestModelViewConnection()
     {
-        _view = view;
-    }
+        if (_model is SoundData soundData)
+        {
+            return soundData.testValue;
+        }
 
-    private void InjectModel(IModel model)
-    {
-        _model = model;
+        return 1;
     }
 }

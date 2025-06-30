@@ -76,6 +76,10 @@ public class GameStartManagerMono : MonoBehaviour
                 }
             }
         }
+        
+        //TODO 모든 매니저에 Model을 넘겨주는 코드 (지금은 범용적으로 어떻게 할 지 모르겠음)
+        //일단 돌아가게
+        SoundManager.Instance.InjectModel(_soundData); 
     }
 
     // TODO : 중복 제거해 -> CallBack?

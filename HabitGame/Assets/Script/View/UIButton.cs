@@ -1,10 +1,11 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public abstract class UIButton : MonoBehaviour, IView
 {
     [SerializeField] protected Button button;
-    [SerializeField] private Text buttonText;
+    [SerializeField] protected TextMeshProUGUI buttonText;
     
     protected virtual void Awake()
     {
