@@ -8,18 +8,19 @@ public class GameStartManagerMono : MonoBehaviour
 {
     #region 1. Fields
 
-    private List<IManager> _managers;
-    private List<Type> _managerTypes;
     private const string MAIN_ASSEMBLY = "Assembly-CSharp";
     private const string MAIN_SCENE_NAME = "MainScene";
+
+    private List<IManager> _managers;
+    private List<Type> _managerTypes;
+
+    [SerializeField] private List<ScriptableObject> _allModels;
 
     #endregion
 
     #region 2. Properties
 
-    //TODO : soundData를 얘가 들고 있는 이유는 Mono라서 그래.
-    [SerializeField] private SoundData _soundData;
-    public SoundData SoundData => _soundData;
+    //
 
     #endregion
 
@@ -30,7 +31,7 @@ public class GameStartManagerMono : MonoBehaviour
         LoadInitialGameState();
 
         ChangeScene();
-        
+
         //TODO : GameStartManagerMono를 Interface 기반으로 Dispose?
     }
 
@@ -40,23 +41,10 @@ public class GameStartManagerMono : MonoBehaviour
 
     private void LoadInitialGameState()
     {
-        LoadScriptableObjectAsset();
-
-        CreateManagerClassByReflection();
-
-        InjectScriptableObjectToManagers();
+        CreateManagerInstances();
     }
 
-    //TODO : Test Code임.
-    private void LoadScriptableObjectAsset()
-    {
-        if (_soundData != null)
-        {
-            //Debug.Log("not null");
-        }
-    }
-
-    private void CreateManagerClassByReflection()
+    private void CreateManagerInstances()
     {
         var cSharpAssembly = AppDomain.CurrentDomain.GetAssemblies()
             .FirstOrDefault(asm => asm.GetName().Name == MAIN_ASSEMBLY);
@@ -72,28 +60,8 @@ public class GameStartManagerMono : MonoBehaviour
                 var instance = Activator.CreateInstance(type);
                 if (instance is IManager iManager)
                 {
+                    iManager.SetModel(_allModels);
                     iManager.Init();
-                }
-            }
-        }
-        
-        //TODO 모든 매니저에 Model을 넘겨주는 코드 (지금은 범용적으로 어떻게 할 지 모르겠음)
-        //일단 돌아가게
-        SoundManager.Instance.InjectModel(_soundData); 
-    }
-
-    // TODO : 중복 제거해 -> CallBack?
-    // 흐름 상 CreateManagerClassByReflection 얘랑은 구분하는 게 맞음 iManager.Init() 바로 뒤에 쓰는 게 아니라.
-    private void InjectScriptableObjectToManagers()
-    {
-        if (_managerTypes != null)
-        {
-            foreach (var type in _managerTypes)
-            {
-                var instance = Activator.CreateInstance(type);
-                if (instance is IManager iManager)
-                {
-                    iManager.InitializeScriptableObject(_soundData); //TODO : 일단 테스트로 SoundData를 넘김
                 }
             }
         }

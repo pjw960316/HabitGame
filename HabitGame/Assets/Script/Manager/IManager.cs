@@ -1,16 +1,16 @@
-// MONO가 아닌 Manager에 대해서만 inherit 할 것
+using System.Collections.Generic;
+using UnityEngine;
+
 public interface IManager : IFactory
 {
     public void Init();
-
-    // 일단 default
-    public void InitializeScriptableObject(IModel data)
-    {
-    }
+    public void SetModel(IEnumerable<ScriptableObject> _list);
 }
 
-// IManager Script에 넣음으로 cohesion을 높인다.
-public class SingletonBase<T> where T : IManager, new() 
+/* REFACTOR : SingletonBase의 기능이 포함되어 있지만, ManagerBase의 기능을 helper class로 빼는 게 파편화 같아서 둘이 합침
+ 합치는 게 SRP는 위반 되니, 좋은 방법 리팩터링 할 것.
+*/
+public class ManagerBase<T> where T : IManager, new()
 {
     private static T _instance;
 

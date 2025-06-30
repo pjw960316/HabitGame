@@ -4,14 +4,16 @@ public class UIAlarmButton : UIButton
 {
     //TODO : 인터페이스로 들고 있으라는데 왜?
     private AlarmPresenter _alarmPresenter;
-    
+
     protected override void Awake()
     {
         base.Awake();
-        
+
         Debug.Log("Test");
-        
+
         SoundManager.Instance.ConnectViewWithPresenter(this, _alarmPresenter);
+
+        // TODO : UniRx를 이용해서 View 생성 시에 SoundManager에서 P에서 MVP들을 연결해보자. - 간접 호출 RX Pattern
     }
 
     protected override void BindEvent()
@@ -32,8 +34,8 @@ public class UIAlarmButton : UIButton
             _alarmPresenter = alarmPresenter;
         }
     }
+
     public sealed override void HoldPresenterInterface()
     {
-        
     }
 }

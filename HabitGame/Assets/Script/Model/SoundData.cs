@@ -7,6 +7,7 @@ public class SoundData : ScriptableObject, IModel
 
     // default
     public int testValue = 5;
+
     #endregion
 
     #region 2. Properties
@@ -20,7 +21,7 @@ public class SoundData : ScriptableObject, IModel
     #endregion
 
     #region 3. Constructor
-    
+
     // default
 
     #endregion

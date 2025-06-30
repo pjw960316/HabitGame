@@ -1,19 +1,28 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class SoundManager : SingletonBase<SoundManager>, IManager
+public class SoundManager : ManagerBase<SoundManager>, IManager
 {
     #region 1. Fields
 
-    private SoundData _soundData;
     // default
 
     #endregion
 
     #region 2. Properties
+
     [SerializeField] private AudioSource musicPlayer;
+
+    private SoundData _soundData;
+
+    public SoundData SoundData
+    {
+        get => _soundData;
+        private set => _soundData = value;
+    }
 
     #endregion
 
@@ -29,34 +38,34 @@ public class SoundManager : SingletonBase<SoundManager>, IManager
     {
     }
 
-    //TODO : 일단 돌아가게
-    public void InjectModel(SoundData soundData)
+    public void SetModel(IEnumerable<ScriptableObject> models)
     {
-        _soundData = soundData;
+        foreach (var model in models)
+        {
+            if (model is SoundData soundData)
+            {
+                SoundData = soundData;
+                return;
+            }
+        }
     }
-    
+
     // TODO : 다형성 쓰면 뭔가 연결 될 것 같은데?????
     public void ConnectViewWithPresenter(IView view, IPresenter presenter)
     {
         //일단 테스트
-        AlarmPresenter alarmPresenter = new  AlarmPresenter(view , _soundData);
+        var alarmPresenter = new AlarmPresenter(view, _soundData);
         if (view is UIAlarmButton uiAlarmButton)
         {
             uiAlarmButton.InjectPresenter(alarmPresenter);
         }
     }
-    
+
     public void InitializeScriptableObject(IModel data)
     {
         if (data is SoundData soundData)
         {
             _soundData = soundData;
-        }
-        
-        //TODO : test Code
-        if (_soundData != null)
-        {
-            //Debug.Log("today end");
         }
     }
 
@@ -83,10 +92,6 @@ public class SoundManager : SingletonBase<SoundManager>, IManager
     public bool IsMusicPlaying()
     {
         return musicPlayer.isPlaying;
-    }
-
-    private void Test()
-    {
     }
 
     #endregion
