@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIButton : MonoBehaviour, IView
+public abstract class UIButton : MonoBehaviour, IView
 {
     [SerializeField] protected Button button;
     [SerializeField] private Text buttonText;
@@ -20,8 +20,7 @@ public class UIButton : MonoBehaviour, IView
     {
     }
 
-    private void SetPresenter(IPresenter presenter)
-    {
-        
-    }
+    public abstract void HoldPresenterInterface();
+
+
 }

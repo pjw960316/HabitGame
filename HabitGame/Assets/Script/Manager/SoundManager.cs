@@ -7,13 +7,12 @@ public class SoundManager : SingletonBase<SoundManager>, IManager
 {
     #region 1. Fields
 
+    private SoundData _soundData;
     // default
 
     #endregion
 
     #region 2. Properties
-
-    private SoundData _soundData;
     [SerializeField] private AudioSource musicPlayer;
 
     #endregion
@@ -28,6 +27,13 @@ public class SoundManager : SingletonBase<SoundManager>, IManager
 
     public void Init()
     {
+    }
+
+    // TODO : 다형성 쓰면 뭔가 연결 될 것 같은데?????
+    public void ConnectViewWithPresenter(IView view, IPresenter presenter)
+    {
+        //일단 테스트
+        AlarmPresenter alarmPresenter = new  AlarmPresenter(view , _soundData);
     }
     
     public void InitializeScriptableObject(IModel data)
