@@ -50,7 +50,8 @@ public class SoundManager : ManagerBase<SoundManager>, IManager
         }
     }
 
-    // TODO : 다형성 쓰면 뭔가 연결 될 것 같은데?????
+    // FIX
+    // 다형성 쓰면 뭔가 연결 될 것 같은데?????
     public void ConnectViewWithPresenter(IView view, IPresenter presenter)
     {
         //일단 테스트
@@ -69,7 +70,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager
         }
     }
 
-    // TODO : Erase - 여기 들어가기에는 너무 specific
+    // TODO : 제거하거나 위치를 옮기자.
     public IEnumerator Play()
     {
         Debug.Log("Play");

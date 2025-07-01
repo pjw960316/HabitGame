@@ -31,8 +31,6 @@ public class GameStartManagerMono : MonoBehaviour
         LoadInitialGameState();
 
         ChangeScene();
-
-        //TODO : GameStartManagerMono를 Interface 기반으로 Dispose?
     }
 
     #endregion
@@ -75,7 +73,10 @@ public class GameStartManagerMono : MonoBehaviour
     #endregion
 
 
-    //test nested Class
+    /*
+     * Test
+     * nested Class
+     */
     [Serializable]
     private class ScriptableObjectLoader
     {

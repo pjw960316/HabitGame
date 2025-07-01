@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class UIAlarmButton : UIButton
 {
-    //TODO : 인터페이스로 들고 있으라는데 왜?
+    //FIX
+    //인터페이스로 들고 있으라는데 왜?
     private AlarmPresenter _alarmPresenter;
 
     protected override void Awake()
@@ -26,7 +27,8 @@ public class UIAlarmButton : UIButton
         buttonText.text = _alarmPresenter.TestModelViewConnection().ToString();
     }
 
-    //TODO : 일단
+    //FIX
+    //이 코드는 제거하거나 다른 곳에서 해야 한다.
     public void InjectPresenter(IPresenter presenter)
     {
         if (presenter is AlarmPresenter alarmPresenter)
