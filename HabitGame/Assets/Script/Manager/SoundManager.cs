@@ -1,14 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 [Serializable]
-public class SoundManager : ManagerBase<SoundManager>, IManager
+public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 {
     #region 1. Fields
-
-    // default
+    private CompositeDisposable _disposable = new CompositeDisposable();
+    public Subject<int> TestEvent;
+    //test 
+    public int primeKey = 77;
 
     #endregion
 
@@ -28,6 +31,10 @@ public class SoundManager : ManagerBase<SoundManager>, IManager
 
     #region 3. Constructor
 
+    public SoundManager()
+    {
+        Debug.Log("SceneChange Cons");
+    }
     // default
 
     #endregion
@@ -36,7 +43,14 @@ public class SoundManager : ManagerBase<SoundManager>, IManager
 
     public void Init()
     {
+        Debug.Log(Instance.GetHashCode());
+        Debug.Log("Init");
+        //Test
+        //TestEvent = new Subject<int>();
+        //TestEvent.Subscribe(x => { Debug.Log(x.ToString()); }).AddTo(_disposable);
     }
+
+
 
     public void SetModel(IEnumerable<ScriptableObject> models)
     {
@@ -93,6 +107,11 @@ public class SoundManager : ManagerBase<SoundManager>, IManager
     public bool IsMusicPlaying()
     {
         return musicPlayer.isPlaying;
+    }
+
+    public void Dispose()
+    {
+        Debug.Log("fuck");
     }
 
     #endregion

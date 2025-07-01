@@ -1,3 +1,4 @@
+using UniRx;
 using UnityEngine;
 
 public class UIAlarmButton : UIButton
@@ -5,12 +6,11 @@ public class UIAlarmButton : UIButton
     //FIX
     //인터페이스로 들고 있으라는데 왜?
     private AlarmPresenter _alarmPresenter;
+    private CompositeDisposable _disposable = new CompositeDisposable();
 
     protected override void Awake()
     {
         base.Awake();
-
-        Debug.Log("Test");
 
         SoundManager.Instance.ConnectViewWithPresenter(this, _alarmPresenter);
 
@@ -24,7 +24,28 @@ public class UIAlarmButton : UIButton
 
     private void OnClicked()
     {
-        buttonText.text = _alarmPresenter.TestModelViewConnection().ToString();
+        //test
+        //buttonText.text = _alarmPresenter.TestModelViewConnection().ToString();
+        
+        //test
+        //test
+
+        Debug.Log(SoundManager.Instance.GetHashCode());
+        if (SoundManager.Instance == null)
+        {
+            Debug.Log("1");
+            
+        }
+
+        SoundManager.Instance.TestEvent = new Subject<int>();
+        if (SoundManager.Instance.TestEvent == null)
+        {
+            Debug.Log("2");
+        }
+        //test
+        SoundManager.Instance.TestEvent.Subscribe(x => { Debug.Log(x.ToString()); }).AddTo(_disposable);
+        
+        SoundManager.Instance.TestEvent.OnNext(1);
     }
 
     //FIX
