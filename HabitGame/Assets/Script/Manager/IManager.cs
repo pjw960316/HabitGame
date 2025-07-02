@@ -5,6 +5,11 @@ public interface IManager : IFactory
 {
     public void Init();
     public void SetModel(IEnumerable<ScriptableObject> _list);
+    
+    //REFACTOR
+    //이 녀석의 위치가 이게 맞는가?
+    //Reflection을 써서 Instance를 연결해야 하니까 넣었는데...
+    public void ConnectInstanceByActivator(IManager instance); 
 }
 
 /* Refactor
@@ -13,7 +18,7 @@ public interface IManager : IFactory
 */
 public class ManagerBase<T> where T : IManager, new()
 {
-    private static T _instance;
+    protected static T _instance;
 
     public static T Instance
     {
@@ -22,9 +27,12 @@ public class ManagerBase<T> where T : IManager, new()
             if (_instance == null)
             {
                 _instance = new T();
+                Debug.Log($"{_instance.GetType()}");
             }
 
             return _instance;
         }
     }
+
+    
 }

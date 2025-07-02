@@ -50,7 +50,7 @@ public class GameStartManagerMono : MonoBehaviour
         _managerTypes = cSharpAssembly?.GetTypes()
             .Where(type => typeof(IManager).IsAssignableFrom(type) && type.IsClass)
             .ToList();
-
+        
         if (_managerTypes != null)
         {
             foreach (var type in _managerTypes)
@@ -58,6 +58,7 @@ public class GameStartManagerMono : MonoBehaviour
                 var instance = Activator.CreateInstance(type);
                 if (instance is IManager iManager)
                 {
+                    iManager.ConnectInstanceByActivator(iManager);
                     iManager.SetModel(_allModels);
                     iManager.Init();
                 }

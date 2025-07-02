@@ -8,10 +8,9 @@ using UnityEngine;
 public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 {
     #region 1. Fields
-    private CompositeDisposable _disposable = new CompositeDisposable();
+
+    private CompositeDisposable _disposable = new();
     public Subject<int> TestEvent;
-    //test 
-    public int primeKey = 77;
 
     #endregion
 
@@ -33,9 +32,11 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     public SoundManager()
     {
-        Debug.Log("SceneChange Cons");
+        //LOG
+        Debug.Log("SoundManager Constructor");
+
+        TestEvent = new Subject<int>();
     }
-    // default
 
     #endregion
 
@@ -43,13 +44,13 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     public void Init()
     {
-        Debug.Log(Instance.GetHashCode());
-        Debug.Log("Init");
-        //Test
-        //TestEvent = new Subject<int>();
-        //TestEvent.Subscribe(x => { Debug.Log(x.ToString()); }).AddTo(_disposable);
+        BindEvent();
     }
 
+    private void BindEvent()
+    {
+        TestEvent.Subscribe(x => { Debug.Log(x.ToString()); }).AddTo(_disposable);
+    }
 
 
     public void SetModel(IEnumerable<ScriptableObject> models)
@@ -81,6 +82,14 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
         if (data is SoundData soundData)
         {
             _soundData = soundData;
+        }
+    }
+
+    public void ConnectInstanceByActivator(IManager instance)
+    {
+        if (_instance == null)
+        {
+            _instance = instance as SoundManager;
         }
     }
 

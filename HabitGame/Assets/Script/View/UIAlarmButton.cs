@@ -1,22 +1,37 @@
-using UniRx;
 using UnityEngine;
 
 public class UIAlarmButton : UIButton
 {
-    //FIX
-    //인터페이스로 들고 있으라는데 왜?
+    #region 1. Fields
+    
     private AlarmPresenter _alarmPresenter;
-    private CompositeDisposable _disposable = new CompositeDisposable();
+    private SoundManager _soundManager;
+
+    #endregion
+
+    #region 2. Properties
+
+    // default
+
+    #endregion
+
+    #region 3. Constructor
 
     protected override void Awake()
     {
         base.Awake();
 
-        SoundManager.Instance.ConnectViewWithPresenter(this, _alarmPresenter);
+        _soundManager = SoundManager.Instance;
+        _soundManager.ConnectViewWithPresenter(this, _alarmPresenter);
 
         // TODO : UniRx를 이용해서 View 생성 시에 SoundManager에서 P에서 MVP들을 연결해보자. - 간접 호출 RX Pattern
     }
 
+    #endregion
+
+    #region 4. Methods
+
+    // default
     protected override void BindEvent()
     {
         button?.onClick.AddListener(OnClicked);
@@ -25,27 +40,7 @@ public class UIAlarmButton : UIButton
     private void OnClicked()
     {
         //test
-        //buttonText.text = _alarmPresenter.TestModelViewConnection().ToString();
-        
-        //test
-        //test
-
-        Debug.Log(SoundManager.Instance.GetHashCode());
-        if (SoundManager.Instance == null)
-        {
-            Debug.Log("1");
-            
-        }
-
-        SoundManager.Instance.TestEvent = new Subject<int>();
-        if (SoundManager.Instance.TestEvent == null)
-        {
-            Debug.Log("2");
-        }
-        //test
-        SoundManager.Instance.TestEvent.Subscribe(x => { Debug.Log(x.ToString()); }).AddTo(_disposable);
-        
-        SoundManager.Instance.TestEvent.OnNext(1);
+        _soundManager.TestEvent.OnNext(3);
     }
 
     //FIX
@@ -61,4 +56,6 @@ public class UIAlarmButton : UIButton
     public sealed override void HoldPresenterInterface()
     {
     }
+
+    #endregion
 }
