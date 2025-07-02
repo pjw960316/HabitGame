@@ -1,22 +1,21 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Android;
 
 [Serializable]
 public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 {
     #region 1. Fields
 
+    private AudioSource _audioSource;
     private CompositeDisposable _disposable = new();
-    public Subject<int> TestEvent;
+    public Subject<Unit> TestEvent;
 
     #endregion
 
     #region 2. Properties
-
-    [SerializeField] private AudioSource musicPlayer;
 
     private SoundData _soundData;
 
@@ -32,10 +31,10 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     public SoundManager()
     {
-        //LOG
+        // LOG
         Debug.Log("SoundManager Constructor");
 
-        TestEvent = new Subject<int>();
+        TestEvent = new Subject<Unit>();
     }
 
     #endregion
@@ -49,7 +48,14 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     private void BindEvent()
     {
-        TestEvent.Subscribe(x => { Debug.Log(x.ToString()); }).AddTo(_disposable);
+        // test
+        TestEvent.Subscribe(_ => TestPlayMusic()).AddTo(_disposable);
+    }
+
+    // Test
+    private void TestPlayMusic()
+    {
+        _audioSource?.Play();
     }
 
 
@@ -65,17 +71,20 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
         }
     }
 
-    // FIX
-    // 다형성 쓰면 뭔가 연결 될 것 같은데?????
-    public void ConnectViewWithPresenter(IView view, IPresenter presenter)
+    // REFACTOR 
+    // 다형성? 뭐 좀 더 개선이 될 것 같긴 함.
+    // FACTORY Pattern
+    public IPresenter GetPresenterWithCreate(IView view)
     {
-        //일단 테스트
-        var alarmPresenter = new AlarmPresenter(view, _soundData);
-        if (view is UIAlarmButton uiAlarmButton)
+        if (view is UIAlarmButton alarmButton)
         {
-            uiAlarmButton.InjectPresenter(alarmPresenter);
+            var alarmPresenter = new AlarmPresenter(view, _soundData);
+            return alarmPresenter;
         }
+
+        return null;
     }
+
 
     public void InitializeScriptableObject(IModel data)
     {
@@ -93,34 +102,18 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
         }
     }
 
-    // TODO : 제거하거나 위치를 옮기자.
-    public IEnumerator Play()
+    public void SetAudioSource(AudioSource audioSource)
     {
-        Debug.Log("Play");
-        musicPlayer.volume = 0.5f;
-        musicPlayer.loop = false;
-        //musicPlayer.PlayOneShot(thirtyMinutesSound);
-
-        //yield return new WaitForSeconds(PLAY_TIME);
-
-        Debug.Log("Stop");
-        musicPlayer.Stop();
-
-        musicPlayer.volume = 1f;
-        //musicPlayer.clip = alarmSound;
-        musicPlayer.loop = true;
-        yield return new WaitForSeconds(0.5f);
-        musicPlayer.Play();
+        _audioSource = audioSource;
     }
 
-    public bool IsMusicPlaying()
+    public void SetAudioClip(AudioClip audioClip)
     {
-        return musicPlayer.isPlaying;
+        _audioSource.clip = audioClip;
     }
 
     public void Dispose()
     {
-        Debug.Log("fuck");
     }
 
     #endregion

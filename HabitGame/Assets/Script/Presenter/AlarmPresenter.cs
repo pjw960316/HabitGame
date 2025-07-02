@@ -8,15 +8,4 @@ public class AlarmPresenter : IPresenter
         _view = view;
         _model = model;
     }
-
-    // TEST : 제거 해라.
-    public int TestModelViewConnection()
-    {
-        if (_model is SoundData soundData)
-        {
-            return soundData.testValue;
-        }
-
-        return 1;
-    }
 }
