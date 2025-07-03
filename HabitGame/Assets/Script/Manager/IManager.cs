@@ -27,7 +27,6 @@ public class ManagerBase<T> where T : IManager, new()
             if (_instance == null)
             {
                 _instance = new T();
-                Debug.Log($"{_instance.GetType()}");
             }
 
             return _instance;
