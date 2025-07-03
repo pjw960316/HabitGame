@@ -75,13 +75,8 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     // FACTORY Pattern
     public IPresenter GetPresenterAfterCreate(IView view)
     {
-        if (view is UIAlarmButton alarmButton)
-        {
-            var alarmPresenter = new AlarmPresenter(view, _soundData);
-            return alarmPresenter;
-        }
-
-        return null;
+        var alarmPresenter = new AlarmPresenter(view, _soundData);
+        return alarmPresenter;
     }
 
 

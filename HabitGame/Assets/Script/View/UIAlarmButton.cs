@@ -2,6 +2,10 @@ using System;
 using UniRx;
 using UnityEngine;
 
+//TODO 
+//얘는 사실 별 기능 없음.
+//대부분 기능 제거해야함. MVP 없는 간단한 구조임
+//UIButton 수준의 기능만 필요하다.
 public class UIAlarmButton : UIButton
 {
     #region 1. Fields
@@ -29,7 +33,7 @@ public class UIAlarmButton : UIButton
 
         _uiManager = UIManager.Instance;
         _soundManager = SoundManager.Instance;
-        _alarmPresenter = _soundManager.GetPresenterAfterCreate(this);
+        //_alarmPresenter = _soundManager.GetPresenterAfterCreate(this);
     }
 
     #endregion
@@ -38,7 +42,7 @@ public class UIAlarmButton : UIButton
     
     protected override void BindEvent()
     {
-        button?.onClick.AddListener(OnClicked);
+        //button?.onClick.AddListener(OnClicked);
     }
     
     #endregion
@@ -46,7 +50,7 @@ public class UIAlarmButton : UIButton
     #region 5. EventHandlers
     protected sealed override void OnClicked()
     {
-        _testEvent.OnNext(Unit.Default);
+        //_testEvent.OnNext(Unit.Default);
     }
     
     #endregion

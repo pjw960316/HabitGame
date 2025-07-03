@@ -5,7 +5,7 @@ public class AlarmPresenter : IPresenter
 {
     #region 1. Fields
     //test
-    private UIAlarmButton _view;
+    private UIAlarmPopup _view;
     //private IView _view;
     private readonly IModel _model;
     
@@ -22,7 +22,7 @@ public class AlarmPresenter : IPresenter
     public AlarmPresenter(IView view, IModel model)
     {
         //test
-        _view = view as UIAlarmButton;
+        _view = view as UIAlarmPopup;
 
         //_view = view;
         _model = model;
@@ -35,7 +35,7 @@ public class AlarmPresenter : IPresenter
 
     private void BindEvent()
     {
-        _view.TestEventAsObservable.Subscribe(unit => OpenPopup()).AddTo(_disposable);
+        _view.OnSoundButtonClicked.Subscribe(unit => OpenPopup()).AddTo(_disposable);
     }
     
     #endregion
@@ -44,7 +44,7 @@ public class AlarmPresenter : IPresenter
 
     private void OpenPopup()
     {
-        Debug.Log("open popup");
+        Debug.Log("test suce");
     }
     #endregion
     
