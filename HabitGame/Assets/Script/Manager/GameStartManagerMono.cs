@@ -30,7 +30,8 @@ public class GameStartManagerMono : MonoBehaviour
     {
         LoadInitialGameState();
 
-        ChangeScene();
+        // Dev에서는 사용 X
+        //ChangeScene();
     }
 
     #endregion
@@ -44,18 +45,22 @@ public class GameStartManagerMono : MonoBehaviour
 
     private void CreateManagerInstances()
     {
+        // LOG
+        Debug.Log("GameStartManagerMono : Create Manager Instances");
+
         var cSharpAssembly = AppDomain.CurrentDomain.GetAssemblies()
             .FirstOrDefault(asm => asm.GetName().Name == MAIN_ASSEMBLY);
 
         _managerTypes = cSharpAssembly?.GetTypes()
             .Where(type => typeof(IManager).IsAssignableFrom(type) && type.IsClass)
             .ToList();
-        
+
         if (_managerTypes != null)
         {
             foreach (var type in _managerTypes)
             {
                 var instance = Activator.CreateInstance(type);
+
                 if (instance is IManager iManager)
                 {
                     iManager.ConnectInstanceByActivator(iManager);

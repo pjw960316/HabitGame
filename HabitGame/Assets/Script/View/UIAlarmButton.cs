@@ -1,4 +1,5 @@
 using UniRx;
+using UnityEngine;
 
 public class UIAlarmButton : UIButton
 {
@@ -22,7 +23,7 @@ public class UIAlarmButton : UIButton
         base.Awake();
 
         _soundManager = SoundManager.Instance;
-        _alarmPresenter = _soundManager.GetPresenterWithCreate(this);
+        _alarmPresenter = _soundManager.GetPresenterAfterCreate(this);
     }
 
     #endregion
@@ -37,6 +38,8 @@ public class UIAlarmButton : UIButton
     private void OnClicked()
     {
         //test
+        Debug.Log("Click -> UIAlarmButton -> Sound Appear");
+        
         _soundManager.TestEvent.OnNext(Unit.Default);
     }
 
