@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
-using UnityEngine.Android;
 
 [Serializable]
 public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable

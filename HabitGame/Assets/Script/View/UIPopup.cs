@@ -1,6 +1,3 @@
-using UnityEngine;
-
-public class UIPopup
+public class UIPopupBase : IView
 {
-    
 }

@@ -6,7 +6,7 @@ public abstract class UIButton : MonoBehaviour, IView
 {
     [SerializeField] protected Button button;
     [SerializeField] protected TextMeshProUGUI buttonText;
-
+    
     protected virtual void Awake()
     {
         Initialize();
@@ -21,5 +21,6 @@ public abstract class UIButton : MonoBehaviour, IView
     {
     }
 
-    public abstract void HoldPresenterInterface();
+    protected abstract void OnClicked();
+    //public abstract void HoldPresenterInterface();
 }

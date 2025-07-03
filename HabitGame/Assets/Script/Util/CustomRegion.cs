@@ -18,4 +18,8 @@ public class CustomRegion
     #region 4. Methods
     // default
     #endregion
+    
+    #region 5. EventHandlers
+    // default
+    #endregion
 }

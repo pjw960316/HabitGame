@@ -34,19 +34,14 @@ public class UIAlarmButton : UIButton
     {
         button?.onClick.AddListener(OnClicked);
     }
-
-    private void OnClicked()
+    
+    #endregion
+    
+    #region 5. EventHandlers
+    protected sealed override void OnClicked()
     {
-        //test
-        Debug.Log("Click -> UIAlarmButton -> Sound Appear");
-        
         _soundManager.TestEvent.OnNext(Unit.Default);
     }
-
-
-    public sealed override void HoldPresenterInterface()
-    {
-    }
-
+    
     #endregion
 }
