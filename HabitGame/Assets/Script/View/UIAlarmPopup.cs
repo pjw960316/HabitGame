@@ -45,14 +45,14 @@ public class UIAlarmPopup : UIPopupBase
 
     private void BindEvent()
     {
-        _musicButton_1.onClick.AddListener(Onclicked);
+        _musicButton_1.onClick.AddListener(OnClicked);
     }
 
     #endregion
 
     #region 5. EventHandlers
 
-    private void Onclicked()
+    private void OnClicked()
     {
         _onSoundButtonClicked.OnNext(Unit.Default);
     }
