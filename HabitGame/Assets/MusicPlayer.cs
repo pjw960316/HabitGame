@@ -21,7 +21,7 @@ public class MusicPlayer : MonoBehaviour
     private void Start()
     {
         _soundManager.SetAudioSource(_audioSource);
-        
+
         //test
         _soundManager.SetAudioClip(_audioClip);
     }

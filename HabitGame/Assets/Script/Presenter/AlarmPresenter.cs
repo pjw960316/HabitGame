@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class AlarmPresenter : ButtonPresenterBase
 {
     #region 2. Properties
@@ -15,9 +13,6 @@ public class AlarmPresenter : ButtonPresenterBase
      강제로 책임을 부여해서 AlarmPresenter로 캐스팅 하게 강제하고 싶은데 주석없이...*/
     public AlarmPresenter(IView view, IModel model)
     {
-        //test
-        Debug.Log("Create AlarmPresenter");
-        
         View = view;
         Model = model;
 
@@ -27,10 +22,10 @@ public class AlarmPresenter : ButtonPresenterBase
     protected sealed override void Initialize()
     {
         base.Initialize();
-        
+
         BindEvent();
     }
-    
+
     #endregion
 
     #region 4. Methods

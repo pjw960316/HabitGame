@@ -30,9 +30,6 @@ public class UIButtonBase : MonoBehaviour, IView
 
     protected virtual void Awake()
     {
-        //test
-        Debug.Log("Awake UIButtonBase");
-        
         Initialize();
     }
 

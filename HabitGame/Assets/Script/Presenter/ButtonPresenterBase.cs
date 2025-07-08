@@ -25,27 +25,9 @@ public class ButtonPresenterBase : PresenterBase
     {
         if (View is UIButtonBase uiButton)
         {
-            //test
-            Debug.Log("uibutton initialize");
-
-
             _button = uiButton;
         }
-
-        if (_button is null)
-        {
-            //Test
-            //warning Message
-            Debug.Log("button is null");
-        }
-
-        if (View is null)
-        {
-            //Test
-            //warning Message
-            Debug.Log("view is null");
-        }
-
+        
         BindEvent();
     }
     // default
@@ -56,9 +38,6 @@ public class ButtonPresenterBase : PresenterBase
 
     private void BindEvent()
     {
-        //test
-        Debug.Log("BindEvent In ButtonPresenterBase");
-
         _button.OnClickButton.Subscribe(_ => OpenPopup()).AddTo(Disposable);
     }
 
@@ -68,8 +47,6 @@ public class ButtonPresenterBase : PresenterBase
 
     private void OpenPopup()
     {
-        //test
-        Debug.Log("openPopup In 2단계 레벨에서.");
     }
 
     #endregion
