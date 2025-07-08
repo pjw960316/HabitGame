@@ -1,6 +1,5 @@
 using System;
 using UniRx;
-using UnityEngine;
 
 //TODO 
 //얘는 사실 별 기능 없음.
@@ -9,14 +8,13 @@ using UnityEngine;
 public class UIAlarmButton : UIButton
 {
     #region 1. Fields
-
-    private UIManager _uiManager;
-    private SoundManager _soundManager;
+    
     private IPresenter _alarmPresenter;
 
     //test
-    private readonly Subject<Unit> _testEvent = new Subject<Unit>();
+    private readonly Subject<Unit> _testEvent = new();
     public IObservable<Unit> TestEventAsObservable => _testEvent;
+
     #endregion
 
     #region 2. Properties
@@ -31,27 +29,25 @@ public class UIAlarmButton : UIButton
     {
         base.Awake();
 
-        _uiManager = UIManager.Instance;
-        _soundManager = SoundManager.Instance;
-        //_alarmPresenter = _soundManager.GetPresenterAfterCreate(this);
     }
 
     #endregion
 
     #region 4. Methods
-    
+
     protected override void BindEvent()
     {
-        //button?.onClick.AddListener(OnClicked);
+        Button?.onClick.AddListener(OnClicked);
     }
-    
+
     #endregion
-    
+
     #region 5. EventHandlers
+
     protected sealed override void OnClicked()
     {
         //_testEvent.OnNext(Unit.Default);
     }
-    
+
     #endregion
 }

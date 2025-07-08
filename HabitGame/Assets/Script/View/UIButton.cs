@@ -4,16 +4,36 @@ using UnityEngine.UI;
 
 public abstract class UIButton : MonoBehaviour, IView
 {
-    [SerializeField] protected Button button;
-    [SerializeField] protected TextMeshProUGUI buttonText;
-    
+    #region 1. Fields
+
+    [SerializeField] protected Button Button;
+    [SerializeField] protected TextMeshProUGUI ButtonText;
+
+    protected UIManager UIManager;
+
+    #endregion
+
+    #region 2. Properties
+
+    // default
+
+    #endregion
+
+    #region 3. Constructor
+
     protected virtual void Awake()
     {
         Initialize();
     }
 
+    #endregion
+
+    #region 4. Methods
+
     private void Initialize()
     {
+        UIManager = UIManager.Instance;
+        
         BindEvent();
     }
 
@@ -21,6 +41,11 @@ public abstract class UIButton : MonoBehaviour, IView
     {
     }
 
+    #endregion
+
+    #region 5. EventHandlers
+
     protected abstract void OnClicked();
-    //public abstract void HoldPresenterInterface();
+
+    #endregion
 }

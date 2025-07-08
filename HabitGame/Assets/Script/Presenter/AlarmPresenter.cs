@@ -1,6 +1,6 @@
 using UniRx;
 
-public class AlarmPresenter : IPresenter
+public class AlarmPresenter : PresenterBase
 {
     #region 1. Fields
 
