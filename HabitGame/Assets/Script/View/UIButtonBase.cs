@@ -11,6 +11,10 @@ public class UIButtonBase : MonoBehaviour, IView
     [SerializeField] protected Button Button;
     [SerializeField] protected TextMeshProUGUI ButtonText;
 
+    // TODO
+    // 네이밍 변경
+    private IPresenter _presenter; 
+    
     private readonly Subject<Unit> _onClickButton = new();
     public IObservable<Unit> OnClickButton => _onClickButton;
 
@@ -38,6 +42,7 @@ public class UIButtonBase : MonoBehaviour, IView
 
     private void Initialize()
     {
+        _presenter = SoundManager.Instance.GetPresenterAfterCreate(this);
         BindEvent();
     }
 

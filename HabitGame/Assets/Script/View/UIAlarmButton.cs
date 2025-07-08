@@ -17,8 +17,6 @@ public class UIAlarmButton : UIButtonBase
     protected override void Awake()
     {
         base.Awake();
-        
-        _alarmPresenter = SoundManager.Instance.GetPresenterAfterCreate(this);
     }
 
     #endregion

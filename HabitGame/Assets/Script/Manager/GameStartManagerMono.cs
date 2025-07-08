@@ -46,7 +46,7 @@ public class GameStartManagerMono : MonoBehaviour
     private void CreateManagerInstances()
     {
         // LOG
-        Debug.Log("GameStartManagerMono : Create Manager Instances");
+        //Debug.Log("GameStartManagerMono : Create Manager Instances");
 
         var cSharpAssembly = AppDomain.CurrentDomain.GetAssemblies()
             .FirstOrDefault(asm => asm.GetName().Name == MAIN_ASSEMBLY);
