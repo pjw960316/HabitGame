@@ -1,7 +1,6 @@
 // 간단한 버튼은 이거만 써도 된다.
 
 using UniRx;
-using UnityEngine;
 
 public class ButtonPresenterBase : PresenterBase
 {
@@ -12,6 +11,7 @@ public class ButtonPresenterBase : PresenterBase
     // default
 
     #endregion
+
 
     #region 2. Properties
 
@@ -27,10 +27,9 @@ public class ButtonPresenterBase : PresenterBase
         {
             _button = uiButton;
         }
-        
+
         BindEvent();
     }
-    // default
 
     #endregion
 
@@ -45,6 +44,7 @@ public class ButtonPresenterBase : PresenterBase
 
     #region 5. EventHandlers
 
+    // TODO : 여기 있는 게 일단 맞는 거 같다. params를 통해 특정 UIPopup을 생성.
     private void OpenPopup()
     {
     }
