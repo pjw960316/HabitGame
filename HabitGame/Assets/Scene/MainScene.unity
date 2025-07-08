@@ -2313,7 +2313,7 @@ GameObject:
   - component: {fileID: 1884363895}
   - component: {fileID: 1884363894}
   - component: {fileID: 1884363893}
-  - component: {fileID: 1884363892}
+  - component: {fileID: 1884363896}
   m_Layer: 5
   m_Name: AlarmButton
   m_TagString: Untagged
@@ -2341,20 +2341,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1884363892
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1884363890}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c56b9657cee4ef49be932399fdcb0f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 1884363893}
-  buttonText: {fileID: 154696928}
 --- !u!114 &1884363893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2437,6 +2423,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1884363890}
   m_CullTransparentMesh: 1
+--- !u!114 &1884363896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1884363890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c797e6cf97fd56f4787bb549589e43d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Button: {fileID: 1884363893}
+  ButtonText: {fileID: 154696928}
 --- !u!1 &1901605298
 GameObject:
   m_ObjectHideFlags: 0

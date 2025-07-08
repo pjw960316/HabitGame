@@ -1,15 +1,18 @@
+using System;
 using TMPro;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class UIButton : MonoBehaviour, IView
+public class UIButtonBase : MonoBehaviour, IView
 {
     #region 1. Fields
 
     [SerializeField] protected Button Button;
     [SerializeField] protected TextMeshProUGUI ButtonText;
 
-    protected UIManager UIManager;
+    private readonly Subject<Unit> _onClickButton = new();
+    public IObservable<Unit> OnClickButton => _onClickButton;
 
     #endregion
 
@@ -23,6 +26,9 @@ public abstract class UIButton : MonoBehaviour, IView
 
     protected virtual void Awake()
     {
+        //test
+        Debug.Log("Awake UIButtonBase");
+        
         Initialize();
     }
 
@@ -32,20 +38,19 @@ public abstract class UIButton : MonoBehaviour, IView
 
     private void Initialize()
     {
-        UIManager = UIManager.Instance;
-        
         BindEvent();
     }
 
     protected virtual void BindEvent()
     {
+        Button.onClick.AddListener(() => _onClickButton.OnNext(default));
     }
 
     #endregion
 
     #region 5. EventHandlers
 
-    protected abstract void OnClicked();
+    //default
 
     #endregion
 }

@@ -1,19 +1,7 @@
-using UniRx;
+using UnityEngine;
 
-public class AlarmPresenter : PresenterBase
+public class AlarmPresenter : ButtonPresenterBase
 {
-    #region 1. Fields
-
-    // REFACTOR
-    // 언젠가 view : Presenter = 다 : 1이 될 때
-    // 이걸 Interface로 받아야 한다.
-    private readonly UIAlarmPopup _view;
-    private readonly IModel _model;
-    
-    private readonly CompositeDisposable _disposable = new();
-
-    #endregion
-
     #region 2. Properties
 
     // default
@@ -22,29 +10,34 @@ public class AlarmPresenter : PresenterBase
 
     #region 3. Constructor
 
+    /* REFACTOR
+     나는 지금 자식에서 constructor call 되면 부모의 default constructor 에서
+     강제로 책임을 부여해서 AlarmPresenter로 캐스팅 하게 강제하고 싶은데 주석없이...*/
     public AlarmPresenter(IView view, IModel model)
     {
-        _view = view as UIAlarmPopup;
-        _model = model;
+        //test
+        Debug.Log("Create AlarmPresenter");
+        
+        View = view;
+        Model = model;
 
-        BindEvent();
+        Initialize();
     }
 
+    protected sealed override void Initialize()
+    {
+        base.Initialize();
+        
+        BindEvent();
+    }
+    
     #endregion
 
     #region 4. Methods
 
     private void BindEvent()
     {
-        _view.OnSoundButtonClicked.Subscribe(unit => OpenPopup()).AddTo(_disposable);
-    }
-
-    #endregion
-
-    #region 5. EventHandlers
-
-    private void OpenPopup()
-    {
+        //_view.OnSoundButtonClicked.Subscribe(unit => OpenPopup()).AddTo(_disposable);
     }
 
     #endregion

@@ -1,19 +1,8 @@
-using System;
-using UniRx;
-
-//TODO 
-//얘는 사실 별 기능 없음.
-//대부분 기능 제거해야함. MVP 없는 간단한 구조임
-//UIButton 수준의 기능만 필요하다.
-public class UIAlarmButton : UIButton
+public class UIAlarmButton : UIButtonBase
 {
     #region 1. Fields
-    
-    private IPresenter _alarmPresenter;
 
-    //test
-    private readonly Subject<Unit> _testEvent = new();
-    public IObservable<Unit> TestEventAsObservable => _testEvent;
+    private IPresenter _alarmPresenter;
 
     #endregion
 
@@ -28,26 +17,20 @@ public class UIAlarmButton : UIButton
     protected override void Awake()
     {
         base.Awake();
-
+        
+        _alarmPresenter = SoundManager.Instance.GetPresenterAfterCreate(this);
     }
 
     #endregion
 
     #region 4. Methods
 
-    protected override void BindEvent()
-    {
-        Button?.onClick.AddListener(OnClicked);
-    }
+   //default
 
     #endregion
 
     #region 5. EventHandlers
 
-    protected sealed override void OnClicked()
-    {
-        //_testEvent.OnNext(Unit.Default);
-    }
-
+//default
     #endregion
 }

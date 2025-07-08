@@ -34,7 +34,7 @@ public class UIAlarmPopup : UIPopupBase
         _uiManager = UIManager.Instance;
         _soundManager = SoundManager.Instance;
 
-        _alarmPresenter = _soundManager.GetPresenterAfterCreate(this);
+        //_alarmPresenter = _soundManager.GetPresenterAfterCreate(this);
 
         BindEvent();
     }
