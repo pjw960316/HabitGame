@@ -7,7 +7,7 @@ public class ButtonPresenterBase : PresenterBase
     private UIButtonBase _button; // 이 추상화 수준에서의 View를 초기화 한다.
 
     #region 1. Fields
-
+    private UIManager _uiManager;
     // default
 
     #endregion
@@ -28,6 +28,7 @@ public class ButtonPresenterBase : PresenterBase
             _button = uiButton;
         }
 
+        _uiManager = UIManager.Instance;
         BindEvent();
     }
 
@@ -47,6 +48,8 @@ public class ButtonPresenterBase : PresenterBase
     // TODO : 여기 있는 게 일단 맞는 거 같다. params를 통해 특정 UIPopup을 생성.
     private void OpenPopup()
     {
+        //test string key
+        _uiManager.OpenPopupByStringKey("AlarmButton");
     }
 
     #endregion

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public interface IManager : IFactory
 {
-    public void Init();
+    public void Initialize();
     public void SetModel(IEnumerable<ScriptableObject> _list);
 
     //REFACTOR

@@ -65,7 +65,7 @@ public class GameStartManagerMono : MonoBehaviour
                 {
                     iManager.ConnectInstanceByActivator(iManager);
                     iManager.SetModel(_allModels);
-                    iManager.Init();
+                    iManager.Initialize();
                 }
             }
         }

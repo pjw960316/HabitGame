@@ -40,7 +40,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     #region 4. Methods
 
-    public void Init()
+    public void Initialize()
     {
         BindEvent();
     }

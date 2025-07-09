@@ -11,7 +11,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     // future job = loose coupling 
     private MyCharacterData _myCharacterData;
 
-    public void Init()
+    public void Initialize()
     {
     }
 

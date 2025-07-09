@@ -8,9 +8,10 @@ public class UIButtonBase : MonoBehaviour, IView
 {
     #region 1. Fields
 
+    [SerializeField] private Canvas _canvas;
     [SerializeField] protected Button Button;
     [SerializeField] protected TextMeshProUGUI ButtonText;
-
+    
     // TODO
     // 네이밍 변경
     private IPresenter _presenter; 
