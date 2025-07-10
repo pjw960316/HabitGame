@@ -78,9 +78,6 @@ public class UIManager : ManagerBase<UIManager>, IManager
         }
 
         Object.Instantiate(popupPrefab, transform);
-
-        //test
-        Debug.Log("instantiate perfect");
     }
 
     #endregion
