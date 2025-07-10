@@ -29,9 +29,7 @@ public class GameStartManagerMono : MonoBehaviour
     private void Awake()
     {
         LoadInitialGameState();
-
-        // Dev에서는 사용 X
-        //ChangeScene();
+        ChangeScene();
     }
 
     #endregion
@@ -41,6 +39,8 @@ public class GameStartManagerMono : MonoBehaviour
     private void LoadInitialGameState()
     {
         CreateManagerInstances();
+        
+        //testCode
     }
 
     private void CreateManagerInstances()
@@ -77,16 +77,4 @@ public class GameStartManagerMono : MonoBehaviour
     }
 
     #endregion
-
-
-    /*
-     * Test
-     * nested Class
-     */
-    [Serializable]
-    private class ScriptableObjectLoader
-    {
-        [SerializeField] private SoundData _soundData;
-        public SoundData SoundData => _soundData;
-    }
 }

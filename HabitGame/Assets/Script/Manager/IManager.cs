@@ -3,6 +3,9 @@ using UnityEngine;
 
 public interface IManager : IFactory
 {
+    //fix
+    //현재 문제점이 이게 로드 단계에서 호출되기 때문에
+    //MainScene에는 아직 없는 친구를 세팅한다면 문제가 생긴다.
     public void Initialize();
     public void SetModel(IEnumerable<ScriptableObject> _list);
 

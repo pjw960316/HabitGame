@@ -285,7 +285,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348b8903d78018c4ba9e7bff9912e97a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _soundData: {fileID: 11400000, guid: 8f81d9a81a5ed2242b2bebf2709faf25, type: 2}
+  _allModels:
+  - {fileID: 11400000, guid: 8f81d9a81a5ed2242b2bebf2709faf25, type: 2}
+  - {fileID: 11400000, guid: 73bfa09f98efc704dbc93af29407726e, type: 2}
 --- !u!4 &734744487
 Transform:
   m_ObjectHideFlags: 0

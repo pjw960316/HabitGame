@@ -1,13 +1,18 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 /* NOTE
  Runtime의 UI를 전역으로 관리하는 책임이 부여된 Singleton
+ 열려 있는 UI를 동적으로 관리해야 한다.
 */
 public class UIManager : ManagerBase<UIManager>, IManager
 {
     #region 1. Fields
+
+    //test
+    private Canvas _testCanvas;
 
     // REFACTOR
     // IModel 생각
@@ -25,11 +30,16 @@ public class UIManager : ManagerBase<UIManager>, IManager
 
     public void Initialize()
     {
+        BindEvent();
     }
 
     #endregion
 
     #region 4. Methods
+
+    private void BindEvent()
+    {
+    }
 
     public void SetModel(IEnumerable<ScriptableObject> _list)
     {
@@ -41,12 +51,13 @@ public class UIManager : ManagerBase<UIManager>, IManager
                 return;
             }
         }
+
         if (_popupData == null)
         {
             throw new InvalidOperationException("_popupData는 null이 될 수 없습니다. 올바른 데이터를 확인해주세요.");
         }
     }
-    
+
     public void ConnectInstanceByActivator(IManager instance)
     {
         if (_instance == null)
@@ -57,9 +68,19 @@ public class UIManager : ManagerBase<UIManager>, IManager
 
     // REFACTOR
     // String으로 받는 건 좋지 않지만...
-    public void OpenPopupByStringKey(string key)
+    public void OpenPopupByStringKey(string key, Transform transform)
     {
         var popupPrefab = _popupData.GetPopupByStringKey(key);
+
+        if (popupPrefab == null)
+        {
+            throw new InvalidOperationException("<UNK> <UNK> <UNK> <UNK> <UNK> <UNK>.");
+        }
+
+        Object.Instantiate(popupPrefab, transform);
+
+        //test
+        Debug.Log("instantiate perfect");
     }
 
     #endregion

@@ -11,11 +11,11 @@ public class UIButtonBase : MonoBehaviour, IView
     [SerializeField] private Canvas _canvas;
     [SerializeField] protected Button Button;
     [SerializeField] protected TextMeshProUGUI ButtonText;
-    
+
     // TODO
     // 네이밍 변경
-    private IPresenter _presenter; 
-    
+    private IPresenter _presenter;
+
     private readonly Subject<Unit> _onClickButton = new();
     public IObservable<Unit> OnClickButton => _onClickButton;
 
@@ -32,6 +32,9 @@ public class UIButtonBase : MonoBehaviour, IView
     protected virtual void Awake()
     {
         Initialize();
+
+        //test
+        (_presenter as ButtonPresenterBase).SetCanvas(_canvas);
     }
 
     #endregion
