@@ -1,18 +1,16 @@
 // 간단한 버튼은 이거만 써도 된다.
 
 using UniRx;
-using UnityEngine;
 
 public class ButtonPresenterBase : PresenterBase
 {
-    private UIButtonBase _button; // 이 추상화 수준에서의 View를 초기화 한다.
+    // NOTE
+    // 이 추상화 수준에서의 View를 초기화 한다.
+    private UIButtonBase _view;
 
     #region 1. Fields
 
     private UIManager _uiManager;
-
-    //test
-    private Canvas _canvas;
 
     #endregion
 
@@ -29,10 +27,11 @@ public class ButtonPresenterBase : PresenterBase
     {
         if (View is UIButtonBase uiButton)
         {
-            _button = uiButton;
+            _view = uiButton;
         }
 
         _uiManager = UIManager.Instance;
+
         BindEvent();
     }
 
@@ -42,26 +41,17 @@ public class ButtonPresenterBase : PresenterBase
 
     private void BindEvent()
     {
-        _button.OnClickButton.Subscribe(_ => OpenPopup()).AddTo(Disposable);
+        _view.OnClickButton.Subscribe(_ => RequestOpenPopup()).AddTo(Disposable);
     }
 
     #endregion
 
     #region 5. EventHandlers
 
-    // TODO : 여기 있는 게 일단 맞는 거 같다. params를 통해 특정 UIPopup을 생성.
-    private void OpenPopup()
+    private void RequestOpenPopup()
     {
-        //test string key
-        //test 
-        Debug.Log("Open?");
-        _uiManager.OpenPopupByStringKey("AlarmButton", _canvas.transform);
-    }
-
-    //test
-    public void SetCanvas(Canvas canvas)
-    {
-        _canvas = canvas;
+        var targetTransform = _view.GetCanvas().transform;
+        _uiManager.OpenPopupByStringKey("AlarmButton", targetTransform);
     }
 
     #endregion

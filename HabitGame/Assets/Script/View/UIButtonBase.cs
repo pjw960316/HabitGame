@@ -12,9 +12,7 @@ public class UIButtonBase : MonoBehaviour, IView
     [SerializeField] protected Button Button;
     [SerializeField] protected TextMeshProUGUI ButtonText;
 
-    // TODO
-    // 네이밍 변경
-    private IPresenter _presenter;
+    private ButtonPresenterBase _buttonPresenter;
 
     private readonly Subject<Unit> _onClickButton = new();
     public IObservable<Unit> OnClickButton => _onClickButton;
@@ -32,9 +30,6 @@ public class UIButtonBase : MonoBehaviour, IView
     protected virtual void Awake()
     {
         Initialize();
-
-        //test
-        (_presenter as ButtonPresenterBase).SetCanvas(_canvas);
     }
 
     #endregion
@@ -43,13 +38,21 @@ public class UIButtonBase : MonoBehaviour, IView
 
     private void Initialize()
     {
-        _presenter = SoundManager.Instance.GetPresenterAfterCreate(this);
+        _buttonPresenter = SoundManager.Instance.GetPresenterAfterCreate(this) as ButtonPresenterBase;
+        
         BindEvent();
     }
 
-    protected virtual void BindEvent()
+    //refactor
+    //virtual?
+    private void BindEvent()
     {
         Button.onClick.AddListener(() => _onClickButton.OnNext(default));
+    }
+
+    public Canvas GetCanvas()
+    {
+        return _canvas;
     }
 
     #endregion
