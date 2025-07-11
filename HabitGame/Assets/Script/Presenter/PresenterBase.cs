@@ -21,7 +21,6 @@ public abstract class PresenterBase : IPresenter
 
     public virtual void Initialize(IView view)
     {
-        Debug.Log("PresenterBase::Initialize");
         View = view;
         
         SetModel(View);

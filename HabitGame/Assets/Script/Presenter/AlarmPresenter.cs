@@ -16,7 +16,6 @@ public class AlarmPresenter : PresenterBase
 
     public sealed override void Initialize(IView view)
     {
-        Debug.Log("alarm presenter initialized");
         base.Initialize(view);
 
         BindEvent();

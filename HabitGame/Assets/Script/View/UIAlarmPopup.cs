@@ -32,8 +32,7 @@ public class UIAlarmPopup : UIPopupBase
     {
         _uiManager = UIManager.Instance;
         _soundManager = SoundManager.Instance;
-
-        //TODO
+        
         _alarmPresenter = _soundManager.GetPresenterAfterCreate<AlarmPresenter>(this) as AlarmPresenter;
         
         BindEvent();
