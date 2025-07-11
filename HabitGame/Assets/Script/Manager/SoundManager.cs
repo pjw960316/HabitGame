@@ -69,14 +69,13 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
             }
         }
     }
-
-    // REFACTOR 
-    // 다형성? 뭐 좀 더 개선이 될 것 같긴 함.
-    // FACTORY Pattern
-    public IPresenter GetPresenterAfterCreate(IView view)
+    
+    public IPresenter GetPresenterAfterCreate<TPresenter>(IView view) where TPresenter : IPresenter, new()
     {
-        var alarmPresenter = new AlarmPresenter(view, _soundData);
-        return alarmPresenter;
+        TPresenter presenter = new TPresenter();
+        presenter.Initialize(view);
+        
+        return presenter;
     }
 
 

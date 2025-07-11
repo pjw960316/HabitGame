@@ -1,4 +1,6 @@
-public class AlarmPresenter : ButtonPresenterBase
+using UnityEngine;
+
+public class AlarmPresenter : PresenterBase
 {
     #region 2. Properties
 
@@ -7,21 +9,15 @@ public class AlarmPresenter : ButtonPresenterBase
     #endregion
 
     #region 3. Constructor
-
-    /* REFACTOR
-     나는 지금 자식에서 constructor call 되면 부모의 default constructor 에서
-     강제로 책임을 부여해서 AlarmPresenter로 캐스팅 하게 강제하고 싶은데 주석없이...*/
-    public AlarmPresenter(IView view, IModel model)
+    
+    public AlarmPresenter()
     {
-        View = view;
-        Model = model;
-
-        Initialize();
     }
 
-    protected sealed override void Initialize()
+    public sealed override void Initialize(IView view)
     {
-        base.Initialize();
+        Debug.Log("alarm presenter initialized");
+        base.Initialize(view);
 
         BindEvent();
     }
