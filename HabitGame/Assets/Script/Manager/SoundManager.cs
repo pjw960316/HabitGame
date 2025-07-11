@@ -70,7 +70,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
         }
     }
     
-    public IPresenter GetPresenterAfterCreate<TPresenter>(IView view) where TPresenter : IPresenter, new()
+    public TPresenter GetPresenterAfterCreate<TPresenter>(IView view) where TPresenter : IPresenter, new()
     {
         TPresenter presenter = new TPresenter();
         presenter.Initialize(view);

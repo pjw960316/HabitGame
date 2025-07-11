@@ -38,9 +38,7 @@ public class UIButtonBase : MonoBehaviour, IView
 
     private void Initialize()
     {
-        //refactor
-        //일단 바꿨는데 다시 검토해
-        _buttonPresenter = SoundManager.Instance.GetPresenterAfterCreate<ButtonPresenterBase>(this) as ButtonPresenterBase;
+        _buttonPresenter = SoundManager.Instance.GetPresenterAfterCreate<ButtonPresenterBase>(this);
         
         BindEvent();
     }
