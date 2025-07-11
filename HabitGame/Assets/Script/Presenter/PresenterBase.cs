@@ -1,10 +1,3 @@
-/* TODO
- View가 많은 데 모두 1:1 대응해서 Presenter를 만들면 답이 없다.
- 그러므로 Presenter를 추상적으로 상속 단계를 만드는 것
- PresenterBase는 모든 Presenter라면 있어야 하는 기능
- 그 아래는 ButtonPresenterBase -> 버튼 View랑 연관된 Presenter
- 그 아래는 AlarmPresenterBase -> 점점 특수한 Button과 연관 되는 것.*/
-
 using UniRx;
 
 public abstract class PresenterBase : IPresenter

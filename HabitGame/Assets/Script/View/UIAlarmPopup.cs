@@ -1,20 +1,19 @@
 using System;
+using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-// fix
-// 일단 UIManager에서 만들지 않고, 그냥 GameObject로 올려놓고 테스트
 public class UIAlarmPopup : UIPopupBase
 {
     #region 1. Fields
 
-    //test
-    private UIAlarmButton _view;
+    [SerializeField] private List<Button> _alarmMusicButtons = new();
+    [SerializeField] private List<Button> _timeButtons = new();
+
     private UIManager _uiManager;
     private SoundManager _soundManager;
-    private IPresenter _alarmPresenter;
-    [SerializeField] private Button _musicButton_1;
+    private AlarmPresenter _alarmPresenter;
 
     private readonly Subject<Unit> _onSoundButtonClicked = new();
     public IObservable<Unit> OnSoundButtonClicked => _onSoundButtonClicked;
@@ -34,8 +33,6 @@ public class UIAlarmPopup : UIPopupBase
         _uiManager = UIManager.Instance;
         _soundManager = SoundManager.Instance;
 
-        //_alarmPresenter = _soundManager.GetPresenterAfterCreate(this);
-
         BindEvent();
     }
 
@@ -45,7 +42,6 @@ public class UIAlarmPopup : UIPopupBase
 
     private void BindEvent()
     {
-        _musicButton_1.onClick.AddListener(OnClicked);
     }
 
     #endregion
