@@ -23,6 +23,8 @@ public abstract class PresenterBase : IPresenter
     {
         View = view;
         
+        //Note
+        //View를 알면 Model을 알 수 있도록 만들고 싶다.
         SetModel(View);
     }
 

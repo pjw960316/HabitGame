@@ -1,11 +1,13 @@
+using System;
 using UnityEngine;
 
-public class MusicPlayer : MonoBehaviour
+public class MusicPlayerMono : MonoBehaviour
 {
     #region 1. Fields
 
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip _audioClip;
+
     private readonly SoundManager _soundManager = SoundManager.Instance;
 
     #endregion
@@ -18,11 +20,14 @@ public class MusicPlayer : MonoBehaviour
 
     #region 3. Constructor
 
-    private void Start()
+    private void Awake()
     {
-        _soundManager.SetAudioSource(_audioSource);
+        if (_soundManager == null)
+        {
+            throw new NullReferenceException("_soundManager");
+        }
 
-        //test
+        _soundManager.SetAudioSource(_audioSource);
         _soundManager.SetAudioClip(_audioClip);
     }
 
