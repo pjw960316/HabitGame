@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15782ba2b8f62aa4085abe3f39256417, type: 3}
   m_Name: SoundData
   m_EditorClassIdentifier: 
-  _alarmSound: {fileID: 8300000, guid: 578e0ef3928252b468cb5f7fe8c056d5, type: 3}
-  _airplaneSound: {fileID: 0}
+  _alarmChickenAudioClip: {fileID: 8300000, guid: 578e0ef3928252b468cb5f7fe8c056d5, type: 3}
+  _firstSleepingAudioClip: {fileID: 8300000, guid: b42802f5882c36647a0d5844ba9201e1, type: 3}

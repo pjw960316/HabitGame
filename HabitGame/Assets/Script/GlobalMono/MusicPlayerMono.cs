@@ -8,8 +8,7 @@ public class MusicPlayerMono : MonoBehaviour
     #region 1. Fields
 
     [SerializeField] private AudioSource _audioSource;
-    [SerializeField] private AudioClip _audioClip;
-
+    
     private readonly SoundManager _soundManager = SoundManager.Instance;
 
     #endregion
@@ -24,8 +23,8 @@ public class MusicPlayerMono : MonoBehaviour
 
     public AudioClip AudioClip
     {
-        get => _audioClip;
-        set => _audioClip = value;
+        get => _audioSource.clip;
+        set => _audioSource.clip = value;
     }
 
     #endregion
@@ -47,9 +46,6 @@ public class MusicPlayerMono : MonoBehaviour
     #region 4. Methods
     public void PlayMusic(float timeSeconds)
     {
-        //test
-        Debug.Log($"play music for {timeSeconds}");
-        
         _audioSource?.PlayScheduled(timeSeconds);
     }
     #endregion

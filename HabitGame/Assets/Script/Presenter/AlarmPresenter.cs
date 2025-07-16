@@ -24,7 +24,7 @@ public class AlarmPresenter : PresenterBase
     private SoundManager _soundManager;
 
     //test
-    private AudioClip _latestAlarmMusic;
+    private AudioClip _latestSleepingAudioClip;
     // time
 
     #endregion
@@ -45,9 +45,17 @@ public class AlarmPresenter : PresenterBase
         _soundData = Model as SoundData;
         _soundManager = SoundManager.Instance;
 
-        if (_alarmPopup == null || _soundData == null || _soundManager == null)
+        if (_alarmPopup == null)
         {
-            throw new NullReferenceException("AlarmPresenter's view or model is null");
+            throw new NullReferenceException("_alarmPopup is null");
+        }
+        if (_soundData == null)
+        {
+            throw new NullReferenceException("_soundData is null");
+        }
+        if (_soundManager == null)
+        {
+            throw new NullReferenceException("_soundManager is null");
         }
 
         SetDefaultState();
@@ -60,7 +68,7 @@ public class AlarmPresenter : PresenterBase
 
     private void SetDefaultState()
     {
-        _latestAlarmMusic = _soundData.AlarmSound;
+        _latestSleepingAudioClip = _soundData.FirstSleepingAudioClip;
 
         //시간
     }
@@ -80,18 +88,20 @@ public class AlarmPresenter : PresenterBase
     {
         //NOTE
         //이런 건 XML을 통해 Matching을 했었다.
+        
         // test
+        // 일단 다 first
         if (buttonType == EButtons.MusicOne)
         {
-            _latestAlarmMusic = _soundData.AlarmSound;
+            _latestSleepingAudioClip = _soundData.FirstSleepingAudioClip;
         }
         else if (buttonType == EButtons.MusicTwo)
         {
-            _latestAlarmMusic = _soundData.AlarmSound;
+            _latestSleepingAudioClip = _soundData.FirstSleepingAudioClip;
         }
         else if (buttonType == EButtons.MusicThree)
         {
-            _latestAlarmMusic = _soundData.AlarmSound;
+            _latestSleepingAudioClip = _soundData.FirstSleepingAudioClip;
         }
     }
 
@@ -114,7 +124,8 @@ public class AlarmPresenter : PresenterBase
     private void RequestStartingAlarm()
     {
         //test 30초
-        _soundManager.CommandPlayingMusic(_latestAlarmMusic, 30f);
+        _soundManager.SetAudioSourceLoop();
+        _soundManager.CommandPlayingMusic(_latestSleepingAudioClip, 30f);
     }
 
     // todo 

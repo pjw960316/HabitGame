@@ -48,7 +48,7 @@ public class UIManager : ManagerBase<UIManager>, IManager
             if (scriptableObject is UIPopupData uiPopupData)
             {
                 _popupData = uiPopupData;
-                return;
+                break;
             }
         }
 

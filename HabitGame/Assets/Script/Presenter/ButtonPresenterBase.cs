@@ -1,12 +1,12 @@
+// NOTE
 // 간단한 버튼은 이거만 써도 된다.
 
 using UniRx;
-using UnityEngine;
 
 public class ButtonPresenterBase : PresenterBase
 {
     #region 1. Fields
-    
+
     // NOTE
     // 이 추상화 수준에서의 View를 초기화 한다.
     private UIButtonBase _view;

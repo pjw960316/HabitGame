@@ -11,8 +11,11 @@ public class SoundData : ScriptableObject, IModel
 
     #region 2. Properties
 
-    [SerializeField] private AudioClip _alarmSound;
-    public AudioClip AlarmSound => _alarmSound;
+    [SerializeField] private AudioClip _alarmChickenAudioClip;
+    public AudioClip AlarmChickenAudioClip => _alarmChickenAudioClip;
+    
+    [SerializeField] private AudioClip _firstSleepingAudioClip;
+    public AudioClip FirstSleepingAudioClip => _firstSleepingAudioClip;
 
     #endregion
 

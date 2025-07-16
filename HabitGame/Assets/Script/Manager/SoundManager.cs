@@ -97,8 +97,13 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     // SoundManager는 왕과 같은 존재고, 여러 개의 MusicPlayerMono들이 재생의 책임이 있는 Instance
     public void CommandPlayingMusic(AudioClip audioClip, float time)
     {
-        _musicPlayerMono.AudioClip = audioClip;
+        _musicPlayerMono.AudioClip = _soundData.FirstSleepingAudioClip;
         _musicPlayerMono.PlayMusic(time);
+    }
+
+    public void SetAudioSourceLoop()
+    {
+        _musicPlayerMono.AudioSource.loop = true;
     }
 
     #endregion
