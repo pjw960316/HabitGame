@@ -11,16 +11,21 @@ public class AlarmPresenter : PresenterBase
         MusicOne,
         MusicTwo,
         MusicThree,
-        
+
         TimeOne,
         TimeTwo,
-        TimeThree,
+        TimeThree
     }
-    
-    private UIAlarmPopup uiAlarmPopup;
-    
+
+    //NOTE
+    //MODEL & VIEW & Manager
+    private SoundData _soundData;
+    private UIAlarmPopup _alarmPopup;
+    private SoundManager _soundManager;
+
     //test
-    private AudioClip _testClip;
+    private AudioClip _latestAlarmMusic;
+    // time
 
     #endregion
 
@@ -36,13 +41,16 @@ public class AlarmPresenter : PresenterBase
     {
         base.Initialize(view);
 
-        uiAlarmPopup = view as UIAlarmPopup;
+        _alarmPopup = View as UIAlarmPopup;
+        _soundData = Model as SoundData;
+        _soundManager = SoundManager.Instance;
 
-        if (uiAlarmPopup == null)
+        if (_alarmPopup == null || _soundData == null || _soundManager == null)
         {
-            throw new NullReferenceException("UIAlarmPopup");
+            throw new NullReferenceException("AlarmPresenter's view or model is null");
         }
 
+        SetDefaultState();
         BindEvent();
     }
 
@@ -50,36 +58,68 @@ public class AlarmPresenter : PresenterBase
 
     #region 4. Methods
 
+    private void SetDefaultState()
+    {
+        _latestAlarmMusic = _soundData.AlarmSound;
+
+        //시간
+    }
+
     private void BindEvent()
     {
-        uiAlarmPopup.OnAlarmMusicButtonClicked.Subscribe(SetAfterRequestAlarmMusic).AddTo(Disposable);
-        uiAlarmPopup.OnTimeButtonClicked.Subscribe(_ => GetTime()).AddTo(Disposable);
-        uiAlarmPopup.OnConfirmed.Subscribe(_ => UpdateView()).AddTo(Disposable);
+        _alarmPopup.OnAlarmMusicButtonClicked.Subscribe(SetLatestAlarmMusic).AddTo(Disposable);
+        _alarmPopup.OnTimeButtonClicked.Subscribe(SetLatestTime).AddTo(Disposable);
+        _alarmPopup.OnConfirmed.Subscribe(_ => StartAlarm()).AddTo(Disposable);
     }
 
     #endregion
 
     #region 5. EventHandlers
 
-    //test
-    //전체가 테스트 코드 with connect model
-    private void SetAfterRequestAlarmMusic(EButtons buttonType)
+    private void SetLatestAlarmMusic(EButtons buttonType)
     {
-        var soundData = Model as SoundData;
-
+        //NOTE
+        //이런 건 XML을 통해 Matching을 했었다.
+        // test
         if (buttonType == EButtons.MusicOne)
         {
-            _testClip = soundData.AlarmSound;
+            _latestAlarmMusic = _soundData.AlarmSound;
+        }
+        else if (buttonType == EButtons.MusicTwo)
+        {
+            _latestAlarmMusic = _soundData.AlarmSound;
+        }
+        else if (buttonType == EButtons.MusicThree)
+        {
+            _latestAlarmMusic = _soundData.AlarmSound;
         }
     }
 
-    private void GetTime()
+    private void SetLatestTime(EButtons buttonType)
     {
-        
+        if (buttonType == EButtons.TimeOne)
+        {
+        }
     }
-    
 
-    private void UpdateView()
+
+    // todo
+    // 매니저에게 지금 정보 알려주고 재생 시키고 View 갱신
+    private void StartAlarm()
+    {
+        RequestStartingAlarm();
+        UpdateButtonsView();
+    }
+
+    private void RequestStartingAlarm()
+    {
+        //test 30초
+        _soundManager.CommandPlayingMusic(_latestAlarmMusic, 30f);
+    }
+
+    // todo 
+    // UI 클릭 표시 갱신
+    private void UpdateButtonsView()
     {
     }
 

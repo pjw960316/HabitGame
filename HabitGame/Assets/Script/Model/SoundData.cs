@@ -4,9 +4,8 @@ using UnityEngine;
 public class SoundData : ScriptableObject, IModel
 {
     #region 1. Fields
-
-    // default
-    public int testValue = 5;
+    
+    //default
 
     #endregion
 
@@ -14,9 +13,6 @@ public class SoundData : ScriptableObject, IModel
 
     [SerializeField] private AudioClip _alarmSound;
     public AudioClip AlarmSound => _alarmSound;
-
-    //[SerializeField] private AudioClip _airplaneSound;
-    //public AudioClip AirplaneSound => _airplaneSound;
 
     #endregion
 
@@ -27,6 +23,12 @@ public class SoundData : ScriptableObject, IModel
     #endregion
 
     #region 4. Methods
+
+    // default
+
+    #endregion
+    
+    #region 5. EventHandlers
 
     // default
 

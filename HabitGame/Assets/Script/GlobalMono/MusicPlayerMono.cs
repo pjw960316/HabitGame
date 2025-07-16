@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 
+// TODO
+// 인터페이스로 묶어서 이런 음악 재생기에게 책임을 부여해라.
 public class MusicPlayerMono : MonoBehaviour
 {
     #region 1. Fields
@@ -14,7 +16,17 @@ public class MusicPlayerMono : MonoBehaviour
 
     #region 2. Properties
 
-    // default
+    public AudioSource AudioSource
+    {
+        get => _audioSource;
+        private set => _audioSource = value;
+    }
+
+    public AudioClip AudioClip
+    {
+        get => _audioClip;
+        set => _audioClip = value;
+    }
 
     #endregion
 
@@ -26,16 +38,19 @@ public class MusicPlayerMono : MonoBehaviour
         {
             throw new NullReferenceException("_soundManager");
         }
-
-        _soundManager.SetAudioSource(_audioSource);
-        _soundManager.SetAudioClip(_audioClip);
+        
+        _soundManager.RegisterMusicPlayerMono(this);
     }
 
     #endregion
 
     #region 4. Methods
-
-    // default
-
+    public void PlayMusic(float timeSeconds)
+    {
+        //test
+        Debug.Log($"play music for {timeSeconds}");
+        
+        _audioSource?.PlayScheduled(timeSeconds);
+    }
     #endregion
 }

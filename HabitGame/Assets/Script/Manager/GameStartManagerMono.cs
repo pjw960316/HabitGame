@@ -13,7 +13,7 @@ public class GameStartManagerMono : MonoBehaviour
 
     private List<IManager> _managers;
     private List<Type> _managerTypes;
-
+    
     [SerializeField] private List<ScriptableObject> _allModels;
 
     #endregion
@@ -29,6 +29,9 @@ public class GameStartManagerMono : MonoBehaviour
     private void Awake()
     {
         LoadInitialGameState();
+
+        LivePermanent();
+
         ChangeScene();
     }
 
@@ -39,8 +42,6 @@ public class GameStartManagerMono : MonoBehaviour
     private void LoadInitialGameState()
     {
         CreateManagerInstances();
-        
-        //testCode
     }
 
     private void CreateManagerInstances()
@@ -74,6 +75,14 @@ public class GameStartManagerMono : MonoBehaviour
     private void ChangeScene()
     {
         SceneManager.LoadScene(MAIN_SCENE_NAME);
+    }
+
+    //fix
+    //현재 Scene이 변경 될 때 연결되어 있는 SO가 죽는 현상이 있는데
+    //잠깐은 이 MONO를 살려서 유지시킨다.
+    private void LivePermanent()
+    {
+        DontDestroyOnLoad(this);
     }
 
     #endregion

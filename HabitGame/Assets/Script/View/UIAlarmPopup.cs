@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 using EButtons = AlarmPresenter.EButtons;
 
+[RequireComponent(typeof(Button))]
 public class UIAlarmPopup : UIPopupBase
 {
     #region 1. Fields
@@ -18,6 +19,7 @@ public class UIAlarmPopup : UIPopupBase
     }
     [SerializeField] private List<ButtonData> _alarmMusicButtons = new();
     [SerializeField] private List<ButtonData> _timeButtons = new();
+    [SerializeField] private Button _confirmButton;
 
     private UIManager _uiManager;
     private SoundManager _soundManager;
@@ -64,6 +66,8 @@ public class UIAlarmPopup : UIPopupBase
     {
         BindButtonsEvent(_alarmMusicButtons, _onAlarmMusicButtonClicked);
         BindButtonsEvent(_timeButtons, _onTimeButtonClicked);
+        
+        _confirmButton?.onClick.AddListener(() => _onConfirmed.OnNext(Unit.Default));
     }
 
     private void BindButtonsEvent(List<ButtonData> buttonDataList, Subject<EButtons> subject)

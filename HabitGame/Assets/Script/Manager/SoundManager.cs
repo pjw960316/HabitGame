@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UniRx;
 using UnityEngine;
 
 [Serializable]
@@ -8,9 +7,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 {
     #region 1. Fields
 
-    private AudioSource _audioSource;
-    private CompositeDisposable _disposable = new();
-    public Subject<Unit> TestEvent;
+    private MusicPlayerMono _musicPlayerMono;
 
     #endregion
 
@@ -30,10 +27,8 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     public SoundManager()
     {
-        // LOG
-        //Debug.Log("SoundManager Constructor");
-
-        TestEvent = new Subject<Unit>();
+        //LOG
+        Debug.Log("SoundManager Constructor");
     }
 
     #endregion
@@ -47,14 +42,6 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     private void BindEvent()
     {
-        // test
-        TestEvent.Subscribe(_ => TestPlayMusic()).AddTo(_disposable);
-    }
-
-    // Test
-    private void TestPlayMusic()
-    {
-        _audioSource?.Play();
     }
 
 
@@ -69,12 +56,12 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
             }
         }
     }
-    
+
     public TPresenter GetPresenterAfterCreate<TPresenter>(IView view) where TPresenter : IPresenter, new()
     {
-        TPresenter presenter = new TPresenter();
+        var presenter = new TPresenter();
         presenter.Initialize(view);
-        
+
         return presenter;
     }
 
@@ -95,15 +82,28 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
         }
     }
 
-    public void SetAudioSource(AudioSource audioSource)
+    public void RegisterMusicPlayerMono(MusicPlayerMono musicPlayerMono)
     {
-        _audioSource = audioSource;
+        _musicPlayerMono = musicPlayerMono;
+
+        if (_musicPlayerMono == null)
+        {
+            throw new NullReferenceException("MusicPlayerMono is null");
+        }
     }
 
-    public void SetAudioClip(AudioClip audioClip)
+    // NOTE
+    // 추후에 원하는 musicPlayer로 음악을 커스텀 하게 재생 시킬 수 있다. (Generic)
+    // SoundManager는 왕과 같은 존재고, 여러 개의 MusicPlayerMono들이 재생의 책임이 있는 Instance
+    public void CommandPlayingMusic(AudioClip audioClip, float time)
     {
-        _audioSource.clip = audioClip;
+        _musicPlayerMono.AudioClip = audioClip;
+        _musicPlayerMono.PlayMusic(time);
     }
+
+    #endregion
+
+    #region 5. EventHandlers
 
     public void Dispose()
     {
