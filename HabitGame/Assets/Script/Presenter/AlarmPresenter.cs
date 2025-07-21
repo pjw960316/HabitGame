@@ -23,7 +23,7 @@ public class AlarmPresenter : PresenterBase
     private SoundData _soundData;
     private UIAlarmPopup _alarmPopup;
     private SoundManager _soundManager;
-    
+
     //refactor
     //모델이 두개?
     private ViewData _viewData;
@@ -55,7 +55,7 @@ public class AlarmPresenter : PresenterBase
         {
             throw new NullReferenceException("Initialize Fail, Core Field is null");
         }
-        
+
         //refactor
         //모델이 2개일 때
         //걍 property로 해도 되나?
@@ -91,7 +91,7 @@ public class AlarmPresenter : PresenterBase
     {
         //NOTE
         //이런 건 XML을 통해 Matching을 했었다.
-        
+
         // test
         // 일단 다 first
         if (buttonType == EButtons.MusicOne)
@@ -124,8 +124,9 @@ public class AlarmPresenter : PresenterBase
 
     private void RequestStartingAlarm(float playingTime)
     {
-        Observable.Timer(TimeSpan.FromSeconds(playingTime)).Subscribe(_ => RequestPlayingWakeUpSound()).AddTo(Disposable);
-        
+        Observable.Timer(TimeSpan.FromSeconds(playingTime)).Subscribe(_ => RequestPlayingWakeUpSound())
+            .AddTo(Disposable);
+
         _soundManager.SetAudioSourceLoop();
         _soundManager.CommandPlayingMusic(_latestSleepingAudioClip);
     }
@@ -134,7 +135,7 @@ public class AlarmPresenter : PresenterBase
     {
         _soundManager.CommandPlayingWakeUpSound();
     }
-    
+
     // refactor
     // Destroy를 쓰는 게 맞는가?
     private void CloseAlarmPopup()

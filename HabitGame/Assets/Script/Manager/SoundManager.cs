@@ -105,7 +105,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     public void CommandPlayingWakeUpSound()
     {
         _musicPlayerMono.AudioSource.Stop();
-        
+
         _musicPlayerMono.AudioClip = _soundData.AlarmChickenAudioClip;
         _musicPlayerMono.PlayMusic();
     }

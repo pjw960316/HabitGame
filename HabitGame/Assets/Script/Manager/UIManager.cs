@@ -60,7 +60,7 @@ public class UIManager : ManagerBase<UIManager>, IManager
         {
             throw new InvalidOperationException("_popupData는 null이 될 수 없습니다. 올바른 데이터를 확인해주세요.");
         }
-        
+
         if (ViewData == null)
         {
             throw new InvalidOperationException("_viewData null이 될 수 없습니다. 올바른 데이터를 확인해주세요.");

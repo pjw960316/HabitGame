@@ -31,7 +31,6 @@ public abstract class PresenterBase : IPresenter
 
     #region 4. Methods
 
-    
     // refactor
     // 지금 모델이 2개 이상일 때 전혀 대응이 되지 않고 있다.
     private void SetModel()
