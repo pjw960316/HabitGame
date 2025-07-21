@@ -95,10 +95,19 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     // NOTE
     // 추후에 원하는 musicPlayer로 음악을 커스텀 하게 재생 시킬 수 있다. (Generic)
     // SoundManager는 왕과 같은 존재고, 여러 개의 MusicPlayerMono들이 재생의 책임이 있는 Instance
-    public void CommandPlayingMusic(AudioClip audioClip, float time)
+    public void CommandPlayingMusic(AudioClip audioClip)
     {
+        //_musicPlayerMono.AudioClip = audioClip;
         _musicPlayerMono.AudioClip = _soundData.FirstSleepingAudioClip;
-        _musicPlayerMono.PlayMusic(time);
+        _musicPlayerMono.PlayMusic();
+    }
+
+    public void CommandPlayingWakeUpSound()
+    {
+        _musicPlayerMono.AudioSource.Stop();
+        
+        _musicPlayerMono.AudioClip = _soundData.AlarmChickenAudioClip;
+        _musicPlayerMono.PlayMusic();
     }
 
     public void SetAudioSourceLoop()

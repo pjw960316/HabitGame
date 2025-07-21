@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
-
 using EButtons = AlarmPresenter.EButtons;
 
 [RequireComponent(typeof(Button))]
 public class UIAlarmPopup : UIPopupBase
 {
     #region 1. Fields
-    
+
     [Serializable]
-    public struct ButtonData
+    public class ButtonData
     {
         public Button button;
         public EButtons buttonType;
     }
+
     [SerializeField] private List<ButtonData> _alarmMusicButtons = new();
     [SerializeField] private List<ButtonData> _timeButtons = new();
     [SerializeField] private Button _confirmButton;
@@ -66,7 +66,7 @@ public class UIAlarmPopup : UIPopupBase
     {
         BindButtonsEvent(_alarmMusicButtons, _onAlarmMusicButtonClicked);
         BindButtonsEvent(_timeButtons, _onTimeButtonClicked);
-        
+
         _confirmButton?.onClick.AddListener(() => _onConfirmed.OnNext(Unit.Default));
     }
 
@@ -82,7 +82,10 @@ public class UIAlarmPopup : UIPopupBase
 
     #region 5. EventHandlers
 
-    //default
+    private void OnDestroy()
+    {
+        //default
+    }
 
     #endregion
 }

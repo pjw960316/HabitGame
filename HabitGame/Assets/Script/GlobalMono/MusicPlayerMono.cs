@@ -44,9 +44,9 @@ public class MusicPlayerMono : MonoBehaviour
     #endregion
 
     #region 4. Methods
-    public void PlayMusic(float timeSeconds)
+    public void PlayMusic()
     {
-        _audioSource?.PlayScheduled(timeSeconds);
+        _audioSource?.Play();
     }
     #endregion
 }

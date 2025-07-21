@@ -5,12 +5,14 @@ using UnityEngine;
 //Note
 //https://typingdiary.tistory.com/60
 [Serializable]
-public class SerializableKeyValue<K,V>  where K : class
+public class SerializableKeyValue<K,V>  
 {
     public K Key;
     public V Value;
 }
 
+// todo 
+// plugin dictionary로 옮기고 이거 제거
 [Serializable]
 public class SerializableDictionary <K,V> : Dictionary<K,V>, ISerializationCallbackReceiver where K : class
 {

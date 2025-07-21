@@ -1,6 +1,7 @@
 using System;
 using UniRx;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class AlarmPresenter : PresenterBase
 {
@@ -22,9 +23,14 @@ public class AlarmPresenter : PresenterBase
     private SoundData _soundData;
     private UIAlarmPopup _alarmPopup;
     private SoundManager _soundManager;
+    
+    //refactor
+    //모델이 두개?
+    private ViewData _viewData;
 
     //test
     private AudioClip _latestSleepingAudioClip;
+    private float _latestAlarmPlayingTime;
     // time
 
     #endregion
@@ -45,18 +51,15 @@ public class AlarmPresenter : PresenterBase
         _soundData = Model as SoundData;
         _soundManager = SoundManager.Instance;
 
-        if (_alarmPopup == null)
+        if (_alarmPopup == null || _soundData == null || _soundManager == null)
         {
-            throw new NullReferenceException("_alarmPopup is null");
+            throw new NullReferenceException("Initialize Fail, Core Field is null");
         }
-        if (_soundData == null)
-        {
-            throw new NullReferenceException("_soundData is null");
-        }
-        if (_soundManager == null)
-        {
-            throw new NullReferenceException("_soundManager is null");
-        }
+        
+        //refactor
+        //모델이 2개일 때
+        //걍 property로 해도 되나?
+        _viewData = UIManager.Instance.ViewData;
 
         SetDefaultState();
         BindEvent();
@@ -107,9 +110,7 @@ public class AlarmPresenter : PresenterBase
 
     private void SetLatestTime(EButtons buttonType)
     {
-        if (buttonType == EButtons.TimeOne)
-        {
-        }
+        _latestAlarmPlayingTime = _viewData.AlarmTimeDictionary[buttonType];
     }
 
 
@@ -117,21 +118,28 @@ public class AlarmPresenter : PresenterBase
     // 매니저에게 지금 정보 알려주고 재생 시키고 View 갱신
     private void StartAlarm()
     {
-        RequestStartingAlarm();
-        UpdateButtonsView();
+        RequestStartingAlarm(_latestAlarmPlayingTime);
+        CloseAlarmPopup();
     }
 
-    private void RequestStartingAlarm()
+    private void RequestStartingAlarm(float playingTime)
     {
-        //test 30초
+        Observable.Timer(TimeSpan.FromSeconds(playingTime)).Subscribe(_ => RequestPlayingWakeUpSound()).AddTo(Disposable);
+        
         _soundManager.SetAudioSourceLoop();
-        _soundManager.CommandPlayingMusic(_latestSleepingAudioClip, 30f);
+        _soundManager.CommandPlayingMusic(_latestSleepingAudioClip);
     }
 
-    // todo 
-    // UI 클릭 표시 갱신
-    private void UpdateButtonsView()
+    private void RequestPlayingWakeUpSound()
     {
+        _soundManager.CommandPlayingWakeUpSound();
+    }
+    
+    // refactor
+    // Destroy를 쓰는 게 맞는가?
+    private void CloseAlarmPopup()
+    {
+        Object.Destroy(_alarmPopup.gameObject);
     }
 
     #endregion
