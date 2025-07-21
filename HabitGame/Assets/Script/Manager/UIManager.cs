@@ -15,13 +15,13 @@ public class UIManager : ManagerBase<UIManager>, IManager
     private Canvas _testCanvas;
 
     // REFACTOR
-    // IModel 생각
     private UIPopupData _popupData;
 
     #endregion
 
     #region 2. Properties
 
+    public ViewData ViewData { get; private set; }
     // default
 
     #endregion
@@ -48,13 +48,22 @@ public class UIManager : ManagerBase<UIManager>, IManager
             if (scriptableObject is UIPopupData uiPopupData)
             {
                 _popupData = uiPopupData;
-                break;
+            }
+
+            if (scriptableObject is ViewData viewData)
+            {
+                ViewData = viewData;
             }
         }
 
         if (_popupData == null)
         {
             throw new InvalidOperationException("_popupData는 null이 될 수 없습니다. 올바른 데이터를 확인해주세요.");
+        }
+        
+        if (ViewData == null)
+        {
+            throw new InvalidOperationException("_viewData null이 될 수 없습니다. 올바른 데이터를 확인해주세요.");
         }
     }
 
