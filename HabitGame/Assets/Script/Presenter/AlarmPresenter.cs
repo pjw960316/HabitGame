@@ -13,6 +13,8 @@ public class AlarmPresenter : PresenterBase
         MusicTwo,
         MusicThree,
 
+        DivisionConst,
+        
         TimeOne,
         TimeTwo,
         TimeThree
@@ -78,8 +80,8 @@ public class AlarmPresenter : PresenterBase
 
     private void BindEvent()
     {
-        _alarmPopup.OnAlarmMusicButtonClicked.Subscribe(SetLatestAlarmMusic).AddTo(Disposable);
-        _alarmPopup.OnTimeButtonClicked.Subscribe(SetLatestTime).AddTo(Disposable);
+        _alarmPopup.OnAlarmMusicButtonClicked.Subscribe(UpdateLatestAlarmMusic).AddTo(Disposable);
+        _alarmPopup.OnTimeButtonClicked.Subscribe(UpdateLatestTime).AddTo(Disposable);
         _alarmPopup.OnConfirmed.Subscribe(_ => StartAlarm()).AddTo(Disposable);
     }
 
@@ -87,11 +89,9 @@ public class AlarmPresenter : PresenterBase
 
     #region 5. EventHandlers
 
-    private void SetLatestAlarmMusic(EButtons buttonType)
+    // refactor
+    private void UpdateLatestAlarmMusic(EButtons buttonType)
     {
-        //NOTE
-        //이런 건 XML을 통해 Matching을 했었다.
-
         // test
         // 일단 다 first
         if (buttonType == EButtons.MusicOne)
@@ -108,11 +108,10 @@ public class AlarmPresenter : PresenterBase
         }
     }
 
-    private void SetLatestTime(EButtons buttonType)
+    private void UpdateLatestTime(EButtons buttonType)
     {
         _latestAlarmPlayingTime = _viewData.AlarmTimeDictionary[buttonType];
     }
-
 
     // todo
     // 매니저에게 지금 정보 알려주고 재생 시키고 View 갱신

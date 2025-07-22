@@ -12,3 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 815989e0c2b28454ca2ad5debc18fd1b, type: 3}
   m_Name: ViewData
   m_EditorClassIdentifier: 
+  AlarmTimeDictionary:
+    _serializedList:
+    - Key: 3
+      Value: 5
+    - Key: 4
+      Value: 1800
+    - Key: 5
+      Value: 5400

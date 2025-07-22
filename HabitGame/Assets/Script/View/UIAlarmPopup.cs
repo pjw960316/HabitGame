@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
+using AYellowpaper.SerializedCollections;
 using EButtons = AlarmPresenter.EButtons;
 
 [RequireComponent(typeof(Button))]
@@ -20,6 +22,7 @@ public class UIAlarmPopup : UIPopupBase
     [SerializeField] private List<ButtonData> _alarmMusicButtons = new();
     [SerializeField] private List<ButtonData> _timeButtons = new();
     [SerializeField] private Button _confirmButton;
+    [SerializeField] private SerializedDictionary<bool, Color> _buttonColorDictionary = new();
 
     private UIManager _uiManager;
     private SoundManager _soundManager;
@@ -74,13 +77,47 @@ public class UIAlarmPopup : UIPopupBase
     {
         foreach (var buttonData in buttonDataList)
         {
-            buttonData.button.onClick.AddListener(() => { subject.OnNext(buttonData.buttonType); });
+            buttonData.button.onClick.AddListener(() => { OnClickButton(buttonData, subject); });
         }
     }
 
     #endregion
 
     #region 5. EventHandlers
+
+    //test
+    private void OnClickButton(ButtonData buttonData, Subject<EButtons> subject)
+    {
+        subject.OnNext(buttonData.buttonType);
+        UpdateButtonColor(buttonData);
+    }
+
+    //Note
+    //View Method
+    private void UpdateButtonColor(ButtonData clickedButtonData)
+    {
+        var clickedButtonType = clickedButtonData.buttonType;
+
+        switch (clickedButtonType)
+        {
+            case EButtons.DivisionConst:
+                throw new InvalidDataException("buttonType은 DivisionConst가 될 수 없다.");
+            case < EButtons.DivisionConst:
+                InternalUpdateButtonColor(clickedButtonType, _alarmMusicButtons);
+                break;
+            case > EButtons.DivisionConst:
+                InternalUpdateButtonColor(clickedButtonType, _timeButtons);
+                return;
+        }
+    }
+
+    private void InternalUpdateButtonColor(EButtons clickedButtonType, List<ButtonData> list)
+    {
+        foreach (var buttonData in list)
+        {
+            buttonData.button.image.color = _buttonColorDictionary[buttonData.buttonType == clickedButtonType];
+        }
+    }
 
     private void OnDestroy()
     {
