@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AlarmTimeDictionary:
     _serializedList:
-    - Key: 3
-      Value: 5
     - Key: 4
-      Value: 1800
+      Value: 5
     - Key: 5
+      Value: 3600
+    - Key: 6
       Value: 5400

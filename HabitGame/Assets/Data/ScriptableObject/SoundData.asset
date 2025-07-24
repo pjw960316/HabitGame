@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: SoundData
   m_EditorClassIdentifier: 
   _alarmChickenAudioClip: {fileID: 8300000, guid: 578e0ef3928252b468cb5f7fe8c056d5, type: 3}
-  _firstSleepingAudioClip: {fileID: 8300000, guid: b42802f5882c36647a0d5844ba9201e1, type: 3}
+  _firstSleepingAudioClip: {fileID: 8300000, guid: 68604bbf3d301aa4fb1c904c2469adf0, type: 3}
