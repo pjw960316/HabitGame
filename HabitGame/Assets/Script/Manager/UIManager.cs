@@ -67,14 +67,6 @@ public class UIManager : ManagerBase<UIManager>, IManager
         }
     }
 
-    public void ConnectInstanceByActivator(IManager instance)
-    {
-        if (_instance == null)
-        {
-            _instance = instance as UIManager;
-        }
-    }
-
     // REFACTOR
     // String으로 받는 건 좋지 않지만...
     public void OpenPopupByStringKey(string key, Transform transform)

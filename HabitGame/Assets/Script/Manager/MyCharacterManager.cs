@@ -18,8 +18,4 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     public void SetModel(IEnumerable<ScriptableObject> models)
     {
     }
-
-    public void ConnectInstanceByActivator(IManager instance)
-    {
-    }
 }

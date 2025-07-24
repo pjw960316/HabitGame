@@ -74,14 +74,6 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
         }
     }
 
-    public void ConnectInstanceByActivator(IManager instance)
-    {
-        if (_instance == null)
-        {
-            _instance = instance as SoundManager;
-        }
-    }
-
     public void RegisterMusicPlayerMono(MusicPlayerMono musicPlayerMono)
     {
         _musicPlayerMono = musicPlayerMono;

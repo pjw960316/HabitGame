@@ -30,14 +30,6 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager, IDisposable
     {
     }
     
-    public void ConnectInstanceByActivator(IManager instance)
-    {
-        if (_instance == null)
-        {
-            _instance = instance as UIToastManager;
-        }
-    }
-    
     #endregion
 
     #region 5. EventHandlers
