@@ -11,8 +11,11 @@ public class UIMainCanvas : MonoBehaviour, IView
 
     #region 2. Properties
 
-    public GameObject ToastMessage { get; private set; }
-    // default
+    public GameObject ToastMessage
+    {
+        get => _toastMessage;
+        private set => _toastMessage = value;
+    }
 
     #endregion
 
@@ -27,7 +30,6 @@ public class UIMainCanvas : MonoBehaviour, IView
 
     #region 4. Methods
 
-    
     // default
 
     #endregion

@@ -13,7 +13,7 @@ public class GameStartManagerMono : MonoBehaviour
 
     private List<IManager> _managers;
     private List<Type> _managerTypes;
-    
+
     [SerializeField] private List<ScriptableObject> _allModels;
 
     #endregion
@@ -41,6 +41,9 @@ public class GameStartManagerMono : MonoBehaviour
 
     private void LoadInitialGameState()
     {
+        //Log
+        Debug.Log("GameStartManagerMono  ->  LoadInitialGameState!!!");
+
         CreateManagerInstances();
     }
 

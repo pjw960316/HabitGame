@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 public class UIToastManager : ManagerBase<UIToastManager>, IManager, IDisposable
@@ -12,9 +13,10 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager, IDisposable
     #endregion
 
     #region 2. Properties
+
     // REFACTOR
     // can be null? - view로 받기 때문에.
-    public UIMainCanvas MainCanvas { get; private set; } 
+    public UIMainCanvas MainCanvas { get; private set; }
 
     // default
 
@@ -34,7 +36,7 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager, IDisposable
     {
         MainCanvas = canvas;
     }
-    
+
     public void SetModel(IEnumerable<ScriptableObject> _list)
     {
     }
@@ -42,20 +44,23 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager, IDisposable
     public void ShowToastMessage()
     {
         MainCanvas.ToastMessage.SetActive(true);
+
+        RemoveToastMessage();
     }
-    
-    public void SetPoolingCanvas(Transform canvasTransform)
+
+    //refactor
+    //dispose?
+    private void RemoveToastMessage()
     {
-        _toastMessageTarget = canvasTransform;
+        Observable.Timer(TimeSpan.FromSeconds(1f)).Subscribe(_ => { MainCanvas.ToastMessage.SetActive(false); });
     }
-    
+
     #endregion
 
     #region 5. EventHandlers
 
     public void Dispose()
     {
-        throw new NotImplementedException();
     }
 
     #endregion
