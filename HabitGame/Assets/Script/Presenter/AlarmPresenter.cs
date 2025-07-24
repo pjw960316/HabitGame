@@ -53,11 +53,10 @@ public class AlarmPresenter : PresenterBase
         _soundData = Model as SoundData;
         _soundManager = SoundManager.Instance;
 
-        if (_alarmPopup == null || _soundData == null || _soundManager == null)
-        {
-            throw new NullReferenceException("Initialize Fail, Core Field is null");
-        }
-
+        ExceptionHelper.CheckNullException("_alarmPopup" , _alarmPopup);
+        ExceptionHelper.CheckNullException("_soundData" , _soundData);
+        ExceptionHelper.CheckNullException("_soundManager" , _soundManager);
+        
         //refactor
         //모델이 2개일 때
         //걍 property로 해도 되나?

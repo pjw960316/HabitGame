@@ -28,7 +28,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     public SoundManager()
     {
         //LOG
-        Debug.Log("SoundManager Constructor");
+        //Debug.Log("SoundManager Constructor");
     }
 
     #endregion
