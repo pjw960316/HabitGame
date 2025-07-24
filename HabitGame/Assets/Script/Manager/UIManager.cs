@@ -3,16 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-/* NOTE
- Runtime의 UI를 전역으로 관리하는 책임이 부여된 Singleton
- 열려 있는 UI를 동적으로 관리해야 한다.
-*/
+// TODO
+// 무엇이 열려있고, 이런 거 관리해야 한다.
 public class UIManager : ManagerBase<UIManager>, IManager
 {
     #region 1. Fields
-
-    //test
-    private Canvas _testCanvas;
 
     // REFACTOR
     private UIPopupData _popupData;
@@ -20,9 +15,12 @@ public class UIManager : ManagerBase<UIManager>, IManager
     #endregion
 
     #region 2. Properties
-
+    // REFACTOR
+    // can be null? - view로 받기 때문에.
+    public Canvas MainCanvas { get; private set; } 
     public ViewData ViewData { get; private set; }
-    // default
+
+   
 
     #endregion
 
@@ -37,6 +35,7 @@ public class UIManager : ManagerBase<UIManager>, IManager
 
     #region 4. Methods
 
+    
     private void BindEvent()
     {
     }
@@ -55,7 +54,7 @@ public class UIManager : ManagerBase<UIManager>, IManager
                 ViewData = viewData;
             }
         }
-
+        
         if (_popupData == null)
         {
             throw new InvalidOperationException("_popupData는 null이 될 수 없습니다. 올바른 데이터를 확인해주세요.");
@@ -66,7 +65,12 @@ public class UIManager : ManagerBase<UIManager>, IManager
             throw new InvalidOperationException("_viewData null이 될 수 없습니다. 올바른 데이터를 확인해주세요.");
         }
     }
-
+    
+    /*public void InjectMainCanvas(Canvas canvas)
+    {
+        MainCanvas = canvas;
+    }*/
+    
     // REFACTOR
     // String으로 받는 건 좋지 않지만...
     public void OpenPopupByStringKey(string key, Transform transform)

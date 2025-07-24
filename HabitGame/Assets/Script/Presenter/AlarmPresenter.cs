@@ -118,6 +118,7 @@ public class AlarmPresenter : PresenterBase
     {
         RequestStartingAlarm(_latestAlarmPlayingTime);
         CloseAlarmPopup();
+        UIToastManager.Instance.ShowToastMessage();
     }
 
     private void RequestStartingAlarm(float playingTime)

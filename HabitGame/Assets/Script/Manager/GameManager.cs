@@ -30,10 +30,6 @@ public class GameManager : ManagerBase<GameManager>, IManager
     {
     }
 
-    public void ConnectInstanceByActivator(IManager instance)
-    {
-    }
-
     private void TurnOnScreenAlways()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
