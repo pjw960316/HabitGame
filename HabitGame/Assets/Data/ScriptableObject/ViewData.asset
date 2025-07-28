@@ -15,7 +15,7 @@ MonoBehaviour:
   AlarmTimeDictionary:
     _serializedList:
     - Key: 4
-      Value: 5
+      Value: 1800
     - Key: 5
       Value: 3600
     - Key: 6
