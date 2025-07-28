@@ -73,8 +73,7 @@ public class AlarmPresenter : PresenterBase
     private void SetDefaultState()
     {
         _latestSleepingAudioClip = _soundData.FirstSleepingAudioClip;
-
-        //시간
+        _latestAlarmPlayingTime = _viewData.AlarmTimeDictionary[EButtons.TimeOne];
     }
 
     private void BindEvent()
