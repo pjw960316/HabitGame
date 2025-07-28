@@ -1258,6 +1258,20 @@ MonoBehaviour:
   - button: {fileID: 5655351679778814012}
     buttonType: 5
   _confirmButton: {fileID: 8543549872137723518}
+  _buttonTexts:
+    _serializedList:
+    - Key: 3
+      Value: {fileID: 4195687718331180649}
+    - Key: 4
+      Value: {fileID: 5530915282135271883}
+    - Key: 5
+      Value: {fileID: 3046247451781927247}
+    - Key: 6
+      Value: {fileID: 6363041254245795365}
+    - Key: 7
+      Value: {fileID: 7683613648066347559}
+    - Key: 8
+      Value: {fileID: 5165665687277115229}
   _buttonColorDictionary:
     _serializedList:
     - Key: 1
@@ -1444,7 +1458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7134766, g: 1, b: 0.5641509, a: 1}
+  m_Color: {r: 0.7137255, g: 1, b: 0.5647059, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1565,7 +1579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7134766, g: 1, b: 0.5641509, a: 1}
+  m_Color: {r: 0.7137255, g: 1, b: 0.5647059, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2305,7 +2319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7134766, g: 1, b: 0.5641509, a: 1}
+  m_Color: {r: 0.7137255, g: 1, b: 0.5647059, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

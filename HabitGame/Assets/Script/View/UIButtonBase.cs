@@ -9,8 +9,9 @@ public class UIButtonBase : MonoBehaviour, IView
     #region 1. Fields
 
     [SerializeField] private Canvas _canvas;
-    [SerializeField] protected Button Button;
-    [SerializeField] protected TextMeshProUGUI ButtonText;
+    [SerializeField] private Button _button;
+    [SerializeField] private TextMeshProUGUI _buttonText;
+    [SerializeField] private EStringKey _buttonTextKey;
 
     private ButtonPresenterBase _buttonPresenter;
 
@@ -39,15 +40,22 @@ public class UIButtonBase : MonoBehaviour, IView
     private void Initialize()
     {
         _buttonPresenter = SoundManager.Instance.GetPresenterAfterCreate<ButtonPresenterBase>(this);
+
+        SetButtonText();
         
         BindEvent();
     }
 
-    //refactor
-    //virtual?
     private void BindEvent()
     {
-        Button.onClick.AddListener(() => _onClickButton.OnNext(default));
+        _button.onClick.AddListener(() => _onClickButton.OnNext(default));
+    }
+
+    private void SetButtonText()
+    {
+        ExceptionHelper.CheckNullException(_buttonText, "buttonText");
+
+        _buttonText.text = StringManager.Instance.GetUIString(_buttonTextKey);
     }
 
     public Canvas GetCanvas()

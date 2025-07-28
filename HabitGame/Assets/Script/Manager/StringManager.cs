@@ -40,7 +40,7 @@ public class StringManager : ManagerBase<StringManager>, IManager, IDisposable
 
     public string GetUIString(EStringKey eStringKey)
     {
-        ExceptionHelper.CheckNullException("StringData", StringData);
+        ExceptionHelper.CheckNullException(StringData, "StringData");
 
         return StringData.GetStringByEStringKey(eStringKey);
     }

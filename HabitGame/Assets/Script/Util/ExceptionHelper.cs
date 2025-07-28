@@ -2,7 +2,7 @@ using System;
 
 public static class ExceptionHelper
 {
-    public static void CheckNullException(string argumentName, object instance)
+    public static void CheckNullException(object instance, string argumentName)
     {
         if (instance == null)
         {

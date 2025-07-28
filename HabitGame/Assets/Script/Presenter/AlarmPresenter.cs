@@ -53,9 +53,9 @@ public class AlarmPresenter : PresenterBase
         _soundData = Model as SoundData;
         _soundManager = SoundManager.Instance;
 
-        ExceptionHelper.CheckNullException("_alarmPopup", _alarmPopup);
-        ExceptionHelper.CheckNullException("_soundData", _soundData);
-        ExceptionHelper.CheckNullException("_soundManager", _soundManager);
+        ExceptionHelper.CheckNullException(_alarmPopup, "_alarmPopup");
+        ExceptionHelper.CheckNullException(_soundData, "_soundData");
+        ExceptionHelper.CheckNullException(_soundManager, "_soundManager");
 
         //refactor
         //모델이 2개일 때

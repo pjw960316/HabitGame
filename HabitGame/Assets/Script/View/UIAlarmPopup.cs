@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using AYellowpaper.SerializedCollections;
+using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
-using AYellowpaper.SerializedCollections;
 using EButtons = AlarmPresenter.EButtons;
 
 [RequireComponent(typeof(Button))]
@@ -22,6 +23,8 @@ public class UIAlarmPopup : UIPopupBase
     [SerializeField] private List<ButtonData> _alarmMusicButtons = new();
     [SerializeField] private List<ButtonData> _timeButtons = new();
     [SerializeField] private Button _confirmButton;
+
+    [SerializeField] private SerializedDictionary<EStringKey, TextMeshProUGUI> _buttonTexts = new();
     [SerializeField] private SerializedDictionary<bool, Color> _buttonColorDictionary = new();
 
     private UIManager _uiManager;
@@ -53,17 +56,20 @@ public class UIAlarmPopup : UIPopupBase
         _soundManager = SoundManager.Instance;
         _alarmPresenter = _soundManager.GetPresenterAfterCreate<AlarmPresenter>(this);
 
-        if (_alarmPresenter == null)
-        {
-            throw new NullReferenceException("_alarmPresenter");
-        }
+        ExceptionHelper.CheckNullException(_alarmPresenter, "alarmPresenter");
 
+        SetInitialUIState();
         BindEvent();
     }
 
     #endregion
 
     #region 4. Methods
+
+    private void SetInitialUIState()
+    {
+        SetButtonTexts();
+    }
 
     private void BindEvent()
     {
@@ -78,6 +84,16 @@ public class UIAlarmPopup : UIPopupBase
         foreach (var buttonData in buttonDataList)
         {
             buttonData.button.onClick.AddListener(() => { OnClickButton(buttonData, subject); });
+        }
+    }
+
+    private void SetButtonTexts()
+    {
+        var stringManager = StringManager.Instance;
+
+        foreach (var buttonText in _buttonTexts)
+        {
+            buttonText.Value.text = stringManager.GetUIString(buttonText.Key);
         }
     }
 

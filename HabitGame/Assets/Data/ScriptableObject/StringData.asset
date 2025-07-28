@@ -15,4 +15,8 @@ MonoBehaviour:
   _stringDictionary:
     _serializedList:
     - Key: 0
-      Value: Hi
+      Value: "\uC54C\uB78C"
+    - Key: 1
+      Value: "\uB8E8\uD2F4 \uCCB4\uD06C"
+    - Key: 2
+      Value: "\uB8E8\uD2F4 \uAE30\uB85D"
