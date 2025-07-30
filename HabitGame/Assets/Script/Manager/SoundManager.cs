@@ -52,7 +52,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
             if (model is SoundData soundData)
             {
                 // LOG
-                Debug.Log("SoundManager Set SoundData");
+                Debug.Log("SoundManager Sets SoundData");
                 
                 SoundData = soundData;
                 return;
