@@ -71,7 +71,7 @@ public class UIAlarmPopup : UIPopupBase
         SetButtonTexts();
     }
 
-    private void BindEvent()
+    protected sealed override void BindEventInternal()
     {
         BindButtonsEvent(_alarmMusicButtons, _onAlarmMusicButtonClicked);
         BindButtonsEvent(_timeButtons, _onTimeButtonClicked);

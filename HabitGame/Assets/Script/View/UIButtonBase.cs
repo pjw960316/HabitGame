@@ -46,7 +46,14 @@ public class UIButtonBase : MonoBehaviour, IView
         BindEvent();
     }
 
-    private void BindEvent()
+    public void BindEvent()
+    {
+        BindEventInternal();
+    }
+    
+    // todo
+    // 버그 발생 우려가 있긴 함.
+    protected virtual void BindEventInternal()
     {
         _button.onClick.AddListener(() => _onClickButton.OnNext(default));
     }

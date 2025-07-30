@@ -51,6 +51,9 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
         {
             if (model is SoundData soundData)
             {
+                // LOG
+                Debug.Log("SoundManager Set SoundData");
+                
                 SoundData = soundData;
                 return;
             }
@@ -64,15 +67,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
         return presenter;
     }
-
-
-    public void InitializeScriptableObject(IModel data)
-    {
-        if (data is SoundData soundData)
-        {
-            _soundData = soundData;
-        }
-    }
+    
 
     public void RegisterMusicPlayerMono(MusicPlayerMono musicPlayerMono)
     {
@@ -97,7 +92,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     {
         _musicPlayerMono.AudioSource.Stop();
 
-        _musicPlayerMono.AudioClip = _soundData.AlarmChickenAudioClip;
+        _musicPlayerMono.AudioClip = SoundData.AlarmChickenAudioClip;
         _musicPlayerMono.PlayMusic();
     }
 

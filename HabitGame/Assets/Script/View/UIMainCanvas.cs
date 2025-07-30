@@ -39,4 +39,9 @@ public class UIMainCanvas : MonoBehaviour, IView
     // default
 
     #endregion
+
+    public void BindEvent()
+    {
+        //
+    }
 }
