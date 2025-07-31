@@ -1,6 +1,4 @@
-using System;
 using TMPro;
-using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,13 +7,11 @@ public class UIButtonBase : MonoBehaviour, IView
     #region 1. Fields
 
     [SerializeField] private Canvas _canvas;
-    [SerializeField] private Button _button;
     [SerializeField] private TextMeshProUGUI _buttonText;
     [SerializeField] private EStringKey _buttonTextKey;
-
-    private readonly Subject<EPopupKey> _onClickButton = new();
-    public IObservable<EPopupKey> OnClickButton => _onClickButton;
-
+    [SerializeField] protected Button Button;
+    protected IPresenter Presenter;
+    
     #endregion
 
     #region 2. Properties
@@ -54,7 +50,6 @@ public class UIButtonBase : MonoBehaviour, IView
     // 모든 상속 구조에서 Binding은 독립적으로 각각 실행되어야 합니다.
     private void BindEvent()
     {
-        _button.onClick.AddListener(() => _onClickButton.OnNext(default));
     }
 
     private void SetButtonText()
@@ -64,6 +59,11 @@ public class UIButtonBase : MonoBehaviour, IView
         _buttonText.text = StringManager.Instance.GetUIString(_buttonTextKey);
     }
 
+    protected virtual void ConnectPresenter()
+    {
+        SoundManager.Instance.GetPresenterAfterCreate<ButtonPresenterBase>(this);
+    }
+    
     #endregion
 
     #region 5. EventHandlers

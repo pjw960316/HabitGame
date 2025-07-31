@@ -1,8 +1,12 @@
+using System;
+using UniRx;
+
 public class UIOpenPopupButtonBase : UIButtonBase
 {
     #region 1. Fields
 
-    // default
+    private readonly Subject<EPopupKey> _onClickButton = new();
+    public IObservable<EPopupKey> OnClickButton => _onClickButton;
 
     #endregion
 
@@ -27,6 +31,12 @@ public class UIOpenPopupButtonBase : UIButtonBase
 
     private void BindEvent()
     {
+        Button.onClick.AddListener(() => _onClickButton.OnNext(default));
+    }
+
+    protected override void ConnectPresenter()
+    {
+        
     }
 
     #endregion
