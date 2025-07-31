@@ -1818,7 +1818,7 @@ MonoBehaviour:
   _canvas: {fileID: 1367084003}
   _buttonText: {fileID: 154696928}
   _buttonTextKey: 0
-  Button: {fileID: 1884363893}
+  _button: {fileID: 1884363893}
 --- !u!1 &2114881846
 GameObject:
   m_ObjectHideFlags: 0

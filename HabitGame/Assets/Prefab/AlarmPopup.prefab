@@ -1252,11 +1252,11 @@ MonoBehaviour:
     buttonType: 2
   _timeButtons:
   - button: {fileID: 558473801701078079}
-    buttonType: 3
-  - button: {fileID: 3516982178583947660}
     buttonType: 4
-  - button: {fileID: 5655351679778814012}
+  - button: {fileID: 3516982178583947660}
     buttonType: 5
+  - button: {fileID: 5655351679778814012}
+    buttonType: 6
   _confirmButton: {fileID: 8543549872137723518}
   _buttonTexts:
     _serializedList:

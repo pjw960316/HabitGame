@@ -13,6 +13,8 @@ public class UIAlarmPopup : UIPopupBase
 {
     #region 1. Fields
 
+    //refactor
+    //ButtonData 대신에 Widget으로.
     [Serializable]
     public class ButtonData
     {

@@ -6,7 +6,7 @@ public class ButtonPresenterBase : PresenterBase
 
     // NOTE
     // 이 추상화 수준에서의 View를 초기화 한다.
-    private UIButtonBase _view;
+    private UIButtonBase _uiButtonBase;
     private UIManager _uiManager;
 
     #endregion
@@ -24,7 +24,7 @@ public class ButtonPresenterBase : PresenterBase
     {
         if (view is UIButtonBase uiButton)
         {
-            _view = uiButton;
+            _uiButtonBase = uiButton;
         }
 
         _uiManager = UIManager.Instance;
@@ -38,7 +38,7 @@ public class ButtonPresenterBase : PresenterBase
 
     private void BindEvent()
     {
-        _view.OnClickButton.Subscribe(RequestOpenPopup).AddTo(_disposable);
+        _uiButtonBase.OnClickButton.Subscribe(RequestOpenPopup).AddTo(_disposable);
     }
 
     #endregion
@@ -47,7 +47,8 @@ public class ButtonPresenterBase : PresenterBase
 
     private void RequestOpenPopup(EPopupKey ePopupKey)
     {
-        var targetTransform = _view.Canvas.transform;
+        var targetTransform = _uiButtonBase.Canvas.transform;
+        
         _uiManager.OpenPopupByStringKey(ePopupKey,  targetTransform);
     }
 
