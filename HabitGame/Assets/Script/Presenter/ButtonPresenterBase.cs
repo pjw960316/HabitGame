@@ -1,8 +1,4 @@
-// NOTE
-// 간단한 버튼은 이거만 써도 된다.
-
 using UniRx;
-using UnityEngine;
 
 public class ButtonPresenterBase : PresenterBase
 {
@@ -42,17 +38,17 @@ public class ButtonPresenterBase : PresenterBase
 
     private void BindEvent()
     {
-        _view.OnClickButton.Subscribe(_ => RequestOpenPopup()).AddTo(Disposable);
+        _view.OnClickButton.Subscribe(RequestOpenPopup).AddTo(Disposable);
     }
 
     #endregion
 
     #region 5. EventHandlers
 
-    private void RequestOpenPopup()
+    private void RequestOpenPopup(EPopupKey ePopupKey)
     {
         var targetTransform = _view.GetCanvas().transform;
-        _uiManager.OpenPopupByStringKey("AlarmButton", targetTransform);
+        _uiManager.OpenPopupByStringKey(ePopupKey,  targetTransform);
     }
 
     #endregion

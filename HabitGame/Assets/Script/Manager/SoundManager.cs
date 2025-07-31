@@ -60,6 +60,8 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
         }
     }
 
+    // refactor
+    // Manager에서 만들긴 해야 하는데 왜 SoundManager?
     public TPresenter GetPresenterAfterCreate<TPresenter>(IView view) where TPresenter : IPresenter, new()
     {
         var presenter = new TPresenter();

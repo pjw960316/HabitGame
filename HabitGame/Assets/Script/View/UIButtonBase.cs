@@ -15,8 +15,8 @@ public class UIButtonBase : MonoBehaviour, IView
 
     private ButtonPresenterBase _buttonPresenter;
 
-    private readonly Subject<Unit> _onClickButton = new();
-    public IObservable<Unit> OnClickButton => _onClickButton;
+    private readonly Subject<EPopupKey> _onClickButton = new();
+    public IObservable<EPopupKey> OnClickButton => _onClickButton;
 
     #endregion
 

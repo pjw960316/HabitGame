@@ -10,7 +10,7 @@ public class UIManager : ManagerBase<UIManager>, IManager
     #region 1. Fields
 
     // REFACTOR
-    private UIPopupData _popupData;
+    private PopupData _popupData;
 
     #endregion
 
@@ -44,7 +44,7 @@ public class UIManager : ManagerBase<UIManager>, IManager
     {
         foreach (var scriptableObject in _list)
         {
-            if (scriptableObject is UIPopupData uiPopupData)
+            if (scriptableObject is PopupData uiPopupData)
             {
                 _popupData = uiPopupData;
             }
@@ -71,11 +71,9 @@ public class UIManager : ManagerBase<UIManager>, IManager
         MainCanvas = canvas;
     }*/
     
-    // REFACTOR
-    // String으로 받는 건 좋지 않지만...
-    public void OpenPopupByStringKey(string key, Transform transform)
+    public void OpenPopupByStringKey(EPopupKey key, Transform transform)
     {
-        var popupPrefab = _popupData.GetPopupByStringKey(key);
+        var popupPrefab = _popupData.GetPopupByEPopupKey(key);
 
         if (popupPrefab == null)
         {
