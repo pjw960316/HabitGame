@@ -47,7 +47,7 @@ public class ButtonPresenterBase : PresenterBase
 
     private void RequestOpenPopup(EPopupKey ePopupKey)
     {
-        var targetTransform = _view.GetCanvas().transform;
+        var targetTransform = _view.Canvas.transform;
         _uiManager.OpenPopupByStringKey(ePopupKey,  targetTransform);
     }
 

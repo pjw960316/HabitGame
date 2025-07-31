@@ -13,8 +13,6 @@ public class UIButtonBase : MonoBehaviour, IView
     [SerializeField] private TextMeshProUGUI _buttonText;
     [SerializeField] private EStringKey _buttonTextKey;
 
-    private ButtonPresenterBase _buttonPresenter;
-
     private readonly Subject<EPopupKey> _onClickButton = new();
     public IObservable<EPopupKey> OnClickButton => _onClickButton;
 
@@ -22,38 +20,31 @@ public class UIButtonBase : MonoBehaviour, IView
 
     #region 2. Properties
 
-    // default
+    public Canvas Canvas { get; private set; }
 
     #endregion
 
     #region 3. Constructor
 
-    protected virtual void Awake()
+    public void Awake()
     {
-        Initialize();
+        OnAwake();
+    }
+
+    public virtual void OnAwake()
+    {
+        BindEvent();
+        SetButtonText();
     }
 
     #endregion
 
     #region 4. Methods
 
-    private void Initialize()
-    {
-        _buttonPresenter = SoundManager.Instance.GetPresenterAfterCreate<ButtonPresenterBase>(this);
-
-        SetButtonText();
-        
-        BindEvent();
-    }
-
-    public void BindEvent()
-    {
-        BindEventInternal();
-    }
-    
-    // todo
-    // 버그 발생 우려가 있긴 함.
-    protected virtual void BindEventInternal()
+    // Note
+    // Virtual로 변경하지 마세요.
+    // 모든 상속 구조에서 Binding은 독립적으로 각각 실행되어야 합니다.
+    private void BindEvent()
     {
         _button.onClick.AddListener(() => _onClickButton.OnNext(default));
     }
@@ -65,16 +56,11 @@ public class UIButtonBase : MonoBehaviour, IView
         _buttonText.text = StringManager.Instance.GetUIString(_buttonTextKey);
     }
 
-    public Canvas GetCanvas()
-    {
-        return _canvas;
-    }
-
     #endregion
 
     #region 5. EventHandlers
 
-    //default
+    //
 
     #endregion
 }

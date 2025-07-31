@@ -1,4 +1,4 @@
 public interface IView
 {
-    public void BindEvent();
+    public void OnAwake();
 }

@@ -23,6 +23,11 @@ public class UIMainCanvas : MonoBehaviour, IView
 
     private void Awake()
     {
+        OnAwake();
+    }
+
+    public void OnAwake()
+    {
         UIToastManager.Instance.InjectMainCanvas(this);
     }
 

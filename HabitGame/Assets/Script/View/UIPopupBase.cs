@@ -5,9 +5,10 @@ public abstract class UIPopupBase : MonoBehaviour, IView
 {
     private void Awake()
     {
-        BindEvent();
+        OnAwake();
     }
 
+    
     public void BindEvent()
     {
         BindEventInternal();
@@ -16,5 +17,10 @@ public abstract class UIPopupBase : MonoBehaviour, IView
     protected virtual void BindEventInternal()
     {
         
+    }
+
+    public void OnAwake()
+    {
+        BindEvent();
     }
 }
