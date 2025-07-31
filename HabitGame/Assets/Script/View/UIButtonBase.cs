@@ -28,11 +28,19 @@ public class UIButtonBase : MonoBehaviour, IView
 
     public void Awake()
     {
+        // Note
+        // Overriding
+        // Script가 UIButtonBase가 붙으면 Base의 OnAwake()가 호출되고
+        // Script가 UIOpenPopupButtonBase가 붙으면 Derived의 OnAwake()가 호출되기 바람.
         OnAwake();
     }
 
     public virtual void OnAwake()
     {
+        // Note
+        // Shadowing
+        // Script가 UIButtonBase가 붙으면 Base의 BindEvent()가 호출되고
+        // Script가 UIOpenPopupButtonBase가 붙어도 Derived의 BindEvent()가 호출되기 바람.
         BindEvent();
         SetButtonText();
     }
