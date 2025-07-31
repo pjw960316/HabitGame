@@ -47,5 +47,6 @@ public class PopupData : ScriptableObject, IModel
 
 public enum EPopupKey
 {
-    
+    AlarmPopup,
+    RoutineCheckPopup,
 }

@@ -52,12 +52,11 @@ public class UIAlarmPopup : UIPopupBase
 
     protected void Awake()
     {
-        _uiManager = UIManager.Instance;
         _soundManager = SoundManager.Instance;
-        _alarmPresenter = _soundManager.GetPresenterAfterCreate<AlarmPresenter>(this);
-
-        ExceptionHelper.CheckNullException(_alarmPresenter, "alarmPresenter");
-
+        _uiManager = UIManager.Instance;
+        
+        _uiManager.CreatePresenter<AlarmPresenter>(this);
+        
         SetInitialUIState();
         BindEvent();
     }

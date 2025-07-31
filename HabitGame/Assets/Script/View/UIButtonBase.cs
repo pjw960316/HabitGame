@@ -1,4 +1,6 @@
+using System;
 using TMPro;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,14 +11,18 @@ public class UIButtonBase : MonoBehaviour, IView
     [SerializeField] private Canvas _canvas;
     [SerializeField] private TextMeshProUGUI _buttonText;
     [SerializeField] private EStringKey _buttonTextKey;
-    [SerializeField] protected Button Button;
-    protected IPresenter Presenter;
+    [SerializeField] protected Button _button;
+
+    protected UIManager UIManager;
+    
+    protected readonly Subject<EPopupKey> _onClickButton = new();
+    public IObservable<EPopupKey> OnClickButton => _onClickButton;
     
     #endregion
 
     #region 2. Properties
 
-    public Canvas Canvas { get; private set; }
+    public Canvas Canvas => _canvas;
 
     #endregion
 
@@ -33,11 +39,15 @@ public class UIButtonBase : MonoBehaviour, IView
 
     public virtual void OnAwake()
     {
+        Initialize();
+        
         // Note
         // Shadowing
         // Script가 UIButtonBase가 붙으면 Base의 BindEvent()가 호출되고
         // Script가 UIOpenPopupButtonBase가 붙어도 Derived의 BindEvent()가 호출되기 바람.
         BindEvent();
+        
+        
         SetButtonText();
     }
 
@@ -52,6 +62,16 @@ public class UIButtonBase : MonoBehaviour, IView
     {
     }
 
+    private void Initialize()
+    {
+        UIManager = UIManager.Instance;
+    }
+
+    protected virtual void CreatePresenterByManager()
+    {
+        UIManager.CreatePresenter<ButtonPresenterBase>(this);
+    }
+    
     private void SetButtonText()
     {
         ExceptionHelper.CheckNullException(_buttonText, "buttonText");
@@ -59,10 +79,6 @@ public class UIButtonBase : MonoBehaviour, IView
         _buttonText.text = StringManager.Instance.GetUIString(_buttonTextKey);
     }
 
-    protected virtual void ConnectPresenter()
-    {
-        SoundManager.Instance.GetPresenterAfterCreate<ButtonPresenterBase>(this);
-    }
     
     #endregion
 

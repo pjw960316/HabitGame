@@ -1816,9 +1816,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvas: {fileID: 1367084003}
-  _button: {fileID: 1884363893}
   _buttonText: {fileID: 154696928}
   _buttonTextKey: 0
+  Button: {fileID: 1884363893}
 --- !u!1 &2114881846
 GameObject:
   m_ObjectHideFlags: 0

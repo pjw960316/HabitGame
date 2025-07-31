@@ -71,6 +71,12 @@ public class UIManager : ManagerBase<UIManager>, IManager
         MainCanvas = canvas;
     }*/
     
+    public void CreatePresenter<TPresenter>(IView view) where TPresenter : IPresenter, new()
+    {
+        var presenter = new TPresenter();
+        presenter.Initialize(view);
+    }
+    
     public void OpenPopupByStringKey(EPopupKey key, Transform transform)
     {
         var popupPrefab = _popupData.GetPopupByEPopupKey(key);
