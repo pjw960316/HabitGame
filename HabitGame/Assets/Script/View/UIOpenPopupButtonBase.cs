@@ -34,7 +34,7 @@ public class UIOpenPopupButtonBase : UIButtonBase
     // todo : T를 뭐로 해야할까?
     protected override void CreatePresenterByManager()
     {
-        UIManager.CreatePresenter<ButtonPresenterBase>(this);
+        _uiManager.CreatePresenter<ButtonPresenterBase>(this);
     }
 
     #endregion

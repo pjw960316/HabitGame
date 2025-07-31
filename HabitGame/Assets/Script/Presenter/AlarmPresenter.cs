@@ -49,8 +49,8 @@ public class AlarmPresenter : PresenterBase
     {
         base.Initialize(view);
 
-        _alarmPopup = View as UIAlarmPopup;
-        _soundData = Model as SoundData;
+        _alarmPopup = _view as UIAlarmPopup;
+        _soundData = _model as SoundData;
         _soundManager = SoundManager.Instance;
 
         ExceptionHelper.CheckNullException(_alarmPopup, "_alarmPopup");
@@ -78,9 +78,9 @@ public class AlarmPresenter : PresenterBase
 
     private void BindEvent()
     {
-        _alarmPopup.OnAlarmMusicButtonClicked.Subscribe(UpdateLatestAlarmMusic).AddTo(Disposable);
-        _alarmPopup.OnTimeButtonClicked.Subscribe(UpdateLatestTime).AddTo(Disposable);
-        _alarmPopup.OnConfirmed.Subscribe(_ => StartAlarm()).AddTo(Disposable);
+        _alarmPopup.OnAlarmMusicButtonClicked.Subscribe(UpdateLatestAlarmMusic).AddTo(_disposable);
+        _alarmPopup.OnTimeButtonClicked.Subscribe(UpdateLatestTime).AddTo(_disposable);
+        _alarmPopup.OnConfirmed.Subscribe(_ => StartAlarm()).AddTo(_disposable);
     }
 
     #endregion
@@ -124,7 +124,7 @@ public class AlarmPresenter : PresenterBase
     private void RequestStartingAlarm(float playingTime)
     {
         Observable.Timer(TimeSpan.FromSeconds(playingTime)).Subscribe(_ => RequestPlayingWakeUpSound())
-            .AddTo(Disposable);
+            .AddTo(_disposable);
 
         _soundManager.SetAudioSourceLoop();
         _soundManager.CommandPlayingMusic(_latestSleepingAudioClip);

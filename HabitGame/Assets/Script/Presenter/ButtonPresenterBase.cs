@@ -38,7 +38,7 @@ public class ButtonPresenterBase : PresenterBase
 
     private void BindEvent()
     {
-        _view.OnClickButton.Subscribe(RequestOpenPopup).AddTo(Disposable);
+        _view.OnClickButton.Subscribe(RequestOpenPopup).AddTo(_disposable);
     }
 
     #endregion

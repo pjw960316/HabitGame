@@ -4,9 +4,9 @@ public abstract class PresenterBase : IPresenter
 {
     #region 1. Fields
 
-    protected IView View;
-    protected IModel Model;
-    protected readonly CompositeDisposable Disposable = new();
+    protected IView _view;
+    protected IModel _model;
+    protected readonly CompositeDisposable _disposable = new();
 
     #endregion
 
@@ -22,7 +22,7 @@ public abstract class PresenterBase : IPresenter
     //View를 알면 Model을 알 수 있도록 만들고 싶다.
     public virtual void Initialize(IView view)
     {
-        View = view;
+        _view = view;
 
         SetModel();
     }
@@ -37,7 +37,7 @@ public abstract class PresenterBase : IPresenter
     {
         //test
         //일단 SoundManager로
-        Model = SoundManager.Instance.SoundData;
+        _model = SoundManager.Instance.SoundData;
     }
 
     //default

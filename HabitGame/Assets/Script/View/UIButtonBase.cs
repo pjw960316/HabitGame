@@ -13,7 +13,7 @@ public class UIButtonBase : MonoBehaviour, IView
     [SerializeField] private EStringKey _buttonTextKey;
     [SerializeField] protected Button _button;
 
-    protected UIManager UIManager;
+    protected UIManager _uiManager;
     
     protected readonly Subject<EPopupKey> _onClickButton = new();
     public IObservable<EPopupKey> OnClickButton => _onClickButton;
@@ -64,12 +64,12 @@ public class UIButtonBase : MonoBehaviour, IView
 
     private void Initialize()
     {
-        UIManager = UIManager.Instance;
+        _uiManager = UIManager.Instance;
     }
 
     protected virtual void CreatePresenterByManager()
     {
-        UIManager.CreatePresenter<ButtonPresenterBase>(this);
+        _uiManager.CreatePresenter<ButtonPresenterBase>(this);
     }
     
     private void SetButtonText()
