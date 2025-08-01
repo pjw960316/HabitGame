@@ -34,7 +34,6 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     public SoundManager()
     {
-        Debug.Log("SoundManager Constructor");
         // Default
     }
     
@@ -57,10 +56,8 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
         {
             if (model is SoundData soundData)
             {
-                // LOG
-                Debug.Log("SoundManager Sets SoundData");
-
                 _soundData = soundData;
+                
                 return;
             }
         }

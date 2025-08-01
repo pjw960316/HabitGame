@@ -4,8 +4,8 @@ using UnityEngine;
 public interface IManager : IFactory
 {
     public void Initialize();
-    //public IModel GetModel();
     public void SetModel(IEnumerable<ScriptableObject> _list);
+    public void ConnectInstanceByActivator(IManager instance);
 }
 
 // Note
@@ -27,7 +27,9 @@ public abstract class ManagerBase<T> where T : class, new()
         }
     }
 
-    public virtual void ConnectInstanceByActivator(IManager instance)
+    // Note
+    // Activator를 통해 만든 Instance를 Singleton Instance에 초기화 시켜준다.
+    public void ConnectInstanceByActivator(IManager instance)
     {
         _instance = instance as T;
     }
