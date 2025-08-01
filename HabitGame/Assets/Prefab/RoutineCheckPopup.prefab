@@ -1281,6 +1281,7 @@ GameObject:
   - component: {fileID: 6472447285100313775}
   - component: {fileID: 2770760858246266748}
   - component: {fileID: 5100942364140306815}
+  - component: {fileID: 9176517917382981117}
   m_Layer: 5
   m_Name: RoutineCheckPopup
   m_TagString: Untagged
@@ -1374,6 +1375,23 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &9176517917382981117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6014639666394577669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5bb1ea7962a907428c55cbb0bbba41a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _toggleList:
+  - {fileID: 5871878451586293170}
+  - {fileID: 6729476444794040962}
+  - {fileID: 2438906451413076538}
+  - {fileID: 2808639840236414962}
 --- !u!1 &6438322620518758599
 GameObject:
   m_ObjectHideFlags: 0

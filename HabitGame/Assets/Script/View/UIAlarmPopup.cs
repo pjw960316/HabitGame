@@ -29,8 +29,7 @@ public class UIAlarmPopup : UIPopupBase
     [SerializeField] private SerializedDictionary<EStringKey, TextMeshProUGUI> _buttonTexts = new();
     [SerializeField] private SerializedDictionary<bool, Color> _buttonColorDictionary = new();
 
-    private UIManager _uiManager;
-    private SoundManager _soundManager;
+    
     private AlarmPresenter _alarmPresenter;
 
     private readonly Subject<EButtons> _onAlarmMusicButtonClicked = new();
@@ -52,32 +51,32 @@ public class UIAlarmPopup : UIPopupBase
 
     #region 3. Constructor
 
-    protected void Awake()
+    public override void OnAwake()
     {
-        _soundManager = SoundManager.Instance;
-        _uiManager = UIManager.Instance;
+        base. OnAwake();
         
         _uiManager.CreatePresenter<AlarmPresenter>(this);
         
-        SetInitialUIState();
         BindEvent();
+        
+        SetInitialUIState();
     }
 
     #endregion
 
     #region 4. Methods
 
-    private void SetInitialUIState()
-    {
-        SetButtonTexts();
-    }
-
-    protected sealed override void BindEventInternal()
+    private void BindEvent()
     {
         BindButtonsEvent(_alarmMusicButtons, _onAlarmMusicButtonClicked);
         BindButtonsEvent(_timeButtons, _onTimeButtonClicked);
 
         _confirmButton?.onClick.AddListener(() => _onConfirmed.OnNext(Unit.Default));
+    }
+    
+    private void SetInitialUIState()
+    {
+        SetButtonTexts();
     }
 
     private void BindButtonsEvent(List<ButtonData> buttonDataList, Subject<EButtons> subject)

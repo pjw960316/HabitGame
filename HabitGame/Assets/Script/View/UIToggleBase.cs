@@ -23,8 +23,14 @@ public class UIToggleBase : MonoBehaviour, IView
 
     #region 3. Constructor
 
+    private void Awake()
+    {
+        OnAwake();
+    }
+
     public void OnAwake()
     {
+        Debug.Log("Toggle OnAwake");
         Initialize();
 
         CreatePresenterByManager();
@@ -36,19 +42,30 @@ public class UIToggleBase : MonoBehaviour, IView
 
     private void Initialize()
     {
+        Debug.Log("Toggle Initialize");
         _uiManager = UIManager.Instance;
+
+        BindEvent();
+    }
+
+    private void BindEvent()
+    {
+        Debug.Log("Toggle BindEvent");
+        _toggle.onValueChanged.AddListener(_ =>
+        {
+            Debug.Log("hi");
+        });
     }
 
     public void CreatePresenterByManager()
     {
-        // test
-        _uiManager.CreatePresenter<ButtonPresenterBase>(this);
+        _uiManager.CreatePresenter<TogglePresenterBase>(this);
     }
 
     #endregion
 
     #region 5. EventHandlers
-
+    
     // default
 
     #endregion
