@@ -30,7 +30,6 @@ public class UIToggleBase : MonoBehaviour, IView
 
     public void OnAwake()
     {
-        Debug.Log("Toggle OnAwake");
         Initialize();
 
         CreatePresenterByManager();
@@ -42,7 +41,6 @@ public class UIToggleBase : MonoBehaviour, IView
 
     private void Initialize()
     {
-        Debug.Log("Toggle Initialize");
         _uiManager = UIManager.Instance;
 
         BindEvent();
@@ -50,10 +48,9 @@ public class UIToggleBase : MonoBehaviour, IView
 
     private void BindEvent()
     {
-        Debug.Log("Toggle BindEvent");
         _toggle.onValueChanged.AddListener(_ =>
         {
-            Debug.Log("hi");
+            
         });
     }
 
