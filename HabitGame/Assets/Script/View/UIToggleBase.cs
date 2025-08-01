@@ -1,8 +1,17 @@
-public class UIToggleBase : IView
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class UIToggleBase : MonoBehaviour, IView
 {
     #region 1. Fields
 
-    // default
+    [SerializeField] private Toggle _toggle;
+    [SerializeField] private TextMeshProUGUI _text;
+    [SerializeField] private Image _checkBoxBackgroundImg;
+    [SerializeField] private Image _checkBoxCheckMarkImg;
+
+    private UIManager _uiManager;
 
     #endregion
 
@@ -16,14 +25,24 @@ public class UIToggleBase : IView
 
     public void OnAwake()
     {
+        Initialize();
+
+        CreatePresenterByManager();
     }
 
     #endregion
 
     #region 4. Methods
 
+    private void Initialize()
+    {
+        _uiManager = UIManager.Instance;
+    }
+
     public void CreatePresenterByManager()
     {
+        // test
+        _uiManager.CreatePresenter<ButtonPresenterBase>(this);
     }
 
     #endregion

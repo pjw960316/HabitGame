@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.37685886, g: 0.89433956, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -296,6 +296,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6988342782673345579}
   - component: {fileID: 1227790924129112630}
+  - component: {fileID: 2438906451413076538}
   m_Layer: 5
   m_Name: Routine_3
   m_TagString: Untagged
@@ -372,6 +373,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!114 &2438906451413076538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744051651455753404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19050238ea1765a49833069f2df97d0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _toggle: {fileID: 1227790924129112630}
+  _text: {fileID: 6681810662142111222}
+  _checkBoxBackgroundImg: {fileID: 3523829732347848462}
+  _checkBoxCheckMarkImg: {fileID: 929303604670921702}
 --- !u!1 &2164626267021515253
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,6 +399,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5493871288149977126}
   - component: {fileID: 7440918490462379357}
+  - component: {fileID: 6729476444794040962}
   m_Layer: 5
   m_Name: Routine_2
   m_TagString: Untagged
@@ -458,6 +476,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!114 &6729476444794040962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2164626267021515253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19050238ea1765a49833069f2df97d0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _toggle: {fileID: 7440918490462379357}
+  _text: {fileID: 6306358038583226006}
+  _checkBoxBackgroundImg: {fileID: 2961911327929943000}
+  _checkBoxCheckMarkImg: {fileID: 9104334027534343448}
 --- !u!1 &2290147050973471437
 GameObject:
   m_ObjectHideFlags: 0
@@ -1733,6 +1767,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1483584396816454943}
   - component: {fileID: 2940213869812420804}
+  - component: {fileID: 2808639840236414962}
   m_Layer: 5
   m_Name: Routine_4
   m_TagString: Untagged
@@ -1809,6 +1844,22 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!114 &2808639840236414962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8758072896298923391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19050238ea1765a49833069f2df97d0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _toggle: {fileID: 2940213869812420804}
+  _text: {fileID: 8120389097882433744}
+  _checkBoxBackgroundImg: {fileID: 8043430032181239391}
+  _checkBoxCheckMarkImg: {fileID: 7017544275671597615}
 --- !u!1 &9080777224441452851
 GameObject:
   m_ObjectHideFlags: 0
@@ -1819,6 +1870,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4189021082338460388}
   - component: {fileID: 3787099960681709370}
+  - component: {fileID: 5871878451586293170}
   m_Layer: 5
   m_Name: Routine_1
   m_TagString: Untagged
@@ -1895,3 +1947,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!114 &5871878451586293170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9080777224441452851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19050238ea1765a49833069f2df97d0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _toggle: {fileID: 3787099960681709370}
+  _text: {fileID: 3611715980073782094}
+  _checkBoxBackgroundImg: {fileID: 1596419505400355893}
+  _checkBoxCheckMarkImg: {fileID: 5493253028135161522}

@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 29251477}
   - component: {fileID: 29251476}
   - component: {fileID: 29251475}
+  - component: {fileID: 29251478}
   m_Layer: 5
   m_Name: RoutineCheckButton
   m_TagString: Untagged
@@ -240,6 +241,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 29251473}
   m_CullTransparentMesh: 1
+--- !u!114 &29251478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 29251473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d8a8210b8fe9024f9467d9fb06b798c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvas: {fileID: 1367084003}
+  _buttonText: {fileID: 211622327}
+  _buttonTextKey: 1
+  _button: {fileID: 29251475}
+  ePopupKey: 1
 --- !u!1 &154696926
 GameObject:
   m_ObjectHideFlags: 0
@@ -1819,6 +1837,7 @@ MonoBehaviour:
   _buttonText: {fileID: 154696928}
   _buttonTextKey: 0
   _button: {fileID: 1884363893}
+  ePopupKey: 0
 --- !u!1 &2114881846
 GameObject:
   m_ObjectHideFlags: 0

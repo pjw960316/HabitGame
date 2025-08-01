@@ -6,8 +6,8 @@ public class ButtonPresenterBase : PresenterBase
 
     // NOTE
     // 이 추상화 수준에서의 View를 초기화 한다.
-    private UIButtonBase _uiButtonBase;
-    private UIManager _uiManager;
+    protected UIButtonBase _uiButtonBase;
+    protected UIManager _uiManager;
 
     #endregion
 
@@ -38,18 +38,15 @@ public class ButtonPresenterBase : PresenterBase
 
     private void BindEvent()
     {
-        _uiButtonBase.OnClickButton.Subscribe(RequestOpenPopup).AddTo(_disposable);
+        _uiButtonBase.OnClickButton.Subscribe(OnClickButton).AddTo(_disposable);
     }
 
     #endregion
 
     #region 5. EventHandlers
 
-    private void RequestOpenPopup(EPopupKey ePopupKey)
+    protected virtual void OnClickButton(EPopupKey ePopupKey)
     {
-        var targetTransform = _uiButtonBase.Canvas.transform;
-        
-        _uiManager.OpenPopupByStringKey(ePopupKey,  targetTransform);
     }
 
     #endregion

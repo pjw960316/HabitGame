@@ -1,8 +1,10 @@
+using UnityEngine;
+
 public class UIOpenPopupButtonBase : UIButtonBase
 {
     #region 1. Fields
 
-    //
+    [SerializeField] private EPopupKey ePopupKey;
 
     #endregion
 
@@ -28,13 +30,12 @@ public class UIOpenPopupButtonBase : UIButtonBase
 
     private void BindEvent()
     {
-        _button.onClick.AddListener(() => _onClickButton.OnNext(default));
+        _button.onClick.AddListener(() => _onClickButton.OnNext(ePopupKey));
     }
 
-    // todo : T를 뭐로 해야할까?
     public override void CreatePresenterByManager()
     {
-        _uiManager.CreatePresenter<ButtonPresenterBase>(this);
+        _uiManager.CreatePresenter<OpenPopupPresenterBase>(this);
     }
 
     #endregion

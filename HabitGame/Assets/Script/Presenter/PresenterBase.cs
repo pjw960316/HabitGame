@@ -18,8 +18,6 @@ public abstract class PresenterBase : IPresenter
 
     #region 3. Constructor
 
-    //Note
-    //View를 알면 Model을 알 수 있도록 만들고 싶다.
     public virtual void Initialize(IView view)
     {
         _view = view;

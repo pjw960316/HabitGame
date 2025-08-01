@@ -5,6 +5,7 @@ using Object = UnityEngine.Object;
 
 // TODO
 // 무엇이 열려있고, 이런 거 관리해야 한다.
+// 열린 View와 Presenter 관리
 public class UIManager : ManagerBase<UIManager>, IManager
 {
     #region 1. Fields
@@ -73,7 +74,7 @@ public class UIManager : ManagerBase<UIManager>, IManager
     
     public void CreatePresenter<TPresenter>(IView view) where TPresenter : IPresenter, new()
     {
-        var presenter = new TPresenter();
+        TPresenter presenter = new TPresenter();
         presenter.Initialize(view);
     }
     
