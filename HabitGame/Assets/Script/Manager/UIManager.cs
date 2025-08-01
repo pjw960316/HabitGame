@@ -32,6 +32,11 @@ public class UIManager : ManagerBase<UIManager>, IManager
         BindEvent();
     }
 
+    public void GetModel()
+    {
+        
+    }
+
     #endregion
 
     #region 4. Methods

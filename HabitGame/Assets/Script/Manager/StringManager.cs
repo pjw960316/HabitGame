@@ -12,7 +12,20 @@ public class StringManager : ManagerBase<StringManager>, IManager, IDisposable
 
     #region 2. Properties
 
-    public StringData StringData { get; private set; }
+    private StringData _stringData;
+
+    public StringData StringData
+    {
+        get
+        {
+            if (_stringData != null)
+            {
+                return _stringData;
+            }
+
+            throw new NullReferenceException("_stringData is Null");
+        }
+    }
 
     #endregion
 
@@ -32,7 +45,7 @@ public class StringManager : ManagerBase<StringManager>, IManager, IDisposable
         {
             if (model is StringData stringData)
             {
-                StringData = stringData;
+                _stringData = stringData;
                 return;
             }
         }
@@ -40,8 +53,6 @@ public class StringManager : ManagerBase<StringManager>, IManager, IDisposable
 
     public string GetUIString(EStringKey eStringKey)
     {
-        ExceptionHelper.CheckNullException(StringData, "StringData");
-
         return StringData.GetStringByEStringKey(eStringKey);
     }
 

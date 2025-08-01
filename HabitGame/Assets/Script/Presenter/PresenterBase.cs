@@ -21,22 +21,17 @@ public abstract class PresenterBase : IPresenter
     public virtual void Initialize(IView view)
     {
         _view = view;
-
-        SetModel();
+        
+        //fix
+        _model = SoundManager.Instance.SoundData;
+        
+        ExceptionHelper.CheckNullException(_view, "PresenterBase's _view");
+        ExceptionHelper.CheckNullException(_model, "PresenterBase's _model");
     }
 
     #endregion
 
     #region 4. Methods
-
-    // refactor
-    // 지금 모델이 2개 이상일 때 전혀 대응이 되지 않고 있다.
-    private void SetModel()
-    {
-        //test
-        //일단 SoundManager로
-        _model = SoundManager.Instance.SoundData;
-    }
 
     //default
 

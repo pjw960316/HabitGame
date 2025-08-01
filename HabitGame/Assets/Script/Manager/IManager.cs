@@ -4,8 +4,8 @@ using UnityEngine;
 public interface IManager : IFactory
 {
     public void Initialize();
+    //public IModel GetModel();
     public void SetModel(IEnumerable<ScriptableObject> _list);
-    public void ConnectInstanceByActivator(IManager instance);
 }
 
 // Note
@@ -29,9 +29,6 @@ public abstract class ManagerBase<T> where T : class, new()
 
     public virtual void ConnectInstanceByActivator(IManager instance)
     {
-        if (_instance == null)
-        {
-            _instance = instance as T;
-        }
+        _instance = instance as T;
     }
 }

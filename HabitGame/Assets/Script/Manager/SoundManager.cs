@@ -17,8 +17,15 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     public SoundData SoundData
     {
-        get => _soundData;
-        private set => _soundData = value;
+        get
+        {
+            if (_soundData != null)
+            {
+                return _soundData;
+            }
+
+            throw new NullReferenceException("_soundData is Null");
+        }
     }
 
     #endregion
@@ -27,10 +34,10 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     public SoundManager()
     {
-        //LOG
-        //Debug.Log("SoundManager Constructor");
+        Debug.Log("SoundManager Constructor");
+        // Default
     }
-
+    
     #endregion
 
     #region 4. Methods
@@ -44,7 +51,6 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     {
     }
 
-
     public void SetModel(IEnumerable<ScriptableObject> models)
     {
         foreach (var model in models)
@@ -53,8 +59,8 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
             {
                 // LOG
                 Debug.Log("SoundManager Sets SoundData");
-                
-                SoundData = soundData;
+
+                _soundData = soundData;
                 return;
             }
         }
