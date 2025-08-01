@@ -1,7 +1,4 @@
-// 당분간은 습관이 될 때 까지 Region을 쓰자.
-// 참고 자료 : https://codemia.io/knowledge-hub/path/order_of_items_in_classes_fields_properties_constructors_methods
-
-public class CustomRegion
+public class UIToggleBase : IView
 {
     #region 1. Fields
 
@@ -16,14 +13,18 @@ public class CustomRegion
     #endregion
 
     #region 3. Constructor
-    
-    // default
+
+    public void OnAwake()
+    {
+    }
 
     #endregion
 
     #region 4. Methods
 
-    // default
+    public void CreatePresenterByManager()
+    {
+    }
 
     #endregion
 

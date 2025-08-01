@@ -31,6 +31,12 @@ public class UIMainCanvas : MonoBehaviour, IView
         UIToastManager.Instance.InjectMainCanvas(this);
     }
 
+    // todo
+    public void CreatePresenterByManager()
+    {
+        
+    }
+
     #endregion
 
     #region 4. Methods

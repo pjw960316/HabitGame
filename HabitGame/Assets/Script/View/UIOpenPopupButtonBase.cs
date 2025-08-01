@@ -32,7 +32,7 @@ public class UIOpenPopupButtonBase : UIButtonBase
     }
 
     // todo : T를 뭐로 해야할까?
-    protected override void CreatePresenterByManager()
+    public override void CreatePresenterByManager()
     {
         _uiManager.CreatePresenter<ButtonPresenterBase>(this);
     }

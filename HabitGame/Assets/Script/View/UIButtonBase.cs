@@ -47,7 +47,6 @@ public class UIButtonBase : MonoBehaviour, IView
         // Script가 UIOpenPopupButtonBase가 붙어도 Derived의 BindEvent()가 호출되기 바람.
         BindEvent();
         
-        
         SetButtonText();
     }
 
@@ -67,7 +66,7 @@ public class UIButtonBase : MonoBehaviour, IView
         _uiManager = UIManager.Instance;
     }
 
-    protected virtual void CreatePresenterByManager()
+    public virtual void CreatePresenterByManager()
     {
         _uiManager.CreatePresenter<ButtonPresenterBase>(this);
     }

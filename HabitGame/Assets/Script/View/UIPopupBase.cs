@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public abstract class UIPopupBase : MonoBehaviour, IView
@@ -8,7 +7,7 @@ public abstract class UIPopupBase : MonoBehaviour, IView
         OnAwake();
     }
 
-    
+
     public void BindEvent()
     {
         BindEventInternal();
@@ -16,11 +15,15 @@ public abstract class UIPopupBase : MonoBehaviour, IView
 
     protected virtual void BindEventInternal()
     {
-        
     }
 
     public void OnAwake()
     {
         BindEvent();
+    }
+
+    public void CreatePresenterByManager()
+    {
+        //
     }
 }
