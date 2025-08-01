@@ -26,10 +26,6 @@ public class GameStartManagerMono : MonoBehaviour
     private void Awake()
     {
         LoadInitialGameState();
-
-        LivePermanent();
-
-        ChangeScene();
     }
 
     #endregion
@@ -38,13 +34,14 @@ public class GameStartManagerMono : MonoBehaviour
 
     private void LoadInitialGameState()
     {
-        //Log
-        Debug.Log("GameStartManagerMono  ->  LoadInitialGameState");
+        CreateSingletonManager();
 
-        CreateManagerInstances();
+        LivePermanent();
+
+        ChangeScene();
     }
 
-    private void CreateManagerInstances()
+    private void CreateSingletonManager()
     {
         var cSharpAssembly = AppDomain.CurrentDomain.GetAssemblies()
             .FirstOrDefault(asm => asm.GetName().Name == MAIN_ASSEMBLY);
