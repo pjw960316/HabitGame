@@ -152,7 +152,8 @@ public class GameStartManagerMono : MonoBehaviour
         
         ExceptionHelper.CheckNullException(dataManager, "DataManager");
         
-        //test
+        // todo
+        // 모든 XML Deserialize data를 manager에 연결
         var test = dataManager.GetDeserializedXmlData<MyCharacterData>("MyCharacterData");
         _modelList.Add(test);
     }
