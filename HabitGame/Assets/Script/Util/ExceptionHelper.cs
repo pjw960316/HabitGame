@@ -2,7 +2,10 @@ using System;
 
 public static class ExceptionHelper
 {
-    public static void ShowNuException(object instance, string argumentName)
+    //refactor
+    //이거 중요한 건 아닌데
+    //스크립트 달라서 warning 뜸.
+    public static void CheckNullException(object instance, string argumentName)
     {
         if (instance == null)
         {
