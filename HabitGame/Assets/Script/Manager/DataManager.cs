@@ -1,8 +1,16 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using UnityEngine;
 
+// todo
+// 1. Data를 로드하고, 다른 매니저에게 전달?
+
+// Note
+// 책임
+// 1. XML에서 데이터를 로드할 책임
+// 2. XML에서 로드한 데이터를 다른 Manager에게 전달해서 Instance 생성
 public class DataManager : ManagerBase<DataManager>, IManager
 {
     //test
@@ -20,8 +28,8 @@ public class DataManager : ManagerBase<DataManager>, IManager
     }
 
     #region 1. Fields
-
-    // default
+    
+    //default
 
     #endregion
 
@@ -35,7 +43,7 @@ public class DataManager : ManagerBase<DataManager>, IManager
 
     public void Initialize()
     {
-        Test();
+        DeserializeAllData();
     }
 
     #endregion
@@ -46,26 +54,37 @@ public class DataManager : ManagerBase<DataManager>, IManager
     {
     }
 
-    private void Test()
+    private void DeserializeAllData()
     {
-        Debug.Log("DataManager Test Code STart");
-
-        var xmlSerializer = new XmlSerializer(typeof(Fruits));
-
-        //fix
-        //주소 이렇게 하면 다른 곳에서 불가능
-        
-        //refactor
-        //addressable을 이용해서 읽고 메모리에서 없애는?
-        var streamReader = new StreamReader("C:/HabitGame/HabitGame/Assets/Resources/MyCharacterData.xml");
-
-        var fruits = xmlSerializer.Deserialize(streamReader) as Fruits;
-
-        foreach (var i in fruits.list)
-        {
-            Debug.Log($"{i.Name} {i.Count}");
-        }
+        Fruits test = GetDeserializedXmlData<Fruits>("MyCharacterData");
     }
+
+    private T GetDeserializedXmlData<T>(string resourcePath) where T : class
+    {
+        var xmlString = GetTextAsset(resourcePath)?.text;
+        if (xmlString == null)
+        {
+            throw new NullReferenceException("xmlString is null");
+        }
+       
+        var stringReader = new StringReader(xmlString);
+        var xmlSerializer = new XmlSerializer(typeof(T));
+        
+        return xmlSerializer.Deserialize(stringReader) as T;
+    }
+    
+    // refactor 
+    // addressable
+    private TextAsset GetTextAsset(string resourcePath)
+    {
+        var textAsset = Resources.Load<TextAsset>(resourcePath);
+        
+        ExceptionHelper.CheckNullException(textAsset, "textAsset");
+
+        return textAsset;
+    }
+    
+    
 
     //test
 
