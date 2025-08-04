@@ -285,12 +285,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 348b8903d78018c4ba9e7bff9912e97a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _allModels:
-  - {fileID: 11400000, guid: 8f81d9a81a5ed2242b2bebf2709faf25, type: 2}
+  _scriptableObjectModels:
   - {fileID: 11400000, guid: 73bfa09f98efc704dbc93af29407726e, type: 2}
-  - {fileID: 11400000, guid: b42f42bd293b06d4d8666706277cd432, type: 2}
+  - {fileID: 11400000, guid: 8f81d9a81a5ed2242b2bebf2709faf25, type: 2}
   - {fileID: 11400000, guid: c0c8ca7c97815684f9c65b10dab2499d, type: 2}
-  - {fileID: 11400000, guid: fe22098d151003a45978dc0dd1f506f3, type: 2}
+  - {fileID: 11400000, guid: b42f42bd293b06d4d8666706277cd432, type: 2}
 --- !u!4 &734744487
 Transform:
   m_ObjectHideFlags: 0
