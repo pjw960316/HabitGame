@@ -140,7 +140,7 @@ public class GameStartManagerMono : MonoBehaviour
             if (scriptableObjectModel is IModel model)
             {
                 //todo
-                //이거 실수로 빠지면 안 됨.
+                //이거 개수 검사 로직
                 _modelList.Add(model);
             }
         }
@@ -148,8 +148,13 @@ public class GameStartManagerMono : MonoBehaviour
 
     private void SetModelListWithDeserializedXml()
     {
-        //todo
-        //이거 실수로 빠지면 안 됨.
+        var dataManager = DataManager.Instance;
+        
+        ExceptionHelper.CheckNullException(dataManager, "DataManager");
+        
+        //test
+        var test = dataManager.GetDeserializedXmlData<MyCharacterData>("MyCharacterData");
+        _modelList.Add(test);
     }
 
     //fix

@@ -1,23 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Fruits>
-    <Fruit>
-        <Name>Apple</Name>
-        <Count>3</Count>
-    </Fruit>
-    <Fruit>
-        <Name>Banana</Name>
-        <Count>2</Count>
-    </Fruit>
-    <Fruit>
-        <Name>Orange</Name>
-        <Count>5</Count>
-    </Fruit>
-    <Fruit>
-        <Name>Peach</Name>
-        <Count>1</Count>
-    </Fruit>
-    <Fruit>
-        <Name>Mango</Name>
-        <Count>4</Count>
-    </Fruit>
-</Fruits>
+<MyCharacterData>
+    <name>ParkJiWon</name>
+    <routineOneSuccessTime>99999</routineOneSuccessTime>
+</MyCharacterData>

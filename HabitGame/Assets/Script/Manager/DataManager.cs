@@ -45,7 +45,7 @@ public class DataManager : ManagerBase<DataManager>, IManager
         MyCharacterData test = GetDeserializedXmlData<MyCharacterData>("MyCharacterData");
     }
 
-    private T GetDeserializedXmlData<T>(string resourcePath) where T : class
+    public T GetDeserializedXmlData<T>(string resourcePath) where T : class
     {
         var xmlString = GetTextAsset(resourcePath)?.text;
         if (xmlString == null)
