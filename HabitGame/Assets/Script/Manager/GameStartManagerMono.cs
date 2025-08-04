@@ -14,13 +14,13 @@ public class GameStartManagerMono : MonoBehaviour
 
     [SerializeField] private List<ScriptableObject> _scriptableObjectModels;
     
+    private Assembly _cSharpAssembly;
+    
     // NOTE
     // ScriptableObject + XML Deserialized Model
-    private List<IModel> _modelList;
-
-    private Assembly _cSharpAssembly;
     private List<Type> _managerTypeList;
     private List<IManager> _managerList;
+    private List<IModel> _modelList;
 
     #endregion
 
@@ -34,7 +34,15 @@ public class GameStartManagerMono : MonoBehaviour
 
     private void Awake()
     {
+        Initialize();
+        
         LoadInitialGameState();
+    }
+
+    private void Initialize()
+    {
+        _modelList = new List<IModel>();
+        _managerList = new List<IManager>();
     }
 
     #endregion
@@ -59,7 +67,7 @@ public class GameStartManagerMono : MonoBehaviour
 
         if (_cSharpAssembly == null)
         {
-            throw new NullReferenceException();
+            throw new NullReferenceException("_cSharpAssembly is null");
         }
 
         _managerTypeList = _cSharpAssembly.GetTypes()
@@ -68,7 +76,12 @@ public class GameStartManagerMono : MonoBehaviour
 
         if (_managerTypeList == null)
         {
-            throw new NullReferenceException();
+            throw new NullReferenceException("_managerTypeList is null");
+        }
+
+        if (_managerTypeList.Count == 0)
+        {
+            throw new ArgumentOutOfRangeException();
         }
     }
 

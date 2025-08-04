@@ -29,7 +29,7 @@ public class DataManager : ManagerBase<DataManager>, IManager
 
     public void Initialize()
     {
-        DeserializeAllData();
+        //DeserializeAllData();
     }
 
     #endregion
