@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MyFruits>
+    <Fruit>
+        <Name>Apple</Name>
+        <Count>3</Count>
+    </Fruit>
+</MyFruits>
