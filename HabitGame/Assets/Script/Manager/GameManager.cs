@@ -26,7 +26,7 @@ public class GameManager : ManagerBase<GameManager>, IManager
 
     #region 4. Methods
 
-    public void SetModel(IEnumerable<ScriptableObject> _list)
+    public void SetModel(IEnumerable<IModel> _list)
     {
     }
 

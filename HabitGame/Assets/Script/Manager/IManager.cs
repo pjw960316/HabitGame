@@ -4,7 +4,7 @@ using UnityEngine;
 public interface IManager : IFactory
 {
     public void Initialize();
-    public void SetModel(IEnumerable<ScriptableObject> _list);
+    public void SetModel(IEnumerable<IModel> models);
     public void ConnectInstanceByActivator(IManager instance);
 }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,7 +12,15 @@ public class GameStartManagerMono : MonoBehaviour
     private const string MAIN_ASSEMBLY = "Assembly-CSharp";
     private const string MAIN_SCENE_NAME = "MainScene";
 
-    [SerializeField] private List<ScriptableObject> _allModels;
+    [SerializeField] private List<ScriptableObject> _scriptableObjectModels;
+    
+    // NOTE
+    // ScriptableObject + XML Deserialized Model
+    private List<IModel> _modelList;
+
+    private Assembly _cSharpAssembly;
+    private List<Type> _managerTypeList;
+    private List<IManager> _managerList;
 
     #endregion
 
@@ -34,39 +43,100 @@ public class GameStartManagerMono : MonoBehaviour
 
     private void LoadInitialGameState()
     {
-        CreateSingletonManager();
+        SetManagerTypesUsingReflection();
+
+        InitializeManagers();
 
         LivePermanent();
 
         ChangeScene();
     }
 
-    private void CreateSingletonManager()
+    private void SetManagerTypesUsingReflection()
     {
-        var cSharpAssembly = AppDomain.CurrentDomain.GetAssemblies()
+        _cSharpAssembly = AppDomain.CurrentDomain.GetAssemblies()
             .FirstOrDefault(asm => asm.GetName().Name == MAIN_ASSEMBLY);
 
-        var managerTypes = cSharpAssembly?.GetTypes()
+        if (_cSharpAssembly == null)
+        {
+            throw new NullReferenceException();
+        }
+
+        _managerTypeList = _cSharpAssembly.GetTypes()
             .Where(type => typeof(IManager).IsAssignableFrom(type) && type.IsClass)
             .ToList();
 
-        if (managerTypes != null)
+        if (_managerTypeList == null)
         {
-            foreach (var type in managerTypes)
-            {
-                // Note
-                // 여기서 각각의 생성자를 호출하며 Type에 맞는 Instance를 생성한다.
-                // 그리고 연결을 ConnectInstanceByActivator
-                var objectTypeInstance = Activator.CreateInstance(type);
+            throw new NullReferenceException();
+        }
+    }
 
-                if (objectTypeInstance is IManager manager)
-                {
-                    manager.ConnectInstanceByActivator(manager);
-                    manager.SetModel(_allModels);
-                    manager.Initialize();
-                }
+
+    private void InitializeManagers()
+    {
+        CreateSingletonManagers();
+
+        ConnectModelsInManagers();
+
+        foreach (var manager in _managerList)
+        {
+            manager.Initialize();
+        }
+    }
+
+    // Note
+    // 여기서 각각의 생성자를 호출하며 Type에 맞는 Instance를 생성한다.
+    // 그리고 연결을 ConnectInstanceByActivator
+    private void CreateSingletonManagers()
+    {
+        foreach (var type in _managerTypeList)
+        {
+            var objectTypeInstance = Activator.CreateInstance(type);
+
+            if (objectTypeInstance is IManager manager)
+            {
+                manager.ConnectInstanceByActivator(manager);
+                _managerList.Add(manager);
             }
         }
+    }
+
+    // refactor
+    // modellist를 readonly로 전달하면 좋을듯?
+    private void ConnectModelsInManagers()
+    {
+        SetModelList();
+        
+        foreach (var manager in _managerList)
+        {
+            manager.SetModel(_modelList);
+        }
+    }
+
+    private void SetModelList()
+    {
+        SetModelListWithScriptableObject();
+        SetModelListWithDeserializedXml();
+    }
+
+    private void SetModelListWithScriptableObject()
+    {
+        foreach (var scriptableObjectModel in _scriptableObjectModels)
+        {
+            if (scriptableObjectModel is IModel model)
+            {
+                //todo
+                //이거 실수로 빠지면 안 됨.
+                _modelList.Add(model);
+            }
+        }
+    }
+
+    private void SetModelListWithDeserializedXml()
+    {
+        //todo
+        //이거 실수로 빠지면 안 됨.
     }
 
     //fix

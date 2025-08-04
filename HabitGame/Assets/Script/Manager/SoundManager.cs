@@ -50,7 +50,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     {
     }
 
-    public void SetModel(IEnumerable<ScriptableObject> models)
+    public void SetModel(IEnumerable<IModel> models)
     {
         foreach (var model in models)
         {

@@ -9,24 +9,10 @@ using UnityEngine;
 
 // Note
 // 책임
-// 1. XML에서 데이터를 로드할 책임
-// 2. XML에서 로드한 데이터를 다른 Manager에게 전달해서 Instance 생성
+// 1. 모든 XML 데이터를 Deserialize 할 책임
+// 2. Deserialize 된 XML Data Instance를 각각의 Manager에게 전달.
 public class DataManager : ManagerBase<DataManager>, IManager
 {
-    //test
-
-    public class Fruits
-    {
-        [XmlElement("Fruit")]
-        public List<Fruit> list;
-    }
-
-    public class Fruit
-    {
-        public string Name;
-        public int Count;
-    }
-
     #region 1. Fields
     
     //default
@@ -50,13 +36,13 @@ public class DataManager : ManagerBase<DataManager>, IManager
 
     #region 4. Methods
 
-    public void SetModel(IEnumerable<ScriptableObject> _list)
+    public void SetModel(IEnumerable<IModel> _list)
     {
     }
 
     private void DeserializeAllData()
     {
-        Fruits test = GetDeserializedXmlData<Fruits>("MyCharacterData");
+        MyCharacterData test = GetDeserializedXmlData<MyCharacterData>("MyCharacterData");
     }
 
     private T GetDeserializedXmlData<T>(string resourcePath) where T : class

@@ -37,7 +37,7 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager, IDisposable
         MainCanvas = canvas;
     }
 
-    public void SetModel(IEnumerable<ScriptableObject> _list)
+    public void SetModel(IEnumerable<IModel> _list)
     {
     }
 

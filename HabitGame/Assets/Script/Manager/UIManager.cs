@@ -46,7 +46,7 @@ public class UIManager : ManagerBase<UIManager>, IManager
     {
     }
 
-    public void SetModel(IEnumerable<ScriptableObject> _list)
+    public void SetModel(IEnumerable<IModel> _list)
     {
         foreach (var scriptableObject in _list)
         {

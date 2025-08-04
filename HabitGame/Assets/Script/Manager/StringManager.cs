@@ -39,7 +39,7 @@ public class StringManager : ManagerBase<StringManager>, IManager, IDisposable
 
     #region 4. Methods
 
-    public void SetModel(IEnumerable<ScriptableObject> models)
+    public void SetModel(IEnumerable<IModel> models)
     {
         foreach (var model in models)
         {
