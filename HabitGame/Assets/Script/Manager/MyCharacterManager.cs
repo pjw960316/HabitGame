@@ -2,11 +2,28 @@ using System.Collections.Generic;
 
 public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 {
+    #region 1. Fields
+
     private MyCharacterData _myCharacterData;
+
+    #endregion
+
+    #region 2. Properties
+
+    // default
+
+    #endregion
+
+    #region 3. Constructor
 
     public void Initialize()
     {
+        
     }
+
+    #endregion
+
+    #region 4. Methods
 
     public void SetModel(IEnumerable<IModel> models)
     {
@@ -15,15 +32,23 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
             if (model is MyCharacterData myCharacterData)
             {
                 _myCharacterData = myCharacterData;
-                
-                return;
+                break;
             }
         }
+        
+        ExceptionHelper.CheckNullException(_myCharacterData , "_myCharacterData in MyCharacterManager");
     }
 
-    //test
-    public string GetName()
+    public int GetBudget()
     {
-        return _myCharacterData.name;
+        return _myCharacterData.Budget;
     }
+
+    #endregion
+
+    #region 5. EventHandlers
+
+    // default
+
+    #endregion
 }

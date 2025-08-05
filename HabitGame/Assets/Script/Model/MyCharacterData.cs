@@ -1,15 +1,14 @@
+using System.Xml.Serialization;
+
+[XmlRoot]
 public class MyCharacterData : IModel
 {
-    #region 1. Fields
-
-    public string name;
-    public int routineOneSuccessTime;
-
-    #endregion
-
     #region 2. Properties
 
-    // default
+    public string Name { get; set; }
+    public int RoutineOneSuccessTime { get; set; }
+    
+    public int Budget { get; set; }
 
     #endregion
 

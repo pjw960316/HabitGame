@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MyCharacterData>
-    <name>ParkJiWon</name>
-    <routineOneSuccessTime>99999</routineOneSuccessTime>
+    <Name>ParkJiWon</Name>
+    <Age>29</Age>
+    <Budget>0</Budget>
 </MyCharacterData>
