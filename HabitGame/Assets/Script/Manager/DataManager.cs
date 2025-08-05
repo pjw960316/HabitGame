@@ -58,6 +58,19 @@ public class DataManager : ManagerBase<DataManager>, IManager
         
         return xmlSerializer.Deserialize(stringReader) as T;
     }
+
+    public void UpdateData()
+    {
+        
+    }
+
+    //test
+    private void SerializeXmlData()
+    {
+        var serializer = new XmlSerializer(typeof(MyCharacterData));
+        using var writer = new StreamWriter("MyCharacterData.xml");
+        //serializer.Serialize(writer, MyCharacterManager.Instance.);
+    }
     
     // refactor 
     // addressable

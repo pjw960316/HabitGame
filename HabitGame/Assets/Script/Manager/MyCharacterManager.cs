@@ -1,10 +1,15 @@
+using System;
 using System.Collections.Generic;
+using UniRx;
 
 public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 {
     #region 1. Fields
 
     private MyCharacterData _myCharacterData;
+
+    private readonly Subject<Unit> _onUpdateBudget = new();
+    private IObservable<Unit> OnUpdateBudget => _onUpdateBudget;
 
     #endregion
 
@@ -42,6 +47,12 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     public int GetBudget()
     {
         return _myCharacterData.Budget;
+    }
+    
+    //test
+    private void UpdateBudget()
+    {
+        _myCharacterData.Budget += 1000;
     }
 
     #endregion

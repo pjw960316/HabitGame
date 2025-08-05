@@ -6,8 +6,9 @@ public class MyCharacterData : IModel
     #region 2. Properties
 
     public string Name { get; set; }
+
     public int RoutineOneSuccessTime { get; set; }
-    
+
     public int Budget { get; set; }
 
     #endregion
