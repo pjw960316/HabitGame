@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class UIToastBase
+public class UIToastBase : MonoBehaviour, IView
 {
-    
+    public void OnAwake()
+    {
+        
+    }
 }

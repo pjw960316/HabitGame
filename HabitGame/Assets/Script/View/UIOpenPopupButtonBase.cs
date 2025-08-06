@@ -19,7 +19,7 @@ public class UIOpenPopupButtonBase : UIButtonBase
     public override void OnAwake()
     {
         base.OnAwake();
-
+        
         CreatePresenterByManager();
         BindEvent();
     }
@@ -33,7 +33,9 @@ public class UIOpenPopupButtonBase : UIButtonBase
         _button.onClick.AddListener(() => _onClickButton.OnNext(ePopupKey));
     }
 
-    public override void CreatePresenterByManager()
+    // todo
+    // 너 presenter 필요하니?
+    public void CreatePresenterByManager()
     {
         _uiManager.CreatePresenter<OpenPopupPresenterBase>(this);
     }

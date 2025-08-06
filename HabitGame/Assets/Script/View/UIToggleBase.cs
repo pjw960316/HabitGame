@@ -36,12 +36,6 @@ public class UIToggleBase : MonoBehaviour, IView
         Initialize();
     }
 
-    // todo : 지우기
-    public void CreatePresenterByManager()
-    {
-        //throw new System.NotImplementedException();
-    }
-
     #endregion
 
     #region 4. Methods

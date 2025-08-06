@@ -14,8 +14,6 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager, IDisposable
 
     #region 2. Properties
 
-    // REFACTOR
-    // can be null? - view로 받기 때문에.
     public UIMainCanvas MainCanvas { get; private set; }
 
     // default
@@ -52,7 +50,10 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager, IDisposable
     //dispose?
     private void RemoveToastMessage()
     {
-        Observable.Timer(TimeSpan.FromSeconds(1f)).Subscribe(_ => { MainCanvas.ToastMessage.SetActive(false); });
+        Observable.Timer(TimeSpan.FromSeconds(1f)).Subscribe(_ =>
+        {
+            MainCanvas.ToastMessage.SetActive(false);
+        });
     }
 
     #endregion

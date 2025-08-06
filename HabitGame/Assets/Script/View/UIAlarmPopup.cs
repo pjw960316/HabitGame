@@ -62,11 +62,6 @@ public class UIAlarmPopup : UIPopupBase
         SetInitialUIState();
     }
 
-    public sealed override void CreatePresenterByManager()
-    {
-        _uiManager.CreatePresenter<AlarmPresenter>(this);
-    }
-
     #endregion
 
     #region 4. Methods
@@ -77,6 +72,11 @@ public class UIAlarmPopup : UIPopupBase
         BindButtonsEvent(_timeButtons, _onTimeButtonClicked);
 
         _confirmButton?.onClick.AddListener(() => _onConfirmed.OnNext(Unit.Default));
+    }
+    
+    public sealed override void CreatePresenterByManager()
+    {
+        _uiManager.CreatePresenter<AlarmPresenter>(this);
     }
     
     private void SetInitialUIState()

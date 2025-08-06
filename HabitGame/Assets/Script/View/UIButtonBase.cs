@@ -67,10 +67,6 @@ public class UIButtonBase : MonoBehaviour, IView
         _uiManager = UIManager.Instance;
     }
 
-    public virtual void CreatePresenterByManager()
-    {
-        _uiManager.CreatePresenter<ButtonPresenterBase>(this);
-    }
     
     private void SetButtonText()
     {
