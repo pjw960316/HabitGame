@@ -2,19 +2,6 @@ using UniRx;
 
 public class RoutineCheckPresenter : PresenterBase
 {
-    #region 1. Fields
-
-    private UIRoutineCheckPopup _uiRoutineCheckPopup;
-    private MyCharacterManager _myCharacterManager;
-
-    #endregion
-
-    #region 2. Properties
-
-    // default
-
-    #endregion
-
     #region 3. Constructor
 
     public sealed override void Initialize(IView view)
@@ -23,6 +10,7 @@ public class RoutineCheckPresenter : PresenterBase
 
         _uiRoutineCheckPopup = _view as UIRoutineCheckPopup;
         _myCharacterManager = MyCharacterManager.Instance;
+        _uiToastManager = UIToastManager.Instance;
 
         ExceptionHelper.CheckNullException(_uiRoutineCheckPopup, "_uiRoutineCheckPopup");
 
@@ -40,6 +28,20 @@ public class RoutineCheckPresenter : PresenterBase
 
     #endregion
 
+    #region 1. Fields
+
+    private UIRoutineCheckPopup _uiRoutineCheckPopup;
+    private MyCharacterManager _myCharacterManager;
+    private UIToastManager _uiToastManager;
+
+    #endregion
+
+    #region 2. Properties
+
+    // default
+
+    #endregion
+
     #region 5. EventHandlers
 
     // 뭐가 눌렸는지 알아야 한다.
@@ -47,7 +49,7 @@ public class RoutineCheckPresenter : PresenterBase
     {
         var toggleList = _uiRoutineCheckPopup.GetToggleList();
         var routineSuccessRewardMoney = _myCharacterManager.GetRoutineSuccessRewardMoney();
-        int totalReward = 0;
+        var totalReward = 0;
 
         foreach (var toggleWidget in toggleList)
         {
@@ -60,11 +62,18 @@ public class RoutineCheckPresenter : PresenterBase
         }
 
         RequestUpdateBudget(totalReward);
+
+        RequestShowToast();
     }
 
     private void RequestUpdateBudget(int totalReward)
     {
         _myCharacterManager.UpdateBudget(totalReward);
+    }
+
+    private void RequestShowToast()
+    {
+        _uiToastManager.ShowToast(EToastStringKey.ERoutineCheckConfirm);
     }
 
     #endregion

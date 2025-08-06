@@ -56,6 +56,11 @@ public class StringManager : ManagerBase<StringManager>, IManager, IDisposable
         return StringData.GetStringByEStringKey(eStringKey);
     }
 
+    public string GetToastString(EToastStringKey eToastStringKey)
+    {
+        return StringData.GetToastString(eToastStringKey);
+    }
+
     public void Dispose()
     {
     }

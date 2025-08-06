@@ -32,3 +32,9 @@ MonoBehaviour:
       Value: "60\uBD84"
     - Key: 8
       Value: "90\uBD84"
+  _toastStringDictionary:
+    _serializedList:
+    - Key: 0
+      Value: "\uC54C\uB78C\uC774 \uC138\uD305 \uB418\uC5C8\uC2B5\uB2C8\uB2E4."
+    - Key: 1
+      Value: "\uB8E8\uD2F4 \uAE30\uB85D\uC744 \uC644\uB8CC\uD588\uC2B5\uB2C8\uB2E4."

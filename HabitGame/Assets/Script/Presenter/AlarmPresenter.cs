@@ -25,6 +25,7 @@ public class AlarmPresenter : PresenterBase
     private SoundData _soundData;
     private UIAlarmPopup _alarmPopup;
     private SoundManager _soundManager;
+    private UIToastManager _uiToastManager;
 
     //refactor
     //모델이 두개?
@@ -52,6 +53,7 @@ public class AlarmPresenter : PresenterBase
         _alarmPopup = _view as UIAlarmPopup;
         _soundData = _model as SoundData;
         _soundManager = SoundManager.Instance;
+        _uiToastManager = UIToastManager.Instance;
 
         ExceptionHelper.CheckNullException(_alarmPopup, "_alarmPopup");
         ExceptionHelper.CheckNullException(_soundData, "_soundData");
@@ -117,9 +119,8 @@ public class AlarmPresenter : PresenterBase
     {
         RequestStartingAlarm(_latestAlarmPlayingTime);
         CloseAlarmPopup();
-
-        //todo : presenter
-        //UIToastManager.Instance.ShowToastMessage();
+        
+        _uiToastManager.ShowToast(EToastStringKey.EAlarmConfirm);
     }
 
     private void RequestStartingAlarm(float playingTime)

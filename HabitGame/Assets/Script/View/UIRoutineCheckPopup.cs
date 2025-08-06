@@ -43,7 +43,7 @@ public class UIRoutineCheckPopup : UIPopupBase
             _onConfirmed.OnNext(default);
 
             //refactor
-            Destroy(this);
+            Destroy(gameObject);
         });
     }
 

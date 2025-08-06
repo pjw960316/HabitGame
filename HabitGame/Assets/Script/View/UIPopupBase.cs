@@ -44,13 +44,6 @@ public abstract class UIPopupBase : MonoBehaviour, IView
     }
 
     protected abstract void CreatePresenterByManager();
-
-    protected UIToastBase GetUIToast()
-    {
-        ExceptionHelper.CheckNullException(_uiToastMessage, "_uiToastMessage");
-
-        return _uiToastMessage;
-    }
     
     #endregion
 

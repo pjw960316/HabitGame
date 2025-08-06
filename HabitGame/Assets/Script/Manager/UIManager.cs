@@ -16,12 +16,9 @@ public class UIManager : ManagerBase<UIManager>, IManager
     #endregion
 
     #region 2. Properties
-    // REFACTOR
-    // can be null? - view로 받기 때문에.
-    public Canvas MainCanvas { get; private set; } 
-    public ViewData ViewData { get; private set; }
 
-   
+    public UIMainCanvas MainCanvas { get; private set; }
+    public ViewData ViewData { get; private set; }
 
     #endregion
 
@@ -44,6 +41,7 @@ public class UIManager : ManagerBase<UIManager>, IManager
     
     private void BindEvent()
     {
+        
     }
 
     public void SetModel(IEnumerable<IModel> _list)
@@ -72,10 +70,10 @@ public class UIManager : ManagerBase<UIManager>, IManager
         }
     }
     
-    /*public void InjectMainCanvas(Canvas canvas)
+    public void InjectMainCanvas(UIMainCanvas canvas)
     {
         MainCanvas = canvas;
-    }*/
+    }
     
     public void CreatePresenter<TPresenter>(IView view) where TPresenter : IPresenter, new()
     {
