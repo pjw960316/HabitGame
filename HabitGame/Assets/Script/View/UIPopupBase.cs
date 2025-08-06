@@ -1,9 +1,14 @@
 using UnityEngine;
 
+// note
+// popup에서 Toast를 출력할 책임을 부여해야 하는가?
+// 일단은 했다.
 public abstract class UIPopupBase : MonoBehaviour, IView
 {
     #region 1. Fields
 
+    [SerializeField] protected UIToastBase _uiToastMessage;
+    
     protected UIManager _uiManager;
     protected SoundManager _soundManager;
 
@@ -38,9 +43,15 @@ public abstract class UIPopupBase : MonoBehaviour, IView
     {
     }
 
+    protected abstract void CreatePresenterByManager();
 
-    public abstract void CreatePresenterByManager();
+    protected UIToastBase GetUIToast()
+    {
+        ExceptionHelper.CheckNullException(_uiToastMessage, "_uiToastMessage");
 
+        return _uiToastMessage;
+    }
+    
     #endregion
 
     #region 5. EventHandlers

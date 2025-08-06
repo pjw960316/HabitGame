@@ -74,7 +74,7 @@ public class UIAlarmPopup : UIPopupBase
         _confirmButton?.onClick.AddListener(() => _onConfirmed.OnNext(Unit.Default));
     }
     
-    public sealed override void CreatePresenterByManager()
+    protected sealed override void CreatePresenterByManager()
     {
         _uiManager.CreatePresenter<AlarmPresenter>(this);
     }

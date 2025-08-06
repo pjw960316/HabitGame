@@ -47,7 +47,7 @@ public class UIRoutineCheckPopup : UIPopupBase
         });
     }
 
-    public override void CreatePresenterByManager()
+    protected override void CreatePresenterByManager()
     {
         _uiManager.CreatePresenter<RoutineCheckPresenter>(this);
     }
