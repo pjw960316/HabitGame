@@ -10,6 +10,8 @@ public class MyCharacterData : IModel
     public int RoutineOneSuccessTime { get; set; }
 
     public int Budget { get; set; }
+    
+    public int RoutineSuccessRewardMoney { get; set; }
 
     #endregion
 

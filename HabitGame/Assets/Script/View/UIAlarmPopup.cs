@@ -54,12 +54,17 @@ public class UIAlarmPopup : UIPopupBase
     public override void OnAwake()
     {
         base. OnAwake();
-        
-        _uiManager.CreatePresenter<AlarmPresenter>(this);
+
+        CreatePresenterByManager();
         
         BindEvent();
         
         SetInitialUIState();
+    }
+
+    public sealed override void CreatePresenterByManager()
+    {
+        _uiManager.CreatePresenter<AlarmPresenter>(this);
     }
 
     #endregion

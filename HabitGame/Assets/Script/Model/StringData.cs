@@ -55,6 +55,7 @@ public interface IEnumKey
 
 public enum EStringKey
 {
+    EConfirmButton,
     EAlarmButton,
     ERoutineCheckButton,
     ERoutineRecordButton,

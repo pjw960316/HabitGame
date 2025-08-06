@@ -23,6 +23,7 @@ public class UIButtonBase : MonoBehaviour, IView
     #region 2. Properties
 
     public Canvas Canvas => _canvas;
+    public Button Button => _button;
 
     #endregion
 

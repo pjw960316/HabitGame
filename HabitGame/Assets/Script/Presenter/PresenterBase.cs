@@ -21,7 +21,6 @@ public abstract class PresenterBase : IPresenter
     public virtual void Initialize(IView view)
     {
         _view = view;
-        
         //fix
         _model = SoundManager.Instance.SoundData;
         

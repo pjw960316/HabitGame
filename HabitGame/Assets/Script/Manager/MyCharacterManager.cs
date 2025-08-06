@@ -48,11 +48,15 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     {
         return _myCharacterData.Budget;
     }
-    
-    //test
-    private void UpdateBudget()
+
+    public int GetRoutineSuccessRewardMoney()
     {
-        _myCharacterData.Budget += 1000;
+        return _myCharacterData.RoutineSuccessRewardMoney;
+    }
+    
+    public void UpdateBudget(int changedBudget)
+    {
+        _myCharacterData.Budget += changedBudget;
     }
 
     #endregion
