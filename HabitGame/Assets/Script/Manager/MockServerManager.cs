@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 
 // Note 1
 // 실제로 서버도, 패킷 처리도 존재하지 않는다.
@@ -39,6 +40,11 @@ public class MockServerManager : ManagerBase<MockServerManager>, IManager
     {
     }
 
+    public async UniTask TestAsync()
+    {
+        await UniTask.Delay(1000);
+    }
+    
     #endregion
 
     #region 5. EventHandlers

@@ -54,20 +54,14 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
         return _myCharacterData.RoutineSuccessRewardMoney;
     }
 
+    // todo 
+    // 네이밍
     public void UpdateBudget(int changedBudget)
     {
         if (changedBudget == 0)
         {
             return;
         }
-        
-        
-        _myCharacterData.Budget += changedBudget;
-    }
-
-    private void RequestMockServerValidation()
-    {
-        
     }
 
     #endregion
