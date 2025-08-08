@@ -1,8 +1,25 @@
+using Cysharp.Threading.Tasks;
 using UniRx;
 using UnityEngine;
 
 public class RoutineCheckPresenter : PresenterBase
 {
+    #region 1. Fields
+
+    private UIRoutineCheckPopup _uiRoutineCheckPopup;
+    
+    private MyCharacterManager _myCharacterManager;
+    private UIToastManager _uiToastManager;
+    private MockServerManager _serverManager;
+    
+    #endregion
+
+    #region 2. Properties
+
+    // default
+
+    #endregion
+    
     #region 3. Constructor
 
     public sealed override void Initialize(IView view)
@@ -10,10 +27,11 @@ public class RoutineCheckPresenter : PresenterBase
         base.Initialize(view);
 
         _uiRoutineCheckPopup = _view as UIRoutineCheckPopup;
+        ExceptionHelper.CheckNullException(_uiRoutineCheckPopup, "_uiRoutineCheckPopup");
+        
         _myCharacterManager = MyCharacterManager.Instance;
         _uiToastManager = UIToastManager.Instance;
-
-        ExceptionHelper.CheckNullException(_uiRoutineCheckPopup, "_uiRoutineCheckPopup");
+        _serverManager = MockServerManager.Instance;
 
         BindEvent();
     }
@@ -26,20 +44,6 @@ public class RoutineCheckPresenter : PresenterBase
     {
         _uiRoutineCheckPopup.OnConfirmed.Subscribe(_ => HandleToggleEvent()).AddTo(_disposable);
     }
-
-    #endregion
-
-    #region 1. Fields
-
-    private UIRoutineCheckPopup _uiRoutineCheckPopup;
-    private MyCharacterManager _myCharacterManager;
-    private UIToastManager _uiToastManager;
-
-    #endregion
-
-    #region 2. Properties
-
-    // default
 
     #endregion
 
@@ -61,16 +65,16 @@ public class RoutineCheckPresenter : PresenterBase
             }
         }
 
-        RequestUpdateBudget(totalReward);
+        RequestUpdateBudgetAsync(totalReward);
 
         RequestShowToast();
     }
 
-    private void RequestUpdateBudget(int totalReward)
+    private async UniTaskVoid RequestUpdateBudgetAsync(int totalReward)
     {
-        Debug.Log("RoutineCheckPresenter : RequestUpdateBudget");
-        
-        _myCharacterManager.UpdateBudget(totalReward);
+        Debug.Log("3");
+        await _serverManager.UpdateXmlDataAsync();
+        Debug.Log("4");
     }
 
     private void RequestShowToast()

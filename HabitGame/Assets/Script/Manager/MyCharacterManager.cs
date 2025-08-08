@@ -1,14 +1,10 @@
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
-using UnityEngine;
-
 public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 {
     #region 1. Fields
 
     private MyCharacterData _myCharacterData;
     private DataManager _dataManager;
-    private MockServerManager _serverManager;
 
     #endregion
 
@@ -23,7 +19,6 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     public void Initialize()
     {
         _dataManager = DataManager.Instance;
-        _serverManager = MockServerManager.Instance;
         
         ExceptionHelper.CheckNullExceptionWithMessage(_dataManager, "DataManager" , "\n GameStartManager Initialize() makes critical Error!");
     }
@@ -54,21 +49,6 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     public int GetRoutineSuccessRewardMoney()
     {
         return _myCharacterData.RoutineSuccessRewardMoney;
-    }
-
-    // todo 
-    // 네이밍
-    public void UpdateBudget(int changedBudget)
-    {
-        if (changedBudget == 0)
-        {
-            return;
-        }
-
-        var ret = _serverManager.TestAsync();
-
-        Debug.Log("call first");
-        ret.Forget();
     }
 
     #endregion

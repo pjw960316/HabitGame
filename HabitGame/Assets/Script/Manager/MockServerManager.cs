@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ public class MockServerManager : ManagerBase<MockServerManager>, IManager
 {
     #region 1. Fields
 
-    // default
+    private const float SERVER_DELAY = 0.5f;
 
     #endregion
 
@@ -31,6 +32,7 @@ public class MockServerManager : ManagerBase<MockServerManager>, IManager
 
     public void Initialize()
     {
+        Test();
     }
 
     #endregion
@@ -41,11 +43,38 @@ public class MockServerManager : ManagerBase<MockServerManager>, IManager
     {
     }
 
-    public async UniTask TestAsync()
+    public async UniTask UpdateXmlDataAsync()
     {
-        await UniTask.Delay(3000);
-        Debug.Log("test");
+        Debug.Log("1");
+        await UniTask.Delay(1000);
+        Debug.Log("2");
     }
+    //test
+    private void Test()
+    {
+        UpdateResult().Forget();
+
+        Debug.Log("Main : Run Event Loop");
+    }
+
+    private async UniTaskVoid UpdateResult()
+    {
+        Debug.Log("UpdateResult");
+
+        var result = await SumAsync(1, 200);
+
+        Debug.Log($"{result}");
+    }
+
+    private async UniTask<int> SumAsync(int n1, int n2)
+    {
+        await UniTask.Delay(1000);
+
+        var ret = n1 + n2;
+
+        return ret;
+    }
+
     
     #endregion
 
