@@ -1,4 +1,5 @@
 using UniRx;
+using UnityEngine;
 
 public class RoutineCheckPresenter : PresenterBase
 {
@@ -67,6 +68,8 @@ public class RoutineCheckPresenter : PresenterBase
 
     private void RequestUpdateBudget(int totalReward)
     {
+        Debug.Log("RoutineCheckPresenter : RequestUpdateBudget");
+        
         _myCharacterManager.UpdateBudget(totalReward);
     }
 

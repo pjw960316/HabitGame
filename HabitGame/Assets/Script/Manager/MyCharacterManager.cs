@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 {
@@ -62,6 +64,11 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
         {
             return;
         }
+
+        var ret = _serverManager.TestAsync();
+
+        Debug.Log("call first");
+        ret.Forget();
     }
 
     #endregion
