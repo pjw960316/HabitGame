@@ -92,6 +92,9 @@ public class GameStartManagerMono : MonoBehaviour
 
         ConnectModelsInManagers();
 
+        // Note
+        // 모든 싱글턴이 생성된 이후의 시점이니
+        // 참조 가능
         foreach (var manager in _managerList)
         {
             manager.Initialize();

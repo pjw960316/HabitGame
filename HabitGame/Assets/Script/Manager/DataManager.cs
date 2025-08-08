@@ -61,10 +61,9 @@ public class DataManager : ManagerBase<DataManager>, IManager
 
     public void UpdateData()
     {
-        
+        SerializeXmlData();
     }
-
-    //test
+    
     private void SerializeXmlData()
     {
         var serializer = new XmlSerializer(typeof(MyCharacterData));

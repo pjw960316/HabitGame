@@ -1,15 +1,12 @@
-using System;
 using System.Collections.Generic;
-using UniRx;
 
 public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 {
     #region 1. Fields
 
     private MyCharacterData _myCharacterData;
-
-    private readonly Subject<Unit> _onUpdateBudget = new();
-    private IObservable<Unit> OnUpdateBudget => _onUpdateBudget;
+    private DataManager _dataManager;
+    private MockServerManager _serverManager;
 
     #endregion
 
@@ -23,7 +20,10 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 
     public void Initialize()
     {
+        _dataManager = DataManager.Instance;
+        _serverManager = MockServerManager.Instance;
         
+        ExceptionHelper.CheckNullExceptionWithMessage(_dataManager, "DataManager" , "\n GameStartManager Initialize() makes critical Error!");
     }
 
     #endregion
@@ -40,8 +40,8 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
                 break;
             }
         }
-        
-        ExceptionHelper.CheckNullException(_myCharacterData , "_myCharacterData in MyCharacterManager");
+
+        ExceptionHelper.CheckNullException(_myCharacterData, "_myCharacterData in MyCharacterManager");
     }
 
     public int GetBudget()
@@ -53,10 +53,21 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     {
         return _myCharacterData.RoutineSuccessRewardMoney;
     }
-    
+
     public void UpdateBudget(int changedBudget)
     {
+        if (changedBudget == 0)
+        {
+            return;
+        }
+        
+        
         _myCharacterData.Budget += changedBudget;
+    }
+
+    private void RequestMockServerValidation()
+    {
+        
     }
 
     #endregion

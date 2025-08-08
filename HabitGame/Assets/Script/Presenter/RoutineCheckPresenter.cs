@@ -44,7 +44,6 @@ public class RoutineCheckPresenter : PresenterBase
 
     #region 5. EventHandlers
 
-    // 뭐가 눌렸는지 알아야 한다.
     private void HandleToggleEvent()
     {
         var toggleList = _uiRoutineCheckPopup.GetToggleList();
