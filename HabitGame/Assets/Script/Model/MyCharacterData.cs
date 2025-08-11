@@ -1,4 +1,3 @@
-using System;
 using System.Xml.Serialization;
 
 [XmlRoot]
@@ -8,28 +7,17 @@ public class MyCharacterData : IModel
 
     private int _name;
     private int _age;
-    private int _budget;
-    
-    [XmlElement(ElementName = "Budget")]
-    public int Budget
-    {
-        get => _budget;
-        set => _budget = value;
-    }
-    private int _routineOneSuccessTime;
-    
+    private int _currentRoutineSuccessRewardMoney;
+    private int _rewardPerRoutineSuccess;
+
     #endregion
+
     #region 2. Properties
-    
-    [XmlElement(ElementName = "Name")]
+
     public string Name { get; set; }
-    
-    [XmlElement(ElementName = "Age")]
     public int Age { get; set; }
-
-    
-
-    public int RoutineSuccessRewardMoney { get; set; }
+    public int CurrentRoutineSuccessRewardMoney { get; set; }
+    public int RewardPerRoutineSuccess { get; set; }
 
     #endregion
 

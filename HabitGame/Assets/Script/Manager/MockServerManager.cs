@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.IO;
-using System.Xml.Serialization;
 using Cysharp.Threading.Tasks;
 
 // Note 1
@@ -50,7 +48,7 @@ public class MockServerManager : ManagerBase<MockServerManager>, IManager
         {
             return serverResult;
         }
-        
+
         return EServerResult.FAIL;
     }
 
@@ -59,7 +57,7 @@ public class MockServerManager : ManagerBase<MockServerManager>, IManager
     private async UniTask<EServerResult> GenerateMockServerLogic()
     {
         await GenerateServerDelay();
-        
+
         return EServerResult.SUCCESS;
     }
 

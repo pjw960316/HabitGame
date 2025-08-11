@@ -5,16 +5,17 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 {
     #region 1. Fields
 
+    // Note
+    // Model을 외부에서 접근하게 하지말고
+    // 필요하면 argument로 전달해라
     private MyCharacterData _myCharacterData;
     private XmlDataSerializeManager _xmlDataSerializeManager;
 
     #endregion
 
     #region 2. Properties
-    
-    // property
-    //test
-    public MyCharacterData MyCharacterData => _myCharacterData;
+
+    // default
 
     #endregion
 
@@ -23,8 +24,9 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     public void Initialize()
     {
         _xmlDataSerializeManager = XmlDataSerializeManager.Instance;
-        
-        ExceptionHelper.CheckNullExceptionWithMessage(_xmlDataSerializeManager, "xmlDataSerializeManager" , "\n GameStartManager Initialize() makes critical Error!");
+
+        ExceptionHelper.CheckNullExceptionWithMessage(_xmlDataSerializeManager, "xmlDataSerializeManager",
+            "\n GameStartManager Initialize() makes critical Error!");
     }
 
     #endregion
@@ -45,23 +47,31 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
         ExceptionHelper.CheckNullException(_myCharacterData, "_myCharacterData in MyCharacterManager");
     }
 
-    public int GetBudget()
+    public int GetRewardPerRoutineSuccess()
     {
-        return _myCharacterData.Budget;
+        return _myCharacterData.RewardPerRoutineSuccess;
+    }
+    public int GetCurrentRoutineSuccessRewardMoney()
+    {
+        return _myCharacterData.CurrentRoutineSuccessRewardMoney;
     }
 
-    public int GetRoutineSuccessRewardMoney()
+    public void UpdateCurrentRoutineSuccessRewardMoney(int totalReward)
     {
-        return _myCharacterData.RoutineSuccessRewardMoney;
-    }
-
-    //test
-    //set이 있는데 이게 괜찮은지...
-    public void UpdateRoutineSuccessRewardMoney(int totalReward)
-    {
-        _myCharacterData.RoutineSuccessRewardMoney += totalReward;
+        _myCharacterData.CurrentRoutineSuccessRewardMoney += totalReward;
         
-        Debug.Log($"클라이언트에서 RoutineSuccessRewardMoney {_myCharacterData.RoutineSuccessRewardMoney}");
+        Debug.Log($" 아직 xml 전에 업데이트 : {_myCharacterData.CurrentRoutineSuccessRewardMoney}");
+
+        RequestUpdateXmlData();
+        
+        Debug.Log($" xml업데이트 이후 : {_myCharacterData.CurrentRoutineSuccessRewardMoney}");
+    }
+
+    private void RequestUpdateXmlData()
+    {
+        _xmlDataSerializeManager.SerializeXmlData<MyCharacterData>(_myCharacterData);
+        
+        Debug.Log($"RequestUpdateXmlData 끝");
     }
 
     #endregion

@@ -61,29 +61,16 @@ public class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManager>, IMa
         return xmlSerializer.Deserialize(stringReader) as T;
     }
 
-    //test
-    public void UpdateData()
+    public void SerializeXmlData<TModel>(TModel model) where TModel : IModel 
     {
-        SerializeXmlData();
-    }
-
-    //test
-    private void SerializeXmlData()
-    {
-        //test
-
-        Debug.Log($"serialize 직전 시점 {_myCharacterManager.MyCharacterData.RoutineSuccessRewardMoney}");
         var serializer = new XmlSerializer(typeof(MyCharacterData));
+        
+        // refactor
         var path = Path.Combine(Application.dataPath, "Resources/MyCharacterData.xml");
-        
-        using (var writer = new StreamWriter(path))
-        {
-            serializer.Serialize(writer, _myCharacterManager.MyCharacterData);
-        }
 
+        using var writer = new StreamWriter(path);
         
-
-        //test
+        serializer.Serialize(writer, model);
     }
 
     // refactor 

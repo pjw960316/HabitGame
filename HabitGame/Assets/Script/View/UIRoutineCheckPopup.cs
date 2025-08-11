@@ -30,10 +30,6 @@ public class UIRoutineCheckPopup : UIPopupBase
         CreatePresenterByManager();
 
         BindEvent();
-        
-        //test
-        var a = MyCharacterManager.Instance.GetRoutineSuccessRewardMoney();
-        Debug.Log($"{a}");
     }
 
     #endregion

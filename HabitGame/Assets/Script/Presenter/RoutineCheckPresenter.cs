@@ -32,7 +32,7 @@ public class RoutineCheckPresenter : PresenterBase
         _myCharacterManager = MyCharacterManager.Instance;
         _uiToastManager = UIToastManager.Instance;
         _serverManager = MockServerManager.Instance;
-
+    
         BindEvent();
     }
 
@@ -52,42 +52,35 @@ public class RoutineCheckPresenter : PresenterBase
     private void HandleToggleEvent()
     {
         var toggleList = _uiRoutineCheckPopup.GetToggleList();
-        var routineSuccessRewardMoney = _myCharacterManager.GetRoutineSuccessRewardMoney();
+        var rewardPerRoutineSuccess = _myCharacterManager.GetRewardPerRoutineSuccess();
         var totalReward = 0;
-
+        
         foreach (var toggleWidget in toggleList)
         {
             var toggle = toggleWidget.GetToggle();
 
+            // success routine
             if (toggle.isOn)
             {
-                totalReward += routineSuccessRewardMoney;
+                totalReward += rewardPerRoutineSuccess;
             }
         }
 
         RequestUpdateBudgetAsync(totalReward).Forget();
 
+        // todo
+        // callback?
         RequestShowToast();
     }
 
     private async UniTaskVoid RequestUpdateBudgetAsync(int totalReward)
     {
-        var a = _myCharacterManager.GetRoutineSuccessRewardMoney();
-        Debug.Log($"routine money 1 : {a}");
-        
         var serverResult = await _serverManager.RequestServerValidation(totalReward);
 
         if (serverResult == EServerResult.SUCCESS)
         {
-            Debug.Log("server success");
-            
-            
-            //test
-            //1. MyCharcater Data Update
-            //2. XML 데이터 serialize하기.
-            //3. xml 바뀌었는 지 확인해라.
-            _myCharacterManager.UpdateRoutineSuccessRewardMoney(totalReward);
-            XmlDataSerializeManager.Instance.UpdateData();
+            Debug.Log($" sever success -> CurrentRoutineSuccessRewardMoney : {_myCharacterManager.GetCurrentRoutineSuccessRewardMoney()}");
+            _myCharacterManager.UpdateCurrentRoutineSuccessRewardMoney(totalReward);
         }
     }
 
@@ -95,6 +88,6 @@ public class RoutineCheckPresenter : PresenterBase
     {
         _uiToastManager.ShowToast(EToastStringKey.ERoutineCheckConfirm);
     }
-
+    
     #endregion
 }

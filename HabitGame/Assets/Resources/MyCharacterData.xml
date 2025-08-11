@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MyCharacterData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Budget>1000</Budget>
   <Name>ParkJiWon</Name>
   <Age>29</Age>
-  <RoutineSuccessRewardMoney>144000</RoutineSuccessRewardMoney>
+  <CurrentRoutineSuccessRewardMoney>2500</CurrentRoutineSuccessRewardMoney>
+  <RewardPerRoutineSuccess>500</RewardPerRoutineSuccess>
 </MyCharacterData>
