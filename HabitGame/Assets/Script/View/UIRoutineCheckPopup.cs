@@ -30,6 +30,10 @@ public class UIRoutineCheckPopup : UIPopupBase
         CreatePresenterByManager();
 
         BindEvent();
+        
+        //test
+        var a = MyCharacterManager.Instance.GetBudget();
+        Debug.Log($"{a}");
     }
 
     #endregion
