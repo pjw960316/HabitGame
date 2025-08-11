@@ -87,7 +87,7 @@ public class RoutineCheckPresenter : PresenterBase
             //2. XML 데이터 serialize하기.
             //3. xml 바뀌었는 지 확인해라.
             _myCharacterManager.UpdateRoutineSuccessRewardMoney(totalReward);
-            DataManager.Instance.UpdateData();
+            XmlDataSerializeManager.Instance.UpdateData();
         }
     }
 

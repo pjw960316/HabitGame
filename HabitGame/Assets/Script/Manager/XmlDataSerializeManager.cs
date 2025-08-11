@@ -12,7 +12,7 @@ using UnityEngine;
 // 1. 모든 XML 데이터를 Deserialize 할 책임
 // 2. Deserialize 된 XML Data Instance를 각각의 Manager에게 전달.
 // 3. Serialize를 통해 XML Data를 업데이트
-public class DataManager : ManagerBase<DataManager>, IManager
+public class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManager>, IManager
 {
     #region 1. Fields
 

@@ -151,7 +151,7 @@ public class GameStartManagerMono : MonoBehaviour
 
     private void SetModelListWithDeserializedXml()
     {
-        var dataManager = DataManager.Instance;
+        var dataManager = XmlDataSerializeManager.Instance;
         
         ExceptionHelper.CheckNullException(dataManager, "DataManager");
         

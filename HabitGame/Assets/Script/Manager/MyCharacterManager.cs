@@ -6,7 +6,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     #region 1. Fields
 
     private MyCharacterData _myCharacterData;
-    private DataManager _dataManager;
+    private XmlDataSerializeManager _xmlDataSerializeManager;
 
     #endregion
 
@@ -22,9 +22,9 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 
     public void Initialize()
     {
-        _dataManager = DataManager.Instance;
+        _xmlDataSerializeManager = XmlDataSerializeManager.Instance;
         
-        ExceptionHelper.CheckNullExceptionWithMessage(_dataManager, "DataManager" , "\n GameStartManager Initialize() makes critical Error!");
+        ExceptionHelper.CheckNullExceptionWithMessage(_xmlDataSerializeManager, "xmlDataSerializeManager" , "\n GameStartManager Initialize() makes critical Error!");
     }
 
     #endregion
