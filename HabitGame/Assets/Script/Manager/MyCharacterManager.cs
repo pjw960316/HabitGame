@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using UnityEngine;
+
 public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 {
     #region 1. Fields
@@ -9,8 +11,10 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     #endregion
 
     #region 2. Properties
-
-    // default
+    
+    // property
+    //test
+    public MyCharacterData MyCharacterData => _myCharacterData;
 
     #endregion
 
@@ -49,6 +53,15 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     public int GetRoutineSuccessRewardMoney()
     {
         return _myCharacterData.RoutineSuccessRewardMoney;
+    }
+
+    //test
+    //set이 있는데 이게 괜찮은지...
+    public void UpdateRoutineSuccessRewardMoney(int totalReward)
+    {
+        _myCharacterData.RoutineSuccessRewardMoney += totalReward;
+        
+        Debug.Log($"클라이언트에서 RoutineSuccessRewardMoney {_myCharacterData.RoutineSuccessRewardMoney}");
     }
 
     #endregion

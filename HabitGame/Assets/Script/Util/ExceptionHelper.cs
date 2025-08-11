@@ -17,7 +17,7 @@ public static class ExceptionHelper
     {
         if (instance == null)
         {
-            throw new NullReferenceException($"{argumentName} is null" + $"\n {message}");
+            throw new NullReferenceException($"{argumentName}eer is null" + $"\n {message}");
         }
     }
 }

@@ -157,6 +157,7 @@ public class GameStartManagerMono : MonoBehaviour
         
         // todo
         // 모든 XML Deserialize data를 manager에 연결
+        //test
         var test = dataManager.GetDeserializedXmlData<MyCharacterData>("MyCharacterData");
         _modelList.Add(test);
     }

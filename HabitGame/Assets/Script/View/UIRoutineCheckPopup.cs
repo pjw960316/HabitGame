@@ -32,7 +32,7 @@ public class UIRoutineCheckPopup : UIPopupBase
         BindEvent();
         
         //test
-        var a = MyCharacterManager.Instance.GetBudget();
+        var a = MyCharacterManager.Instance.GetRoutineSuccessRewardMoney();
         Debug.Log($"{a}");
     }
 

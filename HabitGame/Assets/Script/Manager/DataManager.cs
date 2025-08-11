@@ -11,11 +11,21 @@ using UnityEngine;
 // 책임
 // 1. 모든 XML 데이터를 Deserialize 할 책임
 // 2. Deserialize 된 XML Data Instance를 각각의 Manager에게 전달.
+// 3. Serialize를 통해 XML Data를 업데이트
 public class DataManager : ManagerBase<DataManager>, IManager
 {
     #region 1. Fields
-    
-    //default
+
+    private MyCharacterManager _myCharacterManager;
+
+    #endregion
+
+    #region 3. Constructor
+
+    public void Initialize()
+    {
+        _myCharacterManager = MyCharacterManager.Instance;
+    }
 
     #endregion
 
@@ -25,24 +35,16 @@ public class DataManager : ManagerBase<DataManager>, IManager
 
     #endregion
 
-    #region 3. Constructor
-
-    public void Initialize()
-    {
-        //DeserializeAllData();
-    }
-
-    #endregion
-
     #region 4. Methods
 
     public void SetModel(IEnumerable<IModel> _list)
     {
     }
 
+    // fix
     private void DeserializeAllData()
     {
-        MyCharacterData test = GetDeserializedXmlData<MyCharacterData>("MyCharacterData");
+        var test = GetDeserializedXmlData<MyCharacterData>("MyCharacterData");
     }
 
     public T GetDeserializedXmlData<T>(string resourcePath) where T : class
@@ -52,39 +54,48 @@ public class DataManager : ManagerBase<DataManager>, IManager
         {
             throw new NullReferenceException("xmlString is null");
         }
-       
+
         var stringReader = new StringReader(xmlString);
         var xmlSerializer = new XmlSerializer(typeof(T));
-        
+
         return xmlSerializer.Deserialize(stringReader) as T;
     }
 
+    //test
     public void UpdateData()
     {
         SerializeXmlData();
     }
-    
+
+    //test
     private void SerializeXmlData()
     {
+        //test
+
+        Debug.Log($"serialize 직전 시점 {_myCharacterManager.MyCharacterData.RoutineSuccessRewardMoney}");
         var serializer = new XmlSerializer(typeof(MyCharacterData));
-        using var writer = new StreamWriter("MyCharacterData.xml");
-        //serializer.Serialize(writer, MyCharacterManager.Instance.);
+        var path = Path.Combine(Application.dataPath, "Resources/MyCharacterData.xml");
+        
+        using (var writer = new StreamWriter(path))
+        {
+            serializer.Serialize(writer, _myCharacterManager.MyCharacterData);
+        }
+
+        
+
+        //test
     }
-    
+
     // refactor 
     // addressable
     private TextAsset GetTextAsset(string resourcePath)
     {
         var textAsset = Resources.Load<TextAsset>(resourcePath);
-        
+
         ExceptionHelper.CheckNullException(textAsset, "textAsset");
 
         return textAsset;
     }
-    
-    
-
-    //test
 
     #endregion
 

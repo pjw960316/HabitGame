@@ -65,16 +65,30 @@ public class RoutineCheckPresenter : PresenterBase
             }
         }
 
-        RequestUpdateBudgetAsync(totalReward);
+        RequestUpdateBudgetAsync(totalReward).Forget();
 
         RequestShowToast();
     }
 
     private async UniTaskVoid RequestUpdateBudgetAsync(int totalReward)
     {
-        Debug.Log("3");
-        await _serverManager.UpdateXmlDataAsync();
-        Debug.Log("4");
+        var a = _myCharacterManager.GetRoutineSuccessRewardMoney();
+        Debug.Log($"routine money 1 : {a}");
+        
+        var serverResult = await _serverManager.RequestServerValidation(totalReward);
+
+        if (serverResult == EServerResult.SUCCESS)
+        {
+            Debug.Log("server success");
+            
+            
+            //test
+            //1. MyCharcater Data Update
+            //2. XML 데이터 serialize하기.
+            //3. xml 바뀌었는 지 확인해라.
+            _myCharacterManager.UpdateRoutineSuccessRewardMoney(totalReward);
+            DataManager.Instance.UpdateData();
+        }
     }
 
     private void RequestShowToast()
