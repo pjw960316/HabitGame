@@ -8,6 +8,7 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager
     #region 1. Fields
 
     public const float TOAST_MESSAGE_LIFE_TIME = 3f;
+    private GameObject _toastMessage;
 
     #endregion
 
@@ -36,6 +37,7 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager
     public void InjectMainCanvas(UIMainCanvas canvas)
     {
         MainCanvas = canvas;
+        _toastMessage = MainCanvas.ToastMessage.gameObject;
     }
 
     public void SetModel(IEnumerable<IModel> models)
@@ -44,21 +46,35 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager
 
     public void ShowToast(EToastStringKey eToastStringKey)
     {
-        var toastMessage = MainCanvas.ToastMessage.gameObject;
-        ExceptionHelper.CheckNullException(toastMessage, "toastMessage");
-
         UpdateToastText(eToastStringKey);
-        
-        toastMessage.SetActive(true);
+        PresentToast();
+    }
 
-        RemoveToastMessage(toastMessage);
+    public void ShowToast(EToastStringKey eToastStringKey, params object[] args)
+    {
+        UpdateToastText(eToastStringKey, args);
+        PresentToast();
     }
 
     private void UpdateToastText(EToastStringKey eToastStringKey)
     {
         var toastString = StringManager.Instance.GetToastString(eToastStringKey);
-        
+
         MainCanvas.ToastText.text = toastString;
+    }
+
+    private void UpdateToastText(EToastStringKey eToastStringKey, params object[] args)
+    {
+        var toastString = StringManager.Instance.GetToastString(eToastStringKey);
+
+        MainCanvas.ToastText.text = string.Format(toastString, args);
+    }
+
+    private void PresentToast()
+    {
+        _toastMessage.SetActive(true);
+
+        RemoveToastMessage(_toastMessage);
     }
 
     //note

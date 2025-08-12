@@ -7,6 +7,7 @@ public class StringData : ScriptableObject, IModel
 {
     // TODO
     // 분해를 많이 하자
+
     #region 1. Fields
 
     [SerializeField] private SerializedDictionary<EStringKey, string> _stringDictionary = new();
@@ -37,6 +38,7 @@ public class StringData : ScriptableObject, IModel
         {
             throw new ArgumentException("StringDictionary 에서 이용할 Key가 올바르지 않습니다.");
         }
+
         return _stringDictionary[eStringKey];
     }
 
@@ -46,14 +48,14 @@ public class StringData : ScriptableObject, IModel
         {
             throw new ArgumentException("ToastMessage Dictionary 에서 이용할 Key가 올바르지 않습니다.");
         }
-        
+
         return _toastStringDictionary[eToastStringKey];
     }
 
     private void ParseString()
     {
-        
     }
+
     #endregion
 
     #region 5. EventHandlers
@@ -65,7 +67,6 @@ public class StringData : ScriptableObject, IModel
 
 public interface IEnumKey
 {
-    
 }
 
 public enum EStringKey
@@ -79,11 +80,11 @@ public enum EStringKey
     EAlarmPopupAlarmMusicThree,
     EAlarmPopupAlarmTimeOne,
     EAlarmPopupAlarmTimeTwo,
-    EAlarmPopupAlarmTimeThree,
+    EAlarmPopupAlarmTimeThree
 }
 
 public enum EToastStringKey
 {
     EAlarmConfirm,
-    ERoutineCheckConfirm,
+    ERoutineCheckConfirm
 }

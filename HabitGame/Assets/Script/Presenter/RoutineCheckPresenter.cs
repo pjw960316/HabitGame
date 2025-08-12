@@ -66,10 +66,6 @@ public class RoutineCheckPresenter : PresenterBase
         }
 
         RequestUpdateBudgetAsync(totalReward).Forget();
-
-        // todo
-        // callback?
-        RequestShowToast();
     }
 
     private async UniTaskVoid RequestUpdateBudgetAsync(int totalReward)
@@ -79,12 +75,15 @@ public class RoutineCheckPresenter : PresenterBase
         if (serverResult == EServerResult.SUCCESS)
         {
             _myCharacterManager.UpdateCurrentRoutineSuccessRewardMoney(totalReward);
+
+            RequestShowToast();
         }
     }
 
     private void RequestShowToast()
     {
-        _uiToastManager.ShowToast(EToastStringKey.ERoutineCheckConfirm);
+        _uiToastManager.ShowToast(EToastStringKey.ERoutineCheckConfirm,
+            _myCharacterManager.GetCurrentRoutineSuccessRewardMoney());
     }
 
     #endregion

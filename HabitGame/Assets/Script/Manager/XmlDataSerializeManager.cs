@@ -62,7 +62,7 @@ public class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManager>, IMa
         {
             var xmlType = element.Key;
             var xmlPath = element.Value;
-  
+
             var xmlText = GetAllText(xmlPath);
             var xmlSerializer = new XmlSerializer(xmlType);
             var stringReader = new StringReader(xmlText);
@@ -92,9 +92,9 @@ public class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManager>, IMa
     {
         var serializer = new XmlSerializer(typeof(MyCharacterData));
         var path = _xmlFullPathDictionary[typeof(MyCharacterData)];
-        
+
         using var writer = new StreamWriter(path);
-        
+
         serializer.Serialize(writer, model);
     }
 
