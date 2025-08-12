@@ -95,8 +95,13 @@ public class GameStartManagerMono : MonoBehaviour
     {
         CreateSingletonManagers();
 
-        //test
-        XmlDataSerializeManager.Instance.PreInitialize();
+        // Note
+        // 싱글턴을 생성하고
+        // 모든 세팅 전에 필요한 기능을 수행한다.
+        foreach (var manager in _managerList)
+        {
+            manager.PreInitialize();
+        }
         
         ConnectModelsInManagers();
 

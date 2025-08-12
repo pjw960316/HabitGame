@@ -24,6 +24,10 @@ public class UIManager : ManagerBase<UIManager>, IManager
 
     #region 3. Constructor
 
+    public void PreInitialize()
+    {
+    }
+
     public void Initialize()
     {
         BindEvent();

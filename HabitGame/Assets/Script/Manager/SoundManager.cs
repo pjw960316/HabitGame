@@ -32,19 +32,20 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     #region 3. Constructor
 
-    public SoundManager()
+    public void PreInitialize()
     {
-        // Default
+        //
+    }
+    public void Initialize()
+    {
+        BindEvent();
     }
     
     #endregion
 
     #region 4. Methods
 
-    public void Initialize()
-    {
-        BindEvent();
-    }
+    
 
     private void BindEvent()
     {

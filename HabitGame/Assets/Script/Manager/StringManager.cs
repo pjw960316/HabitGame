@@ -31,6 +31,10 @@ public class StringManager : ManagerBase<StringManager>, IManager, IDisposable
 
     #region 3. Constructor
 
+    public void PreInitialize()
+    {
+    }
+
     public void Initialize()
     {
     }

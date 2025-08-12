@@ -17,6 +17,10 @@ public class GameManager : ManagerBase<GameManager>, IManager
 
     #region 3. Constructor
 
+    public void PreInitialize()
+    {
+    }
+
     public void Initialize()
     {
         TurnOnScreenAlways();
