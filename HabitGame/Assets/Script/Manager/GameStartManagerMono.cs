@@ -59,10 +59,6 @@ public class GameStartManagerMono : MonoBehaviour
 
         InitializeManagers();
         
-        //test
-        XmlDataSerializeManager.Instance.Test();
-        
-
         LivePermanent();
 
         ChangeScene();

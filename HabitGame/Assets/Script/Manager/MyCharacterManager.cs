@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 {
@@ -12,6 +11,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     private XmlDataSerializeManager _xmlDataSerializeManager;
 
     //
+
     #endregion
 
     #region 2. Properties
@@ -52,6 +52,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     {
         return _myCharacterData.RewardPerRoutineSuccess;
     }
+
     public int GetCurrentRoutineSuccessRewardMoney()
     {
         return _myCharacterData.CurrentRoutineSuccessRewardMoney;
@@ -60,19 +61,13 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     public void UpdateCurrentRoutineSuccessRewardMoney(int totalReward)
     {
         _myCharacterData.CurrentRoutineSuccessRewardMoney += totalReward;
-        
-        Debug.Log($" 아직 xml 전에 업데이트 : {_myCharacterData.CurrentRoutineSuccessRewardMoney}");
 
         RequestUpdateXmlData();
-        
-        Debug.Log($" xml업데이트 이후 : {_myCharacterData.CurrentRoutineSuccessRewardMoney}");
     }
 
     private void RequestUpdateXmlData()
     {
         _xmlDataSerializeManager.SerializeXmlData<MyCharacterData>(_myCharacterData);
-        
-        Debug.Log($"RequestUpdateXmlData 끝");
     }
 
     #endregion

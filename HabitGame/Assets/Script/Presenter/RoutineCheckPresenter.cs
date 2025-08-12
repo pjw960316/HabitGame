@@ -1,17 +1,16 @@
 using Cysharp.Threading.Tasks;
 using UniRx;
-using UnityEngine;
 
 public class RoutineCheckPresenter : PresenterBase
 {
     #region 1. Fields
 
     private UIRoutineCheckPopup _uiRoutineCheckPopup;
-    
+
     private MyCharacterManager _myCharacterManager;
     private UIToastManager _uiToastManager;
     private MockServerManager _serverManager;
-    
+
     #endregion
 
     #region 2. Properties
@@ -19,7 +18,7 @@ public class RoutineCheckPresenter : PresenterBase
     // default
 
     #endregion
-    
+
     #region 3. Constructor
 
     public sealed override void Initialize(IView view)
@@ -28,11 +27,11 @@ public class RoutineCheckPresenter : PresenterBase
 
         _uiRoutineCheckPopup = _view as UIRoutineCheckPopup;
         ExceptionHelper.CheckNullException(_uiRoutineCheckPopup, "_uiRoutineCheckPopup");
-        
+
         _myCharacterManager = MyCharacterManager.Instance;
         _uiToastManager = UIToastManager.Instance;
         _serverManager = MockServerManager.Instance;
-    
+
         BindEvent();
     }
 
@@ -54,7 +53,7 @@ public class RoutineCheckPresenter : PresenterBase
         var toggleList = _uiRoutineCheckPopup.GetToggleList();
         var rewardPerRoutineSuccess = _myCharacterManager.GetRewardPerRoutineSuccess();
         var totalReward = 0;
-        
+
         foreach (var toggleWidget in toggleList)
         {
             var toggle = toggleWidget.GetToggle();
@@ -79,7 +78,6 @@ public class RoutineCheckPresenter : PresenterBase
 
         if (serverResult == EServerResult.SUCCESS)
         {
-            Debug.Log($" sever success -> CurrentRoutineSuccessRewardMoney : {_myCharacterManager.GetCurrentRoutineSuccessRewardMoney()}");
             _myCharacterManager.UpdateCurrentRoutineSuccessRewardMoney(totalReward);
         }
     }
@@ -88,6 +86,6 @@ public class RoutineCheckPresenter : PresenterBase
     {
         _uiToastManager.ShowToast(EToastStringKey.ERoutineCheckConfirm);
     }
-    
+
     #endregion
 }

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
@@ -50,18 +49,11 @@ public class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManager>, IMa
         }*/
 
         var strTest = File.ReadAllText(resourcePath);
-        
+
         var stringReader = new StringReader(strTest);
         var xmlSerializer = new XmlSerializer(typeof(T));
-        
-        return xmlSerializer.Deserialize(stringReader) as T;
-    }
 
-    public void Test()
-    {
-        //test
-        var test = _myCharacterManager.GetCurrentRoutineSuccessRewardMoney();
-        Debug.Log($"{test} : GameStart에서 호출되는 XmlDataSerialize의 CurrentRoutineSuccessRewardMoney");
+        return xmlSerializer.Deserialize(stringReader) as T;
     }
 
     public void SerializeXmlData<TModel>(TModel model) where TModel : IModel
