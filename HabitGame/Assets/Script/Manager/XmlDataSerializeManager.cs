@@ -1,10 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using UnityEngine;
-
-// todo
-// 1. Data를 로드하고, 다른 매니저에게 전달?
 
 // Note
 // 책임
@@ -17,14 +15,7 @@ public class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManager>, IMa
 
     private MyCharacterManager _myCharacterManager;
 
-    #endregion
-
-    #region 3. Constructor
-
-    public void Initialize()
-    {
-        _myCharacterManager = MyCharacterManager.Instance;
-    }
+    private Dictionary<Type, string> _xmlFullPathDictionary;
 
     #endregion
 
@@ -34,42 +25,82 @@ public class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManager>, IMa
 
     #endregion
 
+    #region 3. Constructor
+
+    public void PreInitialize()
+    {
+        _xmlFullPathDictionary = new Dictionary<Type, string>();
+
+        SetXmlFullPath();
+    }
+
+    public void Initialize()
+    {
+        _myCharacterManager = MyCharacterManager.Instance;
+    }
+
+    #endregion
+
     #region 4. Methods
 
     public void SetModel(IEnumerable<IModel> _list)
     {
     }
 
-    public T GetDeserializedXmlData<T>(string resourcePath) where T : class
+    private void SetXmlFullPath()
     {
-        /*var xmlString = GetTextAsset(resourcePath)?.text;
-        if (xmlString == null)
+        //test
+        var path = Path.Combine(Application.dataPath, "Resources/MyCharacterData.xml");
+        _xmlFullPathDictionary.Add(typeof(MyCharacterData), path);
+    }
+
+    public List<IModel> GetModelListWithDeserializedXml()
+    {
+        var modelList = new List<IModel>();
+
+        foreach (var element in _xmlFullPathDictionary)
         {
-            throw new NullReferenceException("xmlString is null");
-        }*/
+            var xmlType = element.Key;
+            var xmlPath = element.Value;
+  
+            var xmlText = GetAllText(xmlPath);
+            var xmlSerializer = new XmlSerializer(xmlType);
+            var stringReader = new StringReader(xmlText);
+            ExceptionHelper.CheckNullException(stringReader, "stringReader");
 
-        var strTest = File.ReadAllText(resourcePath);
+            var model = xmlSerializer.Deserialize(stringReader) as IModel;
 
-        var stringReader = new StringReader(strTest);
-        var xmlSerializer = new XmlSerializer(typeof(T));
+            modelList.Add(model);
+        }
 
-        return xmlSerializer.Deserialize(stringReader) as T;
+        return modelList;
+    }
+
+    private string GetAllText(string resourceFullPath)
+    {
+        var text = File.ReadAllText(resourceFullPath);
+
+        if (text == null)
+        {
+            throw new FileLoadException("Read Xml fail");
+        }
+
+        return text;
     }
 
     public void SerializeXmlData<TModel>(TModel model) where TModel : IModel
     {
         var serializer = new XmlSerializer(typeof(MyCharacterData));
-
-        // refactor
-        var path = Path.Combine(Application.dataPath, "Resources/MyCharacterData.xml");
-
+        var path = _xmlFullPathDictionary[typeof(MyCharacterData)];
+        
         using var writer = new StreamWriter(path);
-
+        
         serializer.Serialize(writer, model);
     }
 
     // refactor 
     // addressable
+    // Resources.Load는 Runtime에 갱신된 xml 데이터를 반영하지 못한다.
     private TextAsset GetTextAsset(string resourcePath)
     {
         var textAsset = Resources.Load<TextAsset>(resourcePath);

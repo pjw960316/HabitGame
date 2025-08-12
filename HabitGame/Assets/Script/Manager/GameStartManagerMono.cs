@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -94,6 +95,9 @@ public class GameStartManagerMono : MonoBehaviour
     {
         CreateSingletonManagers();
 
+        //test
+        XmlDataSerializeManager.Instance.PreInitialize();
+        
         ConnectModelsInManagers();
 
         // Note
@@ -142,34 +146,36 @@ public class GameStartManagerMono : MonoBehaviour
 
     private void SetModelListWithScriptableObject()
     {
+        var scriptableObjectModelCount = 0;
         foreach (var scriptableObjectModel in _scriptableObjectModels)
         {
             if (scriptableObjectModel is IModel model)
             {
-                //todo
-                //이거 개수 검사 로직
                 _modelList.Add(model);
+                scriptableObjectModelCount++;
             }
         }
+        
+        //Log
+        Debug.Log($"{scriptableObjectModelCount}개의 ScriptableObject가 Model로 _modelList에 추가되었습니다.");
     }
 
     private void SetModelListWithDeserializedXml()
     {
-        var dataManager = XmlDataSerializeManager.Instance;
+        var _xmlDataSerializeManager = XmlDataSerializeManager.Instance;
+        ExceptionHelper.CheckNullException(_xmlDataSerializeManager , "_xmlDataSerializeManager");
+
+        var modelList = _xmlDataSerializeManager.GetModelListWithDeserializedXml();
+
+        var xmlModelCount = 0;
+        foreach (var model in modelList)
+        {
+            _modelList.Add(model);
+            xmlModelCount++;
+        }
         
-        ExceptionHelper.CheckNullException(dataManager, "DataManager");
-        
-        // todo
-        // 모든 XML Deserialize data를 manager에 연결
-        //test
-        
-        //var path = Path.Combine(Application.dataPath, "Resources/MyCharacterData");
-        
-        //test path
-        var path = "C:/HabitGame/HabitGame/Assets/Resources/MyCharacterData.xml";
-        
-        var test = dataManager.GetDeserializedXmlData<MyCharacterData>(path);
-        _modelList.Add(test);
+        //Log
+        Debug.Log($"{xmlModelCount}개의 xml이 Model로 _modelList에 추가되었습니다.");
     }
 
     //fix
@@ -186,4 +192,9 @@ public class GameStartManagerMono : MonoBehaviour
     }
 
     #endregion
+}
+
+public enum EPathKey
+{
+    MyCharacterDataXmlPath,
 }
