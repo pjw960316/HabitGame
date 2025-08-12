@@ -498,6 +498,7 @@ MonoBehaviour:
   _parentPopup: {fileID: 0}
   _toggle: {fileID: 1227790924129112630}
   _text: {fileID: 6681810662142111222}
+  _eStringKey: 12
   _checkBoxBackgroundImg: {fileID: 3523829732347848462}
   _checkBoxCheckMarkImg: {fileID: 929303604670921702}
 --- !u!1 &2164626267021515253
@@ -602,6 +603,7 @@ MonoBehaviour:
   _parentPopup: {fileID: 0}
   _toggle: {fileID: 7440918490462379357}
   _text: {fileID: 6306358038583226006}
+  _eStringKey: 11
   _checkBoxBackgroundImg: {fileID: 2961911327929943000}
   _checkBoxCheckMarkImg: {fileID: 9104334027534343448}
 --- !u!1 &2290147050973471437
@@ -2267,6 +2269,7 @@ MonoBehaviour:
   _parentPopup: {fileID: 0}
   _toggle: {fileID: 2940213869812420804}
   _text: {fileID: 8120389097882433744}
+  _eStringKey: 13
   _checkBoxBackgroundImg: {fileID: 8043430032181239391}
   _checkBoxCheckMarkImg: {fileID: 7017544275671597615}
 --- !u!1 &8829654417072854296
@@ -2507,5 +2510,6 @@ MonoBehaviour:
   _parentPopup: {fileID: 0}
   _toggle: {fileID: 3787099960681709370}
   _text: {fileID: 3611715980073782094}
+  _eStringKey: 10
   _checkBoxBackgroundImg: {fileID: 1596419505400355893}
   _checkBoxCheckMarkImg: {fileID: 5493253028135161522}

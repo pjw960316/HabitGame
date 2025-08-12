@@ -80,7 +80,11 @@ public enum EStringKey
     EAlarmPopupAlarmMusicThree,
     EAlarmPopupAlarmTimeOne,
     EAlarmPopupAlarmTimeTwo,
-    EAlarmPopupAlarmTimeThree
+    EAlarmPopupAlarmTimeThree,
+    ERoutineCheckOne,
+    ERoutineCheckTwo,
+    ERoutineCheckThree,
+    ERoutineCheckFour,
 }
 
 public enum EToastStringKey

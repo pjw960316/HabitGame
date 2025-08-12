@@ -10,12 +10,14 @@ public class UIToggleBase : MonoBehaviour, IView
     #region 1. Fields
 
     [SerializeField] private UIPopupBase _parentPopup;
-    
     [SerializeField] private Toggle _toggle;
     [SerializeField] private TextMeshProUGUI _text;
+    [SerializeField] private EStringKey _eStringKey;
     [SerializeField] private Image _checkBoxBackgroundImg;
     [SerializeField] private Image _checkBoxCheckMarkImg;
 
+    private StringManager _stringManager;
+    
     #endregion
 
     #region 2. Properties
@@ -42,7 +44,11 @@ public class UIToggleBase : MonoBehaviour, IView
 
     private void Initialize()
     {
+        _stringManager = StringManager.Instance;
+        
         BindEvent();
+
+        SetToggleText();
     }
 
     private void BindEvent()
@@ -56,6 +62,13 @@ public class UIToggleBase : MonoBehaviour, IView
     public Toggle GetToggle()
     {
         return _toggle;
+    }
+
+    private void SetToggleText()
+    {
+        var text = _stringManager.GetUIString(_eStringKey);
+        
+        _text.SetText(text);
     }
     
     #endregion
