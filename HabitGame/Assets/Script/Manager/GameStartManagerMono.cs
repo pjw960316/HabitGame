@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
@@ -51,9 +52,16 @@ public class GameStartManagerMono : MonoBehaviour
 
     private void LoadInitialGameState()
     {
+        //log
+        Debug.Log("GameStartManagerMono LoadInitialGameState()");
+        
         SetManagerTypesUsingReflection();
 
         InitializeManagers();
+        
+        //test
+        XmlDataSerializeManager.Instance.Test();
+        
 
         LivePermanent();
 
@@ -158,7 +166,13 @@ public class GameStartManagerMono : MonoBehaviour
         // todo
         // 모든 XML Deserialize data를 manager에 연결
         //test
-        var test = dataManager.GetDeserializedXmlData<MyCharacterData>("MyCharacterData");
+        
+        //var path = Path.Combine(Application.dataPath, "Resources/MyCharacterData");
+        
+        //test path
+        var path = "C:/HabitGame/HabitGame/Assets/Resources/MyCharacterData.xml";
+        
+        var test = dataManager.GetDeserializedXmlData<MyCharacterData>(path);
         _modelList.Add(test);
     }
 

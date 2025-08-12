@@ -11,6 +11,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     private MyCharacterData _myCharacterData;
     private XmlDataSerializeManager _xmlDataSerializeManager;
 
+    //
     #endregion
 
     #region 2. Properties

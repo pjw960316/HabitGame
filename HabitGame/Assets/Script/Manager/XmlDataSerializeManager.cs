@@ -41,35 +41,38 @@ public class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManager>, IMa
     {
     }
 
-    // fix
-    private void DeserializeAllData()
-    {
-        var test = GetDeserializedXmlData<MyCharacterData>("MyCharacterData");
-    }
-
     public T GetDeserializedXmlData<T>(string resourcePath) where T : class
     {
-        var xmlString = GetTextAsset(resourcePath)?.text;
+        /*var xmlString = GetTextAsset(resourcePath)?.text;
         if (xmlString == null)
         {
             throw new NullReferenceException("xmlString is null");
-        }
+        }*/
 
-        var stringReader = new StringReader(xmlString);
+        var strTest = File.ReadAllText(resourcePath);
+        
+        var stringReader = new StringReader(strTest);
         var xmlSerializer = new XmlSerializer(typeof(T));
-
+        
         return xmlSerializer.Deserialize(stringReader) as T;
     }
 
-    public void SerializeXmlData<TModel>(TModel model) where TModel : IModel 
+    public void Test()
+    {
+        //test
+        var test = _myCharacterManager.GetCurrentRoutineSuccessRewardMoney();
+        Debug.Log($"{test} : GameStart에서 호출되는 XmlDataSerialize의 CurrentRoutineSuccessRewardMoney");
+    }
+
+    public void SerializeXmlData<TModel>(TModel model) where TModel : IModel
     {
         var serializer = new XmlSerializer(typeof(MyCharacterData));
-        
+
         // refactor
         var path = Path.Combine(Application.dataPath, "Resources/MyCharacterData.xml");
 
         using var writer = new StreamWriter(path);
-        
+
         serializer.Serialize(writer, model);
     }
 

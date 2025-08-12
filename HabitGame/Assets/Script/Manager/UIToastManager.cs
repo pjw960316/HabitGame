@@ -61,7 +61,8 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager
     //don't need disposable
     private void RemoveToastMessage(GameObject toastMessage)
     {
-        Observable.Timer(TimeSpan.FromSeconds(TOAST_MESSAGE_LIFE_TIME)).Subscribe(_ => { toastMessage?.SetActive(false); });
+        Observable.Timer(TimeSpan.FromSeconds(TOAST_MESSAGE_LIFE_TIME))
+            .Subscribe(_ => { toastMessage?.SetActive(false); });
     }
 
     #endregion
