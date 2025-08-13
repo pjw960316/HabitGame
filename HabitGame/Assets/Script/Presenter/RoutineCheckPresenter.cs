@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using UniRx;
 
@@ -5,6 +6,8 @@ public class RoutineCheckPresenter : PresenterBase
 {
     #region 1. Fields
 
+    // note
+    // view
     private UIRoutineCheckPopup _uiRoutineCheckPopup;
 
     private MyCharacterManager _myCharacterManager;
@@ -42,6 +45,7 @@ public class RoutineCheckPresenter : PresenterBase
     private void BindEvent()
     {
         _uiRoutineCheckPopup.OnConfirmed.Subscribe(_ => HandleToggleEvent()).AddTo(_disposable);
+        _uiRoutineCheckPopup.OnAwakeRoutineCheckPopup.Subscribe(_ => UpdateDateTextPerSecond()).AddTo(_disposable);
     }
 
     #endregion
@@ -78,6 +82,15 @@ public class RoutineCheckPresenter : PresenterBase
 
             RequestShowToast();
         }
+    }
+
+    private void UpdateDateTextPerSecond()
+    {
+        Observable.Interval(TimeSpan.FromSeconds(1))
+            .Subscribe(_ =>
+            {
+                _uiRoutineCheckPopup.UpdateDateText(DateTime.Now);
+            });
     }
 
     private void RequestShowToast()
