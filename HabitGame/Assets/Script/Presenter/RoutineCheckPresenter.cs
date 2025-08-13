@@ -62,6 +62,7 @@ public class RoutineCheckPresenter : PresenterBase
         {
             var toggle = toggleWidget.GetToggle();
 
+            // todo : 이거 로직 바꿀 거임. 이미 한 거에 대한...
             // success routine
             if (toggle.isOn)
             {
