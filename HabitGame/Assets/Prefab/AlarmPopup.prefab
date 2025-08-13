@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 6513729093049413341}
   - component: {fileID: 3046247451781927247}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: MusicThreeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -253,7 +253,7 @@ GameObject:
   - component: {fileID: 6233684967391159560}
   - component: {fileID: 5530915282135271883}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: MusicTwoText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -389,7 +389,7 @@ GameObject:
   - component: {fileID: 6494473531631352260}
   - component: {fileID: 6363041254245795365}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TimeOneText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -525,6 +525,7 @@ GameObject:
   - component: {fileID: 3796725740730010831}
   - component: {fileID: 3696126196166048620}
   - component: {fileID: 8543549872137723518}
+  - component: {fileID: 6893115217534636565}
   m_Layer: 5
   m_Name: Confirm
   m_TagString: Untagged
@@ -634,6 +635,22 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6893115217534636565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177482530712563053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c797e6cf97fd56f4787bb549589e43d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _canvas: {fileID: 0}
+  _buttonText: {fileID: 8066427075635880691}
+  _buttonTextKey: 0
+  _button: {fileID: 8543549872137723518}
 --- !u!1 &1577975546080176179
 GameObject:
   m_ObjectHideFlags: 0
@@ -872,7 +889,7 @@ GameObject:
   - component: {fileID: 1483610493312736247}
   - component: {fileID: 5165665687277115229}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TimeThreeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1008,7 +1025,7 @@ GameObject:
   - component: {fileID: 5380059994133753854}
   - component: {fileID: 8066427075635880691}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: ConfirmText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1243,6 +1260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3423cb78f0cae7e40aec78f5648b077f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _uiToastMessage: {fileID: 0}
   _alarmMusicButtons:
   - button: {fileID: 1402440707171100350}
     buttonType: 0
@@ -1260,17 +1278,17 @@ MonoBehaviour:
   _confirmButton: {fileID: 8543549872137723518}
   _buttonTexts:
     _serializedList:
-    - Key: 3
-      Value: {fileID: 4195687718331180649}
     - Key: 4
-      Value: {fileID: 5530915282135271883}
+      Value: {fileID: 4195687718331180649}
     - Key: 5
-      Value: {fileID: 3046247451781927247}
+      Value: {fileID: 5530915282135271883}
     - Key: 6
-      Value: {fileID: 6363041254245795365}
+      Value: {fileID: 3046247451781927247}
     - Key: 7
-      Value: {fileID: 7683613648066347559}
+      Value: {fileID: 6363041254245795365}
     - Key: 8
+      Value: {fileID: 7683613648066347559}
+    - Key: 9
       Value: {fileID: 5165665687277115229}
   _buttonColorDictionary:
     _serializedList:
@@ -1757,7 +1775,7 @@ GameObject:
   - component: {fileID: 4862270579568530273}
   - component: {fileID: 7683613648066347559}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TimeTwoText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2014,7 +2032,7 @@ GameObject:
   - component: {fileID: 3887659370921236942}
   - component: {fileID: 4195687718331180649}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: MusicOneText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

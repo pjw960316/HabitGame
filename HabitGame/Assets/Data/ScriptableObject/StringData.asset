@@ -16,6 +16,12 @@ MonoBehaviour:
     _serializedList:
     - Key: 0
       Value: "\uD655\uC778"
+    - Key: 1
+      Value: "\uC54C\uB78C"
+    - Key: 2
+      Value: "\uB8E8\uD2F4 \uCCB4\uD06C"
+    - Key: 3
+      Value: "\uB8E8\uD2F4 \uAE30\uB85D\uC2E4"
     - Key: 10
       Value: "\uC624\uC804 \uB3C4\uC11C\uAD00 2\uD0C0\uC784"
     - Key: 11
@@ -24,21 +30,17 @@ MonoBehaviour:
       Value: "\uB7EC\uB2DD or \uC0B0\uCC45"
     - Key: 13
       Value: "\uC57C\uC2DD X"
-    - Key: 1
-      Value: "\uC54C\uB78C"
-    - Key: 2
-      Value: "\uB8E8\uD2F4 \uAE30\uB85D"
-    - Key: 3
-      Value: "\uC7A0\uBC15\uC0AC"
     - Key: 4
-      Value: "2\uBC88 \uB178\uB798"
+      Value: "\uC7A0\uBC15\uC0AC"
     - Key: 5
-      Value: "3\uBC88 \uB178\uB798"
+      Value: "2\uBC88 \uC74C\uC545"
     - Key: 6
-      Value: "30\uBD84"
+      Value: "3\uBC88 \uC74C\uC545"
     - Key: 7
-      Value: "60\uBD84"
+      Value: "30\uBD84"
     - Key: 8
+      Value: "60\uBD84"
+    - Key: 9
       Value: "90\uBD84"
   _toastStringDictionary:
     _serializedList:

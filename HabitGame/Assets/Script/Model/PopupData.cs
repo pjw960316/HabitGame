@@ -49,4 +49,5 @@ public enum EPopupKey
 {
     AlarmPopup,
     RoutineCheckPopup,
+    RoutineRecordPopup,
 }
