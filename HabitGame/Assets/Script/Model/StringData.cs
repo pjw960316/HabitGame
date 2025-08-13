@@ -5,9 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "StringData", menuName = "ScriptableObjects/StringData")]
 public class StringData : ScriptableObject, IModel
 {
-    // TODO
-    // 분해를 많이 하자
-
     #region 1. Fields
 
     [SerializeField] private SerializedDictionary<EStringKey, string> _stringDictionary = new();

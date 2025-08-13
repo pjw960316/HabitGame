@@ -113,8 +113,6 @@ public class AlarmPresenter : PresenterBase
         _latestAlarmPlayingTime = _viewData.AlarmTimeDictionary[buttonType];
     }
 
-    // todo
-    // 매니저에게 지금 정보 알려주고 재생 시키고 View 갱신
     private void StartAlarm()
     {
         RequestStartingAlarm(_latestAlarmPlayingTime);

@@ -33,8 +33,6 @@ public class UIOpenPopupButtonBase : UIButtonBase
         _button.onClick.AddListener(() => _onClickButton.OnNext(ePopupKey));
     }
 
-    // todo
-    // 너 presenter 필요하니?
     public void CreatePresenterByManager()
     {
         _uiManager.CreatePresenter<OpenPopupPresenterBase>(this);

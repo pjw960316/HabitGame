@@ -106,7 +106,6 @@ public class UIAlarmPopup : UIPopupBase
 
     #region 5. EventHandlers
 
-    //test
     private void OnClickButton(ButtonData buttonData, Subject<EButtons> subject)
     {
         subject.OnNext(buttonData.buttonType);
