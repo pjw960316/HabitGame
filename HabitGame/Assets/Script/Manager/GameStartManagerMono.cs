@@ -198,8 +198,3 @@ public class GameStartManagerMono : MonoBehaviour
 
     #endregion
 }
-
-public enum EPathKey
-{
-    MyCharacterDataXmlPath,
-}
