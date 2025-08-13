@@ -82,7 +82,14 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager
     private void RemoveToastMessage(GameObject toastMessage)
     {
         Observable.Timer(TimeSpan.FromSeconds(TOAST_MESSAGE_LIFE_TIME))
-            .Subscribe(_ => { toastMessage?.SetActive(false); });
+            .Subscribe(_ =>
+            {
+                if (toastMessage == null)
+                {
+                    return;
+                }
+                toastMessage.SetActive(false);
+            });
     }
 
     #endregion
