@@ -12,25 +12,22 @@ public class MyCharacterData : IModel
         public bool RoutineThreeCheck;
         public bool RoutineFourCheck;
     }
-    
+
     #region 1. Fields
 
     private int _name;
     private int _age;
     private int _currentRoutineSuccessRewardMoney;
     private int _rewardPerRoutineSuccess;
-    
-    [XmlIgnore] 
-    private Dictionary<string, List<bool>> _routineRecordDictionary = new();
-    
+
+    [XmlIgnore] private Dictionary<string, List<bool>> _routineRecordDictionary = new();
+
     //test
     //뒤에 계속 추가
     //데이터 갱신 - key로
     //데이터 
     [XmlIgnore] //test
     private List<RoutineRecordData> _routineRecordData = new();
-
-    
 
     #endregion
 
@@ -45,10 +42,7 @@ public class MyCharacterData : IModel
     public Dictionary<string, List<bool>> RoutineRecordDictionary
     {
         get => _routineRecordDictionary;
-        private set
-        {
-            _routineRecordDictionary = value;
-        }
+        private set => _routineRecordDictionary = value;
     }
 
     #endregion

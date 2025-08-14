@@ -50,7 +50,7 @@ public class RoutineCheckPresenter : PresenterBase
         _uiRoutineCheckPopup.OnAwakeRoutineCheckPopup.Subscribe(_ => InitializeRoutineCheckPopup()).AddTo(_disposable);
         _uiRoutineCheckPopup.OnConfirmed.Subscribe(_ => HandleToggleEvent()).AddTo(_disposable);
     }
-    
+
     private void InitializeRoutineCheckPopup()
     {
         UpdateDateTextPerSecond();
@@ -63,14 +63,14 @@ public class RoutineCheckPresenter : PresenterBase
         Observable.Interval(TimeSpan.FromSeconds(1))
             .Subscribe(_ => { _uiRoutineCheckPopup.UpdateDateText(DateTime.Now); });
     }
-    
+
     private void InitializeRoutineCheckToggle(DateTime dateTime)
     {
         var todayCompletedRoutineIndex = RequestGetTodayCompletedRoutineIndex(dateTime);
 
         _uiRoutineCheckPopup.InitializeToggle(todayCompletedRoutineIndex);
     }
-    
+
     #endregion
 
     #region 5. Request Methods
@@ -112,7 +112,7 @@ public class RoutineCheckPresenter : PresenterBase
         {
             var toggle = toggleList[index];
             var isToggleChecked = toggle.GetToggle().isOn;
-            
+
             if (isToggleChecked)
             {
                 todayCompletedRoutineIndex.Add(index);

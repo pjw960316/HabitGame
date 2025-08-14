@@ -53,12 +53,12 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 
         ExceptionHelper.CheckNullException(_myCharacterData, "_myCharacterData in MyCharacterManager");
     }
-    
+
     public List<int> GetTodayCompletedRoutineIndex(DateTime dateTime)
     {
         var key = dateTime.ToString("yyyyMMdd");
         var routineRecordDictionary = _myCharacterData.RoutineRecordDictionary;
-        
+
         if (routineRecordDictionary.ContainsKey(key) == false)
         {
             //test
@@ -74,7 +74,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 
         var todayRecordList = routineRecordDictionary[key];
         var completedRoutineIndexList = new List<int>();
-        
+
         for (var index = 0; index < todayRecordList.Count; index++)
         {
             var todayRecord = todayRecordList[index];
@@ -90,7 +90,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     public void UpdateRoutineRecord(List<int> todayCompletedRoutineIndexList, DateTime dateTime)
     {
         UpdateCurrentRoutineRecordData(todayCompletedRoutineIndexList, dateTime);
-        
+
         RequestUpdateXmlData();
     }
 
@@ -99,9 +99,9 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     private void UpdateCurrentRoutineRecordData(List<int> todayCompletedRoutineIndexListByUser, DateTime dateTime)
     {
         var key = dateTime.ToString("yyyyMMdd");
-        
+
         var routineRecordDictionary = _myCharacterData.RoutineRecordDictionary;
-        
+
         // note
         // 오늘의 루틴 완료 여부를 0번 루틴 ~ 마지막 루틴 까지 bool로 저장
         var todayRoutineRecordList = routineRecordDictionary[key];
@@ -132,7 +132,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     {
         _xmlDataSerializeManager.SerializeXmlData<MyCharacterData>(_myCharacterData);
     }
-    
+
     public int GetCurrentRoutineSuccessRewardMoney()
     {
         return _myCharacterData.CurrentRoutineSuccessRewardMoney;
