@@ -44,7 +44,7 @@ public class MockServerManager : ManagerBase<MockServerManager>, IManager
     // Note
     // 지연 + 무조건 SUCCESS return 하는 가짜 서버 구조
     // SUCCESS 하면 클라에서 데이터 변경하고, 그걸 xml네 저장하는 걸 허락한다.
-    public async UniTask<EServerResult> RequestServerValidation(int totalReward)
+    public async UniTask<EServerResult> RequestServerValidation()
     {
         var serverResult = await GenerateMockServerLogic();
 

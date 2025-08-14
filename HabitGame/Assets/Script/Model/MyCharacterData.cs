@@ -20,6 +20,9 @@ public class MyCharacterData : IModel
     private int _currentRoutineSuccessRewardMoney;
     private int _rewardPerRoutineSuccess;
     
+    [XmlIgnore] 
+    private Dictionary<string, List<bool>> _routineRecordDictionary = new();
+    
     //test
     //뒤에 계속 추가
     //데이터 갱신 - key로
@@ -27,8 +30,7 @@ public class MyCharacterData : IModel
     [XmlIgnore] //test
     private List<RoutineRecordData> _routineRecordData = new();
 
-    [XmlIgnore] //test
-    public Dictionary<string, List<bool>> RoutineRecordDictionary = new();
+    
 
     #endregion
 
@@ -38,6 +40,16 @@ public class MyCharacterData : IModel
     public int Age { get; set; }
     public int CurrentRoutineSuccessRewardMoney { get; set; }
     public int RewardPerRoutineSuccess { get; set; }
+
+    [XmlIgnore]
+    public Dictionary<string, List<bool>> RoutineRecordDictionary
+    {
+        get => _routineRecordDictionary;
+        private set
+        {
+            _routineRecordDictionary = value;
+        }
+    }
 
     #endregion
 
@@ -49,11 +61,7 @@ public class MyCharacterData : IModel
 
     #region 4. Methods
 
-    //test
-    private void SetDictionary()
-    {
-        
-    }
+    // default
 
     #endregion
 

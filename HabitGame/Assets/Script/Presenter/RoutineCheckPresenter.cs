@@ -70,18 +70,18 @@ public class RoutineCheckPresenter : PresenterBase
 
         _uiRoutineCheckPopup.InitializeToggle(todayCompletedRoutineIndex);
     }
-
+    
     #endregion
 
     #region 5. Request Methods
 
-    private async UniTaskVoid RequestUpdateBudgetAsync(int totalReward)
+    private async UniTaskVoid RequestUpdateRoutineRecordAsync(List<int> todayCompletedRoutineIndex, DateTime dateTime)
     {
-        var serverResult = await _serverManager.RequestServerValidation(totalReward);
+        var serverResult = await _serverManager.RequestServerValidation();
 
         if (serverResult == EServerResult.SUCCESS)
         {
-            _myCharacterManager.UpdateCurrentRoutineSuccessRewardMoney(totalReward, DateTime.Now);
+            _myCharacterManager.UpdateRoutineRecord(todayCompletedRoutineIndex, dateTime);
 
             RequestShowToast();
         }
@@ -105,22 +105,21 @@ public class RoutineCheckPresenter : PresenterBase
     private void HandleToggleEvent()
     {
         var toggleList = _uiRoutineCheckPopup.GetToggleList();
-        var rewardPerRoutineSuccess = _myCharacterManager.GetRewardPerRoutineSuccess();
-        var totalReward = 0;
+        var todayCompletedRoutineIndex = new List<int>();
+        var toggleListCount = toggleList.Count;
 
-        foreach (var toggleWidget in toggleList)
+        for (var index = 0; index < toggleListCount; index++)
         {
-            var toggle = toggleWidget.GetToggle();
-
-            // todo : 이거 로직 바꿀 거임. 이미 한 거에 대한...
-            // success routine
-            if (toggle.isOn)
+            var toggle = toggleList[index];
+            var isToggleChecked = toggle.GetToggle().isOn;
+            
+            if (isToggleChecked)
             {
-                totalReward += rewardPerRoutineSuccess;
+                todayCompletedRoutineIndex.Add(index);
             }
         }
 
-        RequestUpdateBudgetAsync(totalReward).Forget();
+        RequestUpdateRoutineRecordAsync(todayCompletedRoutineIndex, DateTime.Now).Forget();
     }
 
     #endregion
