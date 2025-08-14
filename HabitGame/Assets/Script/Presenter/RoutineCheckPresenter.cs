@@ -12,7 +12,7 @@ public class RoutineCheckPresenter : PresenterBase
     // note
     // view
     private UIRoutineCheckPopup _uiRoutineCheckPopup;
-    
+
     private MyCharacterManager _myCharacterManager;
     private UIToastManager _uiToastManager;
     private MockServerManager _serverManager;
@@ -51,9 +51,58 @@ public class RoutineCheckPresenter : PresenterBase
         _uiRoutineCheckPopup.OnConfirmed.Subscribe(_ => HandleToggleEvent()).AddTo(_disposable);
     }
 
+
+    private void InitializeRoutineCheckPopup()
+    {
+        UpdateDateTextPerSecond();
+
+        UpdateRoutineCheckToggle(DateTime.Now);
+    }
+
+    private void UpdateDateTextPerSecond()
+    {
+        Observable.Interval(TimeSpan.FromSeconds(1))
+            .Subscribe(_ => { _uiRoutineCheckPopup.UpdateDateText(DateTime.Now); });
+    }
+
+    //refactor RequestGetTodayCompletedRoutineIndex 이거 간소화 할까.
+    private void UpdateRoutineCheckToggle(DateTime dateTime)
+    {
+        var completedRoutineIndexList = RequestGetTodayCompletedRoutineIndex(dateTime);
+
+        _uiRoutineCheckPopup.UpdateToggle(completedRoutineIndexList);
+    }
+
     #endregion
 
-    #region 5. EventHandlers
+    #region 5. Request Methods
+
+    private async UniTaskVoid RequestUpdateBudgetAsync(int totalReward)
+    {
+        var serverResult = await _serverManager.RequestServerValidation(totalReward);
+
+        if (serverResult == EServerResult.SUCCESS)
+        {
+            _myCharacterManager.UpdateCurrentRoutineSuccessRewardMoney(totalReward, DateTime.Now);
+
+            RequestShowToast();
+        }
+    }
+
+    private List<int> RequestGetTodayCompletedRoutineIndex(DateTime dateTime)
+    {
+        return _myCharacterManager.GetTodayCompletedRoutineIndex(dateTime);
+    }
+
+    private void RequestShowToast()
+    {
+        _uiToastManager.ShowToast(EToastStringKey.ERoutineCheckConfirm,
+            _myCharacterManager.GetCurrentRoutineSuccessRewardMoney());
+    }
+
+    #endregion
+
+    #region 6. EventHandlers
 
     private void HandleToggleEvent()
     {
@@ -74,52 +123,6 @@ public class RoutineCheckPresenter : PresenterBase
         }
 
         RequestUpdateBudgetAsync(totalReward).Forget();
-    }
-
-    private async UniTaskVoid RequestUpdateBudgetAsync(int totalReward)
-    {
-        var serverResult = await _serverManager.RequestServerValidation(totalReward);
-
-        if (serverResult == EServerResult.SUCCESS)
-        {
-            _myCharacterManager.UpdateCurrentRoutineSuccessRewardMoney(totalReward, DateTime.Now);
-
-            RequestShowToast();
-        }
-    }
-
-    private void InitializeRoutineCheckPopup()
-    {
-        UpdateDateTextPerSecond();
-        
-        UpdateRoutineCheckToggle(DateTime.Now);
-    }
-    
-    private void UpdateDateTextPerSecond()
-    {
-        Observable.Interval(TimeSpan.FromSeconds(1))
-            .Subscribe(_ =>
-            {
-                _uiRoutineCheckPopup.UpdateDateText(DateTime.Now);
-            });
-    }
-
-    //refactor RequestGetTodayCompletedRoutineIndex 이거 간소화 할까.
-    private void UpdateRoutineCheckToggle(DateTime dateTime)
-    {
-        var completedRoutineIndexList = RequestGetTodayCompletedRoutineIndex(dateTime);
-        
-        _uiRoutineCheckPopup.UpdateToggle(completedRoutineIndexList);
-    }
-
-    private List<int> RequestGetTodayCompletedRoutineIndex(DateTime dateTime)
-    {
-        return _myCharacterManager.GetTodayCompletedRoutineIndex(dateTime);
-    }
-    private void RequestShowToast()
-    {
-        _uiToastManager.ShowToast(EToastStringKey.ERoutineCheckConfirm,
-            _myCharacterManager.GetCurrentRoutineSuccessRewardMoney());
     }
 
     #endregion

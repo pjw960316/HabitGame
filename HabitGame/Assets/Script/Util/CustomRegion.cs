@@ -26,8 +26,14 @@ public class CustomRegion
     // default
 
     #endregion
+    
+    #region 5. Request Methods
 
-    #region 5. EventHandlers
+    // default
+
+    #endregion
+
+    #region 6. EventHandlers
 
     // default
 
