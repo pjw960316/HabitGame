@@ -2,6 +2,6 @@
 <MyCharacterData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>ParkJiWon</Name>
   <Age>29</Age>
-  <CurrentRoutineSuccessRewardMoney>500</CurrentRoutineSuccessRewardMoney>
+  <CurrentRoutineSuccessRewardMoney>1500</CurrentRoutineSuccessRewardMoney>
   <RewardPerRoutineSuccess>500</RewardPerRoutineSuccess>
 </MyCharacterData>

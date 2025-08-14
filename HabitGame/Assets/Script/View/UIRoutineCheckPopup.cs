@@ -43,9 +43,10 @@ public class UIRoutineCheckPopup : UIPopupBase
 
     private void Initialize()
     {
-        var dateTimeNow = DateTime.Now;
+        UpdateDateText(DateTime.Now);
 
-        _dayText.SetText($"{dateTimeNow}");
+        //Note
+        //Toggle의 최초 상태는 OnAwakeRoutineCheckPopup에서 Initialize 된다.
     }
 
     #endregion
@@ -76,6 +77,15 @@ public class UIRoutineCheckPopup : UIPopupBase
     public void UpdateDateText(DateTime dateTime)
     {
         _dayText.SetText($"{dateTime}");
+    }
+
+    public void UpdateToggle(List<int> completedTodayRoutineIndex)
+    {
+        //todo : 예외처리
+        foreach (int index in completedTodayRoutineIndex)
+        {
+            _toggleList[index].GetToggle().isOn = true;
+        }
     }
 
     #endregion

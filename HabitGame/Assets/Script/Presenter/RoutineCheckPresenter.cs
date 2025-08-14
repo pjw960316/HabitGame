@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UniRx;
 
+// note
+// 2개의 view를 1개의 presenter로 관리하는 방식
 public class RoutineCheckPresenter : PresenterBase
 {
     #region 1. Fields
@@ -9,7 +12,7 @@ public class RoutineCheckPresenter : PresenterBase
     // note
     // view
     private UIRoutineCheckPopup _uiRoutineCheckPopup;
-
+    
     private MyCharacterManager _myCharacterManager;
     private UIToastManager _uiToastManager;
     private MockServerManager _serverManager;
@@ -44,8 +47,8 @@ public class RoutineCheckPresenter : PresenterBase
 
     private void BindEvent()
     {
+        _uiRoutineCheckPopup.OnAwakeRoutineCheckPopup.Subscribe(_ => InitializeRoutineCheckPopup()).AddTo(_disposable);
         _uiRoutineCheckPopup.OnConfirmed.Subscribe(_ => HandleToggleEvent()).AddTo(_disposable);
-        _uiRoutineCheckPopup.OnAwakeRoutineCheckPopup.Subscribe(_ => UpdateDateTextPerSecond()).AddTo(_disposable);
     }
 
     #endregion
@@ -79,12 +82,19 @@ public class RoutineCheckPresenter : PresenterBase
 
         if (serverResult == EServerResult.SUCCESS)
         {
-            _myCharacterManager.UpdateCurrentRoutineSuccessRewardMoney(totalReward);
+            _myCharacterManager.UpdateCurrentRoutineSuccessRewardMoney(totalReward, DateTime.Now);
 
             RequestShowToast();
         }
     }
 
+    private void InitializeRoutineCheckPopup()
+    {
+        UpdateDateTextPerSecond();
+        
+        UpdateRoutineCheckToggle(DateTime.Now);
+    }
+    
     private void UpdateDateTextPerSecond()
     {
         Observable.Interval(TimeSpan.FromSeconds(1))
@@ -94,6 +104,18 @@ public class RoutineCheckPresenter : PresenterBase
             });
     }
 
+    //refactor RequestGetTodayCompletedRoutineIndex 이거 간소화 할까.
+    private void UpdateRoutineCheckToggle(DateTime dateTime)
+    {
+        var completedRoutineIndexList = RequestGetTodayCompletedRoutineIndex(dateTime);
+        
+        _uiRoutineCheckPopup.UpdateToggle(completedRoutineIndexList);
+    }
+
+    private List<int> RequestGetTodayCompletedRoutineIndex(DateTime dateTime)
+    {
+        return _myCharacterManager.GetTodayCompletedRoutineIndex(dateTime);
+    }
     private void RequestShowToast()
     {
         _uiToastManager.ShowToast(EToastStringKey.ERoutineCheckConfirm,

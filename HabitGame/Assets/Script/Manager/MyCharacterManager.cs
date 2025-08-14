@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
@@ -63,8 +64,43 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
         return _myCharacterData.CurrentRoutineSuccessRewardMoney;
     }
 
-    public void UpdateCurrentRoutineSuccessRewardMoney(int totalReward)
+    //todo 예외처리
+    public List<int> GetTodayCompletedRoutineIndex(DateTime dateTime)
     {
+        var key = dateTime.ToString("yyyyMMdd");
+        
+        //var routineRecordDictionary = _myCharacterData.RoutineRecordDictionary;
+        //var todayRecordList = routineRecordDictionary[key];
+        
+        
+        //test
+        var todayRecordList = new List<bool>
+        {
+            true,
+            false,
+            false,
+            true
+        };
+        //여기까지
+
+        var completedRoutineIndexList = new List<int>();
+        
+        for (var index = 0; index < todayRecordList.Count; index++)
+        {
+            var todayRecord = todayRecordList[index];
+            
+            if (todayRecord == true)
+            {
+                completedRoutineIndexList.Add(index);
+            }
+        }
+
+        return completedRoutineIndexList;
+    }
+
+    public void UpdateCurrentRoutineSuccessRewardMoney(int totalReward, DateTime dateTime)
+    {
+        //new logic
         _myCharacterData.CurrentRoutineSuccessRewardMoney += totalReward;
 
         RequestUpdateXmlData();
