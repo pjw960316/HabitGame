@@ -50,13 +50,12 @@ public class RoutineCheckPresenter : PresenterBase
         _uiRoutineCheckPopup.OnAwakeRoutineCheckPopup.Subscribe(_ => InitializeRoutineCheckPopup()).AddTo(_disposable);
         _uiRoutineCheckPopup.OnConfirmed.Subscribe(_ => HandleToggleEvent()).AddTo(_disposable);
     }
-
-
+    
     private void InitializeRoutineCheckPopup()
     {
         UpdateDateTextPerSecond();
 
-        UpdateRoutineCheckToggle(DateTime.Now);
+        InitializeRoutineCheckToggle(DateTime.Now);
     }
 
     private void UpdateDateTextPerSecond()
@@ -64,13 +63,12 @@ public class RoutineCheckPresenter : PresenterBase
         Observable.Interval(TimeSpan.FromSeconds(1))
             .Subscribe(_ => { _uiRoutineCheckPopup.UpdateDateText(DateTime.Now); });
     }
-
-    //refactor RequestGetTodayCompletedRoutineIndex 이거 간소화 할까.
-    private void UpdateRoutineCheckToggle(DateTime dateTime)
+    
+    private void InitializeRoutineCheckToggle(DateTime dateTime)
     {
-        var completedRoutineIndexList = RequestGetTodayCompletedRoutineIndex(dateTime);
+        var todayCompletedRoutineIndex = RequestGetTodayCompletedRoutineIndex(dateTime);
 
-        _uiRoutineCheckPopup.UpdateToggle(completedRoutineIndexList);
+        _uiRoutineCheckPopup.InitializeToggle(todayCompletedRoutineIndex);
     }
 
     #endregion
