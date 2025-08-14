@@ -53,33 +53,32 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 
         ExceptionHelper.CheckNullException(_myCharacterData, "_myCharacterData in MyCharacterManager");
     }
-
-    //todo 예외처리
+    
     public List<int> GetTodayCompletedRoutineIndex(DateTime dateTime)
     {
         var key = dateTime.ToString("yyyyMMdd");
+        var routineRecordDictionary = _myCharacterData.RoutineRecordDictionary;
         
-        //var routineRecordDictionary = _myCharacterData.RoutineRecordDictionary;
-        //var todayRecordList = routineRecordDictionary[key];
-        
-        
-        //test
-        var todayRecordList = new List<bool>
+        if (routineRecordDictionary.ContainsKey(key) == false)
         {
-            true,
-            false,
-            false,
-            true
-        };
-        //여기까지
+            //test
+            //4개인 걸 보장할 수 없음.
+            routineRecordDictionary.Add(key, new List<bool>
+            {
+                false,
+                false,
+                false,
+                false
+            });
+        }
 
+        var todayRecordList = routineRecordDictionary[key];
         var completedRoutineIndexList = new List<int>();
         
         for (var index = 0; index < todayRecordList.Count; index++)
         {
             var todayRecord = todayRecordList[index];
-            
-            if (todayRecord == true)
+            if (todayRecord)
             {
                 completedRoutineIndexList.Add(index);
             }
