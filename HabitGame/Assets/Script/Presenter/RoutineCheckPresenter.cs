@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using JetBrains.Annotations;
 using UniRx;
 
 // note
@@ -68,6 +69,14 @@ public class RoutineCheckPresenter : PresenterBase
     {
         var todaySuccessfulRoutineIndex = RequestGetTodaySuccessfulRoutineIndex(dateTime);
 
+        // note
+        // null이면 해당 루틴이 없는 것 이므로
+        // Toggle을 그냥 냅두면 된다.
+        if (todaySuccessfulRoutineIndex == null)
+        {
+            return;
+        }
+
         _uiRoutineCheckPopup.InitializeToggle(todaySuccessfulRoutineIndex);
     }
 
@@ -87,6 +96,7 @@ public class RoutineCheckPresenter : PresenterBase
         }
     }
 
+    [CanBeNull]
     private List<int> RequestGetTodaySuccessfulRoutineIndex(DateTime dateTime)
     {
         return _myCharacterManager.GetTodaySuccessfulRoutineIndex(dateTime);

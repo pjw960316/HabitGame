@@ -12,9 +12,7 @@ using UnityEngine;
 public class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManager>, IManager
 {
     #region 1. Fields
-
-    private MyCharacterManager _myCharacterManager;
-
+    
     private Dictionary<Type, string> _xmlFullPathDictionary;
 
     #endregion
@@ -36,7 +34,7 @@ public class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManager>, IMa
 
     public void Initialize()
     {
-        _myCharacterManager = MyCharacterManager.Instance;
+        //
     }
 
     #endregion

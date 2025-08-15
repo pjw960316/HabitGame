@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using JetBrains.Annotations;
+using UnityEngine;
 
 public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 {
@@ -34,6 +37,19 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 
         ExceptionHelper.CheckNullExceptionWithMessage(_xmlDataSerializeManager, "xmlDataSerializeManager",
             "\n GameStartManager Initialize() makes critical Error!");
+
+        //test
+        var routineRecordList = _myCharacterData.RoutineRecordList;
+        foreach (var routineRecordData in routineRecordList)
+        {
+            Debug.Log("key" + $"{routineRecordData.key}");
+            Debug.Log("0" + $"{routineRecordData.RoutineCheckList[0]}");
+            Debug.Log("1" + $"{routineRecordData.RoutineCheckList[1]}");
+            Debug.Log("2" + $"{routineRecordData.RoutineCheckList[2]}");
+            Debug.Log("3" + $"{routineRecordData.RoutineCheckList[3]}");
+        }
+
+        RequestInitializeRoutineRecordDictionary();
     }
 
     #endregion
@@ -53,75 +69,43 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 
         ExceptionHelper.CheckNullException(_myCharacterData, "_myCharacterData in MyCharacterManager");
     }
-
+    
+    [CanBeNull]
     public List<int> GetTodaySuccessfulRoutineIndex(DateTime dateTime)
     {
         var key = dateTime.ToString("yyyyMMdd");
-        var routineRecordDictionary = _myCharacterData.RoutineRecordDictionary;
+        var immutableRoutineRecordDictionary = _myCharacterData.RoutineRecordDictionary;
 
-        if (routineRecordDictionary.ContainsKey(key) == false)
-        {
-            routineRecordDictionary.Add(key, new List<bool>
-            {
-                false,
-                false,
-                false,
-                false
-            });
-        }
-
-        var todayRecordList = routineRecordDictionary[key];
-        var todaySuccessfulRoutineIndex = new List<int>();
-
-        for (var index = 0; index < todayRecordList.Count; index++)
-        {
-            var todayRecord = todayRecordList[index];
-            if (todayRecord)
-            {
-                todaySuccessfulRoutineIndex.Add(index);
-            }
-        }
-
-        return todaySuccessfulRoutineIndex;
-    }
-
-    public void UpdateRoutineRecord(List<int> todaySuccessfulRoutineIndex, DateTime dateTime)
-    {
-        UpdateCurrentRoutineRecordData(todaySuccessfulRoutineIndex, dateTime);
-
-        RequestUpdateXmlData();
-    }
-
-    // note
-    // 유저가 오늘 완료 여부를 체크한 루틴의 index를 리스트로 받는다. (index는 0부터)
-    private void UpdateCurrentRoutineRecordData(List<int> todaySuccessfulRoutineIndexByView, DateTime dateTime)
-    {
-        var key = dateTime.ToString("yyyyMMdd");
-
-        var routineRecordDictionary = _myCharacterData.RoutineRecordDictionary;
-
-        // note
-        // 오늘의 루틴 완료 여부를 0번 루틴 ~ 마지막 루틴 까지 bool로 저장
-        var todayRoutineRecordList = routineRecordDictionary[key];
-
-        var reward = 0;
-        foreach (var index in todaySuccessfulRoutineIndexByView)
+        if (immutableRoutineRecordDictionary.TryGetValue(key, out var immutableTodayRecordList) == false)
         {
             // note
-            // 기존에 false 였는데 유저가 체크했다면 얘는 최근에 수행했다는 뜻.
-            if (todayRoutineRecordList[index] == false)
-            {
-                todayRoutineRecordList[index] = true;
-                reward += _myCharacterData.MoneyPerRoutineSuccess;
-            }
+            // 첫 루틴 기록이므로 아직 기록이 없으므로
+            // null return은 의도된 것.
+          
+            return null;
         }
+        else
+        {
+            var successfulRoutineIndex = new List<int>();
+            for (var index = 0; index < immutableTodayRecordList.Count; index++)
+            {
+                if (immutableTodayRecordList[index])
+                {
+                    successfulRoutineIndex.Add(index);
+                }
+            }
 
-        UpdateMonthlyRoutineSuccessMoney(reward);
+            return successfulRoutineIndex;
+        }
     }
 
-    private void UpdateMonthlyRoutineSuccessMoney(int reward)
+    public void UpdateRoutineRecord(List<int> todaySuccessfulRoutineIndexByView, DateTime dateTime)
     {
-        _myCharacterData.MonthlyRoutineSuccessMoney += reward;
+        RequestUpdateRoutineRecordDictionary(todaySuccessfulRoutineIndexByView, dateTime);
+
+        //refactor
+        //이걸 매번 할 필요는 없지?
+        RequestUpdateXmlData();
     }
 
     public int GetMonthlyRoutineSuccessMoney()
@@ -136,6 +120,16 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     private void RequestUpdateXmlData()
     {
         _xmlDataSerializeManager.SerializeXmlData<MyCharacterData>(_myCharacterData);
+    }
+
+    private void RequestInitializeRoutineRecordDictionary()
+    {
+        _myCharacterData.InitializeRoutineRecordDictionary();
+    }
+
+    private void RequestUpdateRoutineRecordDictionary(List<int> todaySuccessfulRoutineIndexByView, DateTime dateTime)
+    {
+        _myCharacterData.UpdateRoutineRecordDictionary(todaySuccessfulRoutineIndexByView, dateTime);
     }
 
     #endregion
