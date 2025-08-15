@@ -34,7 +34,7 @@ public class MyCharacterData : IModel
 
     // note
     // 날짜를 key - string
-    // 4개의 루틴의 complete 여부를 bool List
+    // 4개의 루틴의 success 여부를 bool List
     [XmlIgnore]
     public Dictionary<string, List<bool>> RoutineRecordDictionary
     {

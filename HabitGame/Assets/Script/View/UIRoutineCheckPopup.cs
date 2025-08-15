@@ -14,7 +14,7 @@ public class UIRoutineCheckPopup : UIPopupBase
 
     private readonly Subject<Unit> _onAwakeRoutineCheckPopup = new();
     public IObservable<Unit> OnAwakeRoutineCheckPopup => _onAwakeRoutineCheckPopup;
-    
+
     private readonly Subject<Unit> _onConfirmed = new();
     public IObservable<Unit> OnConfirmed => _onConfirmed;
 
@@ -35,9 +35,9 @@ public class UIRoutineCheckPopup : UIPopupBase
         CreatePresenterByManager();
 
         Initialize();
-        
+
         BindEvent();
-        
+
         _onAwakeRoutineCheckPopup.OnNext(default);
     }
 
@@ -79,7 +79,7 @@ public class UIRoutineCheckPopup : UIPopupBase
     // 토글 업데이트는 더 이상 할 필요가 없기에 Initialize로 구현한다.
     public void InitializeToggle(List<int> todayCompletedRoutineIndex)
     {
-        foreach (int index in todayCompletedRoutineIndex)
+        foreach (var index in todayCompletedRoutineIndex)
         {
             var toggle = _toggleList[index].GetToggle();
 
@@ -87,7 +87,7 @@ public class UIRoutineCheckPopup : UIPopupBase
             toggle.isOn = true;
         }
     }
-    
+
     public void UpdateDateText(DateTime dateTime)
     {
         _dayText.SetText($"{dateTime}");

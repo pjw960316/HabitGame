@@ -102,7 +102,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 
         // note
         // 오늘의 루틴 완료 여부를 0번 루틴 ~ 마지막 루틴 까지 bool로 저장
-        List<bool> todayRoutineRecordList = routineRecordDictionary[key];
+        var todayRoutineRecordList = routineRecordDictionary[key];
 
         var reward = 0;
         foreach (var index in todaySuccessfulRoutineIndexByView)
