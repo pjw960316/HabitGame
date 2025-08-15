@@ -17,17 +17,11 @@ public class MyCharacterData : IModel
 
     private int _name;
     private int _age;
-    private int _currentRoutineSuccessRewardMoney;
-    private int _rewardPerRoutineSuccess;
+    private int _monthlyRoutineSuccessMoney; // Note : 한 달 동안 루틴을 성공해서 번 총 금액 -> 다음 달 나에게 주는 선물의 총액
+    private int _moneyPerRoutineSuccess; // Note : 루틴 1개 success 당 얻는 돈
 
     [XmlIgnore] private Dictionary<string, List<bool>> _routineRecordDictionary = new();
-
-    //test
-    //뒤에 계속 추가
-    //데이터 갱신 - key로
-    //데이터 
-    [XmlIgnore] //test
-    private List<RoutineRecordData> _routineRecordData = new();
+    [XmlIgnore] private List<RoutineRecordData> _routineRecordData = new();
 
     #endregion
 
@@ -35,9 +29,12 @@ public class MyCharacterData : IModel
 
     public string Name { get; set; }
     public int Age { get; set; }
-    public int CurrentRoutineSuccessRewardMoney { get; set; }
-    public int RewardPerRoutineSuccess { get; set; }
+    public int MonthlyRoutineSuccessMoney { get; set; }
+    public int MoneyPerRoutineSuccess { get; set; }
 
+    // note
+    // 날짜를 key - string
+    // 4개의 루틴의 complete 여부를 bool List
     [XmlIgnore]
     public Dictionary<string, List<bool>> RoutineRecordDictionary
     {

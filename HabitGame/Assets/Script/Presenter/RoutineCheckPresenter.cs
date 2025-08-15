@@ -66,36 +66,36 @@ public class RoutineCheckPresenter : PresenterBase
 
     private void InitializeRoutineCheckToggle(DateTime dateTime)
     {
-        var todayCompletedRoutineIndex = RequestGetTodayCompletedRoutineIndex(dateTime);
+        var todaySuccessfulRoutineIndex = RequestGetTodaySuccessfulRoutineIndex(dateTime);
 
-        _uiRoutineCheckPopup.InitializeToggle(todayCompletedRoutineIndex);
+        _uiRoutineCheckPopup.InitializeToggle(todaySuccessfulRoutineIndex);
     }
 
     #endregion
 
     #region 5. Request Methods
 
-    private async UniTaskVoid RequestUpdateRoutineRecordAsync(List<int> todayCompletedRoutineIndex, DateTime dateTime)
+    private async UniTaskVoid RequestUpdateRoutineRecordAsync(List<int> todaySuccessfulRoutineIndex, DateTime dateTime)
     {
         var serverResult = await _serverManager.RequestServerValidation();
 
         if (serverResult == EServerResult.SUCCESS)
         {
-            _myCharacterManager.UpdateRoutineRecord(todayCompletedRoutineIndex, dateTime);
+            _myCharacterManager.UpdateRoutineRecord(todaySuccessfulRoutineIndex, dateTime);
 
             RequestShowToast();
         }
     }
 
-    private List<int> RequestGetTodayCompletedRoutineIndex(DateTime dateTime)
+    private List<int> RequestGetTodaySuccessfulRoutineIndex(DateTime dateTime)
     {
-        return _myCharacterManager.GetTodayCompletedRoutineIndex(dateTime);
+        return _myCharacterManager.GetTodaySuccessfulRoutineIndex(dateTime);
     }
 
     private void RequestShowToast()
     {
         _uiToastManager.ShowToast(EToastStringKey.ERoutineCheckConfirm,
-            _myCharacterManager.GetCurrentRoutineSuccessRewardMoney());
+            _myCharacterManager.GetMonthlyRoutineSuccessMoney());
     }
 
     #endregion
@@ -105,7 +105,7 @@ public class RoutineCheckPresenter : PresenterBase
     private void HandleToggleEvent()
     {
         var toggleList = _uiRoutineCheckPopup.GetToggleList();
-        var todayCompletedRoutineIndex = new List<int>();
+        var todaySuccessfulRoutineIndex = new List<int>();
         var toggleListCount = toggleList.Count;
 
         for (var index = 0; index < toggleListCount; index++)
@@ -115,11 +115,11 @@ public class RoutineCheckPresenter : PresenterBase
 
             if (isToggleChecked)
             {
-                todayCompletedRoutineIndex.Add(index);
+                todaySuccessfulRoutineIndex.Add(index);
             }
         }
 
-        RequestUpdateRoutineRecordAsync(todayCompletedRoutineIndex, DateTime.Now).Forget();
+        RequestUpdateRoutineRecordAsync(todaySuccessfulRoutineIndex, DateTime.Now).Forget();
     }
 
     #endregion

@@ -54,15 +54,13 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
         ExceptionHelper.CheckNullException(_myCharacterData, "_myCharacterData in MyCharacterManager");
     }
 
-    public List<int> GetTodayCompletedRoutineIndex(DateTime dateTime)
+    public List<int> GetTodaySuccessfulRoutineIndex(DateTime dateTime)
     {
         var key = dateTime.ToString("yyyyMMdd");
         var routineRecordDictionary = _myCharacterData.RoutineRecordDictionary;
 
         if (routineRecordDictionary.ContainsKey(key) == false)
         {
-            //test
-            //4개인 걸 보장할 수 없음.
             routineRecordDictionary.Add(key, new List<bool>
             {
                 false,
@@ -73,30 +71,30 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
         }
 
         var todayRecordList = routineRecordDictionary[key];
-        var completedRoutineIndexList = new List<int>();
+        var todaySuccessfulRoutineIndex = new List<int>();
 
         for (var index = 0; index < todayRecordList.Count; index++)
         {
             var todayRecord = todayRecordList[index];
             if (todayRecord)
             {
-                completedRoutineIndexList.Add(index);
+                todaySuccessfulRoutineIndex.Add(index);
             }
         }
 
-        return completedRoutineIndexList;
+        return todaySuccessfulRoutineIndex;
     }
 
-    public void UpdateRoutineRecord(List<int> todayCompletedRoutineIndexList, DateTime dateTime)
+    public void UpdateRoutineRecord(List<int> todaySuccessfulRoutineIndex, DateTime dateTime)
     {
-        UpdateCurrentRoutineRecordData(todayCompletedRoutineIndexList, dateTime);
+        UpdateCurrentRoutineRecordData(todaySuccessfulRoutineIndex, dateTime);
 
         RequestUpdateXmlData();
     }
 
     // note
     // 유저가 오늘 완료 여부를 체크한 루틴의 index를 리스트로 받는다. (index는 0부터)
-    private void UpdateCurrentRoutineRecordData(List<int> todayCompletedRoutineIndexListByUser, DateTime dateTime)
+    private void UpdateCurrentRoutineRecordData(List<int> todaySuccessfulRoutineIndexByView, DateTime dateTime)
     {
         var key = dateTime.ToString("yyyyMMdd");
 
@@ -104,43 +102,45 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 
         // note
         // 오늘의 루틴 완료 여부를 0번 루틴 ~ 마지막 루틴 까지 bool로 저장
-        var todayRoutineRecordList = routineRecordDictionary[key];
+        List<bool> todayRoutineRecordList = routineRecordDictionary[key];
 
         var reward = 0;
-        foreach (var index in todayCompletedRoutineIndexListByUser)
+        foreach (var index in todaySuccessfulRoutineIndexByView)
         {
             // note
             // 기존에 false 였는데 유저가 체크했다면 얘는 최근에 수행했다는 뜻.
             if (todayRoutineRecordList[index] == false)
             {
-                // refactor
-                // 여기서 데이터를 바꾸면 MyCharacterData의 property set에 안 잡히는 데 이거 연구
                 todayRoutineRecordList[index] = true;
-                reward += _myCharacterData.RewardPerRoutineSuccess;
+                reward += _myCharacterData.MoneyPerRoutineSuccess;
             }
         }
 
-        UpdateRoutineSuccessRewardMoney(reward);
+        UpdateMonthlyRoutineSuccessMoney(reward);
     }
 
-    private void UpdateRoutineSuccessRewardMoney(int reward)
+    private void UpdateMonthlyRoutineSuccessMoney(int reward)
     {
-        _myCharacterData.CurrentRoutineSuccessRewardMoney += reward;
+        _myCharacterData.MonthlyRoutineSuccessMoney += reward;
     }
+
+    public int GetMonthlyRoutineSuccessMoney()
+    {
+        return _myCharacterData.MonthlyRoutineSuccessMoney;
+    }
+
+    #endregion
+
+    #region 5. Request Methods
 
     private void RequestUpdateXmlData()
     {
         _xmlDataSerializeManager.SerializeXmlData<MyCharacterData>(_myCharacterData);
     }
 
-    public int GetCurrentRoutineSuccessRewardMoney()
-    {
-        return _myCharacterData.CurrentRoutineSuccessRewardMoney;
-    }
-
     #endregion
 
-    #region 5. EventHandlers
+    #region 6. EventHandlers
 
     // default
 
