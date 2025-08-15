@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using System.Collections.Immutable;
+using System.Xml.Serialization;
 
 [XmlRoot]
 public class MyCharacterData : IModel
@@ -11,7 +11,7 @@ public class MyCharacterData : IModel
         public string key;
         public List<bool> RoutineCheckList = new();
     }
-    
+
     #region 1. Fields
 
     private int _name;
@@ -19,7 +19,7 @@ public class MyCharacterData : IModel
     private int _monthlyRoutineSuccessMoney; // Note : 한 달 동안 루틴을 성공해서 번 총 금액 -> 다음 달 나에게 주는 선물의 총액
     private int _moneyPerRoutineSuccess; // Note : 루틴 1개 success 당 얻는 돈
     public List<RoutineRecordData> RoutineRecordList = new();
-    
+
     [XmlIgnore] private Dictionary<string, List<bool>> _routineRecordDictionary = new();
 
     #endregion
@@ -42,6 +42,7 @@ public class MyCharacterData : IModel
             );
         }
     }
+
     #endregion
 
     #region 3. Constructor
@@ -68,7 +69,7 @@ public class MyCharacterData : IModel
             {
                 list.Add(routineCheck);
             }
-            
+
             _routineRecordDictionary[key] = list;
         }
     }
@@ -98,7 +99,7 @@ public class MyCharacterData : IModel
 
         UpdateMonthlyRoutineSuccessMoney(reward);
     }
-    
+
     private void UpdateMonthlyRoutineSuccessMoney(int reward)
     {
         MonthlyRoutineSuccessMoney += reward;

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -69,7 +68,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 
         ExceptionHelper.CheckNullException(_myCharacterData, "_myCharacterData in MyCharacterManager");
     }
-    
+
     [CanBeNull]
     public List<int> GetTodaySuccessfulRoutineIndex(DateTime dateTime)
     {
@@ -81,22 +80,20 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
             // note
             // 첫 루틴 기록이므로 아직 기록이 없으므로
             // null return은 의도된 것.
-          
+
             return null;
         }
-        else
-        {
-            var successfulRoutineIndex = new List<int>();
-            for (var index = 0; index < immutableTodayRecordList.Count; index++)
-            {
-                if (immutableTodayRecordList[index])
-                {
-                    successfulRoutineIndex.Add(index);
-                }
-            }
 
-            return successfulRoutineIndex;
+        var successfulRoutineIndex = new List<int>();
+        for (var index = 0; index < immutableTodayRecordList.Count; index++)
+        {
+            if (immutableTodayRecordList[index])
+            {
+                successfulRoutineIndex.Add(index);
+            }
         }
+
+        return successfulRoutineIndex;
     }
 
     public void UpdateRoutineRecord(List<int> todaySuccessfulRoutineIndexByView, DateTime dateTime)
