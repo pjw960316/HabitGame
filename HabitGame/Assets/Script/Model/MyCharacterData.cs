@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Xml.Serialization;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 [XmlRoot]
 public class MyCharacterData : IModel
@@ -11,9 +10,8 @@ public class MyCharacterData : IModel
     public class RoutineRecordData
     {
         public string Key;
-        
-        [XmlArrayItem("boolean")]
-        public readonly List<bool> RoutineCheckList = new();
+
+        [XmlArrayItem("boolean")] public List<bool> RoutineCheckList = new();
     }
 
     #region 1. Fields
@@ -88,11 +86,11 @@ public class MyCharacterData : IModel
             // note
             // 없으면 default 생성
             Debug.Log($"Key가 없어서 \nkey가 {key}인 default routineRecord를 \nDictionary에 추가했다.");
-            
+
             todayRoutineRecordList = new List<bool> { false, false, false, false };
             _routineRecordDictionary.Add(key, todayRoutineRecordList);
         }
-       
+
         // note
         // View에서 성공한 Index를 받아왔는데,
         // 기존의 todayRoutineRecordList가 false면 이번 이벤트에서 유저가 체크한 것이므로 갱신.
@@ -107,6 +105,20 @@ public class MyCharacterData : IModel
         }
 
         UpdateMonthlyRoutineSuccessMoney(reward);
+    }
+
+    public void SynchronizeDictionaryAndList()
+    {
+        RoutineRecordList.Clear();
+
+        foreach (var kvp in _routineRecordDictionary)
+        {
+            RoutineRecordList.Add(new RoutineRecordData
+            {
+                Key = kvp.Key,
+                RoutineCheckList = new List<bool>(kvp.Value)
+            });
+        }
     }
 
     private void UpdateMonthlyRoutineSuccessMoney(int reward)

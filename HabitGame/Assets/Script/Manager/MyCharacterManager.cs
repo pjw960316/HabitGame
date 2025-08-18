@@ -100,8 +100,10 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     {
         RequestUpdateRoutineRecordDictionary(todaySuccessfulRoutineIndexByView, dateTime);
 
-        //refactor
-        //이걸 매번 할 필요는 없지?
+        // refactor
+        // 이걸 매번 할 필요는 없지?
+        // 게임 종료시에만?
+        RequestSynchronizeDictionaryAndList();
         RequestUpdateXmlData();
     }
 
@@ -127,6 +129,11 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     private void RequestUpdateRoutineRecordDictionary(List<int> todaySuccessfulRoutineIndexByView, DateTime dateTime)
     {
         _myCharacterData.UpdateRoutineRecordDictionary(todaySuccessfulRoutineIndexByView, dateTime);
+    }
+
+    private void RequestSynchronizeDictionaryAndList()
+    {
+        _myCharacterData.SynchronizeDictionaryAndList();
     }
 
     #endregion
