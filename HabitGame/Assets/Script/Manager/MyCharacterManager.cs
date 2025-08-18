@@ -37,17 +37,6 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
         ExceptionHelper.CheckNullExceptionWithMessage(_xmlDataSerializeManager, "xmlDataSerializeManager",
             "\n GameStartManager Initialize() makes critical Error!");
 
-        //test
-        var routineRecordList = _myCharacterData.RoutineRecordList;
-        foreach (var routineRecordData in routineRecordList)
-        {
-            Debug.Log("key" + $"  {routineRecordData.Key}");
-            Debug.Log("0" + $"  {routineRecordData.RoutineCheckList[0]}");
-            Debug.Log("1" + $"  {routineRecordData.RoutineCheckList[1]}");
-            Debug.Log("2" + $"  {routineRecordData.RoutineCheckList[2]}");
-            Debug.Log("3" + $"  {routineRecordData.RoutineCheckList[3]}");
-        }
-
         RequestInitializeRoutineRecordDictionary();
     }
 
