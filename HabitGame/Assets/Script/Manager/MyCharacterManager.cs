@@ -41,11 +41,11 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
         var routineRecordList = _myCharacterData.RoutineRecordList;
         foreach (var routineRecordData in routineRecordList)
         {
-            Debug.Log("key" + $"{routineRecordData.key}");
-            Debug.Log("0" + $"{routineRecordData.RoutineCheckList[0]}");
-            Debug.Log("1" + $"{routineRecordData.RoutineCheckList[1]}");
-            Debug.Log("2" + $"{routineRecordData.RoutineCheckList[2]}");
-            Debug.Log("3" + $"{routineRecordData.RoutineCheckList[3]}");
+            Debug.Log("key" + $"  {routineRecordData.Key}");
+            Debug.Log("0" + $"  {routineRecordData.RoutineCheckList[0]}");
+            Debug.Log("1" + $"  {routineRecordData.RoutineCheckList[1]}");
+            Debug.Log("2" + $"  {routineRecordData.RoutineCheckList[2]}");
+            Debug.Log("3" + $"  {routineRecordData.RoutineCheckList[3]}");
         }
 
         RequestInitializeRoutineRecordDictionary();

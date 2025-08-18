@@ -2,14 +2,18 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Xml.Serialization;
+using UnityEngine;
+using UnityEngine.UIElements;
 
 [XmlRoot]
 public class MyCharacterData : IModel
 {
     public class RoutineRecordData
     {
-        public string key;
-        public List<bool> RoutineCheckList = new();
+        public string Key;
+        
+        [XmlArrayItem("boolean")]
+        public readonly List<bool> RoutineCheckList = new();
     }
 
     #region 1. Fields
@@ -31,6 +35,7 @@ public class MyCharacterData : IModel
     public int MonthlyRoutineSuccessMoney { get; set; }
     public int MoneyPerRoutineSuccess { get; set; }
 
+    [XmlIgnore]
     public ImmutableDictionary<string, ImmutableList<bool>> RoutineRecordDictionary
     {
         get
@@ -60,7 +65,7 @@ public class MyCharacterData : IModel
     {
         foreach (var routineRecordData in RoutineRecordList)
         {
-            var key = routineRecordData.key;
+            var key = routineRecordData.Key;
             var routineCheckList = routineRecordData.RoutineCheckList;
 
             //shallow copy
@@ -78,18 +83,22 @@ public class MyCharacterData : IModel
     {
         var key = dateTime.ToString("yyyyMMdd");
 
+        if (_routineRecordDictionary.TryGetValue(key, out var todayRoutineRecordList) == false)
+        {
+            // note
+            // 없으면 default 생성
+            Debug.Log($"Key가 없어서 \nkey가 {key}인 default routineRecord를 \nDictionary에 추가했다.");
+            
+            todayRoutineRecordList = new List<bool> { false, false, false, false };
+            _routineRecordDictionary.Add(key, todayRoutineRecordList);
+        }
+       
         // note
-        // 오늘의 루틴 완료 여부를 0번 루틴 ~ 마지막 루틴 까지 bool로 저장
-        var todayRoutineRecordList = _routineRecordDictionary[key];
-
-        // refactor
-        // reward 는 두 가지 기능이 포함된 거
-        // 분할 요망
+        // View에서 성공한 Index를 받아왔는데,
+        // 기존의 todayRoutineRecordList가 false면 이번 이벤트에서 유저가 체크한 것이므로 갱신.
         var reward = 0;
         foreach (var index in todaySuccessfulRoutineIndexByView)
         {
-            // note
-            // 기존에 false 였는데 유저가 체크했다면 얘는 최근에 수행했다는 뜻.
             if (todayRoutineRecordList[index] == false)
             {
                 todayRoutineRecordList[index] = true;
