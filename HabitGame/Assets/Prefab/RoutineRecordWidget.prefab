@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6339735208147583234}
   - component: {fileID: 5170457012826806697}
   - component: {fileID: 5373389366083793385}
+  - component: {fileID: 8106057032971272347}
   m_Layer: 5
   m_Name: RoutineRecordWidget
   m_TagString: Untagged
@@ -104,6 +105,18 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 1
   m_ReverseArrangement: 0
+--- !u!114 &8106057032971272347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79726887295126459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81a5960c13b1fec409c4b1805906a6c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &276718448009295083
 GameObject:
   m_ObjectHideFlags: 0

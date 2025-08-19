@@ -6,8 +6,6 @@ using UnityEngine;
 public abstract class UIPopupBase : MonoBehaviour, IView
 {
     #region 1. Fields
-
-    [SerializeField] protected UIToastBase _uiToastMessage;
     
     protected UIManager _uiManager;
     protected SoundManager _soundManager;

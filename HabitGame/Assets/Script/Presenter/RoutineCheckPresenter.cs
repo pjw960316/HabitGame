@@ -4,14 +4,10 @@ using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using UniRx;
 
-// note
-// 2개의 view를 1개의 presenter로 관리하는 방식
 public class RoutineCheckPresenter : PresenterBase
 {
     #region 1. Fields
 
-    // note
-    // view
     private UIRoutineCheckPopup _uiRoutineCheckPopup;
 
     private MyCharacterManager _myCharacterManager;

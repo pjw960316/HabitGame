@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class UIWidgetBase : MonoBehaviour, IView
+public class UIRoutineRecordWidget : UIWidgetBase
 {
     #region 1. Fields
 
@@ -16,21 +16,22 @@ public class UIWidgetBase : MonoBehaviour, IView
 
     #region 3. Constructor
 
-    private void Awake()
+    public sealed override void OnAwake()
     {
-        OnAwake();
-    }
+        base.OnAwake();
 
-    public virtual void OnAwake()
-    {
-        //
+        Initialize();
     }
 
     #endregion
 
     #region 4. Methods
 
-    // default
+    private void Initialize()
+    {
+        //test
+        Debug.Log("widget Intialize");
+    }
 
     #endregion
 
