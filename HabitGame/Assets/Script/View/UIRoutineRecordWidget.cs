@@ -10,7 +10,6 @@ public class UIRoutineRecordWidget : UIWidgetBase
     [SerializeField] private UIImageBase _dateWidget;
     [SerializeField] private List<UIImageBase> _routineRecordWidget;
     [SerializeField] private UIImageBase _routineRecordMoneyWidget;
-    
 
     #endregion
 
@@ -41,6 +40,11 @@ public class UIRoutineRecordWidget : UIWidgetBase
     public void SetData(KeyValuePair<string, ImmutableList<bool>> routineRecordElement)
     {
         _dateWidget.SetText(routineRecordElement.Key);
+    }
+
+    public void UpdateData()
+    {
+        
     }
     
 
