@@ -1,3 +1,5 @@
+using System.Collections.Immutable;
+using System.Linq;
 using UnityEngine;
 
 public class UIRoutineRecordPopup : UIPopupBase
@@ -6,8 +8,8 @@ public class UIRoutineRecordPopup : UIPopupBase
 
     //test
     //non - scroll
-    [SerializeField] private UIWidgetBase _routineRecordWidgetTestOne;
-    [SerializeField] private UIWidgetBase _routineRecordWidgetTestTwo;
+    [SerializeField] private UIRoutineRecordWidget _routineRecordWidgetTestOne;
+    [SerializeField] private UIRoutineRecordWidget _routineRecordWidgetTestTwo;
 
     #endregion
 
@@ -39,6 +41,27 @@ public class UIRoutineRecordPopup : UIPopupBase
     protected override void CreatePresenterByManager()
     {
         _uiManager.CreatePresenter<RoutineRecordPresenter>(this);
+    }
+
+    //test
+    //non-scroll
+    public void UpdateRoutineRecord(ImmutableDictionary<string, ImmutableList<bool>> routineRecordDictionary)
+    {
+        var routineRecordReverseDictionary = routineRecordDictionary.Reverse();
+
+        int count = 0;
+        foreach (var i in routineRecordReverseDictionary)
+        {
+            if (count == 0)
+            {
+                _routineRecordWidgetTestOne.SetData(i);
+            }
+            else
+            {
+                _routineRecordWidgetTestTwo.SetData(i);
+            }
+            count++;
+        }
     }
 
     #endregion

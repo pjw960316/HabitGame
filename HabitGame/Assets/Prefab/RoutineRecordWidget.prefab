@@ -117,6 +117,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a5960c13b1fec409c4b1805906a6c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _dateWidget: {fileID: 5885123625609009620}
+  _routineRecordWidget:
+  - {fileID: 5148901891129008938}
+  - {fileID: 3514612751832592224}
+  - {fileID: 3291281241647112593}
+  - {fileID: 8667237887253164110}
+  _routineRecordMoneyWidget: {fileID: 7228202505371953618}
 --- !u!1 &276718448009295083
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,10 +213,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 311c7b346708fca4ea5fe6c6cba29082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 0}
   _imageText: {fileID: 4309283911437391889}
-  _imageTextKey: 0
+  _imageTextKey: 11
   _image: {fileID: 1646170210763945182}
+  _isAutoSetText: 1
 --- !u!1 &363539903703625384
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,10 +306,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 311c7b346708fca4ea5fe6c6cba29082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 0}
   _imageText: {fileID: 7101802244470637120}
-  _imageTextKey: 0
+  _imageTextKey: 10
   _image: {fileID: 7989789620085968538}
+  _isAutoSetText: 0
 --- !u!1 &678497685953882789
 GameObject:
   m_ObjectHideFlags: 0
@@ -1064,10 +1071,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 311c7b346708fca4ea5fe6c6cba29082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 0}
   _imageText: {fileID: 2255447126674828168}
-  _imageTextKey: 0
+  _imageTextKey: 13
   _image: {fileID: 5902254123579847763}
+  _isAutoSetText: 1
 --- !u!1 &7268305060521883925
 GameObject:
   m_ObjectHideFlags: 0
@@ -1293,10 +1300,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 311c7b346708fca4ea5fe6c6cba29082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 0}
   _imageText: {fileID: 5275732886441091292}
-  _imageTextKey: 0
+  _imageTextKey: 12
   _image: {fileID: 9052070920751329930}
+  _isAutoSetText: 1
 --- !u!1 &7854133610223568865
 GameObject:
   m_ObjectHideFlags: 0
@@ -1386,10 +1393,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 311c7b346708fca4ea5fe6c6cba29082, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 0}
   _imageText: {fileID: 1904508646695964242}
   _imageTextKey: 0
   _image: {fileID: 703439956122404252}
+  _isAutoSetText: 0
 --- !u!1 &7975379873105083205
 GameObject:
   m_ObjectHideFlags: 0
@@ -1401,6 +1408,7 @@ GameObject:
   - component: {fileID: 7741071712324259696}
   - component: {fileID: 5058969707218713077}
   - component: {fileID: 3291791719043515370}
+  - component: {fileID: 5885123625609009620}
   m_Layer: 5
   m_Name: DateImage
   m_TagString: Untagged
@@ -1466,6 +1474,22 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5885123625609009620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7975379873105083205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 311c7b346708fca4ea5fe6c6cba29082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _imageText: {fileID: 8657227023502594408}
+  _imageTextKey: 0
+  _image: {fileID: 3291791719043515370}
+  _isAutoSetText: 0
 --- !u!1 &8540388571411112080
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,3 +24,8 @@
 - :six: 클라는 패킷의 결과를 받아 콜백으로 Data 관리 Manager를 통해 Data 갱신
 - :seven: Presenter는 View에 변경된 Data를 업데이트
 - :eight: 유저는 변경된 데이터 확인
+
+<br><br>
+
+## :fire: MVP 구조
+- View가 Presenter를 무조건 먼저 생성하고, Presenter의 Initialize()로 데이터 세팅과 로직 세팅을 완료하면, View가 Initialize()한다.

@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using JetBrains.Annotations;
-using UnityEngine;
 
+// refactor
+// 아직 Manager -> Model에 Request를 붙여야 되는 것에 대한 확실한 답을 못 내림.
 public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 {
     #region 1. Fields
@@ -57,7 +59,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 
         ExceptionHelper.CheckNullException(_myCharacterData, "_myCharacterData in MyCharacterManager");
     }
-
+    
     [CanBeNull]
     public List<int> GetTodaySuccessfulRoutineIndex(DateTime dateTime)
     {
@@ -85,6 +87,12 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
         return successfulRoutineIndex;
     }
 
+    [NotNull]
+    public ImmutableDictionary<string, ImmutableList<bool>> GetRoutineRecordDictionary()
+    {
+        return _myCharacterData.RoutineRecordDictionary;
+    }
+
     public void UpdateRoutineRecord(List<int> todaySuccessfulRoutineIndexByView, DateTime dateTime)
     {
         RequestUpdateRoutineRecordDictionary(todaySuccessfulRoutineIndexByView, dateTime);
@@ -95,7 +103,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
         RequestSynchronizeDictionaryAndList();
         RequestUpdateXmlData();
     }
-
+    
     public int GetMonthlyRoutineSuccessMoney()
     {
         return _myCharacterData.MonthlyRoutineSuccessMoney;

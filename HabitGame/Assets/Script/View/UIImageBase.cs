@@ -8,10 +8,10 @@ public class UIImageBase : MonoBehaviour, IView
 {
     #region 1. Fields
 
-    [SerializeField] private Canvas _canvas;
     [SerializeField] private TextMeshProUGUI _imageText;
     [SerializeField] private EStringKey _imageTextKey;
     [SerializeField] protected Image _image;
+    [SerializeField] private bool _isAutoSetText;
 
     protected UIManager _uiManager;
     
@@ -21,8 +21,6 @@ public class UIImageBase : MonoBehaviour, IView
     #endregion
 
     #region 2. Properties
-
-    public Canvas Canvas => _canvas;
     public Image Image => _image;
 
     #endregion
@@ -47,8 +45,11 @@ public class UIImageBase : MonoBehaviour, IView
         // Script가 UIButtonBase가 붙으면 Base의 BindEvent()가 호출되고
         // Script가 UIOpenPopupButtonBase가 붙어도 Derived의 BindEvent()가 호출되기 바람.
         BindEvent();
-        
-        SetButtonText();
+
+        if (_isAutoSetText)
+        {
+            SetAutoText();
+        }
     }
 
     #endregion
@@ -68,13 +69,17 @@ public class UIImageBase : MonoBehaviour, IView
     }
 
     
-    private void SetButtonText()
+    private void SetAutoText()
     {
         ExceptionHelper.CheckNullException(_imageText, "ImageText");
 
         _imageText.text = StringManager.Instance.GetUIString(_imageTextKey);
     }
 
+    public void SetText(string text)
+    {
+        _imageText.text = text;
+    }
     
     #endregion
 

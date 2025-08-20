@@ -1,10 +1,16 @@
+using System.Collections.Generic;
+using System.Collections.Immutable;
+using TMPro;
 using UnityEngine;
 
 public class UIRoutineRecordWidget : UIWidgetBase
 {
     #region 1. Fields
 
-    // default
+    [SerializeField] private UIImageBase _dateWidget;
+    [SerializeField] private List<UIImageBase> _routineRecordWidget;
+    [SerializeField] private UIImageBase _routineRecordMoneyWidget;
+    
 
     #endregion
 
@@ -29,9 +35,14 @@ public class UIRoutineRecordWidget : UIWidgetBase
 
     private void Initialize()
     {
-        //test
-        Debug.Log("widget Intialize");
+        //
     }
+
+    public void SetData(KeyValuePair<string, ImmutableList<bool>> routineRecordElement)
+    {
+        _dateWidget.SetText(routineRecordElement.Key);
+    }
+    
 
     #endregion
 

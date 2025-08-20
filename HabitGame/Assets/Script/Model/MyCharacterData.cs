@@ -33,6 +33,8 @@ public class MyCharacterData : IModel
     public int MonthlyRoutineSuccessMoney { get; set; }
     public int MoneyPerRoutineSuccess { get; set; }
 
+    // note
+    // _routineRecordDictionary가 비어 있어도 예외 X
     [XmlIgnore]
     public ImmutableDictionary<string, ImmutableList<bool>> RoutineRecordDictionary
     {
