@@ -88,7 +88,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     }
 
     [NotNull]
-    public ImmutableDictionary<string, ImmutableList<bool>> GetRoutineRecordDictionary()
+    public ImmutableSortedDictionary<string, ImmutableList<bool>> GetRoutineRecordDictionary()
     {
         return _myCharacterData.RoutineRecordDictionary;
     }

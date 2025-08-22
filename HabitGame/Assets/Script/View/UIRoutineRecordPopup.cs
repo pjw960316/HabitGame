@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class UIRoutineRecordPopup : UIPopupBase
@@ -51,7 +52,13 @@ public class UIRoutineRecordPopup : UIPopupBase
 
     private void BindEvent()
     {
-        _routineRecordScrollRect.onValueChanged.AddListener(_ => { });
+        _routineRecordScrollRect.onValueChanged.AddListener(_ => OnScroll());
+    }
+
+    private void OnScroll()
+    {
+        var a = _routineRecordScrollRect.verticalNormalizedPosition;
+        Debug.Log($"{a}");
     }
 
 
@@ -62,21 +69,31 @@ public class UIRoutineRecordPopup : UIPopupBase
 
     public void CreateRoutineRecordWidgets(int widgetCount)
     {
-        var contentsTransform = _contents.transform;
         for (var i = 0; i < widgetCount; i++)
         {
+            //create
             var routineRecordWidget =
-                Instantiate(_widgetPrefab, contentsTransform).GetComponent<UIRoutineRecordWidget>();
+                Instantiate(_widgetPrefab, _contents.transform).GetComponent<UIRoutineRecordWidget>();
             _widgetList.Add(routineRecordWidget);
+            
+            //transform
+            routineRecordWidget.transform.localPosition = new Vector3(0, i * 200, 0);
         }
     }
 
     //test
-    public void UpdateRoutineRecordWidgets(ImmutableDictionary<string, ImmutableList<bool>> routineRecordDictionary)
+    public void UpdateRoutineRecordWidgets(ImmutableSortedDictionary<string, ImmutableList<bool>> routineRecordDictionary)
     {
         int index = 0;
+        var widgetListCount = _widgetList.Count;
+        
         foreach (var element in routineRecordDictionary)
         {
+            if (index == widgetListCount)
+            {
+                break;
+            }
+            
             _widgetList[index].UpdateData(element);
             index++;
         }

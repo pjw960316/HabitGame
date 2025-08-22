@@ -37,15 +37,16 @@ public class MyCharacterData : IModel
     // note
     // _routineRecordDictionary가 비어 있어도 예외 X
     [XmlIgnore]
-    public ImmutableDictionary<string, ImmutableList<bool>> RoutineRecordDictionary
+    public ImmutableSortedDictionary<string, ImmutableList<bool>> RoutineRecordDictionary
     {
         get
         {
-            return _routineRecordDictionary.ToImmutableDictionary
-            (
-                kvp => kvp.Key,
-                kvp => kvp.Value.ToImmutableList()
-            );
+            return _routineRecordDictionary
+                .ToImmutableSortedDictionary(
+                    kvp => kvp.Key,
+                    kvp => kvp.Value.ToImmutableList(),
+                    Comparer<string>.Create((a, b) => string.CompareOrdinal(b, a))
+                );
         }
     }
 
@@ -64,11 +65,9 @@ public class MyCharacterData : IModel
     // Dictionary로 가공
     public void InitializeRoutineRecordDictionary()
     {
-        // note
-        // 최신 date 부터 저장
-        RoutineRecordList.Reverse();
+        var routineRecordList = RoutineRecordList.OrderByDescending(x => x.Key);
         
-        foreach (var routineRecordData in RoutineRecordList)
+        foreach (var routineRecordData in routineRecordList)
         {
             var key = routineRecordData.Key;
             var routineCheckList = routineRecordData.RoutineCheckList;

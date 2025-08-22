@@ -22,7 +22,7 @@ public class RoutineRecordPresenter : PresenterBase
     private UIRoutineRecordPopup _uiRoutineRecordPopup;
 
     private MyCharacterManager _myCharacterManager;
-    private ImmutableDictionary<string, ImmutableList<bool>> _routineRecordDictionary;
+    private ImmutableSortedDictionary<string, ImmutableList<bool>> _routineRecordDictionary;
 
     #endregion
 
