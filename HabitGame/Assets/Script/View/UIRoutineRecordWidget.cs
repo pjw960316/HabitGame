@@ -11,6 +11,7 @@ public class UIRoutineRecordWidget : UIWidgetBase
     [SerializeField] private UIImageBase _routineRecordMoneyWidget;
     [SerializeField] private Color _successColor;
     [SerializeField] private Color _failColor;
+    [SerializeField] private RectTransform _rectTransform;
 
     private MyCharacterManager _myCharacterManager;
 
@@ -18,7 +19,7 @@ public class UIRoutineRecordWidget : UIWidgetBase
 
     #region 2. Properties
 
-    // default
+    public RectTransform RectTransform => _rectTransform;
 
     #endregion
 
@@ -65,6 +66,16 @@ public class UIRoutineRecordWidget : UIWidgetBase
 
         var moneyText = (_myCharacterManager.GetMoneyPerRoutineSuccess() * successCount).ToString();
         _routineRecordMoneyWidget.SetText(moneyText);
+    }
+
+    public float GetHeight()
+    {
+        return _rectTransform.rect.height;
+    }
+
+    public float GetAnchoredPositionY()
+    {
+        return _rectTransform.anchoredPosition.y;
     }
 
     #endregion

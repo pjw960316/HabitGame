@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using JetBrains.Annotations;
+using UnityEngine;
 
 // refactor
 // 아직 Manager -> Model에 Request를 붙여야 되는 것에 대한 확실한 답을 못 내림.
@@ -87,6 +88,8 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
         return successfulRoutineIndex;
     }
 
+    // note
+    // 최신 날짜가 맨 앞에
     [NotNull]
     public ImmutableSortedDictionary<string, ImmutableList<bool>> GetRoutineRecordDictionary()
     {

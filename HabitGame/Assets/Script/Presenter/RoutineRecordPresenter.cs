@@ -6,6 +6,8 @@
 
 using System;
 using System.Collections.Immutable;
+using UniRx;
+using UnityEngine;
 
 public class RoutineRecordPresenter : PresenterBase
 {
@@ -54,6 +56,8 @@ public class RoutineRecordPresenter : PresenterBase
         //presenter logic 수행
         InitializeRoutineRecords();
 
+        BindEvent();
+        
         //view update
     }
 
@@ -61,16 +65,29 @@ public class RoutineRecordPresenter : PresenterBase
 
     #region 4. Methods
 
+    private void BindEvent()
+    {
+        _uiRoutineRecordPopup.OnScrolled.Subscribe(_ => Test()).AddTo(_disposable);
+    }
+
+    private void Test()
+    {
+        var bottomY = _uiRoutineRecordPopup.GetBottomWidget().GetAnchoredPositionY();
+        
+        _uiRoutineRecordPopup.GetTopWidget().RectTransform.anchoredPosition = new Vector2(0, bottomY - 200f);
+    }
+    
     private void InitializeRoutineRecords()
     {
         _routineRecordDictionary = _myCharacterManager.GetRoutineRecordDictionary();
 
         var routineRecordCount = _routineRecordDictionary.Count;
-        var widgetCount = routineRecordCount < DEFAULT_WIDGET_COUNT ? routineRecordCount : DEFAULT_WIDGET_COUNT;
+        var widgetPrefabCount = routineRecordCount < DEFAULT_WIDGET_COUNT ? routineRecordCount : DEFAULT_WIDGET_COUNT;
 
         //refactor
         //create 하고 무조건 widget을 세팅해야 함. 이 순서가
-        _uiRoutineRecordPopup.CreateRoutineRecordWidgets(widgetCount);
+        _uiRoutineRecordPopup.InitializeContentsHeight(routineRecordCount);
+        _uiRoutineRecordPopup.CreateRoutineRecordWidgets(widgetPrefabCount);
         _uiRoutineRecordPopup.UpdateRoutineRecordWidgets(_routineRecordDictionary);
         
         //test

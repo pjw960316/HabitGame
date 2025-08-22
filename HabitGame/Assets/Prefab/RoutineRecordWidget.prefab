@@ -99,6 +99,7 @@ MonoBehaviour:
   _routineRecordMoneyWidget: {fileID: 7228202505371953618}
   _successColor: {r: 0, g: 1, b: 0, a: 1}
   _failColor: {r: 1, g: 0, b: 0, a: 1}
+  _rectTransform: {fileID: 8706756195173658396}
 --- !u!1 &276718448009295083
 GameObject:
   m_ObjectHideFlags: 0

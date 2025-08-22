@@ -29,6 +29,24 @@
       </RoutineCheckList>
     </RoutineRecordData>
     <RoutineRecordData>
+      <Key>20250805</Key>
+      <RoutineCheckList>
+        <boolean>true</boolean>
+        <boolean>true</boolean>
+        <boolean>true</boolean>
+        <boolean>true</boolean>
+      </RoutineCheckList>
+    </RoutineRecordData>
+    <RoutineRecordData>
+      <Key>20250806</Key>
+      <RoutineCheckList>
+        <boolean>false</boolean>
+        <boolean>true</boolean>
+        <boolean>false</boolean>
+        <boolean>true</boolean>
+      </RoutineCheckList>
+    </RoutineRecordData>
+    <RoutineRecordData>
       <Key>20250818</Key>
       <RoutineCheckList>
         <boolean>true</boolean>

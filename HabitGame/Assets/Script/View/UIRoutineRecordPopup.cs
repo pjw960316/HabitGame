@@ -1,7 +1,8 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using UniRx;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class UIRoutineRecordPopup : UIPopupBase
@@ -13,6 +14,11 @@ public class UIRoutineRecordPopup : UIPopupBase
     [SerializeField] private ScrollRect _routineRecordScrollRect;
 
     private List<UIRoutineRecordWidget> _widgetList;
+    private float _widgetHeight;
+    private float _currentVerticalNormalizedPosition;
+
+    private readonly Subject<Unit> _onScrolled = new();
+    public IObservable<Unit> OnScrolled => _onScrolled;
 
     #endregion
 
@@ -44,6 +50,8 @@ public class UIRoutineRecordPopup : UIPopupBase
     private void PreInitialize()
     {
         _widgetList = new List<UIRoutineRecordWidget>();
+        _widgetHeight = _widgetPrefab.GetComponent<RectTransform>().rect.height;
+        _currentVerticalNormalizedPosition = 1f;
     }
 
     private void Initialize()
@@ -57,21 +65,65 @@ public class UIRoutineRecordPopup : UIPopupBase
 
     private void OnScroll()
     {
-        var a = _routineRecordScrollRect.verticalNormalizedPosition;
-        
         //test
-        if (a < 0.2f)
+        if (0.6f < _currentVerticalNormalizedPosition && _currentVerticalNormalizedPosition < 0.61f)
         {
-            Debug.Log("hi");
-            _widgetList[0].transform.localPosition = new Vector3(0, -500f, 0);
+            //test
+            //observer find 필요 X
+            if (_onScrolled.HasObservers)
+            {
+                _onScrolled?.OnNext(default);
+            }
+            
+            //test
+            //1회만 dispose
+            _onScrolled?.Dispose();
         }
+
+        _currentVerticalNormalizedPosition = _routineRecordScrollRect.verticalNormalizedPosition;
     }
 
-    private void ChangeWidgetPosition()
+    public UIRoutineRecordWidget GetTopWidget()
     {
-        
+        var currentY = _widgetList[0].GetAnchoredPositionY();
+        var topWidget = _widgetList[0];
+        foreach (var widget in _widgetList)
+        {
+            var widgetAnchoredPositionY = widget.GetAnchoredPositionY();
+            if (currentY < widgetAnchoredPositionY)
+            {
+                currentY = widgetAnchoredPositionY;
+                topWidget = widget;
+            }
+        }
+
+        return topWidget;
     }
 
+    public UIRoutineRecordWidget GetBottomWidget()
+    {
+        Debug.Log($"{_widgetList.Count}");
+        var currentY = _widgetList[0].GetAnchoredPositionY();
+        var bottomWidget = _widgetList[0];
+        foreach (var widget in _widgetList)
+        {
+            var widgetAnchoredPositionY = widget.GetAnchoredPositionY();
+            Debug.Log($"{widgetAnchoredPositionY}");
+            if (currentY > widgetAnchoredPositionY)
+            {
+                currentY = widgetAnchoredPositionY;
+                bottomWidget = widget;
+            }
+        }
+
+        return bottomWidget;
+    }
+
+    public void InitializeContentsHeight(int widgetCount)
+    {
+        _contents.GetComponent<RectTransform>().sizeDelta =
+            new Vector2(GetComponent<RectTransform>().rect.width, _widgetHeight * widgetCount);
+    }
 
     protected override void CreatePresenterByManager()
     {
@@ -81,31 +133,33 @@ public class UIRoutineRecordPopup : UIPopupBase
     //test
     public void CreateRoutineRecordWidgets(int widgetCount)
     {
-        for (var i = 0; i < widgetCount; i++)
+        for (var index = 0; index < widgetCount; index++)
         {
             //create
             var routineRecordWidget =
                 Instantiate(_widgetPrefab, _contents.transform).GetComponent<UIRoutineRecordWidget>();
             _widgetList.Add(routineRecordWidget);
-            
+
             //transform
-            routineRecordWidget.transform.localPosition = new Vector3(0, i * 200, 0);
+            routineRecordWidget.RectTransform.anchoredPosition =
+                new Vector3(0, -(index * _widgetHeight), 0);
         }
     }
 
     //test
-    public void UpdateRoutineRecordWidgets(ImmutableSortedDictionary<string, ImmutableList<bool>> routineRecordDictionary)
+    public void UpdateRoutineRecordWidgets(
+        ImmutableSortedDictionary<string, ImmutableList<bool>> routineRecordDictionary)
     {
-        int index = 0;
+        var index = 0;
         var widgetListCount = _widgetList.Count;
-        
+
         foreach (var element in routineRecordDictionary)
         {
             if (index == widgetListCount)
             {
                 break;
             }
-            
+
             _widgetList[index].UpdateData(element);
             index++;
         }
@@ -114,7 +168,6 @@ public class UIRoutineRecordPopup : UIPopupBase
     public void ShowTopContent()
     {
         _routineRecordScrollRect.verticalNormalizedPosition = 1f;
-        
     }
 
     #endregion
