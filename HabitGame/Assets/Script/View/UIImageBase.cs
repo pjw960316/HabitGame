@@ -14,13 +14,14 @@ public class UIImageBase : MonoBehaviour, IView
     [SerializeField] private bool _isAutoSetText;
 
     protected UIManager _uiManager;
-    
+
     protected readonly Subject<EPopupKey> _onClickButton = new();
     public IObservable<EPopupKey> OnClickButton => _onClickButton;
-    
+
     #endregion
 
     #region 2. Properties
+
     public Image Image => _image;
 
     #endregion
@@ -39,7 +40,7 @@ public class UIImageBase : MonoBehaviour, IView
     public virtual void OnAwake()
     {
         Initialize();
-        
+
         // Note
         // Shadowing
         // Script가 UIButtonBase가 붙으면 Base의 BindEvent()가 호출되고
@@ -68,7 +69,7 @@ public class UIImageBase : MonoBehaviour, IView
         _uiManager = UIManager.Instance;
     }
 
-    
+
     private void SetAutoText()
     {
         ExceptionHelper.CheckNullException(_imageText, "ImageText");
@@ -80,7 +81,12 @@ public class UIImageBase : MonoBehaviour, IView
     {
         _imageText.text = text;
     }
-    
+
+    public void SetColor(Color color)
+    {
+        _image.color = color;
+    }
+
     #endregion
 
     #region 5. EventHandlers

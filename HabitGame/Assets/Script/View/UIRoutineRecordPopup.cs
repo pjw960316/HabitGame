@@ -1,15 +1,17 @@
+using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIRoutineRecordPopup : UIPopupBase
 {
     #region 1. Fields
 
-    //test
-    //non - scroll
-    [SerializeField] private UIRoutineRecordWidget _routineRecordWidgetTestOne;
-    [SerializeField] private UIRoutineRecordWidget _routineRecordWidgetTestTwo;
+    [SerializeField] private GameObject _widgetPrefab;
+    [SerializeField] private GameObject _contents;
+    [SerializeField] private ScrollRect _routineRecordScrollRect;
+
+    private List<UIRoutineRecordWidget> _widgetList;
 
     #endregion
 
@@ -25,18 +27,33 @@ public class UIRoutineRecordPopup : UIPopupBase
     {
         base.OnAwake();
 
+        PreInitialize();
+
         CreatePresenterByManager();
 
         Initialize();
+
+        BindEvent();
     }
 
     #endregion
 
     #region 4. Methods
 
+    private void PreInitialize()
+    {
+        _widgetList = new List<UIRoutineRecordWidget>();
+    }
+
     private void Initialize()
     {
     }
+
+    private void BindEvent()
+    {
+        _routineRecordScrollRect.onValueChanged.AddListener(_ => { });
+    }
+
 
     protected override void CreatePresenterByManager()
     {
@@ -44,23 +61,22 @@ public class UIRoutineRecordPopup : UIPopupBase
     }
 
     //test
-    //non-scroll
-    public void UpdateRoutineRecord(ImmutableDictionary<string, ImmutableList<bool>> routineRecordDictionary)
+    public void CreateRoutineRecordWidgets(int widgetCount)
     {
-        var routineRecordReverseDictionary = routineRecordDictionary.Reverse();
-
-        int count = 0;
-        foreach (var i in routineRecordReverseDictionary)
+        var contentsTransform = _contents.transform;
+        for (var i = 0; i < widgetCount; i++)
         {
-            if (count == 0)
-            {
-                _routineRecordWidgetTestOne.SetData(i);
-            }
-            else
-            {
-                _routineRecordWidgetTestTwo.SetData(i);
-            }
-            count++;
+            var routineRecordWidget =
+                Instantiate(_widgetPrefab, contentsTransform).GetComponent<UIRoutineRecordWidget>();
+            _widgetList.Add(routineRecordWidget);
+        }
+    }
+
+    public void InitializeRoutineRecordWidgets(KeyValuePair<string, ImmutableList<bool>> routineRecord)
+    {
+        foreach (var routineRecordWidget in _widgetList)
+        {
+            routineRecordWidget.SetData(routineRecord);
         }
     }
 

@@ -108,6 +108,11 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     {
         return _myCharacterData.MonthlyRoutineSuccessMoney;
     }
+    
+    public int GetMoneyPerRoutineSuccess()
+    {
+        return _myCharacterData.MoneyPerRoutineSuccess;
+    }
 
     #endregion
 

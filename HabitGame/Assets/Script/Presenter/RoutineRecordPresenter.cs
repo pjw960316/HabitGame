@@ -4,19 +4,26 @@
 // 하지만 왠지 두 개의 공통 기능이 생길 것 같음 -> 상위로 묶는 방식
 // 이거에 대한 판단이 아직 서지 않는다.
 
+using System;
 using System.Collections.Immutable;
-using System.Linq;
 
 public class RoutineRecordPresenter : PresenterBase
 {
+    public class RoutineRecordData
+    {
+        public string Date;
+        public ImmutableList<bool> RoutineCheck;
+    }
+
     #region 1. Fields
 
-    private const int ROUTINE_RECORD_COUNT = 30;
-    
+    private const int DEFAULT_WIDGET_COUNT = 5;
+
     private UIRoutineRecordPopup _uiRoutineRecordPopup;
 
     private MyCharacterManager _myCharacterManager;
     private ImmutableDictionary<string, ImmutableList<bool>> _routineRecordDictionary;
+
     #endregion
 
     #region 2. Properties
@@ -34,18 +41,46 @@ public class RoutineRecordPresenter : PresenterBase
         base.Initialize(view);
 
         _myCharacterManager = MyCharacterManager.Instance;
-        
         _uiRoutineRecordPopup = _view as UIRoutineRecordPopup;
-        ExceptionHelper.CheckNullException(_uiRoutineRecordPopup, "_uiRoutineRecordPopup");
-        
-        UpdateCurrentRoutineRecords();
+
+        if (_uiRoutineRecordPopup == null)
+        {
+            throw new NullReferenceException("_uiRoutineRecordPopup");
+        }
+
+        // refactor
+        // 이 두개의 실행흐름은 중요한데.
+        // 이 실행흐름을 고려하면 2가지 일을 하더라도 합쳐야 하는가?
+        //presenter logic 수행
+        InitializeRoutineRecords();
+
+        //view update
     }
 
     #endregion
 
     #region 4. Methods
 
-    // default
+    private void InitializeRoutineRecords()
+    {
+        _routineRecordDictionary = _myCharacterManager.GetRoutineRecordDictionary();
+
+        var routineRecordCount = _routineRecordDictionary.Count;
+        var widgetCount = routineRecordCount < DEFAULT_WIDGET_COUNT ? routineRecordCount : DEFAULT_WIDGET_COUNT;
+
+        _uiRoutineRecordPopup.CreateRoutineRecordWidgets(widgetCount);
+
+        //test
+
+        foreach (var routineRecord in _routineRecordDictionary)
+        {
+            _uiRoutineRecordPopup.InitializeRoutineRecordWidgets(routineRecord);
+        }
+    }
+
+    private void UpdateRoutineRecords()
+    {
+    }
 
     #endregion
 
@@ -57,13 +92,7 @@ public class RoutineRecordPresenter : PresenterBase
 
     #region 6. EventHandlers
 
-    private void UpdateCurrentRoutineRecords()
-    {
-        _routineRecordDictionary = _myCharacterManager.GetRoutineRecordDictionary();
-        
-        _uiRoutineRecordPopup.UpdateRoutineRecord(_routineRecordDictionary);
-    }
-    
+    //
 
     #endregion
 }

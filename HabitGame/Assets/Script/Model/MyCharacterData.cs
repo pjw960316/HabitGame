@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using System.Xml.Serialization;
 using UnityEngine;
 
@@ -63,6 +64,10 @@ public class MyCharacterData : IModel
     // Dictionary로 가공
     public void InitializeRoutineRecordDictionary()
     {
+        // note
+        // 최신 date 부터 저장
+        RoutineRecordList.Reverse();
+        
         foreach (var routineRecordData in RoutineRecordList)
         {
             var key = routineRecordData.Key;

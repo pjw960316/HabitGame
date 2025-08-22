@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using TMPro;
 using UnityEngine;
 
 public class UIRoutineRecordWidget : UIWidgetBase
@@ -10,6 +9,10 @@ public class UIRoutineRecordWidget : UIWidgetBase
     [SerializeField] private UIImageBase _dateWidget;
     [SerializeField] private List<UIImageBase> _routineRecordWidget;
     [SerializeField] private UIImageBase _routineRecordMoneyWidget;
+    [SerializeField] private Color _successColor;
+    [SerializeField] private Color _failColor;
+
+    private MyCharacterManager _myCharacterManager;
 
     #endregion
 
@@ -34,19 +37,37 @@ public class UIRoutineRecordWidget : UIWidgetBase
 
     private void Initialize()
     {
-        //
+        _myCharacterManager = MyCharacterManager.Instance;
     }
 
+    //test code
     public void SetData(KeyValuePair<string, ImmutableList<bool>> routineRecordElement)
     {
         _dateWidget.SetText(routineRecordElement.Key);
+
+        var test = routineRecordElement.Value;
+        var successCount = 0;
+
+        for (var index = 0; index < test.Count; index++)
+        {
+            if (test[index])
+            {
+                _routineRecordWidget[index].SetColor(Color.green);
+                successCount++;
+            }
+            else
+            {
+                _routineRecordWidget[index].SetColor(Color.red);
+            }
+        }
+
+        var moneyText = (_myCharacterManager.GetMoneyPerRoutineSuccess() * successCount).ToString();
+        _routineRecordMoneyWidget.SetText(moneyText);
     }
 
     public void UpdateData()
     {
-        
     }
-    
 
     #endregion
 
