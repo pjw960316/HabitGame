@@ -58,7 +58,18 @@ public class UIRoutineRecordPopup : UIPopupBase
     private void OnScroll()
     {
         var a = _routineRecordScrollRect.verticalNormalizedPosition;
-        Debug.Log($"{a}");
+        
+        //test
+        if (a < 0.2f)
+        {
+            Debug.Log("hi");
+            _widgetList[0].transform.localPosition = new Vector3(0, -500f, 0);
+        }
+    }
+
+    private void ChangeWidgetPosition()
+    {
+        
     }
 
 
@@ -67,6 +78,7 @@ public class UIRoutineRecordPopup : UIPopupBase
         _uiManager.CreatePresenter<RoutineRecordPresenter>(this);
     }
 
+    //test
     public void CreateRoutineRecordWidgets(int widgetCount)
     {
         for (var i = 0; i < widgetCount; i++)
@@ -97,6 +109,12 @@ public class UIRoutineRecordPopup : UIPopupBase
             _widgetList[index].UpdateData(element);
             index++;
         }
+    }
+
+    public void ShowTopContent()
+    {
+        _routineRecordScrollRect.verticalNormalizedPosition = 1f;
+        
     }
 
     #endregion

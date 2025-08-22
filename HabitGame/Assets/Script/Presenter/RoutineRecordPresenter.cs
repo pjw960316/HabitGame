@@ -72,6 +72,9 @@ public class RoutineRecordPresenter : PresenterBase
         //create 하고 무조건 widget을 세팅해야 함. 이 순서가
         _uiRoutineRecordPopup.CreateRoutineRecordWidgets(widgetCount);
         _uiRoutineRecordPopup.UpdateRoutineRecordWidgets(_routineRecordDictionary);
+        
+        //test
+        _uiRoutineRecordPopup.ShowTopContent();
     }
 
     private void UpdateRoutineRecords()
