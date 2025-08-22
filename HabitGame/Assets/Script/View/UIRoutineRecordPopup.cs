@@ -60,7 +60,6 @@ public class UIRoutineRecordPopup : UIPopupBase
         _uiManager.CreatePresenter<RoutineRecordPresenter>(this);
     }
 
-    //test
     public void CreateRoutineRecordWidgets(int widgetCount)
     {
         var contentsTransform = _contents.transform;
@@ -72,11 +71,14 @@ public class UIRoutineRecordPopup : UIPopupBase
         }
     }
 
-    public void InitializeRoutineRecordWidgets(KeyValuePair<string, ImmutableList<bool>> routineRecord)
+    //test
+    public void UpdateRoutineRecordWidgets(ImmutableDictionary<string, ImmutableList<bool>> routineRecordDictionary)
     {
-        foreach (var routineRecordWidget in _widgetList)
+        int index = 0;
+        foreach (var element in routineRecordDictionary)
         {
-            routineRecordWidget.SetData(routineRecord);
+            _widgetList[index].UpdateData(element);
+            index++;
         }
     }
 

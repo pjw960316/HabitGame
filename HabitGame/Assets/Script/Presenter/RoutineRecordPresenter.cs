@@ -68,14 +68,10 @@ public class RoutineRecordPresenter : PresenterBase
         var routineRecordCount = _routineRecordDictionary.Count;
         var widgetCount = routineRecordCount < DEFAULT_WIDGET_COUNT ? routineRecordCount : DEFAULT_WIDGET_COUNT;
 
+        //refactor
+        //create 하고 무조건 widget을 세팅해야 함. 이 순서가
         _uiRoutineRecordPopup.CreateRoutineRecordWidgets(widgetCount);
-
-        //test
-
-        foreach (var routineRecord in _routineRecordDictionary)
-        {
-            _uiRoutineRecordPopup.InitializeRoutineRecordWidgets(routineRecord);
-        }
+        _uiRoutineRecordPopup.UpdateRoutineRecordWidgets(_routineRecordDictionary);
     }
 
     private void UpdateRoutineRecords()

@@ -40,33 +40,31 @@ public class UIRoutineRecordWidget : UIWidgetBase
         _myCharacterManager = MyCharacterManager.Instance;
     }
 
-    //test code
-    public void SetData(KeyValuePair<string, ImmutableList<bool>> routineRecordElement)
+    // note
+    // Routine String (날짜와 돈 제외)은 autoSetting이 된다.
+    public void UpdateData(KeyValuePair<string, ImmutableList<bool>> routineRecordElement)
     {
         _dateWidget.SetText(routineRecordElement.Key);
-
-        var test = routineRecordElement.Value;
+        
+        var routineCheckList = routineRecordElement.Value;
+        var routineCheckCount = routineCheckList.Count;
         var successCount = 0;
 
-        for (var index = 0; index < test.Count; index++)
+        for (var index = 0; index < routineCheckCount; index++)
         {
-            if (test[index])
+            if (routineCheckList[index])
             {
-                _routineRecordWidget[index].SetColor(Color.green);
+                _routineRecordWidget[index].SetColor(_successColor);
                 successCount++;
             }
             else
             {
-                _routineRecordWidget[index].SetColor(Color.red);
+                _routineRecordWidget[index].SetColor(_failColor);
             }
         }
 
         var moneyText = (_myCharacterManager.GetMoneyPerRoutineSuccess() * successCount).ToString();
         _routineRecordMoneyWidget.SetText(moneyText);
-    }
-
-    public void UpdateData()
-    {
     }
 
     #endregion
