@@ -69,13 +69,7 @@ public class RoutineRecordPresenter : PresenterBase
     {
         _uiRoutineRecordPopup.OnScrolled.Subscribe(_ => Test()).AddTo(_disposable);
     }
-
-    private void Test()
-    {
-        var bottomY = _uiRoutineRecordPopup.GetBottomWidget().GetAnchoredPositionY();
-        
-        _uiRoutineRecordPopup.GetTopWidget().RectTransform.anchoredPosition = new Vector2(0, bottomY - 200f);
-    }
+    
     
     private void InitializeRoutineRecords()
     {
@@ -108,7 +102,13 @@ public class RoutineRecordPresenter : PresenterBase
 
     #region 6. EventHandlers
 
-    //
+    private void Test()
+    {
+        var bottomY = _uiRoutineRecordPopup.GetBottomWidget().GetAnchoredPositionY();
+        
+        //refactor 
+        _uiRoutineRecordPopup.GetTopWidget().RectTransform.anchoredPosition = new Vector2(0, bottomY - 200f);
+    }
 
     #endregion
 }

@@ -83,6 +83,8 @@ public class UIRoutineRecordPopup : UIPopupBase
         _currentVerticalNormalizedPosition = _routineRecordScrollRect.verticalNormalizedPosition;
     }
 
+    //refactor
+    //2개 합치기
     public UIRoutineRecordWidget GetTopWidget()
     {
         var currentY = _widgetList[0].GetAnchoredPositionY();
@@ -100,15 +102,15 @@ public class UIRoutineRecordPopup : UIPopupBase
         return topWidget;
     }
 
+    //refactor
+    //2개 합치기
     public UIRoutineRecordWidget GetBottomWidget()
     {
-        Debug.Log($"{_widgetList.Count}");
         var currentY = _widgetList[0].GetAnchoredPositionY();
         var bottomWidget = _widgetList[0];
         foreach (var widget in _widgetList)
         {
             var widgetAnchoredPositionY = widget.GetAnchoredPositionY();
-            Debug.Log($"{widgetAnchoredPositionY}");
             if (currentY > widgetAnchoredPositionY)
             {
                 currentY = widgetAnchoredPositionY;
