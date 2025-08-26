@@ -86,12 +86,12 @@ public class UIRoutineRecordPopup : UIPopupBase
 
     private void OnScroll()
     {
-        CheckUpdateScroll();
+        UpdateWidgetPositionIfNeeded();
         
         UpdateCurrentVerticalNormalizedPosition();
     }
 
-    private void CheckUpdateScroll()
+    private void UpdateWidgetPositionIfNeeded()
     {
         var isScrollDown = _routineRecordScrollRect.verticalNormalizedPosition < _currentVerticalNormalizedPosition;
         var targetWidget = isScrollDown ? GetTopWidget() : GetBottomWidget();
