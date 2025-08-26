@@ -13,6 +13,7 @@ public class UIRoutineRecordWidget : UIWidgetBase
     [SerializeField] private Color _failColor;
     [SerializeField] private RectTransform _rectTransform;
 
+    private string _date;
     private MyCharacterManager _myCharacterManager;
     private Transform _transform;
 
@@ -23,6 +24,7 @@ public class UIRoutineRecordWidget : UIWidgetBase
     public RectTransform RectTransform => _rectTransform;
 
     public float WorldPosY => _transform.position.y;
+    public string Date => _date;
 
     #endregion
 
@@ -50,6 +52,7 @@ public class UIRoutineRecordWidget : UIWidgetBase
     public void UpdateData(KeyValuePair<string, ImmutableList<bool>> routineRecordElement)
     {
         _dateWidget.SetText(routineRecordElement.Key);
+        _date = routineRecordElement.Key;
         
         var routineCheckList = routineRecordElement.Value;
         var routineCheckCount = routineCheckList.Count;

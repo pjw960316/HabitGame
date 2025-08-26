@@ -11,13 +11,13 @@ public class UIRoutineRecordPopup : UIPopupBase
     {
         public readonly float Offset;
         public readonly bool IsScrollDown;
-        public readonly UIRoutineRecordWidget Widget;
+        public readonly UIRoutineRecordWidget MovingWidget; // note : 보이지 않아서 움직일 widget 
 
-        public ScrollData(float offset, bool isScrollDown, UIRoutineRecordWidget widget)
+        public ScrollData(float offset, bool isScrollDown, UIRoutineRecordWidget movingWidget)
         {
             Offset = offset;
             IsScrollDown = isScrollDown;
-            Widget = widget;
+            MovingWidget = movingWidget;
         }
     }
     
@@ -28,8 +28,8 @@ public class UIRoutineRecordPopup : UIPopupBase
     [SerializeField] private GameObject _contents;
     [SerializeField] private ScrollRect _routineRecordScrollRect;
 
-    private const float WIDGET_SCROLL_DOWN_OFFSET = 2f;
     private const float WIDGET_SCROLL_UP_OFFSET = 1.5f;
+    private const float WIDGET_SCROLL_DOWN_OFFSET = 2f;
     
     private List<UIRoutineRecordWidget> _widgetList;
     private float _widgetOffsetHeight;
@@ -86,32 +86,33 @@ public class UIRoutineRecordPopup : UIPopupBase
 
     private void OnScroll()
     {
-        UpdateWidgetPositionIfNeeded();
+        UpdateWidgetIfNeeded();
         
         UpdateCurrentVerticalNormalizedPosition();
     }
 
-    private void UpdateWidgetPositionIfNeeded()
+    private void UpdateWidgetIfNeeded()
     {
         var isScrollDown = _routineRecordScrollRect.verticalNormalizedPosition < _currentVerticalNormalizedPosition;
-        var targetWidget = isScrollDown ? GetTopWidget() : GetBottomWidget();
-        var data = new ScrollData(_widgetOffsetHeight, isScrollDown, targetWidget);
+        var movingWidget = isScrollDown ? GetTopWidget() : GetBottomWidget();
         
         if (isScrollDown)
         {
-            var shouldScrollUpdate = _viewPortWorldPosY + _widgetOffsetHeight * WIDGET_SCROLL_DOWN_OFFSET <
-                                     targetWidget.WorldPosY;
+            var shouldScrollUpdate = movingWidget.WorldPosY >
+                                     _viewPortWorldPosY + _widgetOffsetHeight * WIDGET_SCROLL_DOWN_OFFSET;
             if (shouldScrollUpdate)
             {
+                var data = new ScrollData(_widgetOffsetHeight, isScrollDown, movingWidget);
                 _onUpdateScrollWidget?.OnNext(data);
             }
         }
         else
         {
-            var shouldScrollUpdate = targetWidget.WorldPosY <
+            var shouldScrollUpdate = movingWidget.WorldPosY <
                                      _viewPortWorldPosY - _widgetOffsetHeight * WIDGET_SCROLL_UP_OFFSET;
             if (shouldScrollUpdate)
             {
+                var data = new ScrollData(_widgetOffsetHeight, isScrollDown, movingWidget);
                 _onUpdateScrollWidget?.OnNext(data);
             }
         }
@@ -132,8 +133,7 @@ public class UIRoutineRecordPopup : UIPopupBase
         return GetNestedWidget(isBottom : true);
     }
 
-    // Note
-    // GetTopWidget , GetBottomWidget Nested Method
+    //Note : GetTopWidget , GetBottomWidget Nested Method
     private UIRoutineRecordWidget GetNestedWidget(bool isBottom)
     {
         var currentY = _widgetList[0].GetAnchoredPositionY();
@@ -201,6 +201,13 @@ public class UIRoutineRecordPopup : UIPopupBase
     public void ShowTopContent()
     {
         _routineRecordScrollRect.verticalNormalizedPosition = 1f;
+    }
+
+    public void UpdateWidgetData(UIRoutineRecordWidget movingWidget, KeyValuePair<string, ImmutableList<bool>> routineRecordData)
+    {
+        Debug.Log("hi");
+        movingWidget.UpdateData(routineRecordData);
+        
     }
 
     #endregion

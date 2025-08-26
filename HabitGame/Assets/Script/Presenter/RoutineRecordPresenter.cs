@@ -1,11 +1,8 @@
-// refactor
-// RoutineCheckPresenter와 함께 하려 했으나, presenter가 2개의 view를 책임지는 건 아니라 판단.
-// 그래서 두 개를 일단 분리해서 구현
-// 하지만 왠지 두 개의 공통 기능이 생길 것 같음 -> 상위로 묶는 방식
-// 이거에 대한 판단이 아직 서지 않는다.
-
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
+using JetBrains.Annotations;
 using UniRx;
 using UnityEngine;
 using ScrollData = UIRoutineRecordPopup.ScrollData;
@@ -89,15 +86,13 @@ public class RoutineRecordPresenter : PresenterBase
         _uiRoutineRecordPopup.ShowTopContent();
     }
 
-    private void UpdateRoutineRecords()
-    {
-    }
-
     #endregion
 
     #region 5. Request Methods
 
-    // default
+    private void RequestBesideData()
+    {
+    }
 
     #endregion
 
@@ -105,26 +100,64 @@ public class RoutineRecordPresenter : PresenterBase
 
     private void UpdateWidget(ScrollData scrollData)
     {
+        UpdateWidgetData(scrollData);
         UpdateWidgetPosition(scrollData);
-        UpdateWidgetData();
     }
-    
+
     private void UpdateWidgetPosition(ScrollData scrollData)
     {
         if (scrollData.IsScrollDown)
         {
             var bottomY = _uiRoutineRecordPopup.GetBottomWidget().GetAnchoredPositionY();
-            scrollData.Widget.RectTransform.anchoredPosition = new Vector2(0, bottomY - scrollData.Offset);
+            scrollData.MovingWidget.RectTransform.anchoredPosition = new Vector2(0, bottomY - scrollData.Offset);
         }
         else
         {
             var topY = _uiRoutineRecordPopup.GetTopWidget().GetAnchoredPositionY();
-            scrollData.Widget.RectTransform.anchoredPosition = new Vector2(0, topY + scrollData.Offset);
+            scrollData.MovingWidget.RectTransform.anchoredPosition = new Vector2(0, topY + scrollData.Offset);
         }
     }
 
-    private void UpdateWidgetData()
+    private void UpdateWidgetData(ScrollData scrollData)
     {
+        var widgetData = scrollData.IsScrollDown
+            ? GetBeforeDateRoutineRecord(scrollData)
+            : GetAfterDateRoutineRecord(scrollData);
+
+        
+        _uiRoutineRecordPopup.UpdateWidgetData(scrollData.MovingWidget, widgetData);
+    }
+
+    [CanBeNull]
+    private KeyValuePair<string, ImmutableList<bool>> GetBeforeDateRoutineRecord(ScrollData scrollData)
+    {
+        var targetWidgetDate = GetTargetWidget(scrollData.IsScrollDown).Date;
+        var prev = _routineRecordDictionary
+            .TakeWhile(kvp => kvp.Key != targetWidgetDate)
+            .LastOrDefault();
+
+        return prev;
+    }
+
+    [CanBeNull]
+    private KeyValuePair<string, ImmutableList<bool>> GetAfterDateRoutineRecord(ScrollData scrollData)
+    {
+        var targetWidgetDate = GetTargetWidget(scrollData.IsScrollDown).Date;
+        var next = _routineRecordDictionary.Reverse()
+            .TakeWhile(kvp => kvp.Key != targetWidgetDate)
+            .LastOrDefault();
+
+        return next;
+    }
+
+    private UIRoutineRecordWidget GetTargetWidget(bool isScrollDown)
+    {
+        if (isScrollDown)
+        {
+            return _uiRoutineRecordPopup.GetBottomWidget();
+        }
+
+        return _uiRoutineRecordPopup.GetTopWidget();
     }
 
     #endregion
