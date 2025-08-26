@@ -122,42 +122,34 @@ public class UIRoutineRecordPopup : UIPopupBase
         _currentVerticalNormalizedPosition = _routineRecordScrollRect.verticalNormalizedPosition;
     }
     
-    //refactor
-    //2개 합치기
     public UIRoutineRecordWidget GetTopWidget()
     {
-        var currentY = _widgetList[0].GetAnchoredPositionY();
-        var topWidget = _widgetList[0];
-        foreach (var widget in _widgetList)
-        {
-            var widgetAnchoredPositionY = widget.GetAnchoredPositionY();
-            if (currentY < widgetAnchoredPositionY)
-            {
-                currentY = widgetAnchoredPositionY;
-                topWidget = widget;
-            }
-        }
-
-        return topWidget;
+        return GetNestedWidget(isBottom : false);
     }
 
-    //refactor
-    //2개 합치기
     public UIRoutineRecordWidget GetBottomWidget()
     {
+        return GetNestedWidget(isBottom : true);
+    }
+
+    // Note
+    // GetTopWidget , GetBottomWidget Nested Method
+    private UIRoutineRecordWidget GetNestedWidget(bool isBottom)
+    {
         var currentY = _widgetList[0].GetAnchoredPositionY();
-        var bottomWidget = _widgetList[0];
+        var targetWidget = _widgetList[0];
+        
         foreach (var widget in _widgetList)
         {
             var widgetAnchoredPositionY = widget.GetAnchoredPositionY();
-            if (currentY > widgetAnchoredPositionY)
+            if ((isBottom && currentY > widgetAnchoredPositionY) || (!isBottom && currentY < widgetAnchoredPositionY))
             {
                 currentY = widgetAnchoredPositionY;
-                bottomWidget = widget;
+                targetWidget = widget;
             }
         }
 
-        return bottomWidget;
+        return targetWidget;
     }
 
     public void InitializeContentsHeight(int widgetCount)
