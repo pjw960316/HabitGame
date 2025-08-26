@@ -68,7 +68,7 @@ public class RoutineRecordPresenter : PresenterBase
 
     private void BindEvent()
     {
-        _uiRoutineRecordPopup.OnScrolled.Subscribe(UpdateWidget).AddTo(_disposable);
+        _uiRoutineRecordPopup.OnUpdateScrollWidget.Subscribe(UpdateWidget).AddTo(_disposable);
     }
 
 
@@ -108,21 +108,18 @@ public class RoutineRecordPresenter : PresenterBase
         UpdateWidgetPosition(scrollData);
         UpdateWidgetData();
     }
-
-    //test
+    
     private void UpdateWidgetPosition(ScrollData scrollData)
     {
         if (scrollData.IsScrollDown)
         {
-            Debug.Log("ScrollDown");
             var bottomY = _uiRoutineRecordPopup.GetBottomWidget().GetAnchoredPositionY();
-            _uiRoutineRecordPopup.GetTopWidget().RectTransform.anchoredPosition = new Vector2(0, bottomY - scrollData.Offset);
+            scrollData.Widget.RectTransform.anchoredPosition = new Vector2(0, bottomY - scrollData.Offset);
         }
         else
         {
-            Debug.Log("ScrollUp");
             var topY = _uiRoutineRecordPopup.GetTopWidget().GetAnchoredPositionY();
-            _uiRoutineRecordPopup.GetBottomWidget().RectTransform.anchoredPosition = new Vector2(0, topY + scrollData.Offset);
+            scrollData.Widget.RectTransform.anchoredPosition = new Vector2(0, topY + scrollData.Offset);
         }
     }
 

@@ -9,9 +9,9 @@ public class UIRoutineRecordPopup : UIPopupBase
 {
     public struct ScrollData
     {
-        public float Offset;
-        public bool IsScrollDown;
-        public UIRoutineRecordWidget Widget;
+        public readonly float Offset;
+        public readonly bool IsScrollDown;
+        public readonly UIRoutineRecordWidget Widget;
 
         public ScrollData(float offset, bool isScrollDown, UIRoutineRecordWidget widget)
         {
@@ -28,15 +28,16 @@ public class UIRoutineRecordPopup : UIPopupBase
     [SerializeField] private GameObject _contents;
     [SerializeField] private ScrollRect _routineRecordScrollRect;
 
-    private const float DOUBLE = 2f;
+    private const float WIDGET_SCROLL_DOWN_OFFSET = 2f;
+    private const float WIDGET_SCROLL_UP_OFFSET = 1.5f;
     
     private List<UIRoutineRecordWidget> _widgetList;
     private float _widgetOffsetHeight;
     private float _viewPortWorldPosY;
     private float _currentVerticalNormalizedPosition;
 
-    private readonly Subject<ScrollData> _onScrolled = new();
-    public IObservable<ScrollData> OnScrolled => _onScrolled;
+    private readonly Subject<ScrollData> _onUpdateScrollWidget = new();
+    public IObservable<ScrollData> OnUpdateScrollWidget => _onUpdateScrollWidget;
 
     #endregion
 
@@ -69,13 +70,13 @@ public class UIRoutineRecordPopup : UIPopupBase
     {
         _widgetList = new List<UIRoutineRecordWidget>();
         _widgetOffsetHeight = _widgetPrefab.GetComponent<RectTransform>().rect.height;
+        
         _currentVerticalNormalizedPosition = 1f;
         _viewPortWorldPosY = _viewPort.transform.position.y;
     }
 
     private void Initialize()
     {
-        Debug.Log($"{_viewPortWorldPosY}");
     }
 
     private void BindEvent()
@@ -85,36 +86,40 @@ public class UIRoutineRecordPopup : UIPopupBase
 
     private void OnScroll()
     {
-        // 내릴 때
-        if (isScrollDown())
-        {
-            var targetWidget = GetTopWidget();
-            ScrollData data = new ScrollData(200, true, targetWidget);
-            
-            if (_viewPortWorldPosY + _widgetOffsetHeight * DOUBLE < targetWidget.WorldPosY)
-            {
-                _onScrolled?.OnNext(data);
-            }
-        }
+        CheckUpdateScroll();
         
-        // 올릴 때
-        else
-        {
-            var targetWidget = GetBottomWidget();
-            ScrollData data = new ScrollData(200, false, targetWidget);
-            
-            if (targetWidget.WorldPosY < _viewPortWorldPosY - _widgetOffsetHeight * 1.5f)
-            {
-                _onScrolled?.OnNext(data);
-            }
-        }
-
-        _currentVerticalNormalizedPosition = _routineRecordScrollRect.verticalNormalizedPosition;
+        UpdateCurrentVerticalNormalizedPosition();
     }
 
-    private bool isScrollDown()
+    private void CheckUpdateScroll()
     {
-        return _routineRecordScrollRect.verticalNormalizedPosition < _currentVerticalNormalizedPosition;
+        var isScrollDown = _routineRecordScrollRect.verticalNormalizedPosition < _currentVerticalNormalizedPosition;
+        var targetWidget = isScrollDown ? GetTopWidget() : GetBottomWidget();
+        var data = new ScrollData(_widgetOffsetHeight, isScrollDown, targetWidget);
+        
+        if (isScrollDown)
+        {
+            var shouldScrollUpdate = _viewPortWorldPosY + _widgetOffsetHeight * WIDGET_SCROLL_DOWN_OFFSET <
+                                     targetWidget.WorldPosY;
+            if (shouldScrollUpdate)
+            {
+                _onUpdateScrollWidget?.OnNext(data);
+            }
+        }
+        else
+        {
+            var shouldScrollUpdate = targetWidget.WorldPosY <
+                                     _viewPortWorldPosY - _widgetOffsetHeight * WIDGET_SCROLL_UP_OFFSET;
+            if (shouldScrollUpdate)
+            {
+                _onUpdateScrollWidget?.OnNext(data);
+            }
+        }
+    }
+
+    private void UpdateCurrentVerticalNormalizedPosition()
+    {
+        _currentVerticalNormalizedPosition = _routineRecordScrollRect.verticalNormalizedPosition;
     }
     
     //refactor
