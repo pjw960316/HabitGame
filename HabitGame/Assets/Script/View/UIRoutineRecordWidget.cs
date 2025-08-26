@@ -14,12 +14,15 @@ public class UIRoutineRecordWidget : UIWidgetBase
     [SerializeField] private RectTransform _rectTransform;
 
     private MyCharacterManager _myCharacterManager;
+    private Transform _transform;
 
     #endregion
 
     #region 2. Properties
 
     public RectTransform RectTransform => _rectTransform;
+
+    public float WorldPosY => _transform.position.y;
 
     #endregion
 
@@ -39,6 +42,7 @@ public class UIRoutineRecordWidget : UIWidgetBase
     private void Initialize()
     {
         _myCharacterManager = MyCharacterManager.Instance;
+        _transform = transform;
     }
 
     // note

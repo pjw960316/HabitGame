@@ -7,18 +7,36 @@ using UnityEngine.UI;
 
 public class UIRoutineRecordPopup : UIPopupBase
 {
-    #region 1. Fields
+    public struct ScrollData
+    {
+        public float Offset;
+        public bool IsScrollDown;
+        public UIRoutineRecordWidget Widget;
 
+        public ScrollData(float offset, bool isScrollDown, UIRoutineRecordWidget widget)
+        {
+            Offset = offset;
+            IsScrollDown = isScrollDown;
+            Widget = widget;
+        }
+    }
+    
+    #region 1. Fields
+    
     [SerializeField] private GameObject _widgetPrefab;
+    [SerializeField] private GameObject _viewPort;
     [SerializeField] private GameObject _contents;
     [SerializeField] private ScrollRect _routineRecordScrollRect;
 
+    private const float DOUBLE = 2f;
+    
     private List<UIRoutineRecordWidget> _widgetList;
-    private float _widgetHeight;
+    private float _widgetOffsetHeight;
+    private float _viewPortWorldPosY;
     private float _currentVerticalNormalizedPosition;
 
-    private readonly Subject<Unit> _onScrolled = new();
-    public IObservable<Unit> OnScrolled => _onScrolled;
+    private readonly Subject<ScrollData> _onScrolled = new();
+    public IObservable<ScrollData> OnScrolled => _onScrolled;
 
     #endregion
 
@@ -27,7 +45,7 @@ public class UIRoutineRecordPopup : UIPopupBase
     // default
 
     #endregion
-
+    
     #region 3. Constructor
 
     public override void OnAwake()
@@ -50,12 +68,14 @@ public class UIRoutineRecordPopup : UIPopupBase
     private void PreInitialize()
     {
         _widgetList = new List<UIRoutineRecordWidget>();
-        _widgetHeight = _widgetPrefab.GetComponent<RectTransform>().rect.height;
+        _widgetOffsetHeight = _widgetPrefab.GetComponent<RectTransform>().rect.height;
         _currentVerticalNormalizedPosition = 1f;
+        _viewPortWorldPosY = _viewPort.transform.position.y;
     }
 
     private void Initialize()
     {
+        Debug.Log($"{_viewPortWorldPosY}");
     }
 
     private void BindEvent()
@@ -65,24 +85,38 @@ public class UIRoutineRecordPopup : UIPopupBase
 
     private void OnScroll()
     {
-        //test
-        if (0.6f < _currentVerticalNormalizedPosition && _currentVerticalNormalizedPosition < 0.61f)
+        // 내릴 때
+        if (isScrollDown())
         {
-            //test
-            //observer find 필요 X
-            if (_onScrolled.HasObservers)
-            {
-                _onScrolled?.OnNext(default);
-            }
+            var targetWidget = GetTopWidget();
+            ScrollData data = new ScrollData(200, true, targetWidget);
             
-            //test
-            //1회만 dispose
-            _onScrolled?.Dispose();
+            if (_viewPortWorldPosY + _widgetOffsetHeight * DOUBLE < targetWidget.WorldPosY)
+            {
+                _onScrolled?.OnNext(data);
+            }
+        }
+        
+        // 올릴 때
+        else
+        {
+            var targetWidget = GetBottomWidget();
+            ScrollData data = new ScrollData(200, false, targetWidget);
+            
+            if (targetWidget.WorldPosY < _viewPortWorldPosY - _widgetOffsetHeight * 1.5f)
+            {
+                _onScrolled?.OnNext(data);
+            }
         }
 
         _currentVerticalNormalizedPosition = _routineRecordScrollRect.verticalNormalizedPosition;
     }
 
+    private bool isScrollDown()
+    {
+        return _routineRecordScrollRect.verticalNormalizedPosition < _currentVerticalNormalizedPosition;
+    }
+    
     //refactor
     //2개 합치기
     public UIRoutineRecordWidget GetTopWidget()
@@ -124,7 +158,7 @@ public class UIRoutineRecordPopup : UIPopupBase
     public void InitializeContentsHeight(int widgetCount)
     {
         _contents.GetComponent<RectTransform>().sizeDelta =
-            new Vector2(GetComponent<RectTransform>().rect.width, _widgetHeight * widgetCount);
+            new Vector2(GetComponent<RectTransform>().rect.width, _widgetOffsetHeight * widgetCount);
     }
 
     protected override void CreatePresenterByManager()
@@ -144,7 +178,7 @@ public class UIRoutineRecordPopup : UIPopupBase
 
             //transform
             routineRecordWidget.RectTransform.anchoredPosition =
-                new Vector3(0, -(index * _widgetHeight), 0);
+                new Vector3(0, -(index * _widgetOffsetHeight), 0);
         }
     }
 

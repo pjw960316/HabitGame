@@ -8,6 +8,7 @@ using System;
 using System.Collections.Immutable;
 using UniRx;
 using UnityEngine;
+using ScrollData = UIRoutineRecordPopup.ScrollData;
 
 public class RoutineRecordPresenter : PresenterBase
 {
@@ -57,7 +58,7 @@ public class RoutineRecordPresenter : PresenterBase
         InitializeRoutineRecords();
 
         BindEvent();
-        
+
         //view update
     }
 
@@ -67,10 +68,10 @@ public class RoutineRecordPresenter : PresenterBase
 
     private void BindEvent()
     {
-        _uiRoutineRecordPopup.OnScrolled.Subscribe(_ => Test()).AddTo(_disposable);
+        _uiRoutineRecordPopup.OnScrolled.Subscribe(UpdateWidget).AddTo(_disposable);
     }
-    
-    
+
+
     private void InitializeRoutineRecords()
     {
         _routineRecordDictionary = _myCharacterManager.GetRoutineRecordDictionary();
@@ -83,7 +84,7 @@ public class RoutineRecordPresenter : PresenterBase
         _uiRoutineRecordPopup.InitializeContentsHeight(routineRecordCount);
         _uiRoutineRecordPopup.CreateRoutineRecordWidgets(widgetPrefabCount);
         _uiRoutineRecordPopup.UpdateRoutineRecordWidgets(_routineRecordDictionary);
-        
+
         //test
         _uiRoutineRecordPopup.ShowTopContent();
     }
@@ -102,12 +103,31 @@ public class RoutineRecordPresenter : PresenterBase
 
     #region 6. EventHandlers
 
-    private void Test()
+    private void UpdateWidget(ScrollData scrollData)
     {
-        var bottomY = _uiRoutineRecordPopup.GetBottomWidget().GetAnchoredPositionY();
-        
-        //refactor 
-        _uiRoutineRecordPopup.GetTopWidget().RectTransform.anchoredPosition = new Vector2(0, bottomY - 200f);
+        UpdateWidgetPosition(scrollData);
+        UpdateWidgetData();
+    }
+
+    //test
+    private void UpdateWidgetPosition(ScrollData scrollData)
+    {
+        if (scrollData.IsScrollDown)
+        {
+            Debug.Log("ScrollDown");
+            var bottomY = _uiRoutineRecordPopup.GetBottomWidget().GetAnchoredPositionY();
+            _uiRoutineRecordPopup.GetTopWidget().RectTransform.anchoredPosition = new Vector2(0, bottomY - scrollData.Offset);
+        }
+        else
+        {
+            Debug.Log("ScrollUp");
+            var topY = _uiRoutineRecordPopup.GetTopWidget().GetAnchoredPositionY();
+            _uiRoutineRecordPopup.GetBottomWidget().RectTransform.anchoredPosition = new Vector2(0, topY + scrollData.Offset);
+        }
+    }
+
+    private void UpdateWidgetData()
+    {
     }
 
     #endregion
