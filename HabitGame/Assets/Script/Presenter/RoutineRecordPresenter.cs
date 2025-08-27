@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using JetBrains.Annotations;
 using UniRx;
 using UnityEngine;
 using ScrollData = UIRoutineRecordPopup.ScrollData;
@@ -100,8 +99,32 @@ public class RoutineRecordPresenter : PresenterBase
 
     private void UpdateWidget(ScrollData scrollData)
     {
+        if (IsFrontOrLastWidget(scrollData))
+        {
+            return;
+        }
+
         UpdateWidgetData(scrollData);
         UpdateWidgetPosition(scrollData);
+    }
+
+    private bool IsFrontOrLastWidget(ScrollData scrollData)
+    {
+        var targetWidgetDate = GetTargetWidget(scrollData.IsScrollDown).Date;
+        var latestDate = _routineRecordDictionary.FirstOrDefault().Key;
+        var oldestDate = _routineRecordDictionary.LastOrDefault().Key;
+
+        if (scrollData.IsScrollDown && targetWidgetDate == oldestDate)
+        {
+            return true;
+        }
+
+        if (!scrollData.IsScrollDown && targetWidgetDate == latestDate)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     private void UpdateWidgetPosition(ScrollData scrollData)
@@ -124,26 +147,25 @@ public class RoutineRecordPresenter : PresenterBase
             ? GetBeforeDateRoutineRecord(scrollData)
             : GetAfterDateRoutineRecord(scrollData);
 
-        
+
         _uiRoutineRecordPopup.UpdateWidgetData(scrollData.MovingWidget, widgetData);
     }
 
-    [CanBeNull]
     private KeyValuePair<string, ImmutableList<bool>> GetBeforeDateRoutineRecord(ScrollData scrollData)
     {
         var targetWidgetDate = GetTargetWidget(scrollData.IsScrollDown).Date;
-        var prev = _routineRecordDictionary
+        var prev = _routineRecordDictionary.Reverse()
             .TakeWhile(kvp => kvp.Key != targetWidgetDate)
             .LastOrDefault();
+
 
         return prev;
     }
 
-    [CanBeNull]
     private KeyValuePair<string, ImmutableList<bool>> GetAfterDateRoutineRecord(ScrollData scrollData)
     {
         var targetWidgetDate = GetTargetWidget(scrollData.IsScrollDown).Date;
-        var next = _routineRecordDictionary.Reverse()
+        var next = _routineRecordDictionary
             .TakeWhile(kvp => kvp.Key != targetWidgetDate)
             .LastOrDefault();
 

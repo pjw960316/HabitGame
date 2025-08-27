@@ -20,9 +20,9 @@ public class UIRoutineRecordPopup : UIPopupBase
             MovingWidget = movingWidget;
         }
     }
-    
+
     #region 1. Fields
-    
+
     [SerializeField] private GameObject _widgetPrefab;
     [SerializeField] private GameObject _viewPort;
     [SerializeField] private GameObject _contents;
@@ -30,7 +30,7 @@ public class UIRoutineRecordPopup : UIPopupBase
 
     private const float WIDGET_SCROLL_UP_OFFSET = 1.5f;
     private const float WIDGET_SCROLL_DOWN_OFFSET = 2f;
-    
+
     private List<UIRoutineRecordWidget> _widgetList;
     private float _widgetOffsetHeight;
     private float _viewPortWorldPosY;
@@ -46,7 +46,7 @@ public class UIRoutineRecordPopup : UIPopupBase
     // default
 
     #endregion
-    
+
     #region 3. Constructor
 
     public override void OnAwake()
@@ -70,7 +70,7 @@ public class UIRoutineRecordPopup : UIPopupBase
     {
         _widgetList = new List<UIRoutineRecordWidget>();
         _widgetOffsetHeight = _widgetPrefab.GetComponent<RectTransform>().rect.height;
-        
+
         _currentVerticalNormalizedPosition = 1f;
         _viewPortWorldPosY = _viewPort.transform.position.y;
     }
@@ -87,7 +87,7 @@ public class UIRoutineRecordPopup : UIPopupBase
     private void OnScroll()
     {
         UpdateWidgetIfNeeded();
-        
+
         UpdateCurrentVerticalNormalizedPosition();
     }
 
@@ -95,7 +95,7 @@ public class UIRoutineRecordPopup : UIPopupBase
     {
         var isScrollDown = _routineRecordScrollRect.verticalNormalizedPosition < _currentVerticalNormalizedPosition;
         var movingWidget = isScrollDown ? GetTopWidget() : GetBottomWidget();
-        
+
         if (isScrollDown)
         {
             var shouldScrollUpdate = movingWidget.WorldPosY >
@@ -122,15 +122,15 @@ public class UIRoutineRecordPopup : UIPopupBase
     {
         _currentVerticalNormalizedPosition = _routineRecordScrollRect.verticalNormalizedPosition;
     }
-    
+
     public UIRoutineRecordWidget GetTopWidget()
     {
-        return GetNestedWidget(isBottom : false);
+        return GetNestedWidget(false);
     }
 
     public UIRoutineRecordWidget GetBottomWidget()
     {
-        return GetNestedWidget(isBottom : true);
+        return GetNestedWidget(true);
     }
 
     //Note : GetTopWidget , GetBottomWidget Nested Method
@@ -138,7 +138,7 @@ public class UIRoutineRecordPopup : UIPopupBase
     {
         var currentY = _widgetList[0].GetAnchoredPositionY();
         var targetWidget = _widgetList[0];
-        
+
         foreach (var widget in _widgetList)
         {
             var widgetAnchoredPositionY = widget.GetAnchoredPositionY();
@@ -203,11 +203,10 @@ public class UIRoutineRecordPopup : UIPopupBase
         _routineRecordScrollRect.verticalNormalizedPosition = 1f;
     }
 
-    public void UpdateWidgetData(UIRoutineRecordWidget movingWidget, KeyValuePair<string, ImmutableList<bool>> routineRecordData)
+    public void UpdateWidgetData(UIRoutineRecordWidget movingWidget,
+        KeyValuePair<string, ImmutableList<bool>> routineRecordData)
     {
-        Debug.Log("hi");
         movingWidget.UpdateData(routineRecordData);
-        
     }
 
     #endregion

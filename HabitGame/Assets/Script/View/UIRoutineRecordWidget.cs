@@ -13,7 +13,6 @@ public class UIRoutineRecordWidget : UIWidgetBase
     [SerializeField] private Color _failColor;
     [SerializeField] private RectTransform _rectTransform;
 
-    private string _date;
     private MyCharacterManager _myCharacterManager;
     private Transform _transform;
 
@@ -24,7 +23,7 @@ public class UIRoutineRecordWidget : UIWidgetBase
     public RectTransform RectTransform => _rectTransform;
 
     public float WorldPosY => _transform.position.y;
-    public string Date => _date;
+    public string Date { get; private set; }
 
     #endregion
 
@@ -47,13 +46,13 @@ public class UIRoutineRecordWidget : UIWidgetBase
         _transform = transform;
     }
 
-    // note
+    // Note
     // Routine String (날짜와 돈 제외)은 autoSetting이 된다.
     public void UpdateData(KeyValuePair<string, ImmutableList<bool>> routineRecordElement)
     {
         _dateWidget.SetText(routineRecordElement.Key);
-        _date = routineRecordElement.Key;
-        
+        Date = routineRecordElement.Key;
+
         var routineCheckList = routineRecordElement.Value;
         var routineCheckCount = routineCheckList.Count;
         var successCount = 0;
