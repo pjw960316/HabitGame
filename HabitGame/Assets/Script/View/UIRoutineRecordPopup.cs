@@ -53,20 +53,14 @@ public class UIRoutineRecordPopup : UIPopupBase
     {
         base.OnAwake();
 
-        PreInitialize();
+        Initialize();
 
         CreatePresenterByManager();
-
-        Initialize();
 
         BindEvent();
     }
 
-    #endregion
-
-    #region 4. Methods
-
-    private void PreInitialize()
+    private void Initialize()
     {
         _widgetList = new List<UIRoutineRecordWidget>();
         _widgetOffsetHeight = _widgetPrefab.GetComponent<RectTransform>().rect.height;
@@ -75,8 +69,9 @@ public class UIRoutineRecordPopup : UIPopupBase
         _viewPortWorldPosY = _viewPort.transform.position.y;
     }
 
-    private void Initialize()
+    protected override void CreatePresenterByManager()
     {
+        _uiManager.CreatePresenter<RoutineRecordPresenter>(this);
     }
 
     private void BindEvent()
@@ -84,12 +79,26 @@ public class UIRoutineRecordPopup : UIPopupBase
         _routineRecordScrollRect.onValueChanged.AddListener(_ => OnScroll());
     }
 
+    #endregion
+
+    #region 4. Event Handlers
+
     private void OnScroll()
     {
         UpdateWidgetIfNeeded();
 
         UpdateCurrentVerticalNormalizedPosition();
     }
+
+    #endregion
+
+    #region 5. Request Methods
+
+    // default
+
+    #endregion
+
+    #region 6. Methods
 
     private void UpdateWidgetIfNeeded()
     {
@@ -138,11 +147,12 @@ public class UIRoutineRecordPopup : UIPopupBase
     {
         var currentY = _widgetList[0].GetAnchoredPositionY();
         var targetWidget = _widgetList[0];
+        var isTop = !isBottom;
 
         foreach (var widget in _widgetList)
         {
             var widgetAnchoredPositionY = widget.GetAnchoredPositionY();
-            if ((isBottom && currentY > widgetAnchoredPositionY) || (!isBottom && currentY < widgetAnchoredPositionY))
+            if ((isBottom && currentY > widgetAnchoredPositionY) || (isTop && currentY < widgetAnchoredPositionY))
             {
                 currentY = widgetAnchoredPositionY;
                 targetWidget = widget;
@@ -158,10 +168,6 @@ public class UIRoutineRecordPopup : UIPopupBase
             new Vector2(GetComponent<RectTransform>().rect.width, _widgetOffsetHeight * widgetCount);
     }
 
-    protected override void CreatePresenterByManager()
-    {
-        _uiManager.CreatePresenter<RoutineRecordPresenter>(this);
-    }
 
     //test
     public void CreateRoutineRecordWidgets(int widgetCount)
@@ -208,18 +214,6 @@ public class UIRoutineRecordPopup : UIPopupBase
     {
         movingWidget.UpdateData(routineRecordData);
     }
-
-    #endregion
-
-    #region 5. Request Methods
-
-    // default
-
-    #endregion
-
-    #region 6. EventHandlers
-
-    // default
 
     #endregion
 }

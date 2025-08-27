@@ -8,12 +8,6 @@ using ScrollData = UIRoutineRecordPopup.ScrollData;
 
 public class RoutineRecordPresenter : PresenterBase
 {
-    public class RoutineRecordData
-    {
-        public string Date;
-        public ImmutableList<bool> RoutineCheck;
-    }
-
     #region 1. Fields
 
     private const int DEFAULT_WIDGET_COUNT = 5;
@@ -54,8 +48,6 @@ public class RoutineRecordPresenter : PresenterBase
         InitializeRoutineRecords();
 
         BindEvent();
-
-        //view update
     }
 
     #endregion
@@ -75,8 +67,8 @@ public class RoutineRecordPresenter : PresenterBase
         var routineRecordCount = _routineRecordDictionary.Count;
         var widgetPrefabCount = routineRecordCount < DEFAULT_WIDGET_COUNT ? routineRecordCount : DEFAULT_WIDGET_COUNT;
 
-        //refactor
-        //create 하고 무조건 widget을 세팅해야 함. 이 순서가
+        // refactor
+        // create 하고 무조건 widget을 세팅해야 함. 이 순서가
         _uiRoutineRecordPopup.InitializeContentsHeight(routineRecordCount);
         _uiRoutineRecordPopup.CreateRoutineRecordWidgets(widgetPrefabCount);
         _uiRoutineRecordPopup.UpdateRoutineRecordWidgets(_routineRecordDictionary);
@@ -89,16 +81,16 @@ public class RoutineRecordPresenter : PresenterBase
 
     #region 5. Request Methods
 
-    private void RequestBesideData()
-    {
-    }
-
+    // note
+    // why? 
+    
     #endregion
 
     #region 6. EventHandlers
 
     private void UpdateWidget(ScrollData scrollData)
     {
+        
         if (IsFrontOrLastWidget(scrollData))
         {
             return;

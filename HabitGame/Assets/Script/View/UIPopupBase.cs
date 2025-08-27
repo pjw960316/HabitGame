@@ -32,6 +32,7 @@ public abstract class UIPopupBase : MonoBehaviour, IView
 
         BindEvent();
     }
+    
 
     #endregion
 

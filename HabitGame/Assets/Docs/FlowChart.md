@@ -28,4 +28,4 @@
 <br><br>
 
 ## :fire: MVP 구조
-- View가 Presenter를 무조건 먼저 생성하고, Presenter의 Initialize()로 데이터 세팅과 로직 세팅을 완료하면, View가 Initialize()한다.
+- View Initialize() -> CreatePresenterByManager (Presenter 생성) -> Presenter Initialize() -> Presenter SetData for View

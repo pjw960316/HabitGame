@@ -62,6 +62,10 @@ public class UIAlarmPopup : UIPopupBase
         SetInitialUIState();
     }
 
+    private void Initialize()
+    {
+    }
+
     #endregion
 
     #region 4. Methods
