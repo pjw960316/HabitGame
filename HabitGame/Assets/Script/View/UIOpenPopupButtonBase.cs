@@ -19,23 +19,16 @@ public class UIOpenPopupButtonBase : UIButtonBase
     public override void OnAwake()
     {
         base.OnAwake();
-        
-        CreatePresenterByManager();
-        BindEvent();
     }
 
     #endregion
 
     #region 4. Methods
 
-    private void BindEvent()
+    protected override void OnClickButton()
     {
-        _button.onClick.AddListener(() => _onClickButton.OnNext(ePopupKey));
-    }
-
-    public void CreatePresenterByManager()
-    {
-        _uiManager.CreatePresenter<OpenPopupPresenterBase>(this);
+        var targetTransform = Canvas.transform;
+        _uiManager.OpenPopupByStringKey(ePopupKey, targetTransform);
     }
 
     #endregion

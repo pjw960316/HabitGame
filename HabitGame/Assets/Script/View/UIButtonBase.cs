@@ -1,6 +1,4 @@
-using System;
 using TMPro;
-using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,16 +13,13 @@ public class UIButtonBase : MonoBehaviour, IView
     [SerializeField] private bool _isAutoText;
 
     protected UIManager _uiManager;
-    
-    protected readonly Subject<EPopupKey> _onClickButton = new();
-    
+
     #endregion
 
     #region 2. Properties
 
     public Canvas Canvas => _canvas;
     public Button Button => _button;
-    public IObservable<EPopupKey> OnClickButton => _onClickButton;
 
     #endregion
 
@@ -42,51 +37,65 @@ public class UIButtonBase : MonoBehaviour, IView
     public virtual void OnAwake()
     {
         Initialize();
-        
+
+        // TODO
+        // 지금은 Presenter 없이 동작 시킬 계획
+        //CreatePresenterByManager();
+
         // Note
         // Shadowing
         // Script가 UIButtonBase가 붙으면 Base의 BindEvent()가 호출되고
         // Script가 UIOpenPopupButtonBase가 붙어도 Derived의 BindEvent()가 호출되기 바람.
         BindEvent();
-        
-        SetButtonText();
     }
 
-    #endregion
-
-    #region 4. Methods
-
-    // Note
-    // Virtual로 변경하지 마세요.
-    // 모든 상속 구조에서 Binding은 독립적으로 각각 실행되어야 합니다.
-    private void BindEvent()
+    /*private void CreatePresenterByManager()
     {
-    }
+        _uiManager.CreatePresenter<ButtonPresenterBase>(this);
+    }*/
 
     private void Initialize()
     {
         _uiManager = UIManager.Instance;
+
+        InitializeButtonText();
     }
 
-    
-    private void SetButtonText()
+    protected void BindEvent()
+    {
+        Button.onClick.AddListener(OnClickButton);
+    }
+
+    #endregion
+
+    #region 4. EventHandlers
+
+    protected virtual void OnClickButton()
+    {
+        //
+    }
+
+    #endregion
+
+    #region 5. Request Methods
+
+    //
+
+    #endregion
+
+    #region 6. Methods
+
+    private void InitializeButtonText()
     {
         if (!_isAutoText)
         {
             return;
         }
-        
+
         ExceptionHelper.CheckNullException(_buttonText, "buttonText");
 
         _buttonText.text = StringManager.Instance.GetUIString(_buttonTextKey);
     }
-
-    
-    #endregion
-
-    #region 5. EventHandlers
-
-    //
 
     #endregion
 }

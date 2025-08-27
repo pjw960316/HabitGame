@@ -1,20 +1,19 @@
-using UniRx;
+using System;
 
+// note
+// 추후에 필요하면 사용하자.
 public class ButtonPresenterBase : PresenterBase
 {
     #region 1. Fields
 
-    // NOTE
-    // 이 추상화 수준에서의 View를 초기화 한다.
     protected UIButtonBase _uiButtonBase;
     protected UIManager _uiManager;
 
     #endregion
 
-
     #region 2. Properties
 
-    // default
+    // 
 
     #endregion
 
@@ -26,33 +25,43 @@ public class ButtonPresenterBase : PresenterBase
         {
             _uiButtonBase = uiButton;
         }
+        else
+        {
+            throw new NullReferenceException("_ButtonPresenterBase should connect UIButtonBase & it's children");
+        }
 
         _uiManager = UIManager.Instance;
 
         SetView();
-        
+
         BindEvent();
     }
 
-    protected sealed override void SetView(){}
-    
+    protected sealed override void SetView()
+    {
+    }
+
     private void BindEvent()
     {
-        _uiButtonBase.OnClickButton.Subscribe(OnClickButton).AddTo(_disposable);
     }
+
     #endregion
 
-    #region 4. Methods
+    #region 4. EventHandlers
+
+    // 
+
+    #endregion
+
+    #region 5. Request Methods
 
     //
 
     #endregion
 
-    #region 5. EventHandlers
+    #region 6. Methods
 
-    protected virtual void OnClickButton(EPopupKey ePopupKey)
-    {
-    }
+    //
 
     #endregion
 }

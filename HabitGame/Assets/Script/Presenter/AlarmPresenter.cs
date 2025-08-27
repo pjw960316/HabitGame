@@ -55,19 +55,21 @@ public class AlarmPresenter : PresenterBase
         _soundManager = SoundManager.Instance;
         _uiToastManager = UIToastManager.Instance;
 
+        //refactor
+        //모델이 2개일 때
+        //걍 property로 해도 되나?
+        _viewData = UIManager.Instance.ViewData;
+
         ExceptionHelper.CheckNullException(_alarmPopup, "_alarmPopup");
         ExceptionHelper.CheckNullException(_soundData, "_soundData");
+        ExceptionHelper.CheckNullException(_viewData, "_viewData");
         ExceptionHelper.CheckNullException(_soundManager, "_soundManager");
+
 
         // ReSharper disable once PossibleNullReferenceException
         _latestSleepingAudioClip = _soundData.FirstSleepingAudioClip;
         _latestAlarmPlayingTime = _viewData.AlarmTimeDictionary[EButtons.TimeOne];
 
-
-        //refactor
-        //모델이 2개일 때
-        //걍 property로 해도 되나?
-        _viewData = UIManager.Instance.ViewData;
 
         SetView();
 

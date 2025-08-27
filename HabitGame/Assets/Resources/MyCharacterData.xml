@@ -2,6 +2,15 @@
 <MyCharacterData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <RoutineRecordList>
     <RoutineRecordData>
+      <Key>20250827</Key>
+      <RoutineCheckList>
+        <boolean>true</boolean>
+        <boolean>false</boolean>
+        <boolean>false</boolean>
+        <boolean>false</boolean>
+      </RoutineCheckList>
+    </RoutineRecordData>
+    <RoutineRecordData>
       <Key>20250822</Key>
       <RoutineCheckList>
         <boolean>true</boolean>
@@ -70,15 +79,6 @@
         <boolean>false</boolean>
         <boolean>true</boolean>
         <boolean>true</boolean>
-        <boolean>false</boolean>
-      </RoutineCheckList>
-    </RoutineRecordData>
-    <RoutineRecordData>
-      <Key>20250827</Key>
-      <RoutineCheckList>
-        <boolean>true</boolean>
-        <boolean>false</boolean>
-        <boolean>false</boolean>
         <boolean>false</boolean>
       </RoutineCheckList>
     </RoutineRecordData>

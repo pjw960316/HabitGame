@@ -257,6 +257,7 @@ MonoBehaviour:
   _buttonText: {fileID: 211622327}
   _buttonTextKey: 2
   _button: {fileID: 29251475}
+  _isAutoText: 1
   ePopupKey: 1
 --- !u!1 &154696926
 GameObject:
@@ -1602,6 +1603,7 @@ MonoBehaviour:
   _buttonText: {fileID: 1729820279}
   _buttonTextKey: 3
   _button: {fileID: 1604285093}
+  _isAutoText: 1
   ePopupKey: 2
 --- !u!1 &1729820277
 GameObject:
@@ -1877,6 +1879,7 @@ MonoBehaviour:
   _buttonText: {fileID: 154696928}
   _buttonTextKey: 1
   _button: {fileID: 1884363893}
+  _isAutoText: 1
   ePopupKey: 0
 --- !u!1 &2114881846
 GameObject:
