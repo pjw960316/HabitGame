@@ -36,22 +36,34 @@ public class UIRoutineRecordWidget : UIWidgetBase
         Initialize();
     }
 
-    #endregion
-
-    #region 4. Methods
-
     private void Initialize()
     {
         _myCharacterManager = MyCharacterManager.Instance;
         _transform = transform;
     }
 
-    // Note
-    // Routine String (날짜와 돈 제외)은 autoSetting이 된다.
+    #endregion
+
+    #region 4. EventHandlers
+
+    //
+
+    #endregion
+
+    #region 5. Request Methods
+
+    // 
+
+    #endregion
+
+    #region 6. Methods
+
+    // note
+    // Auto-Texting 되는 것 존재.
     public void UpdateData(KeyValuePair<string, ImmutableList<bool>> routineRecordElement)
     {
-        _dateWidget.SetText(routineRecordElement.Key);
         Date = routineRecordElement.Key;
+        _dateWidget.SetText(routineRecordElement.Key);
 
         var routineCheckList = routineRecordElement.Value;
         var routineCheckCount = routineCheckList.Count;
@@ -74,27 +86,10 @@ public class UIRoutineRecordWidget : UIWidgetBase
         _routineRecordMoneyWidget.SetText(moneyText);
     }
 
-    public float GetHeight()
-    {
-        return _rectTransform.rect.height;
-    }
-
     public float GetAnchoredPositionY()
     {
         return _rectTransform.anchoredPosition.y;
     }
-
-    #endregion
-
-    #region 5. Request Methods
-
-    // default
-
-    #endregion
-
-    #region 6. EventHandlers
-
-    // default
 
     #endregion
 }

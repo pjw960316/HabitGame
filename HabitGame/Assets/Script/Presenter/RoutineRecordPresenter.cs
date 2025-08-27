@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -33,7 +32,7 @@ public class RoutineRecordPresenter : PresenterBase
 
         _myCharacterManager = MyCharacterManager.Instance;
         _routineRecordDictionary = _myCharacterManager.GetRoutineRecordDictionary();
-     
+
         _uiRoutineRecordPopup = _view as UIRoutineRecordPopup;
         ExceptionHelper.CheckNullException(_uiRoutineRecordPopup, "_uiRoutineRecordPopup");
 
@@ -48,39 +47,34 @@ public class RoutineRecordPresenter : PresenterBase
         var widgetPrefabCount = routineRecordCount < DEFAULT_WIDGET_COUNT ? routineRecordCount : DEFAULT_WIDGET_COUNT;
 
         _uiRoutineRecordPopup.InitializeContentsHeight(routineRecordCount);
-        _uiRoutineRecordPopup.CreateRoutineRecordWidgets(widgetPrefabCount);
-        _uiRoutineRecordPopup.UpdateRoutineRecordWidgets(_routineRecordDictionary);
+        _uiRoutineRecordPopup.CreateRoutineRecordWidgetPrefabs(widgetPrefabCount);
+        _uiRoutineRecordPopup.InitializeRoutineRecordWidgets(_routineRecordDictionary);
         _uiRoutineRecordPopup.ShowTopContent();
     }
-    
+
     private void BindEvent()
     {
         _uiRoutineRecordPopup.OnUpdateScrollWidget.Subscribe(UpdateWidget).AddTo(_disposable);
     }
-    
+
     #endregion
 
-    #region 4. Methods
+    #region 4. EventHandlers
 
-    
-
-
-    
+    //
 
     #endregion
 
     #region 5. Request Methods
 
-    // note
-    // why? 
-    
+    //
+
     #endregion
 
-    #region 6. EventHandlers
+    #region 6. Methods
 
     private void UpdateWidget(ScrollData scrollData)
     {
-        
         if (IsFrontOrLastWidget(scrollData))
         {
             return;

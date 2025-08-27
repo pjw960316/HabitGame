@@ -91,9 +91,9 @@ public class UIRoutineRecordPopup : UIPopupBase
     #endregion
 
     #region 5. Request Methods
-
-    // default
-
+    
+    //
+    
     #endregion
 
     #region 6. Methods
@@ -140,7 +140,7 @@ public class UIRoutineRecordPopup : UIPopupBase
         return GetNestedWidget(true);
     }
 
-    //Note : GetTopWidget , GetBottomWidget Nested Method
+    // Note : GetTopWidget , GetBottomWidget Nested Method
     private UIRoutineRecordWidget GetNestedWidget(bool isBottom)
     {
         var currentY = _widgetList[0].GetAnchoredPositionY();
@@ -166,25 +166,21 @@ public class UIRoutineRecordPopup : UIPopupBase
             new Vector2(GetComponent<RectTransform>().rect.width, _widgetOffsetHeight * widgetCount);
     }
 
-
-    //test
-    public void CreateRoutineRecordWidgets(int widgetCount)
+    public void CreateRoutineRecordWidgetPrefabs(int widgetCount)
     {
         for (var index = 0; index < widgetCount; index++)
         {
-            //create
             var routineRecordWidget =
                 Instantiate(_widgetPrefab, _contents.transform).GetComponent<UIRoutineRecordWidget>();
+            
             _widgetList.Add(routineRecordWidget);
 
-            //transform
             routineRecordWidget.RectTransform.anchoredPosition =
                 new Vector3(0, -(index * _widgetOffsetHeight), 0);
         }
     }
 
-    //test
-    public void UpdateRoutineRecordWidgets(
+    public void InitializeRoutineRecordWidgets(
         ImmutableSortedDictionary<string, ImmutableList<bool>> routineRecordDictionary)
     {
         var index = 0;
@@ -207,8 +203,7 @@ public class UIRoutineRecordPopup : UIPopupBase
         _routineRecordScrollRect.verticalNormalizedPosition = 1f;
     }
 
-    public void UpdateWidgetData(UIRoutineRecordWidget movingWidget,
-        KeyValuePair<string, ImmutableList<bool>> routineRecordData)
+    public void UpdateWidgetData(UIRoutineRecordWidget movingWidget, KeyValuePair<string, ImmutableList<bool>> routineRecordData)
     {
         movingWidget.UpdateData(routineRecordData);
     }
