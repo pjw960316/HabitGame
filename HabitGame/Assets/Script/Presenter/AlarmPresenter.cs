@@ -66,10 +66,9 @@ public class AlarmPresenter : PresenterBase
         ExceptionHelper.CheckNullException(_soundManager, "_soundManager");
 
 
-        // ReSharper disable once PossibleNullReferenceException
-        _latestSleepingAudioClip = _soundData.FirstSleepingAudioClip;
+        // default
+        _latestSleepingAudioClip = _soundData?.FirstSleepingAudioClip;
         _latestAlarmPlayingTime = _viewData.AlarmTimeDictionary[EButtons.TimeOne];
-
 
         SetView();
 
@@ -108,11 +107,11 @@ public class AlarmPresenter : PresenterBase
         }
         else if (buttonType == EButtons.MusicTwo)
         {
-            _latestSleepingAudioClip = _soundData.FirstSleepingAudioClip;
+            _latestSleepingAudioClip = _soundData.SecondSleepingAudioClip;
         }
         else if (buttonType == EButtons.MusicThree)
         {
-            _latestSleepingAudioClip = _soundData.FirstSleepingAudioClip;
+            _latestSleepingAudioClip = _soundData.ThirdSleepingAudioClip;
         }
     }
 

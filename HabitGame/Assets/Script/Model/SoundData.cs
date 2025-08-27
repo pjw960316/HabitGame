@@ -7,6 +7,8 @@ public class SoundData : ScriptableObject, IModel
 
     [SerializeField] private AudioClip _alarmChickenAudioClip;
     [SerializeField] private AudioClip _firstSleepingAudioClip;
+    [SerializeField] private AudioClip _secondSleepingAudioClip;
+    [SerializeField] private AudioClip _thirdSleepingAudioClip;
 
     #endregion
 
@@ -14,6 +16,8 @@ public class SoundData : ScriptableObject, IModel
 
     public AudioClip AlarmChickenAudioClip => _alarmChickenAudioClip;
     public AudioClip FirstSleepingAudioClip => _firstSleepingAudioClip;
+    public AudioClip SecondSleepingAudioClip => _secondSleepingAudioClip;
+    public AudioClip ThirdSleepingAudioClip => _thirdSleepingAudioClip;
 
     #endregion
 
