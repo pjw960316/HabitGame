@@ -27,6 +27,7 @@ public class UIRoutineRecordPopup : UIPopupBase
     [SerializeField] private GameObject _viewPort;
     [SerializeField] private GameObject _contents;
     [SerializeField] private ScrollRect _routineRecordScrollRect;
+    [SerializeField] private UIButtonBase _closeBtn;
 
     private const float WIDGET_SCROLL_UP_OFFSET = 1.5f;
     private const float WIDGET_SCROLL_DOWN_OFFSET = 2f;
@@ -75,6 +76,7 @@ public class UIRoutineRecordPopup : UIPopupBase
     private void BindEvent()
     {
         _routineRecordScrollRect.onValueChanged.AddListener(_ => OnScroll());
+        //_closeBtn.OnClickButton.Subscribe(_ 
     }
 
     #endregion

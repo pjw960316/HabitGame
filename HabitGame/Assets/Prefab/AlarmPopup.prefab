@@ -651,6 +651,7 @@ MonoBehaviour:
   _buttonText: {fileID: 8066427075635880691}
   _buttonTextKey: 0
   _button: {fileID: 8543549872137723518}
+  _isAutoText: 1
 --- !u!1 &1577975546080176179
 GameObject:
   m_ObjectHideFlags: 0
@@ -1260,7 +1261,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3423cb78f0cae7e40aec78f5648b077f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _uiToastMessage: {fileID: 0}
   _alarmMusicButtons:
   - button: {fileID: 1402440707171100350}
     buttonType: 0

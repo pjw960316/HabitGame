@@ -1476,6 +1476,7 @@ MonoBehaviour:
   _buttonText: {fileID: 3184003650896887909}
   _buttonTextKey: 0
   _button: {fileID: 756928051490244894}
+  _isAutoText: 1
 --- !u!1 &4934968133340549655
 GameObject:
   m_ObjectHideFlags: 0
@@ -1819,7 +1820,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5bb1ea7962a907428c55cbb0bbba41a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _uiToastMessage: {fileID: 2159124440376805305}
   _dayText: {fileID: 1110351785747123606}
   _toggleList:
   - {fileID: 5871878451586293170}

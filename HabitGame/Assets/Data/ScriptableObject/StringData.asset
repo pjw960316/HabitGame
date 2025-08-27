@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stringDictionary:
     _serializedList:
+    - Key: 14
+      Value: "\uB8E8\uD2F4 \uC131\uACF5 \uD604\uD669"
     - Key: 0
       Value: "\uD655\uC778"
     - Key: 1

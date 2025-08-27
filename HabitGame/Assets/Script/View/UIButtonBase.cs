@@ -12,11 +12,11 @@ public class UIButtonBase : MonoBehaviour, IView
     [SerializeField] private TextMeshProUGUI _buttonText;
     [SerializeField] private EStringKey _buttonTextKey;
     [SerializeField] protected Button _button;
+    [SerializeField] private bool _isAutoText;
 
     protected UIManager _uiManager;
     
     protected readonly Subject<EPopupKey> _onClickButton = new();
-    public IObservable<EPopupKey> OnClickButton => _onClickButton;
     
     #endregion
 
@@ -24,6 +24,7 @@ public class UIButtonBase : MonoBehaviour, IView
 
     public Canvas Canvas => _canvas;
     public Button Button => _button;
+    public IObservable<EPopupKey> OnClickButton => _onClickButton;
 
     #endregion
 
@@ -70,6 +71,11 @@ public class UIButtonBase : MonoBehaviour, IView
     
     private void SetButtonText()
     {
+        if (!_isAutoText)
+        {
+            return;
+        }
+        
         ExceptionHelper.CheckNullException(_buttonText, "buttonText");
 
         _buttonText.text = StringManager.Instance.GetUIString(_buttonTextKey);

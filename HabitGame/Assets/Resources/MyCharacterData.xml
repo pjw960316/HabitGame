@@ -2,29 +2,38 @@
 <MyCharacterData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <RoutineRecordList>
     <RoutineRecordData>
-      <Key>20250801</Key>
+      <Key>20250822</Key>
+      <RoutineCheckList>
+        <boolean>true</boolean>
+        <boolean>true</boolean>
+        <boolean>true</boolean>
+        <boolean>true</boolean>
+      </RoutineCheckList>
+    </RoutineRecordData>
+    <RoutineRecordData>
+      <Key>20250820</Key>
       <RoutineCheckList>
         <boolean>false</boolean>
+        <boolean>false</boolean>
+        <boolean>false</boolean>
+        <boolean>false</boolean>
+      </RoutineCheckList>
+    </RoutineRecordData>
+    <RoutineRecordData>
+      <Key>20250818</Key>
+      <RoutineCheckList>
+        <boolean>true</boolean>
         <boolean>true</boolean>
         <boolean>true</boolean>
         <boolean>false</boolean>
       </RoutineCheckList>
     </RoutineRecordData>
     <RoutineRecordData>
-      <Key>20250802</Key>
-      <RoutineCheckList>
-        <boolean>true</boolean>
-        <boolean>false</boolean>
-        <boolean>false</boolean>
-        <boolean>true</boolean>
-      </RoutineCheckList>
-    </RoutineRecordData>
-    <RoutineRecordData>
-      <Key>20250804</Key>
+      <Key>20250806</Key>
       <RoutineCheckList>
         <boolean>false</boolean>
         <boolean>true</boolean>
-        <boolean>true</boolean>
+        <boolean>false</boolean>
         <boolean>true</boolean>
       </RoutineCheckList>
     </RoutineRecordData>
@@ -38,44 +47,44 @@
       </RoutineCheckList>
     </RoutineRecordData>
     <RoutineRecordData>
-      <Key>20250806</Key>
+      <Key>20250804</Key>
       <RoutineCheckList>
         <boolean>false</boolean>
         <boolean>true</boolean>
+        <boolean>true</boolean>
+        <boolean>true</boolean>
+      </RoutineCheckList>
+    </RoutineRecordData>
+    <RoutineRecordData>
+      <Key>20250802</Key>
+      <RoutineCheckList>
+        <boolean>true</boolean>
+        <boolean>false</boolean>
         <boolean>false</boolean>
         <boolean>true</boolean>
       </RoutineCheckList>
     </RoutineRecordData>
     <RoutineRecordData>
-      <Key>20250818</Key>
+      <Key>20250801</Key>
       <RoutineCheckList>
-        <boolean>true</boolean>
+        <boolean>false</boolean>
         <boolean>true</boolean>
         <boolean>true</boolean>
         <boolean>false</boolean>
       </RoutineCheckList>
     </RoutineRecordData>
     <RoutineRecordData>
-      <Key>20250820</Key>
-      <RoutineCheckList>
-        <boolean>false</boolean>
-        <boolean>false</boolean>
-        <boolean>false</boolean>
-        <boolean>false</boolean>
-      </RoutineCheckList>
-    </RoutineRecordData>
-    <RoutineRecordData>
-      <Key>20250822</Key>
+      <Key>20250827</Key>
       <RoutineCheckList>
         <boolean>true</boolean>
-        <boolean>true</boolean>
-        <boolean>true</boolean>
-        <boolean>true</boolean>
+        <boolean>false</boolean>
+        <boolean>false</boolean>
+        <boolean>false</boolean>
       </RoutineCheckList>
     </RoutineRecordData>
   </RoutineRecordList>
   <Name>ParkJiWon</Name>
   <Age>29</Age>
-  <MonthlyRoutineSuccessMoney>3000</MonthlyRoutineSuccessMoney>
+  <MonthlyRoutineSuccessMoney>3500</MonthlyRoutineSuccessMoney>
   <MoneyPerRoutineSuccess>500</MoneyPerRoutineSuccess>
 </MyCharacterData>

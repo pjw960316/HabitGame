@@ -82,6 +82,7 @@ public enum EStringKey
     ERoutineCheckTwo,
     ERoutineCheckThree,
     ERoutineCheckFour,
+    ERoutineRecordTitle,
 }
 
 public enum EToastStringKey

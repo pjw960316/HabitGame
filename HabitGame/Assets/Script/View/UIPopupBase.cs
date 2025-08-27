@@ -42,6 +42,12 @@ public abstract class UIPopupBase : MonoBehaviour, IView
     {
     }
 
+    private void ClosePopup()
+    {
+        //refactor
+        Destroy(this);
+    }
+    
     protected abstract void CreatePresenterByManager();
     
     #endregion
