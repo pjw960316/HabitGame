@@ -28,4 +28,4 @@
 <br><br>
 
 ## :fire: MVP 구조
-- View Initialize() -> CreatePresenterByManager (Presenter 생성) -> Presenter Initialize() -> Presenter SetData for View
+- View Initialize() -> CreatePresenterByManager (Presenter 생성) -> Presenter Initialize() -> Presenter SetView -> View BindEvent
