@@ -27,55 +27,45 @@ public class RoutineRecordPresenter : PresenterBase
 
     #region 3. Constructor
 
-    // refactor
-    // Initialize()안에 막 때려 넣는 행위?
     public sealed override void Initialize(IView view)
     {
         base.Initialize(view);
 
         _myCharacterManager = MyCharacterManager.Instance;
+        _routineRecordDictionary = _myCharacterManager.GetRoutineRecordDictionary();
+     
         _uiRoutineRecordPopup = _view as UIRoutineRecordPopup;
+        ExceptionHelper.CheckNullException(_uiRoutineRecordPopup, "_uiRoutineRecordPopup");
 
-        if (_uiRoutineRecordPopup == null)
-        {
-            throw new NullReferenceException("_uiRoutineRecordPopup");
-        }
-
-        // refactor
-        // 이 두개의 실행흐름은 중요한데.
-        // 이 실행흐름을 고려하면 2가지 일을 하더라도 합쳐야 하는가?
-        //presenter logic 수행
-        InitializeRoutineRecords();
+        SetView();
 
         BindEvent();
     }
 
-    #endregion
+    protected sealed override void SetView()
+    {
+        var routineRecordCount = _routineRecordDictionary.Count;
+        var widgetPrefabCount = routineRecordCount < DEFAULT_WIDGET_COUNT ? routineRecordCount : DEFAULT_WIDGET_COUNT;
 
-    #region 4. Methods
-
+        _uiRoutineRecordPopup.InitializeContentsHeight(routineRecordCount);
+        _uiRoutineRecordPopup.CreateRoutineRecordWidgets(widgetPrefabCount);
+        _uiRoutineRecordPopup.UpdateRoutineRecordWidgets(_routineRecordDictionary);
+        _uiRoutineRecordPopup.ShowTopContent();
+    }
+    
     private void BindEvent()
     {
         _uiRoutineRecordPopup.OnUpdateScrollWidget.Subscribe(UpdateWidget).AddTo(_disposable);
     }
+    
+    #endregion
+
+    #region 4. Methods
+
+    
 
 
-    private void InitializeRoutineRecords()
-    {
-        _routineRecordDictionary = _myCharacterManager.GetRoutineRecordDictionary();
-
-        var routineRecordCount = _routineRecordDictionary.Count;
-        var widgetPrefabCount = routineRecordCount < DEFAULT_WIDGET_COUNT ? routineRecordCount : DEFAULT_WIDGET_COUNT;
-
-        // refactor
-        // create 하고 무조건 widget을 세팅해야 함. 이 순서가
-        _uiRoutineRecordPopup.InitializeContentsHeight(routineRecordCount);
-        _uiRoutineRecordPopup.CreateRoutineRecordWidgets(widgetPrefabCount);
-        _uiRoutineRecordPopup.UpdateRoutineRecordWidgets(_routineRecordDictionary);
-
-        //test
-        _uiRoutineRecordPopup.ShowTopContent();
-    }
+    
 
     #endregion
 

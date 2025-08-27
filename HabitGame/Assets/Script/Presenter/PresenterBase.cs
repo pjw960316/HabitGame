@@ -21,12 +21,20 @@ public abstract class PresenterBase : IPresenter
     public virtual void Initialize(IView view)
     {
         _view = view;
+        
         //fix
         _model = SoundManager.Instance.SoundData;
         
         ExceptionHelper.CheckNullException(_view, "PresenterBase's _view");
         ExceptionHelper.CheckNullException(_model, "PresenterBase's _model");
     }
+
+    // note
+    // 모든 Presenter는 Manager 또는 Model을 통해 
+    // 로직 데이터를 본인의 Initialize()에서 초기화 한다.
+    // 그 후, 그걸 이용해서 View에 Data를 Inject해서 View를 세팅할 책임이 있다.
+    protected abstract void SetView();
+    
 
     #endregion
 

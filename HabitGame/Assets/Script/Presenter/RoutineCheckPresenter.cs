@@ -35,18 +35,26 @@ public class RoutineCheckPresenter : PresenterBase
         _uiToastManager = UIToastManager.Instance;
         _serverManager = MockServerManager.Instance;
 
+        SetView();
+        
         BindEvent();
     }
 
-    #endregion
-
-    #region 4. Methods
+    protected sealed override void SetView()
+    {
+    }
 
     private void BindEvent()
     {
         _uiRoutineCheckPopup.OnAwakeRoutineCheckPopup.Subscribe(_ => InitializeRoutineCheckPopup()).AddTo(_disposable);
         _uiRoutineCheckPopup.OnConfirmed.Subscribe(_ => HandleToggleEvent()).AddTo(_disposable);
     }
+    
+    #endregion
+
+    #region 4. Methods
+
+    
 
     private void InitializeRoutineCheckPopup()
     {

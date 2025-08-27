@@ -37,13 +37,11 @@ public class UIRoutineRecordPopup : UIPopupBase
     private float _currentVerticalNormalizedPosition;
 
     private readonly Subject<ScrollData> _onUpdateScrollWidget = new();
-    public IObservable<ScrollData> OnUpdateScrollWidget => _onUpdateScrollWidget;
-
+    
     #endregion
 
     #region 2. Properties
-
-    // default
+    public IObservable<ScrollData> OnUpdateScrollWidget => _onUpdateScrollWidget;
 
     #endregion
 

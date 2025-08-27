@@ -29,17 +29,22 @@ public class ButtonPresenterBase : PresenterBase
 
         _uiManager = UIManager.Instance;
 
+        SetView();
+        
         BindEvent();
     }
 
-    #endregion
-
-    #region 4. Methods
-
+    protected sealed override void SetView(){}
+    
     private void BindEvent()
     {
         _uiButtonBase.OnClickButton.Subscribe(OnClickButton).AddTo(_disposable);
     }
+    #endregion
+
+    #region 4. Methods
+
+    //
 
     #endregion
 

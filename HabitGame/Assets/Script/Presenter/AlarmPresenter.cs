@@ -59,23 +59,23 @@ public class AlarmPresenter : PresenterBase
         ExceptionHelper.CheckNullException(_soundData, "_soundData");
         ExceptionHelper.CheckNullException(_soundManager, "_soundManager");
 
+        // ReSharper disable once PossibleNullReferenceException
+        _latestSleepingAudioClip = _soundData.FirstSleepingAudioClip;
+        _latestAlarmPlayingTime = _viewData.AlarmTimeDictionary[EButtons.TimeOne];
+
+
         //refactor
         //모델이 2개일 때
         //걍 property로 해도 되나?
         _viewData = UIManager.Instance.ViewData;
 
-        SetDefaultState();
+        SetView();
+
         BindEvent();
     }
 
-    #endregion
-
-    #region 4. Methods
-
-    private void SetDefaultState()
+    protected override void SetView()
     {
-        _latestSleepingAudioClip = _soundData.FirstSleepingAudioClip;
-        _latestAlarmPlayingTime = _viewData.AlarmTimeDictionary[EButtons.TimeOne];
     }
 
     private void BindEvent()
@@ -84,6 +84,12 @@ public class AlarmPresenter : PresenterBase
         _alarmPopup.OnTimeButtonClicked.Subscribe(UpdateLatestTime).AddTo(_disposable);
         _alarmPopup.OnConfirmed.Subscribe(_ => StartAlarm()).AddTo(_disposable);
     }
+
+    #endregion
+
+    #region 4. Methods
+
+    //
 
     #endregion
 
@@ -117,7 +123,7 @@ public class AlarmPresenter : PresenterBase
     {
         RequestStartingAlarm(_latestAlarmPlayingTime);
         CloseAlarmPopup();
-        
+
         _uiToastManager.ShowToast(EToastStringKey.EAlarmConfirm);
     }
 
