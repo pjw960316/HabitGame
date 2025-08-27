@@ -7,7 +7,7 @@
         <boolean>true</boolean>
         <boolean>false</boolean>
         <boolean>false</boolean>
-        <boolean>false</boolean>
+        <boolean>true</boolean>
       </RoutineCheckList>
     </RoutineRecordData>
     <RoutineRecordData>
@@ -85,6 +85,6 @@
   </RoutineRecordList>
   <Name>ParkJiWon</Name>
   <Age>29</Age>
-  <MonthlyRoutineSuccessMoney>3500</MonthlyRoutineSuccessMoney>
+  <MonthlyRoutineSuccessMoney>4000</MonthlyRoutineSuccessMoney>
   <MoneyPerRoutineSuccess>500</MoneyPerRoutineSuccess>
 </MyCharacterData>

@@ -42,10 +42,10 @@ public abstract class UIPopupBase : MonoBehaviour, IView
     {
     }
 
-    private void ClosePopup()
+    protected void ClosePopup()
     {
         //refactor
-        Destroy(this);
+        Destroy(gameObject);
     }
     
     protected abstract void CreatePresenterByManager();

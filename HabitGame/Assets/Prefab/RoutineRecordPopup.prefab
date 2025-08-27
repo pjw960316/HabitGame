@@ -138,6 +138,7 @@ MonoBehaviour:
   _buttonText: {fileID: 8766727467811719566}
   _buttonTextKey: 0
   _button: {fileID: 1862991015764950317}
+  _isAutoText: 0
 --- !u!1 &5602783628480277733
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,7 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.28755927, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.35707366, g: 0.36891213, b: 0.86415094, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -401,6 +402,7 @@ MonoBehaviour:
   _viewPort: {fileID: 6065171363120194344}
   _contents: {fileID: 5633785703270820038}
   _routineRecordScrollRect: {fileID: 3073035699634891193}
+  _closeBtn: {fileID: 8470320072017458913}
 --- !u!1 &6065171363120194344
 GameObject:
   m_ObjectHideFlags: 0

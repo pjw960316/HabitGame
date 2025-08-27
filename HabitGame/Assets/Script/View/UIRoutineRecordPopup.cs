@@ -76,7 +76,10 @@ public class UIRoutineRecordPopup : UIPopupBase
     private void BindEvent()
     {
         _routineRecordScrollRect.onValueChanged.AddListener(_ => OnScroll());
-        //_closeBtn.OnClickButton.Subscribe(_ 
+        
+        // refactor
+        // 이런 간단한 기능이라도 UIButtonBase에서 Binding하도록 해야할까?
+        _closeBtn.Button.onClick.AddListener(ClosePopup);
     }
 
     #endregion
