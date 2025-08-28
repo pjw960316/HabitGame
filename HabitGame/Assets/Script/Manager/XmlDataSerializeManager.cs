@@ -14,6 +14,7 @@ public class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManager>, IMa
     #region 1. Fields
     
     private Dictionary<Type, string> _xmlFullPathDictionary;
+    private List<IModel> _modelList;
 
     #endregion
 
@@ -28,13 +29,17 @@ public class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManager>, IMa
     public void PreInitialize()
     {
         _xmlFullPathDictionary = new Dictionary<Type, string>();
+        _modelList = new List<IModel>();
 
-        SetXmlFullPath();
+        Test1();
+        
+        //SetXmlFullPath();
     }
 
     public void Initialize()
     {
         //
+        
     }
 
     #endregion
@@ -52,10 +57,8 @@ public class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManager>, IMa
         _xmlFullPathDictionary.Add(typeof(MyCharacterData), path);
     }
 
-    public List<IModel> GetModelListWithDeserializedXml()
+    private void SetModelListWithDeserializedXml()
     {
-        var modelList = new List<IModel>();
-
         foreach (var element in _xmlFullPathDictionary)
         {
             var xmlType = element.Key;
@@ -68,12 +71,32 @@ public class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManager>, IMa
 
             var model = xmlSerializer.Deserialize(stringReader) as IModel;
 
-            modelList.Add(model);
+            _modelList.Add(model);
         }
-
-        return modelList;
     }
 
+    public List<IModel> GetModelListWithDeserializedXml()
+    {
+        return _modelList;
+    }
+    private void Test1()
+    {
+        if (!File.Exists(Application.persistentDataPath + "/MyCharacterData.xml"))
+        {
+            Debug.Log("없어");
+            var textAsset = Resources.Load<TextAsset>("MyCharacterData").text;
+
+            File.WriteAllText(Application.persistentDataPath + "/MyCharacterData.xml", textAsset);
+        }
+        else
+        {
+            Debug.Log("있어");
+            SetXmlFullPath();
+            SetModelListWithDeserializedXml();
+        }
+        
+        Debug.Log($"{Application.persistentDataPath + "/MyCharacterData.xml"}");
+    }
     private string GetAllText(string resourceFullPath)
     {
         var text = File.ReadAllText(resourceFullPath);
