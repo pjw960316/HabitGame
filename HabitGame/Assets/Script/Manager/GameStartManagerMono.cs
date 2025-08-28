@@ -183,9 +183,6 @@ public class GameStartManagerMono : MonoBehaviour
         Debug.Log($"{xmlModelCount}개의 xml이 Model로 _modelList에 추가되었습니다.");
     }
 
-    //fix
-    //현재 Scene이 변경 될 때 연결되어 있는 SO가 죽는 현상이 있는데
-    //잠깐은 이 MONO를 살려서 유지시킨다.
     private void LivePermanent()
     {
         DontDestroyOnLoad(this);

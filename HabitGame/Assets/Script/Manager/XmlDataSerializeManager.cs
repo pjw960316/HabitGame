@@ -32,7 +32,7 @@ public partial class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManag
         _xmlFileDataList = new List<XmlFileData>();
 
         InitializeXmlFileDataList();
-        Test1();
+        InitializeModelListFromXml();
     }
 
     public void Initialize()
@@ -65,32 +65,15 @@ public partial class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManag
         return _modelList;
     }
 
-    private void Test1()
+    private void InitializeModelListFromXml()
     {
         foreach (var xmlFileData in _xmlFileDataList)
         {
             var xmlType = xmlFileData.DataType;
-            var xmlRelativePath = xmlFileData.RelativePath;
-            var xmlAbsolutePath = xmlFileData.AbsolutePath;
-
-            var text = "";
-            if (!File.Exists(xmlAbsolutePath))
-            {
-                text = Resources.Load<TextAsset>(xmlRelativePath).text;
-                File.WriteAllText(xmlAbsolutePath, text);
-            }
-            else
-            {
-                text = File.ReadAllText(xmlAbsolutePath);
-
-                if (text == null)
-                {
-                    throw new FileLoadException("Read Xml fail");
-                }
-            }
-
+            var text = GetXmlText(xmlFileData);
+            
             var xmlSerializer = new XmlSerializer(xmlType);
-            var stringReader = new StringReader(text);
+            using var stringReader = new StringReader(text);
             ExceptionHelper.CheckNullException(stringReader, "stringReader");
 
             var model = xmlSerializer.Deserialize(stringReader) as IModel;
@@ -99,6 +82,35 @@ public partial class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManag
         }
     }
 
+    private string GetXmlText(XmlFileData xmlFileData)
+    {
+        var xmlRelativePath = xmlFileData.RelativePath;
+        var xmlAbsolutePath = xmlFileData.AbsolutePath;
+        var text = "";
+
+        if (!File.Exists(xmlAbsolutePath))
+        {
+            text = Resources.Load<TextAsset>(xmlRelativePath).text;
+
+            if (text == null)
+            {
+                throw new FileLoadException("Resources 폴더에 해당 파일이 없다.");
+            }
+
+            File.WriteAllText(xmlAbsolutePath, text);
+        }
+        else
+        {
+            text = File.ReadAllText(xmlAbsolutePath);
+
+            if (text == null)
+            {
+                throw new FileLoadException("절대 경로에 해당 파일이 없다.");
+            }
+        }
+
+        return text;
+    }
     public void SerializeXmlData<TModel>(TModel model) where TModel : IModel
     {
         var serializer = new XmlSerializer(typeof(MyCharacterData));
