@@ -36,8 +36,8 @@ RectTransform:
   - {fileID: 1859385696847991619}
   m_Father: {fileID: 3937860399016332195}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
+  m_ChildControlWidth: 1
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
@@ -687,7 +687,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 200, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3796725740730010831
 CanvasRenderer:
@@ -787,7 +787,7 @@ MonoBehaviour:
   _isAutoText: 1
   _buttonText: {fileID: 8066427075635880691}
   _buttonTextKey: 0
-  _buttonColor: {r: 0, g: 0, b: 0, a: 0}
+  _buttonColor: {r: 0.48709753, g: 0.4584905, b: 1, a: 1}
 --- !u!1 &1577975546080176179
 GameObject:
   m_ObjectHideFlags: 0
@@ -826,7 +826,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 150}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &4216881690924901853
 CanvasRenderer:
@@ -926,7 +926,7 @@ MonoBehaviour:
   _isAutoText: 1
   _buttonText: {fileID: 3046247451781927247}
   _buttonTextKey: 6
-  _buttonColor: {r: 0.54905653, g: 1, b: 0.549062, a: 0}
+  _buttonColor: {r: 0.54901963, g: 1, b: 0.54901963, a: 1}
   _isAlarmAudioClipButton: 1
   _eAlarmButtonType: 2
 --- !u!1 &1869058754245636784
@@ -968,7 +968,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 150}
+  m_SizeDelta: {x: 0, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8061077122631904534
 CanvasRenderer:
@@ -1021,16 +1021,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 5
-    m_Bottom: 0
+    m_Left: 5
+    m_Right: 5
+    m_Top: 30
+    m_Bottom: 30
   m_ChildAlignment: 0
-  m_Spacing: 0
+  m_Spacing: 15
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
@@ -1208,7 +1208,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 150}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7397792274234230960
 CanvasRenderer:
@@ -1308,7 +1308,7 @@ MonoBehaviour:
   _isAutoText: 1
   _buttonText: {fileID: 6935237528884650101}
   _buttonTextKey: 0
-  _buttonColor: {r: 0.54905653, g: 1, b: 0.549062, a: 0}
+  _buttonColor: {r: 0.54901963, g: 1, b: 0.54901963, a: 1}
   _isAlarmAudioClipButton: 0
   _eAlarmButtonType: 6
 --- !u!1 &4035781290678681732
@@ -1649,7 +1649,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 100}
+  m_SizeDelta: {x: 0, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8970377758392265703
 CanvasRenderer:
@@ -1727,7 +1727,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 150}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4699486871100502706
 CanvasRenderer:
@@ -1827,7 +1827,7 @@ MonoBehaviour:
   _isAutoText: 1
   _buttonText: {fileID: 5165665687277115229}
   _buttonTextKey: 0
-  _buttonColor: {r: 0.54905653, g: 1, b: 0.549062, a: 0}
+  _buttonColor: {r: 0.54901963, g: 1, b: 0.54901963, a: 1}
   _isAlarmAudioClipButton: 0
   _eAlarmButtonType: 5
 --- !u!1 &5420039099823047176
@@ -1868,7 +1868,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 150}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2990407443683583619
 CanvasRenderer:
@@ -1968,7 +1968,7 @@ MonoBehaviour:
   _isAutoText: 1
   _buttonText: {fileID: 7683613648066347559}
   _buttonTextKey: 0
-  _buttonColor: {r: 0.54905653, g: 1, b: 0.549062, a: 0}
+  _buttonColor: {r: 0.54901963, g: 1, b: 0.54901963, a: 1}
   _isAlarmAudioClipButton: 0
   _eAlarmButtonType: 4
 --- !u!1 &5835516987106644735
@@ -2009,7 +2009,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 150}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &598835761838620207
 CanvasRenderer:
@@ -2109,7 +2109,7 @@ MonoBehaviour:
   _isAutoText: 1
   _buttonText: {fileID: 2353440025330726601}
   _buttonTextKey: 0
-  _buttonColor: {r: 0.54905653, g: 1, b: 0.549062, a: 0}
+  _buttonColor: {r: 0.54901963, g: 1, b: 0.54901963, a: 1}
   _isAlarmAudioClipButton: 0
   _eAlarmButtonType: 7
 --- !u!1 &6446096025699374907
@@ -2289,8 +2289,8 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 150}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 0, y: 200}
+  m_Pivot: {x: 0, y: 1}
 --- !u!222 &785922635057881857
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2342,16 +2342,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 10
-    m_Bottom: 0
+    m_Left: 5
+    m_Right: 5
+    m_Top: 30
+    m_Bottom: 30
   m_ChildAlignment: 0
-  m_Spacing: 5
+  m_Spacing: 10
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
-  m_ChildControlHeight: 0
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
@@ -2529,7 +2529,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 150}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &2688427507325938499
 CanvasRenderer:
@@ -2629,7 +2629,7 @@ MonoBehaviour:
   _isAutoText: 1
   _buttonText: {fileID: 5530915282135271883}
   _buttonTextKey: 5
-  _buttonColor: {r: 0.54905653, g: 1, b: 0.549062, a: 0}
+  _buttonColor: {r: 0.54901963, g: 1, b: 0.54901963, a: 1}
   _isAlarmAudioClipButton: 1
   _eAlarmButtonType: 1
 --- !u!1 &8440126677018053956
@@ -2806,7 +2806,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 150}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &8227206639531860975
 CanvasRenderer:
@@ -2906,7 +2906,7 @@ MonoBehaviour:
   _isAutoText: 1
   _buttonText: {fileID: 4195687718331180649}
   _buttonTextKey: 4
-  _buttonColor: {r: 0.54905653, g: 1, b: 0.549062, a: 0}
+  _buttonColor: {r: 0.54901963, g: 1, b: 0.54901963, a: 1}
   _isAlarmAudioClipButton: 1
   _eAlarmButtonType: 0
 --- !u!1 &8768355639548525777
@@ -2947,7 +2947,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 150}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4655643719105635389
 CanvasRenderer:
@@ -3047,6 +3047,6 @@ MonoBehaviour:
   _isAutoText: 1
   _buttonText: {fileID: 6363041254245795365}
   _buttonTextKey: 0
-  _buttonColor: {r: 0.54905653, g: 1, b: 0.549062, a: 0}
+  _buttonColor: {r: 0.54901963, g: 1, b: 0.54901963, a: 1}
   _isAlarmAudioClipButton: 0
   _eAlarmButtonType: 3

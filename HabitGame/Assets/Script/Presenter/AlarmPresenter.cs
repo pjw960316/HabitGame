@@ -14,6 +14,7 @@ public class AlarmPresenter : PresenterBase
     // Note : Manager
     private SoundManager _soundManager;
     private UIToastManager _uiToastManager;
+    private DataManager _dataManager;
 
     private AudioClip _latestSleepingAudioClip;
     private float _latestAlarmPlayingTime;
@@ -33,16 +34,17 @@ public class AlarmPresenter : PresenterBase
     {
         base.Initialize(view);
 
-        _alarmPopup = _view as UIAlarmPopup;
-
-        // todo: 알람데이터 세팅
-
         _soundManager = SoundManager.Instance;
         _uiToastManager = UIToastManager.Instance;
-
+        _dataManager = DataManager.Instance;
+        
+        _alarmPopup = _view as UIAlarmPopup;
+        _alarmData = _dataManager.GetAlarmModel() as AlarmData;
+        
         ExceptionHelper.CheckNullException(_alarmPopup, "_alarmPopup");
-        ExceptionHelper.CheckNullException(_soundManager, "_soundManager");
+        ExceptionHelper.CheckNullException(_alarmData, "_alarmData");
 
+        // ReSharper disable once PossibleNullReferenceException
         _latestSleepingAudioClip = _alarmData.GetDefaultAlarmAudioClip();
         _latestAlarmPlayingTime = _alarmData.GetDefaultAlarmTime();
 

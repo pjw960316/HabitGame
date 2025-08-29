@@ -253,11 +253,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d8a8210b8fe9024f9467d9fb06b798c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 1367084003}
-  _buttonText: {fileID: 211622327}
-  _buttonTextKey: 2
   _button: {fileID: 29251475}
   _isAutoText: 1
+  _buttonText: {fileID: 211622327}
+  _buttonTextKey: 2
+  _buttonColor: {r: 0.9924528, g: 0.9692664, b: 0.53742254, a: 1}
+  _canvas: {fileID: 1367084003}
   ePopupKey: 1
 --- !u!1 &154696926
 GameObject:
@@ -1599,11 +1600,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d8a8210b8fe9024f9467d9fb06b798c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 1367084003}
-  _buttonText: {fileID: 1729820279}
-  _buttonTextKey: 3
   _button: {fileID: 1604285093}
   _isAutoText: 1
+  _buttonText: {fileID: 1729820279}
+  _buttonTextKey: 3
+  _buttonColor: {r: 0.6245283, g: 1, b: 0.64992464, a: 1}
+  _canvas: {fileID: 1367084003}
   ePopupKey: 2
 --- !u!1 &1729820277
 GameObject:
@@ -1875,11 +1877,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d8a8210b8fe9024f9467d9fb06b798c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 1367084003}
-  _buttonText: {fileID: 154696928}
-  _buttonTextKey: 1
   _button: {fileID: 1884363893}
   _isAutoText: 1
+  _buttonText: {fileID: 154696928}
+  _buttonTextKey: 1
+  _buttonColor: {r: 0.97735846, g: 0.43335703, b: 0.43335703, a: 1}
+  _canvas: {fileID: 1367084003}
   ePopupKey: 0
 --- !u!1 &2114881846
 GameObject:

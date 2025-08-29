@@ -112,6 +112,8 @@ public class GameStartManagerMono : MonoBehaviour
         {
             manager.Initialize();
         }
+        
+        DataManager.Instance.SetAllModels(_modelList);
     }
 
     // Note
