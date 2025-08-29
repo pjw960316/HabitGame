@@ -4,13 +4,14 @@ public class UIOpenPopupButtonBase : UIButtonBase
 {
     #region 1. Fields
 
+    [SerializeField] private Canvas _canvas;
     [SerializeField] private EPopupKey ePopupKey;
 
     #endregion
 
     #region 2. Properties
 
-    // default
+    private Canvas Canvas => _canvas;
 
     #endregion
 

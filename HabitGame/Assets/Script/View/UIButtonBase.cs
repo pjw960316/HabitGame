@@ -2,11 +2,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+// note
+// 현재는 Presenter 붙이지 않을 계획.
 public class UIButtonBase : MonoBehaviour, IView
 {
     #region 1. Fields
-
-    [SerializeField] private Canvas _canvas;
+    
     [SerializeField] private TextMeshProUGUI _buttonText;
     [SerializeField] private EStringKey _buttonTextKey;
     [SerializeField] protected Button _button;
@@ -18,7 +19,6 @@ public class UIButtonBase : MonoBehaviour, IView
 
     #region 2. Properties
 
-    public Canvas Canvas => _canvas;
     public Button Button => _button;
 
     #endregion
@@ -38,21 +38,12 @@ public class UIButtonBase : MonoBehaviour, IView
     {
         Initialize();
 
-        // TODO
-        // 지금은 Presenter 없이 동작 시킬 계획
-        //CreatePresenterByManager();
-
         // Note
         // Shadowing
         // Script가 UIButtonBase가 붙으면 Base의 BindEvent()가 호출되고
         // Script가 UIOpenPopupButtonBase가 붙어도 Derived의 BindEvent()가 호출되기 바람.
         BindEvent();
     }
-
-    /*private void CreatePresenterByManager()
-    {
-        _uiManager.CreatePresenter<ButtonPresenterBase>(this);
-    }*/
 
     private void Initialize()
     {

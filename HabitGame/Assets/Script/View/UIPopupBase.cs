@@ -36,7 +36,19 @@ public abstract class UIPopupBase : MonoBehaviour, IView
 
     #endregion
 
-    #region 4. Methods
+    #region 4. EventHandlers
+
+    //
+
+    #endregion
+
+    #region 5. Request Methods
+
+    // 
+
+    #endregion
+
+    #region 6. Methods
 
     private void BindEvent()
     {
@@ -49,12 +61,6 @@ public abstract class UIPopupBase : MonoBehaviour, IView
     }
     
     protected abstract void CreatePresenterByManager();
-    
-    #endregion
-
-    #region 5. EventHandlers
-
-    // default
 
     #endregion
 }
