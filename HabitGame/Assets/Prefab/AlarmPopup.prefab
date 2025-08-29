@@ -1459,8 +1459,8 @@ GameObject:
   - component: {fileID: 168553631854589162}
   - component: {fileID: 2220898622935746733}
   - component: {fileID: 7695053116921972637}
-  - component: {fileID: -3002735525400520653}
   - component: {fileID: 5347528619279418558}
+  - component: {fileID: -3002735525400520653}
   m_Layer: 5
   m_Name: AlarmPopup
   m_TagString: Untagged
@@ -1546,29 +1546,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!114 &-3002735525400520653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4165028284402903475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3423cb78f0cae7e40aec78f5648b077f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _alarmAudioClipButtons:
-  - {fileID: 4177064978814809265}
-  - {fileID: 4719814041638362061}
-  - {fileID: 4279451333578018609}
-  _alarmTimeButtons:
-  - {fileID: 4256784893062355154}
-  - {fileID: 3038823842643035292}
-  - {fileID: 1842704480684732318}
-  - {fileID: 525849667056212013}
-  - {fileID: 9220243610277094857}
-  _confirmButton: {fileID: 6893115217534636565}
 --- !u!114 &5347528619279418558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1613,6 +1590,31 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-3002735525400520653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4165028284402903475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3423cb78f0cae7e40aec78f5648b077f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _alarmAudioClipButtons:
+  - {fileID: 4177064978814809265}
+  - {fileID: 4719814041638362061}
+  - {fileID: 4279451333578018609}
+  _alarmTimeButtons:
+  - {fileID: 4256784893062355154}
+  - {fileID: 3038823842643035292}
+  - {fileID: 1842704480684732318}
+  - {fileID: 525849667056212013}
+  - {fileID: 9220243610277094857}
+  _confirmButton: {fileID: 6893115217534636565}
+  _clickedColor: {r: 1, g: 0.41320753, b: 0.41320753, a: 1}
+  _notClickedColor: {r: 0.54901963, g: 1, b: 0.54901963, a: 1}
 --- !u!1 &4556312744200711614
 GameObject:
   m_ObjectHideFlags: 0

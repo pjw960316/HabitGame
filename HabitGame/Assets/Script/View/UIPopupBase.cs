@@ -1,3 +1,4 @@
+using UniRx;
 using UnityEngine;
 
 // note
@@ -9,6 +10,7 @@ public abstract class UIPopupBase : MonoBehaviour, IView
     
     protected UIManager _uiManager;
     protected SoundManager _soundManager;
+    protected readonly CompositeDisposable _disposables = new();
 
     #endregion
 

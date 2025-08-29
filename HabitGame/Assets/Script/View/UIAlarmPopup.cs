@@ -9,16 +9,17 @@ public class UIAlarmPopup : UIPopupBase
 {
     #region 1. Fields
 
-    [SerializeField] private List<UIButtonBase> _alarmAudioClipButtons = new();
-    [SerializeField] private List<UIButtonBase> _alarmTimeButtons = new();
+    [SerializeField] private List<UIAlarmButton> _alarmAudioClipButtons = new();
+    [SerializeField] private List<UIAlarmButton> _alarmTimeButtons = new();
     [SerializeField] private UIButtonBase _confirmButton;
+    [SerializeField] private Color _clickedColor;
+    [SerializeField] private Color _notClickedColor;
 
     private AlarmPresenter _alarmPresenter;
 
     private readonly Subject<EAlarmButtonType> _onAlarmAudioClipButtonClicked = new();
     private readonly Subject<EAlarmButtonType> _onTimeButtonClicked = new();
-
-
+    
     private readonly Subject<Unit> _onConfirmed = new();
 
     #endregion
@@ -60,10 +61,12 @@ public class UIAlarmPopup : UIPopupBase
         //todo : Widget에 바인딩 하자
         foreach (var alarmWidget in _alarmAudioClipButtons)
         {
+            alarmWidget.OnAlarmAudioClipButtonClicked.Subscribe(_ => RequestUpdateButtonColor()).AddTo(_disposables);
         }
 
         foreach (var timeWidget in _alarmTimeButtons)
         {
+            timeWidget.OnAlarmAudioClipButtonClicked.Subscribe(_ => RequestUpdateButtonColor()).AddTo(_disposables);
         }
 
         _confirmButton?.OnClick.AddListener(() => _onConfirmed.OnNext(Unit.Default));
@@ -78,6 +81,10 @@ public class UIAlarmPopup : UIPopupBase
 
     #region 5. Request Methods
 
+    private void RequestUpdateButtonColor()
+    {
+        
+    }
     /*private void CommandUpdateButtonColor(UIButtonBase clickedButtonData)
     {
         var clickedButtonType = clickedButtonData.buttonType;

@@ -8,12 +8,11 @@ public class UIAlarmButton : UIButtonBase
 
     //test
     [SerializeField] private bool _isAlarmAudioClipButton;
-    
-    
     [SerializeField] private EAlarmButtonType _eAlarmButtonType;
 
     private readonly Subject<EAlarmButtonType> _onAlarmAudioClipButtonClicked = new();
     private readonly Subject<EAlarmButtonType> _onTimeButtonClicked = new();
+
     #endregion
 
     #region 2. Properties
@@ -29,8 +28,6 @@ public class UIAlarmButton : UIButtonBase
     {
         base.OnAwake();
     }
-
-    
 
     #endregion
 
