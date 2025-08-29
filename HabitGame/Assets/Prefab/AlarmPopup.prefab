@@ -783,11 +783,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c797e6cf97fd56f4787bb549589e43d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 0}
-  _buttonText: {fileID: 8066427075635880691}
-  _buttonTextKey: 0
   _button: {fileID: 8543549872137723518}
   _isAutoText: 1
+  _buttonText: {fileID: 8066427075635880691}
+  _buttonTextKey: 0
+  _buttonColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1577975546080176179
 GameObject:
   m_ObjectHideFlags: 0
@@ -800,6 +800,7 @@ GameObject:
   - component: {fileID: 4216881690924901853}
   - component: {fileID: 36187767544860020}
   - component: {fileID: 2688822023940425624}
+  - component: {fileID: 4279451333578018609}
   m_Layer: 5
   m_Name: Music_3
   m_TagString: Untagged
@@ -909,6 +910,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4279451333578018609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1577975546080176179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bd038e8822a7b64792bb3eec4cd31fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 2688822023940425624}
+  _isAutoText: 1
+  _buttonText: {fileID: 3046247451781927247}
+  _buttonTextKey: 6
+  _buttonColor: {r: 0.54905653, g: 1, b: 0.549062, a: 0}
+  _isAlarmAudioClipButton: 1
+  _eAlarmButtonType: 2
 --- !u!1 &1869058754245636784
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,7 +942,7 @@ GameObject:
   - component: {fileID: 8881385237923559727}
   - component: {fileID: 8937574956699830078}
   m_Layer: 5
-  m_Name: SelectMusicArea
+  m_Name: AudioClipButtonArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1003,7 +1023,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 0
+    m_Top: 5
     m_Bottom: 0
   m_ChildAlignment: 0
   m_Spacing: 0
@@ -1162,6 +1182,7 @@ GameObject:
   - component: {fileID: 7397792274234230960}
   - component: {fileID: 1500710916109174096}
   - component: {fileID: 4487667341226615579}
+  - component: {fileID: 525849667056212013}
   m_Layer: 5
   m_Name: Time_4
   m_TagString: Untagged
@@ -1271,6 +1292,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &525849667056212013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3042740892207827774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bd038e8822a7b64792bb3eec4cd31fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 4487667341226615579}
+  _isAutoText: 1
+  _buttonText: {fileID: 6935237528884650101}
+  _buttonTextKey: 0
+  _buttonColor: {r: 0.54905653, g: 1, b: 0.549062, a: 0}
+  _isAlarmAudioClipButton: 0
+  _eAlarmButtonType: 6
 --- !u!1 &4035781290678681732
 GameObject:
   m_ObjectHideFlags: 0
@@ -1518,41 +1558,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3423cb78f0cae7e40aec78f5648b077f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _alarmMusicButtons:
-  - button: {fileID: 1402440707171100350}
-    buttonType: 0
-  - button: {fileID: 176326889168602209}
-    buttonType: 1
-  - button: {fileID: 2688822023940425624}
-    buttonType: 2
-  _timeButtons:
-  - button: {fileID: 558473801701078079}
-    buttonType: 4
-  - button: {fileID: 3516982178583947660}
-    buttonType: 5
-  - button: {fileID: 5655351679778814012}
-    buttonType: 6
-  _confirmButton: {fileID: 8543549872137723518}
-  _buttonTexts:
-    _serializedList:
-    - Key: 4
-      Value: {fileID: 4195687718331180649}
-    - Key: 5
-      Value: {fileID: 5530915282135271883}
-    - Key: 6
-      Value: {fileID: 3046247451781927247}
-    - Key: 7
-      Value: {fileID: 6363041254245795365}
-    - Key: 8
-      Value: {fileID: 7683613648066347559}
-    - Key: 9
-      Value: {fileID: 5165665687277115229}
-  _buttonColorDictionary:
-    _serializedList:
-    - Key: 1
-      Value: {r: 1, g: 0.3754716, b: 0.3754716, a: 1}
-    - Key: 0
-      Value: {r: 0.7137255, g: 1, b: 0.5647059, a: 1}
+  _alarmAudioClipButtons:
+  - {fileID: 4177064978814809265}
+  - {fileID: 4719814041638362061}
+  - {fileID: 4279451333578018609}
+  _alarmTimeButtons:
+  - {fileID: 4256784893062355154}
+  - {fileID: 3038823842643035292}
+  - {fileID: 1842704480684732318}
+  - {fileID: 525849667056212013}
+  - {fileID: 9220243610277094857}
+  _confirmButton: {fileID: 6893115217534636565}
 --- !u!114 &5347528619279418558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1685,6 +1701,7 @@ GameObject:
   - component: {fileID: 4699486871100502706}
   - component: {fileID: 7993840705330031780}
   - component: {fileID: 5655351679778814012}
+  - component: {fileID: 1842704480684732318}
   m_Layer: 5
   m_Name: Time_3
   m_TagString: Untagged
@@ -1794,6 +1811,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1842704480684732318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4568194762573901515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bd038e8822a7b64792bb3eec4cd31fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 5655351679778814012}
+  _isAutoText: 1
+  _buttonText: {fileID: 5165665687277115229}
+  _buttonTextKey: 0
+  _buttonColor: {r: 0.54905653, g: 1, b: 0.549062, a: 0}
+  _isAlarmAudioClipButton: 0
+  _eAlarmButtonType: 5
 --- !u!1 &5420039099823047176
 GameObject:
   m_ObjectHideFlags: 0
@@ -1806,6 +1842,7 @@ GameObject:
   - component: {fileID: 2990407443683583619}
   - component: {fileID: 7100539957522660837}
   - component: {fileID: 3516982178583947660}
+  - component: {fileID: 3038823842643035292}
   m_Layer: 5
   m_Name: Time_2
   m_TagString: Untagged
@@ -1915,6 +1952,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3038823842643035292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5420039099823047176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bd038e8822a7b64792bb3eec4cd31fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 3516982178583947660}
+  _isAutoText: 1
+  _buttonText: {fileID: 7683613648066347559}
+  _buttonTextKey: 0
+  _buttonColor: {r: 0.54905653, g: 1, b: 0.549062, a: 0}
+  _isAlarmAudioClipButton: 0
+  _eAlarmButtonType: 4
 --- !u!1 &5835516987106644735
 GameObject:
   m_ObjectHideFlags: 0
@@ -1927,6 +1983,7 @@ GameObject:
   - component: {fileID: 598835761838620207}
   - component: {fileID: 813980581252115344}
   - component: {fileID: 6073801692754945877}
+  - component: {fileID: 9220243610277094857}
   m_Layer: 5
   m_Name: Time_5
   m_TagString: Untagged
@@ -2036,6 +2093,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &9220243610277094857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5835516987106644735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bd038e8822a7b64792bb3eec4cd31fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 6073801692754945877}
+  _isAutoText: 1
+  _buttonText: {fileID: 2353440025330726601}
+  _buttonTextKey: 0
+  _buttonColor: {r: 0.54905653, g: 1, b: 0.549062, a: 0}
+  _isAlarmAudioClipButton: 0
+  _eAlarmButtonType: 7
 --- !u!1 &6446096025699374907
 GameObject:
   m_ObjectHideFlags: 0
@@ -2185,7 +2261,7 @@ GameObject:
   - component: {fileID: 5507141961817303833}
   - component: {fileID: 2610251838475469895}
   m_Layer: 5
-  m_Name: SelectTimeArea
+  m_Name: TimeButtonArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2268,10 +2344,10 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 0
+    m_Top: 10
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 0
+  m_Spacing: 5
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -2427,6 +2503,7 @@ GameObject:
   - component: {fileID: 2688427507325938499}
   - component: {fileID: 2541833847911560881}
   - component: {fileID: 176326889168602209}
+  - component: {fileID: 4719814041638362061}
   m_Layer: 5
   m_Name: Music_2
   m_TagString: Untagged
@@ -2536,6 +2613,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4719814041638362061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8241396374083906676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bd038e8822a7b64792bb3eec4cd31fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 176326889168602209}
+  _isAutoText: 1
+  _buttonText: {fileID: 5530915282135271883}
+  _buttonTextKey: 5
+  _buttonColor: {r: 0.54905653, g: 1, b: 0.549062, a: 0}
+  _isAlarmAudioClipButton: 1
+  _eAlarmButtonType: 1
 --- !u!1 &8440126677018053956
 GameObject:
   m_ObjectHideFlags: 0
@@ -2684,7 +2780,7 @@ GameObject:
   - component: {fileID: 8227206639531860975}
   - component: {fileID: 288207443275096668}
   - component: {fileID: 1402440707171100350}
-  - component: {fileID: 6520760778184331448}
+  - component: {fileID: 4177064978814809265}
   m_Layer: 5
   m_Name: Music_1
   m_TagString: Untagged
@@ -2794,7 +2890,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6520760778184331448
+--- !u!114 &4177064978814809265
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2803,14 +2899,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 8563167236595388603}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c797e6cf97fd56f4787bb549589e43d6, type: 3}
+  m_Script: {fileID: 11500000, guid: 7bd038e8822a7b64792bb3eec4cd31fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 0}
-  _buttonText: {fileID: 0}
-  _buttonTextKey: 0
-  _button: {fileID: 0}
-  _isAutoText: 0
+  _button: {fileID: 1402440707171100350}
+  _isAutoText: 1
+  _buttonText: {fileID: 4195687718331180649}
+  _buttonTextKey: 4
+  _buttonColor: {r: 0.54905653, g: 1, b: 0.549062, a: 0}
+  _isAlarmAudioClipButton: 1
+  _eAlarmButtonType: 0
 --- !u!1 &8768355639548525777
 GameObject:
   m_ObjectHideFlags: 0
@@ -2823,7 +2921,7 @@ GameObject:
   - component: {fileID: 4655643719105635389}
   - component: {fileID: 5871965110329125146}
   - component: {fileID: 558473801701078079}
-  - component: {fileID: 7998137788319823829}
+  - component: {fileID: 4256784893062355154}
   m_Layer: 5
   m_Name: Time_1
   m_TagString: Untagged
@@ -2933,7 +3031,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &7998137788319823829
+--- !u!114 &4256784893062355154
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2942,11 +3040,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8768355639548525777}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c797e6cf97fd56f4787bb549589e43d6, type: 3}
+  m_Script: {fileID: 11500000, guid: 7bd038e8822a7b64792bb3eec4cd31fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 0}
-  _buttonText: {fileID: 0}
+  _button: {fileID: 558473801701078079}
+  _isAutoText: 1
+  _buttonText: {fileID: 6363041254245795365}
   _buttonTextKey: 0
-  _button: {fileID: 0}
-  _isAutoText: 0
+  _buttonColor: {r: 0.54905653, g: 1, b: 0.549062, a: 0}
+  _isAlarmAudioClipButton: 0
+  _eAlarmButtonType: 3

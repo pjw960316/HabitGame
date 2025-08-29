@@ -7,11 +7,12 @@ using UnityEngine.UI;
 public class UIButtonBase : MonoBehaviour, IView
 {
     #region 1. Fields
-    
-    [SerializeField] private TextMeshProUGUI _buttonText;
-    [SerializeField] private EStringKey _buttonTextKey;
+
     [SerializeField] protected Button _button;
-    [SerializeField] private bool _isAutoText;
+    [SerializeField] protected bool _isAutoText;
+    [SerializeField] protected TextMeshProUGUI _buttonText;
+    [SerializeField] protected EStringKey _buttonTextKey;
+    [SerializeField] protected Color _buttonColor;
 
     protected UIManager _uiManager;
 
@@ -20,6 +21,7 @@ public class UIButtonBase : MonoBehaviour, IView
     #region 2. Properties
 
     public Button Button => _button;
+    public Button.ButtonClickedEvent OnClick => _button.onClick;
 
     #endregion
 
@@ -34,14 +36,10 @@ public class UIButtonBase : MonoBehaviour, IView
         OnAwake();
     }
 
-    public virtual void OnAwake()
+    protected virtual void OnAwake()
     {
         Initialize();
-
-        // Note
-        // Shadowing
-        // Script가 UIButtonBase가 붙으면 Base의 BindEvent()가 호출되고
-        // Script가 UIOpenPopupButtonBase가 붙어도 Derived의 BindEvent()가 호출되기 바람.
+        
         BindEvent();
     }
 
@@ -49,8 +47,10 @@ public class UIButtonBase : MonoBehaviour, IView
     {
         _uiManager = UIManager.Instance;
 
-        InitializeButtonText();
+        UpdateButtonText();
+        UpdateButtonColor();
     }
+
 
     protected void BindEvent()
     {
@@ -76,7 +76,12 @@ public class UIButtonBase : MonoBehaviour, IView
 
     #region 6. Methods
 
-    private void InitializeButtonText()
+    private void UpdateButtonColor()
+    {
+        _button.image.color = _buttonColor;
+    }
+
+    private void UpdateButtonText()
     {
         if (!_isAutoText)
         {

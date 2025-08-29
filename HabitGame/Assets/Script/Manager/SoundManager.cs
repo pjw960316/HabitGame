@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
+// Note : 책임 감소
+// 처음 개발할 때는 SoundManager가 모든 SoundData를 관리하도록 설계를 했지만
+// 이제는 SoundManager는 Presenter로 부터 AudioClip을 받고 재생하는 기능만 책임진다.
 [Serializable]
 public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 {
@@ -87,7 +91,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     {
         _musicPlayerMono.AudioSource.Stop();
 
-        _musicPlayerMono.AudioClip = SoundData.AlarmChickenAudioClip;
+        //_musicPlayerMono.AudioClip = SoundData.AlarmChickenAudioClip;
         _musicPlayerMono.PlayMusic();
     }
 

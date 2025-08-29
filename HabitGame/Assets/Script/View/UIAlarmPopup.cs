@@ -1,51 +1,33 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using AYellowpaper.SerializedCollections;
-using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
-using EButtons = AlarmPresenter.EButtons;
 
 [RequireComponent(typeof(Button))]
 public class UIAlarmPopup : UIPopupBase
 {
     #region 1. Fields
 
-    //refactor
-    //ButtonData 대신에 Widget으로.
-    [Serializable]
-    public class ButtonData
-    {
-        public Button button;
-        public EButtons buttonType;
-    }
+    [SerializeField] private List<UIButtonBase> _alarmAudioClipButtons = new();
+    [SerializeField] private List<UIButtonBase> _alarmTimeButtons = new();
+    [SerializeField] private UIButtonBase _confirmButton;
 
-    [SerializeField] private List<ButtonData> _alarmMusicButtons = new();
-    [SerializeField] private List<ButtonData> _timeButtons = new();
-    [SerializeField] private Button _confirmButton;
-
-    [SerializeField] private SerializedDictionary<EStringKey, TextMeshProUGUI> _buttonTexts = new();
-    [SerializeField] private SerializedDictionary<bool, Color> _buttonColorDictionary = new();
-
-    
     private AlarmPresenter _alarmPresenter;
 
-    private readonly Subject<EButtons> _onAlarmMusicButtonClicked = new();
-    public IObservable<EButtons> OnAlarmMusicButtonClicked => _onAlarmMusicButtonClicked;
+    private readonly Subject<EAlarmButtonType> _onAlarmAudioClipButtonClicked = new();
+    private readonly Subject<EAlarmButtonType> _onTimeButtonClicked = new();
 
-    private readonly Subject<EButtons> _onTimeButtonClicked = new();
-    public IObservable<EButtons> OnTimeButtonClicked => _onTimeButtonClicked;
 
     private readonly Subject<Unit> _onConfirmed = new();
-    public IObservable<Unit> OnConfirmed => _onConfirmed;
 
     #endregion
 
     #region 2. Properties
 
-    // default
+    public IObservable<EAlarmButtonType> OnAlarmAudioClipButtonClicked => _onAlarmAudioClipButtonClicked;
+    public IObservable<EAlarmButtonType> OnTimeButtonClicked => _onTimeButtonClicked;
+    public IObservable<Unit> OnConfirmed => _onConfirmed;
 
     #endregion
 
@@ -53,72 +35,50 @@ public class UIAlarmPopup : UIPopupBase
 
     public override void OnAwake()
     {
-        base. OnAwake();
+        base.OnAwake();
+
+        Initialize();
 
         CreatePresenterByManager();
-        
+
         BindEvent();
-        
-        SetInitialUIState();
     }
 
     private void Initialize()
     {
     }
 
-    #endregion
-
-    #region 4. Methods
-
-    private void BindEvent()
-    {
-        BindButtonsEvent(_alarmMusicButtons, _onAlarmMusicButtonClicked);
-        BindButtonsEvent(_timeButtons, _onTimeButtonClicked);
-
-        _confirmButton?.onClick.AddListener(() => _onConfirmed.OnNext(Unit.Default));
-    }
-    
     protected sealed override void CreatePresenterByManager()
     {
         _uiManager.CreatePresenter<AlarmPresenter>(this);
     }
-    
-    private void SetInitialUIState()
-    {
-        SetButtonTexts();
-    }
-
-    private void BindButtonsEvent(List<ButtonData> buttonDataList, Subject<EButtons> subject)
-    {
-        foreach (var buttonData in buttonDataList)
-        {
-            buttonData.button.onClick.AddListener(() => { OnClickButton(buttonData, subject); });
-        }
-    }
-
-    private void SetButtonTexts()
-    {
-        var stringManager = StringManager.Instance;
-
-        foreach (var buttonText in _buttonTexts)
-        {
-            buttonText.Value.text = stringManager.GetUIString(buttonText.Key);
-        }
-    }
 
     #endregion
 
-    #region 5. EventHandlers
-
-    private void OnClickButton(ButtonData buttonData, Subject<EButtons> subject)
+    private void BindEvent()
     {
-        subject.OnNext(buttonData.buttonType);
-        UpdateButtonColor(buttonData);
+        //todo : Widget에 바인딩 하자
+        foreach (var alarmWidget in _alarmAudioClipButtons)
+        {
+        }
+
+        foreach (var timeWidget in _alarmTimeButtons)
+        {
+        }
+
+        _confirmButton?.OnClick.AddListener(() => _onConfirmed.OnNext(Unit.Default));
     }
 
-    //Note
-    //View Method
-    private void UpdateButtonColor(ButtonData clickedButtonData)
+
+    #region 4. EventHandlers
+
+    //
+
+    #endregion
+
+    #region 5. Request Methods
+
+    /*private void CommandUpdateButtonColor(UIButtonBase clickedButtonData)
     {
         var clickedButtonType = clickedButtonData.buttonType;
 
@@ -141,12 +101,13 @@ public class UIAlarmPopup : UIPopupBase
         {
             buttonData.button.image.color = _buttonColorDictionary[buttonData.buttonType == clickedButtonType];
         }
-    }
+    }*/
 
-    private void OnDestroy()
-    {
-        //default
-    }
+    #endregion
+
+    #region 6. Methods
+
+    // 
 
     #endregion
 }

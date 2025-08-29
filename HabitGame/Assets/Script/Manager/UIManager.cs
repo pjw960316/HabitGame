@@ -18,7 +18,6 @@ public class UIManager : ManagerBase<UIManager>, IManager
     #region 2. Properties
 
     public UIMainCanvas MainCanvas { get; private set; }
-    public ViewData ViewData { get; private set; }
 
     #endregion
 
@@ -56,21 +55,11 @@ public class UIManager : ManagerBase<UIManager>, IManager
             {
                 _popupData = uiPopupData;
             }
-
-            if (scriptableObject is ViewData viewData)
-            {
-                ViewData = viewData;
-            }
         }
         
         if (_popupData == null)
         {
             throw new InvalidOperationException("_popupData는 null이 될 수 없습니다. 올바른 데이터를 확인해주세요.");
-        }
-
-        if (ViewData == null)
-        {
-            throw new InvalidOperationException("_viewData null이 될 수 없습니다. 올바른 데이터를 확인해주세요.");
         }
     }
     

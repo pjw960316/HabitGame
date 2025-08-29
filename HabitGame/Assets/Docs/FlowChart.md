@@ -29,3 +29,10 @@
 
 ## :fire: MVP 구조
 - View Initialize() -> CreatePresenterByManager (Presenter 생성) -> Presenter Initialize() -> Presenter SetView -> View BindEvent
+
+<br><br>
+
+## 리팩터링 하면서
+- 처음에는 Manager를 Model처럼 사용도 했지만, 생각해보면 Manager의 코드가 늘어나기 쉬운 구조다. 그래서 Presenter에 직접 Model을 두도록 AlarmPresenter에서 리팩터링을 해 보았다.
+  - Alarm은 Sound니까 SoundManager를 뒀지만, Alarm에서만 사용하는 Sound가 존재할 것 이고, Alarm에서만 사용하는 Enum이 존재할 것 이다. <br> 그걸 SoundManager에서 모두 들고 있는 게 이상하다 느껴 리팩터링을 진행했다.
+  - 결론적으로, SoundManager는 지금 재생하고 되는 Sound를 관리하는 책임만 하도록 변경
