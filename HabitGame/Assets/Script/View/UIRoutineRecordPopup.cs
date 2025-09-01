@@ -29,7 +29,7 @@ public class UIRoutineRecordPopup : UIPopupBase
     [SerializeField] private ScrollRect _routineRecordScrollRect;
     [SerializeField] private UIButtonBase _closeBtn;
 
-    private const float WIDGET_SCROLL_UP_OFFSET = 1.5f;
+    private const float WIDGET_SCROLL_UP_OFFSET = 2f;
     private const float WIDGET_SCROLL_DOWN_OFFSET = 2f;
 
     private List<UIRoutineRecordWidget> _widgetList;
