@@ -54,9 +54,14 @@ public class StringManager : ManagerBase<StringManager>, IManager, IDisposable
         }
     }
 
-    public string GetUIString(EStringKey eStringKey)
+    public string GetUIString(EStringKey eStringKey, params object[] args)
     {
-        return StringData.GetStringByEStringKey(eStringKey);
+        if (args.Length == 0)
+        {
+            return StringData.GetStringByEStringKey(eStringKey);
+        }
+
+        return StringData.GetStringByEStringKeyAndArguments(eStringKey, args);
     }
 
     public string GetToastString(EToastStringKey eToastStringKey)

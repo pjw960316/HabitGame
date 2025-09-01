@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class AlarmData : ScriptableObject, IModel
     #region 2. Properties
 
     public AudioClip AlarmChickenAudioClip => _alarmChickenAudioClip;
+    public ImmutableDictionary<EAlarmButtonType, float> AlarmTimeDictionary => _alarmTimeDictionary.ToImmutableDictionary();
 
     #endregion
 
@@ -69,6 +71,7 @@ public enum EAlarmButtonType
     MusicOne,
     MusicTwo,
     MusicThree,
+    DivisionConst,
     TimeOne,
     TimeTwo,
     TimeThree,

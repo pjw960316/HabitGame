@@ -12,10 +12,10 @@ public class UIButtonBase : MonoBehaviour, IView
     [SerializeField] protected bool _isAutoText;
     [SerializeField] protected TextMeshProUGUI _buttonText;
     [SerializeField] protected EStringKey _buttonTextKey;
-    [SerializeField] protected Color _buttonColor;
 
     protected UIManager _uiManager;
-
+    protected StringManager _stringManager;
+    
     #endregion
 
     #region 2. Properties
@@ -46,9 +46,9 @@ public class UIButtonBase : MonoBehaviour, IView
     private void Initialize()
     {
         _uiManager = UIManager.Instance;
+        _stringManager = StringManager.Instance;
 
-        UpdateButtonText();
-        UpdateButtonColor();
+        UpdateButtonAutoText();
     }
 
 
@@ -75,13 +75,13 @@ public class UIButtonBase : MonoBehaviour, IView
     #endregion
 
     #region 6. Methods
-
-    private void UpdateButtonColor()
+    
+    protected void UpdateButtonColor(Color color)
     {
-        _button.image.color = _buttonColor;
+        _button.image.color = color;
     }
 
-    private void UpdateButtonText()
+    protected void UpdateButtonAutoText()
     {
         if (!_isAutoText)
         {

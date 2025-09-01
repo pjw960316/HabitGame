@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stringDictionary:
     _serializedList:
-    - Key: 14
+    - Key: 12
       Value: "\uB8E8\uD2F4 \uC131\uACF5 \uD604\uD669"
     - Key: 0
       Value: "\uD655\uC778"
@@ -24,26 +24,22 @@ MonoBehaviour:
       Value: "\uB8E8\uD2F4 \uCCB4\uD06C"
     - Key: 3
       Value: "\uB8E8\uD2F4 \uAE30\uB85D\uC2E4"
-    - Key: 10
+    - Key: 8
       Value: "\uC624\uC804 \uB3C4\uC11C\uAD00 2\uD0C0\uC784"
-    - Key: 11
+    - Key: 9
       Value: "\uD5EC\uC2A4"
-    - Key: 12
+    - Key: 10
       Value: "\uB7EC\uB2DD or \uC0B0\uCC45"
-    - Key: 13
+    - Key: 11
       Value: "\uC57C\uC2DD X"
     - Key: 4
       Value: "\uC7A0\uBC15\uC0AC"
     - Key: 5
       Value: "\uBE44\uD589\uAE30"
     - Key: 6
-      Value: "\uC544\uC9C1 \uC5C6\uC74C (\uBE44\uD589\uAE30_\uBCF5\uC0AC)"
+      Value: "3\uBC88 \uC74C\uC545"
     - Key: 7
-      Value: "30\uBD84"
-    - Key: 8
-      Value: "60\uBD84"
-    - Key: 9
-      Value: "90\uBD84"
+      Value: "{0}\uBD84"
   _toastStringDictionary:
     _serializedList:
     - Key: 0

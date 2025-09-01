@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -55,12 +56,19 @@ public class AlarmPresenter : PresenterBase
 
     protected override void SetView()
     {
+        _alarmPopup.SetButtonText(_alarmData.AlarmTimeDictionary);
     }
 
     private void BindEvent()
     {
-        _alarmPopup.OnAlarmAudioClipButtonClicked.Subscribe(UpdateAlarmAudioClip).AddTo(_disposable);
-        _alarmPopup.OnTimeButtonClicked.Subscribe(UpdateLatestTime).AddTo(_disposable);
+        foreach (var alarmAudioClipButton in _alarmPopup.AlarmAudioClipButtons)
+        {
+            alarmAudioClipButton.OnButtonClicked.Subscribe(UpdateAlarmAudioClip).AddTo(_disposable);
+        }
+        foreach (var alarmTimeButton in _alarmPopup.AlarmTimeButtons)
+        {
+            alarmTimeButton.OnButtonClicked.Subscribe(UpdateLatestTime).AddTo(_disposable);
+        }
         _alarmPopup.OnConfirmed.Subscribe(_ => StartAlarm()).AddTo(_disposable);
     }
 
@@ -74,7 +82,19 @@ public class AlarmPresenter : PresenterBase
 
     #region 5. Request Methods
 
-    // 
+    private void RequestStartingAlarm(float playingTime)
+    {
+        Observable.Timer(TimeSpan.FromSeconds(playingTime)).Subscribe(_ => RequestPlayingWakeUpSound())
+            .AddTo(_disposable);
+
+        _soundManager.SetAudioSourceLoop();
+        _soundManager.CommandPlayingMusic(_latestSleepingAudioClip);
+    }
+
+    private void RequestPlayingWakeUpSound()
+    {
+        _soundManager.CommandPlayingWakeUpSound();
+    }
 
     #endregion
 
@@ -82,6 +102,7 @@ public class AlarmPresenter : PresenterBase
 
     private void UpdateAlarmAudioClip(EAlarmButtonType eAlarmAudioClip)
     {
+        Debug.Log("Update alarm");
         _latestSleepingAudioClip = _alarmData.GetAlarmAudioClip(eAlarmAudioClip);
     }
 
@@ -98,21 +119,7 @@ public class AlarmPresenter : PresenterBase
 
         _uiToastManager.ShowToast(EToastStringKey.EAlarmConfirm);
     }
-
-    private void RequestStartingAlarm(float playingTime)
-    {
-        Observable.Timer(TimeSpan.FromSeconds(playingTime)).Subscribe(_ => RequestPlayingWakeUpSound())
-            .AddTo(_disposable);
-
-        _soundManager.SetAudioSourceLoop();
-        _soundManager.CommandPlayingMusic(_latestSleepingAudioClip);
-    }
-
-    private void RequestPlayingWakeUpSound()
-    {
-        _soundManager.CommandPlayingWakeUpSound();
-    }
-
+    
     // refactor
     // Destroy를 쓰는 게 맞는가?
     private void CloseAlarmPopup()

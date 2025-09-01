@@ -2,23 +2,27 @@ using System;
 using UniRx;
 using UnityEngine;
 
+// note
+// AlarmButton = AudioClipButton + TimeButton
 public class UIAlarmButton : UIButtonBase
 {
     #region 1. Fields
 
-    //test
-    [SerializeField] private bool _isAlarmAudioClipButton;
     [SerializeField] private EAlarmButtonType _eAlarmButtonType;
+    [SerializeField] private Color _clickedColor;
+    [SerializeField] private Color _notClickedColor;
+    
+    private readonly Subject<EAlarmButtonType> _onButtonClicked = new();
 
-    private readonly Subject<EAlarmButtonType> _onAlarmAudioClipButtonClicked = new();
-    private readonly Subject<EAlarmButtonType> _onTimeButtonClicked = new();
+    private bool _isSelected;
 
     #endregion
 
     #region 2. Properties
 
-    public IObservable<EAlarmButtonType> OnAlarmAudioClipButtonClicked => _onAlarmAudioClipButtonClicked;
-    public IObservable<EAlarmButtonType> OnTimeButtonClicked => _onTimeButtonClicked;
+    public EAlarmButtonType AlarmButtonType => _eAlarmButtonType;
+    public IObservable<EAlarmButtonType> OnButtonClicked => _onButtonClicked;
+    public bool IsSelected => _isSelected;
 
     #endregion
 
@@ -27,6 +31,10 @@ public class UIAlarmButton : UIButtonBase
     protected override void OnAwake()
     {
         base.OnAwake();
+
+        _isAutoText = false;
+        _isSelected = false;
+        UpdateButtonColor(_notClickedColor);
     }
 
     #endregion
@@ -35,27 +43,29 @@ public class UIAlarmButton : UIButtonBase
 
     protected override void OnClickButton()
     {
-        if (_isAlarmAudioClipButton)
-        {
-            _onAlarmAudioClipButtonClicked.OnNext(_eAlarmButtonType);
-        }
-        else
-        {
-            _onTimeButtonClicked.OnNext(_eAlarmButtonType);
-        }
+        _onButtonClicked.OnNext(_eAlarmButtonType);
     }
 
     #endregion
 
     #region 5. Request Methods
-
-    // 
+    
+    //
 
     #endregion
 
     #region 6. Methods
 
-    // 
+    public void UpdateAlarmButton(bool isSelected)
+    {
+        _isSelected = isSelected;
+        UpdateButtonColor(_isSelected ? _clickedColor : _notClickedColor);
+    }
+
+    public void UpdateAlarmButtonText(float time)
+    {
+        _buttonText.text = _stringManager.GetUIString(EStringKey.EAlarmPopupAlarmTime, time);
+    }
 
     #endregion
 }

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.IO;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,13 +14,8 @@ public class UIAlarmPopup : UIPopupBase
     [SerializeField] private List<UIAlarmButton> _alarmAudioClipButtons = new();
     [SerializeField] private List<UIAlarmButton> _alarmTimeButtons = new();
     [SerializeField] private UIButtonBase _confirmButton;
-    [SerializeField] private Color _clickedColor;
-    [SerializeField] private Color _notClickedColor;
 
     private AlarmPresenter _alarmPresenter;
-
-    private readonly Subject<EAlarmButtonType> _onAlarmAudioClipButtonClicked = new();
-    private readonly Subject<EAlarmButtonType> _onTimeButtonClicked = new();
     
     private readonly Subject<Unit> _onConfirmed = new();
 
@@ -26,8 +23,8 @@ public class UIAlarmPopup : UIPopupBase
 
     #region 2. Properties
 
-    public IObservable<EAlarmButtonType> OnAlarmAudioClipButtonClicked => _onAlarmAudioClipButtonClicked;
-    public IObservable<EAlarmButtonType> OnTimeButtonClicked => _onTimeButtonClicked;
+    public List<UIAlarmButton> AlarmAudioClipButtons => _alarmAudioClipButtons;
+    public List<UIAlarmButton> AlarmTimeButtons => _alarmTimeButtons;
     public IObservable<Unit> OnConfirmed => _onConfirmed;
 
     #endregion
@@ -58,57 +55,76 @@ public class UIAlarmPopup : UIPopupBase
 
     private void BindEvent()
     {
-        //todo : Widget에 바인딩 하자
-        foreach (var alarmWidget in _alarmAudioClipButtons)
-        {
-            alarmWidget.OnAlarmAudioClipButtonClicked.Subscribe(_ => RequestUpdateButtonColor()).AddTo(_disposables);
-        }
-
-        foreach (var timeWidget in _alarmTimeButtons)
-        {
-            timeWidget.OnAlarmAudioClipButtonClicked.Subscribe(_ => RequestUpdateButtonColor()).AddTo(_disposables);
-        }
-
+        BindButtonMenuEvents(AlarmAudioClipButtons);
+        BindButtonMenuEvents(AlarmTimeButtons);
+        
         _confirmButton?.OnClick.AddListener(() => _onConfirmed.OnNext(Unit.Default));
     }
 
+    public void SetButtonText(ImmutableDictionary<EAlarmButtonType, float> immutableDictionary)
+    {
+        foreach (var widget in _alarmTimeButtons)
+        {
+            if(immutableDictionary.TryGetValue(widget.AlarmButtonType, out var time))
+            {
+                widget.UpdateAlarmButtonText(time);
+            }
+            else
+            {
+                Debug.Log($"{widget.AlarmButtonType} 의 알람 버튼의 텍스트가 세팅되지 않았습니다.");
+            }
+        }
+    }
 
     #region 4. EventHandlers
 
-    //
+    private void BindButtonMenuEvents(List<UIAlarmButton> list)
+    {
+        foreach (var widget in list)
+        {
+            widget.OnButtonClicked.Subscribe((_) =>
+            {
+                RequestUpdateButtonColor(widget.AlarmButtonType);
+            }).AddTo(_disposables);
+        }
+    }
 
     #endregion
 
     #region 5. Request Methods
 
-    private void RequestUpdateButtonColor()
+    private void RequestUpdateButtonColor(EAlarmButtonType eAlarmButtonType)
     {
-        
-    }
-    /*private void CommandUpdateButtonColor(UIButtonBase clickedButtonData)
-    {
-        var clickedButtonType = clickedButtonData.buttonType;
-
-        switch (clickedButtonType)
+        switch (eAlarmButtonType)
         {
-            case EButtons.DivisionConst:
+            case EAlarmButtonType.DivisionConst : 
                 throw new InvalidDataException("buttonType은 DivisionConst가 될 수 없다.");
-            case < EButtons.DivisionConst:
-                InternalUpdateButtonColor(clickedButtonType, _alarmMusicButtons);
+            case < EAlarmButtonType.DivisionConst:
+                InternalUpdateButtonColor(eAlarmButtonType, _alarmAudioClipButtons);
                 break;
-            case > EButtons.DivisionConst:
-                InternalUpdateButtonColor(clickedButtonType, _timeButtons);
+            case > EAlarmButtonType.DivisionConst:
+                InternalUpdateButtonColor(eAlarmButtonType, _alarmTimeButtons);
                 return;
         }
     }
 
-    private void InternalUpdateButtonColor(EButtons clickedButtonType, List<ButtonData> list)
+    private void InternalUpdateButtonColor(EAlarmButtonType clickedButtonType, List<UIAlarmButton> list)
     {
-        foreach (var buttonData in list)
+        Debug.Log("alarm audio click");
+        foreach (var widget in list)
         {
-            buttonData.button.image.color = _buttonColorDictionary[buttonData.buttonType == clickedButtonType];
+            if (widget.AlarmButtonType != clickedButtonType && widget.IsSelected)
+            {
+                widget.UpdateAlarmButton(false);
+                continue;
+            }
+
+            if (widget.AlarmButtonType == clickedButtonType && !widget.IsSelected)
+            {
+                widget.UpdateAlarmButton(true);
+            }
         }
-    }*/
+    }
 
     #endregion
 

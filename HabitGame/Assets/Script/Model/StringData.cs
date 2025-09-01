@@ -39,6 +39,18 @@ public class StringData : ScriptableObject, IModel
         return _stringDictionary[eStringKey];
     }
 
+    public string GetStringByEStringKeyAndArguments(EStringKey eStringKey, params object[] args)
+    {
+        if (_stringDictionary.ContainsKey(eStringKey) == false)
+        {
+            throw new ArgumentException("StringDictionary 에서 이용할 Key가 올바르지 않습니다.");
+        }
+        
+        var str = _stringDictionary[eStringKey];
+        
+        return String.Format(str, args);
+    }
+
     public string GetToastString(EToastStringKey eToastStringKey)
     {
         if (_toastStringDictionary.ContainsKey(eToastStringKey) == false)
@@ -66,6 +78,8 @@ public interface IEnumKey
 {
 }
 
+// note
+// 아래부터 추가하세요
 public enum EStringKey
 {
     EConfirmButton,
@@ -75,9 +89,7 @@ public enum EStringKey
     EAlarmPopupAlarmMusicOne,
     EAlarmPopupAlarmMusicTwo,
     EAlarmPopupAlarmMusicThree,
-    EAlarmPopupAlarmTimeOne,
-    EAlarmPopupAlarmTimeTwo,
-    EAlarmPopupAlarmTimeThree,
+    EAlarmPopupAlarmTime,
     ERoutineCheckOne,
     ERoutineCheckTwo,
     ERoutineCheckThree,
@@ -85,6 +97,8 @@ public enum EStringKey
     ERoutineRecordTitle,
 }
 
+// note
+// 아래부터 추가하세요
 public enum EToastStringKey
 {
     EAlarmConfirm,
