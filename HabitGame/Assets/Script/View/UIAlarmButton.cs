@@ -64,7 +64,7 @@ public class UIAlarmButton : UIButtonBase
 
     public void UpdateAlarmButtonText(float time)
     {
-        _buttonText.text = _stringManager.GetUIString(EStringKey.EAlarmPopupAlarmTime, time);
+        _buttonText.text = StringManager.Instance.GetUIString(EStringKey.EAlarmPopupAlarmTime, time);
     }
 
     #endregion

@@ -22,14 +22,14 @@ MonoBehaviour:
       Value: {fileID: 8300000, guid: e1bceeb2f7aeb06489ba6f89fa0357e2, type: 3}
   _alarmTimeDictionary:
     _serializedList:
-    - Key: 0
-      Value: 5
-    - Key: 1
-      Value: 10
-    - Key: 2
-      Value: 30
-    - Key: 3
-      Value: 60
     - Key: 4
+      Value: 5
+    - Key: 5
+      Value: 10
+    - Key: 6
+      Value: 30
+    - Key: 7
+      Value: 60
+    - Key: 8
       Value: 90
   _alarmChickenAudioClip: {fileID: 8300000, guid: 578e0ef3928252b468cb5f7fe8c056d5, type: 3}
