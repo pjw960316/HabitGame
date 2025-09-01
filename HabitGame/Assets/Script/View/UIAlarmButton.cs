@@ -11,10 +11,8 @@ public class UIAlarmButton : UIButtonBase
     [SerializeField] private EAlarmButtonType _eAlarmButtonType;
     [SerializeField] private Color _clickedColor;
     [SerializeField] private Color _notClickedColor;
-    
-    private readonly Subject<EAlarmButtonType> _onButtonClicked = new();
 
-    private bool _isSelected;
+    private readonly Subject<EAlarmButtonType> _onButtonClicked = new();
 
     #endregion
 
@@ -22,18 +20,29 @@ public class UIAlarmButton : UIButtonBase
 
     public EAlarmButtonType AlarmButtonType => _eAlarmButtonType;
     public IObservable<EAlarmButtonType> OnButtonClicked => _onButtonClicked;
-    public bool IsSelected => _isSelected;
+    public bool IsSelected { get; private set; }
 
     #endregion
 
     #region 3. Constructor
 
+    
+    // note
+    // Unity는 Awake의 호출 순서를 보장하지 않는다.
+    // Popup의 Awake가 콜이 되어도 Widget의 콜은 늦을 수 있다.
+    // 그러므로 Initialize()로 관리
     protected override void OnAwake()
     {
         base.OnAwake();
+    }
 
+    public sealed override void Initialize()
+    {
+        base.Initialize();
+        
         _isAutoText = false;
-        _isSelected = false;
+        IsSelected = false;
+        
         UpdateButtonColor(_notClickedColor);
     }
 
@@ -49,7 +58,7 @@ public class UIAlarmButton : UIButtonBase
     #endregion
 
     #region 5. Request Methods
-    
+
     //
 
     #endregion
@@ -58,13 +67,13 @@ public class UIAlarmButton : UIButtonBase
 
     public void UpdateAlarmButton(bool isSelected)
     {
-        _isSelected = isSelected;
-        UpdateButtonColor(_isSelected ? _clickedColor : _notClickedColor);
+        IsSelected = isSelected;
+        UpdateButtonColor(IsSelected ? _clickedColor : _notClickedColor);
     }
 
     public void UpdateAlarmButtonText(float time)
     {
-        _buttonText.text = StringManager.Instance.GetUIString(EStringKey.EAlarmPopupAlarmTime, time);
+        _buttonText.text = _stringManager.GetUIString(EStringKey.EAlarmPopupAlarmTime, time);
     }
 
     #endregion

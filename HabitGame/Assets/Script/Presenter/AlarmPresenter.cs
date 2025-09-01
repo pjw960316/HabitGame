@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -38,10 +37,10 @@ public class AlarmPresenter : PresenterBase
         _soundManager = SoundManager.Instance;
         _uiToastManager = UIToastManager.Instance;
         _dataManager = DataManager.Instance;
-        
+
         _alarmPopup = _view as UIAlarmPopup;
         _alarmData = _dataManager.GetAlarmModel() as AlarmData;
-        
+
         ExceptionHelper.CheckNullException(_alarmPopup, "_alarmPopup");
         ExceptionHelper.CheckNullException(_alarmData, "_alarmData");
 
@@ -65,10 +64,12 @@ public class AlarmPresenter : PresenterBase
         {
             alarmAudioClipButton.OnButtonClicked.Subscribe(UpdateAlarmAudioClip).AddTo(_disposable);
         }
+
         foreach (var alarmTimeButton in _alarmPopup.AlarmTimeButtons)
         {
             alarmTimeButton.OnButtonClicked.Subscribe(UpdateLatestTime).AddTo(_disposable);
         }
+
         _alarmPopup.OnConfirmed.Subscribe(_ => StartAlarm()).AddTo(_disposable);
     }
 
@@ -102,7 +103,6 @@ public class AlarmPresenter : PresenterBase
 
     private void UpdateAlarmAudioClip(EAlarmButtonType eAlarmAudioClip)
     {
-        Debug.Log("Update alarm");
         _latestSleepingAudioClip = _alarmData.GetAlarmAudioClip(eAlarmAudioClip);
     }
 
@@ -114,12 +114,12 @@ public class AlarmPresenter : PresenterBase
     private void StartAlarm()
     {
         RequestStartingAlarm(_latestAlarmPlayingTime);
-        
+
         CloseAlarmPopup();
 
         _uiToastManager.ShowToast(EToastStringKey.EAlarmConfirm);
     }
-    
+
     // refactor
     // Destroy를 쓰는 게 맞는가?
     private void CloseAlarmPopup()

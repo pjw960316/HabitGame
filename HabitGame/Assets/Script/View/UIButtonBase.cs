@@ -43,7 +43,7 @@ public class UIButtonBase : MonoBehaviour, IView
         BindEvent();
     }
 
-    private void Initialize()
+    public virtual void Initialize()
     {
         _uiManager = UIManager.Instance;
         _stringManager = StringManager.Instance;

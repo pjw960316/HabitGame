@@ -16,7 +16,7 @@ public class UIAlarmPopup : UIPopupBase
     [SerializeField] private UIButtonBase _confirmButton;
 
     private AlarmPresenter _alarmPresenter;
-    
+
     private readonly Subject<Unit> _onConfirmed = new();
 
     #endregion
@@ -44,6 +44,20 @@ public class UIAlarmPopup : UIPopupBase
 
     private void Initialize()
     {
+        InitializeWidgets();
+    }
+
+    private void InitializeWidgets()
+    {
+        foreach (var widget in AlarmAudioClipButtons)
+        {
+            widget.Initialize();
+        }
+
+        foreach (var widget in AlarmTimeButtons)
+        {
+            widget.Initialize();
+        }
     }
 
     protected sealed override void CreatePresenterByManager()
@@ -57,7 +71,7 @@ public class UIAlarmPopup : UIPopupBase
     {
         BindButtonMenuEvents(AlarmAudioClipButtons);
         BindButtonMenuEvents(AlarmTimeButtons);
-        
+
         _confirmButton?.OnClick.AddListener(() => _onConfirmed.OnNext(Unit.Default));
     }
 
@@ -65,7 +79,7 @@ public class UIAlarmPopup : UIPopupBase
     {
         foreach (var widget in _alarmTimeButtons)
         {
-            if(immutableDictionary.TryGetValue(widget.AlarmButtonType, out var time))
+            if (immutableDictionary.TryGetValue(widget.AlarmButtonType, out var time))
             {
                 widget.UpdateAlarmButtonText(time);
             }
@@ -82,10 +96,8 @@ public class UIAlarmPopup : UIPopupBase
     {
         foreach (var widget in list)
         {
-            widget.OnButtonClicked.Subscribe((_) =>
-            {
-                RequestUpdateButtonColor(widget.AlarmButtonType);
-            }).AddTo(_disposables);
+            widget.OnButtonClicked.Subscribe(_ => { RequestUpdateButtonColor(widget.AlarmButtonType); })
+                .AddTo(_disposables);
         }
     }
 
@@ -97,7 +109,7 @@ public class UIAlarmPopup : UIPopupBase
     {
         switch (eAlarmButtonType)
         {
-            case EAlarmButtonType.DivisionConst : 
+            case EAlarmButtonType.DivisionConst:
                 throw new InvalidDataException("buttonType은 DivisionConst가 될 수 없다.");
             case < EAlarmButtonType.DivisionConst:
                 InternalUpdateButtonColor(eAlarmButtonType, _alarmAudioClipButtons);
@@ -110,7 +122,6 @@ public class UIAlarmPopup : UIPopupBase
 
     private void InternalUpdateButtonColor(EAlarmButtonType clickedButtonType, List<UIAlarmButton> list)
     {
-        Debug.Log("alarm audio click");
         foreach (var widget in list)
         {
             if (widget.AlarmButtonType != clickedButtonType && widget.IsSelected)
