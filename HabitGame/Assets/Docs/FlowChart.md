@@ -28,7 +28,7 @@
 <br><br>
 
 ## :fire: MVP 구조
-- View Initialize() -> CreatePresenterByManager (Presenter 생성) -> Presenter Initialize() -> Presenter SetView -> View BindEvent
+- View Initialize() -> View안에 존재하는 작은 Widget View들 Initialize() -> CreatePresenterByManager -> Presenter Initialize() -> Presenter SetView -> View BindEvent
 
 <br><br>
 
