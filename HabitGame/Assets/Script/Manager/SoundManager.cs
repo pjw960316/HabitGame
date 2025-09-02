@@ -63,7 +63,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     public void RequestPlaySleepingMusic(AudioClip latestSleepingAudioClip)
     {
-        _audioClip = latestSleepingAudioClip;
+        _audioSource.clip = latestSleepingAudioClip;
         _musicPlayerMono.PlayMusic();
     }
 
@@ -71,7 +71,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     {
         _audioSource.Stop();
         
-        _audioClip = LoudAlarmAudioClip;
+        _audioSource.clip = LoudAlarmAudioClip;
         _musicPlayerMono.PlayMusic();
     }
 
@@ -101,7 +101,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
         
         _musicPlayerMono = musicPlayerMono;
         _audioSource = _musicPlayerMono.AudioSource;
-        _audioClip = _musicPlayerMono.AudioClip;
+        _audioClip = _audioSource.clip;
     }
 
     public void SetAudioSourceLoopOn()
