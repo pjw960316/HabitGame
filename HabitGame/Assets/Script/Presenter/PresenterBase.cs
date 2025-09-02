@@ -5,6 +5,7 @@ public abstract class PresenterBase : IPresenter
     #region 1. Fields
 
     protected SoundManager _soundManager;
+    protected UIManager _uiManager;
     protected UIToastManager _uiToastManager;
     protected DataManager _dataManager;
     protected MyCharacterManager _myCharacterManager;
@@ -27,6 +28,7 @@ public abstract class PresenterBase : IPresenter
     {
         _soundManager = SoundManager.Instance;
         _uiToastManager = UIToastManager.Instance;
+        _uiManager = UIManager.Instance;
         _myCharacterManager = MyCharacterManager.Instance;
         _dataManager = DataManager.Instance;
         

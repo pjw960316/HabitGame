@@ -40,6 +40,8 @@ MonoBehaviour:
       Value: "3\uBC88 \uC74C\uC545"
     - Key: 7
       Value: "{0}\uBD84"
+    - Key: 13
+      Value: "{0} \uACBD\uACFC \uB418\uC5C8\uC2B5\uB2C8\uB2E4. "
   _toastStringDictionary:
     _serializedList:
     - Key: 0

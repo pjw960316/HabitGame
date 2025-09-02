@@ -9,6 +9,7 @@ public class AlarmPresenter : PresenterBase
 
     // Note : View & Model
     private UIAlarmPopup _alarmPopup;
+    private UIAlarmTimerPopup _alarmTimerPopup;
     private AlarmData _alarmData;
 
     private AudioClip _alarmLoudAudioClip;
@@ -81,6 +82,9 @@ public class AlarmPresenter : PresenterBase
 
     private void RequestPlaySleepingMusic(float sleepingMusicPlayingTime)
     {
+        // todo
+        // toast 없어지고 setactive 시키자.
+        
         Observable.Interval(TimeSpan.FromSeconds(1))
             .Subscribe(_ => Test())
             .AddTo(_alarmDisposable);
@@ -99,6 +103,7 @@ public class AlarmPresenter : PresenterBase
         var cachedTime = _elapsedSleepingAudioClipPlayingTime; //too long Name
         
         var elapsedTimeString = $"{cachedTime.Hours:D2}:{cachedTime.Minutes:D2}:{cachedTime.Seconds:D2}";
+        _alarmTimerPopup.UpdateAlarmTimerText(elapsedTimeString);
     }
 
     private void RequestPlayLoudAlarmSound()
@@ -144,7 +149,16 @@ public class AlarmPresenter : PresenterBase
 
     private void OpenAlarmTimerPopup()
     {
-        //_uiM
+        var popupTargetTransform = _uiManager.MainCanvasTransform;
+        
+        //test
+        var alarmTimerPopup = _uiManager.GetOpenPopupByStringKey(EPopupKey.AlarmTimerPopup, popupTargetTransform).GetComponent<UIAlarmTimerPopup>();
+
+        _alarmTimerPopup = alarmTimerPopup;
+        
+        //test
+        //아닌가 필요없나?
+        //_uiManager.ConnectViewAndPresenter(_alarmTimerPopup, this);
     }
 
     private void DisposeAlarmSubscribe()

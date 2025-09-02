@@ -1,8 +1,10 @@
+using UnityEngine;
+
 public class UIAlarmTimerPopup : UIPopupBase
 {
     #region 1. Fields
 
-    //
+    [SerializeField] private UIImageBase _alarmTimerWidget;
 
     #endregion
 
@@ -32,7 +34,11 @@ public class UIAlarmTimerPopup : UIPopupBase
 
     #region 6. Methods
 
-    // 
+    public void UpdateAlarmTimerText(string text)
+    {
+        var timeText = StringManager.Instance.GetUIString(EStringKey.EAlarmTimerPopupTime, text);
+        _alarmTimerWidget.SetText(timeText);
+    }
 
     #endregion
 

@@ -10,14 +10,22 @@ public class UIManager : ManagerBase<UIManager>, IManager
 {
     #region 1. Fields
 
+    private Canvas _mainCanvas;
+
+    private Transform _mainCanvasTransform;
+    
     // REFACTOR
     private PopupData _popupData;
+
+    private Dictionary<Type, IPresenter> _presenterDictionary = new();
 
     #endregion
 
     #region 2. Properties
 
-    public UIMainCanvas MainCanvas { get; private set; }
+    public Canvas MainCanvas => _mainCanvas;
+
+    public Transform MainCanvasTransform => _mainCanvasTransform;
 
     #endregion
 
@@ -65,16 +73,22 @@ public class UIManager : ManagerBase<UIManager>, IManager
     
     public void InjectMainCanvas(UIMainCanvas canvas)
     {
-        MainCanvas = canvas;
+        ExceptionHelper.CheckNullException(canvas, "MainCanvas Inject Fail");
+        
+        _mainCanvas = canvas.MainCanvas;
+        _mainCanvasTransform = _mainCanvas.transform;
     }
     
     public void CreatePresenter<TPresenter>(IView view) where TPresenter : IPresenter, new()
     {
         TPresenter presenter = new TPresenter();
         presenter.Initialize(view);
+        
+        _presenterDictionary.Add(presenter.GetType(), presenter);
     }
 
-    public void ConnectViewAndPresenter()
+    //test
+    public void ConnectViewAndPresenter(UIAlarmTimerPopup view, AlarmPresenter presenter)
     {
         
     }
@@ -89,6 +103,20 @@ public class UIManager : ManagerBase<UIManager>, IManager
         }
 
         Object.Instantiate(popupPrefab, transform);
+    }
+    
+    //test
+    public GameObject GetOpenPopupByStringKey(EPopupKey key, Transform transform)
+    {
+        var popupPrefab = _popupData.GetPopupByEPopupKey(key);
+
+        if (popupPrefab == null)
+        {
+            throw new InvalidOperationException("<UNK> <UNK> <UNK> <UNK> <UNK> <UNK>.");
+        }
+
+        var popup= Object.Instantiate(popupPrefab, transform);
+        return popup;
     }
 
     #endregion

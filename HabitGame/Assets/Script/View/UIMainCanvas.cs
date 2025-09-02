@@ -36,10 +36,6 @@ public class UIMainCanvas : MonoBehaviour, IView
 
     private void Initialize()
     {
-        // refactor
-        // 이게 좋은 방식은 아니다.
-        // View가 Manager에게 주입?
-        // 그러나 MainCanvas는 특수하니
         UIManager.Instance.InjectMainCanvas(this);
         UIToastManager.Instance.InjectMainCanvas(this);
         
