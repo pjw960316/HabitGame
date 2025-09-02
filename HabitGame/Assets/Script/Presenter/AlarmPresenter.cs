@@ -93,12 +93,20 @@ public class AlarmPresenter : PresenterBase
         // alarmTimerSetting
         InitializeAlarmTimerPopupTime();
     }
-    
+
     private void RequestPlaySleepingMusic(float sleepingMusicPlayingTime)
     {
         Observable.Interval(TimeSpan.FromSeconds(1))
-            .Subscribe((_) => RequestUpdateAlarmTimerPopupTime())
+            .Subscribe(_ => RequestUpdateAlarmTimerPopupTime())
             .AddTo(_alarmDisposable);
+
+        /*
+         * test code
+         */
+        /*Observable.Timer(TimeSpan.FromSeconds(sleepingMusicPlayingTime))
+            .Subscribe(_ => RequestPlayLoudAlarmSound())
+            .AddTo(_alarmDisposable);*/
+
 
         Observable.Timer(TimeSpan.FromMinutes(sleepingMusicPlayingTime))
             .Subscribe(_ => RequestPlayLoudAlarmSound())
@@ -114,6 +122,7 @@ public class AlarmPresenter : PresenterBase
         var elapsedTimeString = $"{_elapsedTime.Hours:D2}:{_elapsedTime.Minutes:D2}:{_elapsedTime.Seconds:D2}";
         _alarmTimerPopup.UpdateAlarmTimerText(elapsedTimeString);
     }
+
     private void RequestUpdateAlarmTimerPopupTime()
     {
         _elapsedTime += TimeSpan.FromSeconds(1);
@@ -149,7 +158,7 @@ public class AlarmPresenter : PresenterBase
         RequestPlaySleepingMusic(_latestAlarmPlayingTime);
 
         CloseAlarmPopup();
-        
+
         RequestOpenAlarmTimerPopup();
     }
 
@@ -160,7 +169,6 @@ public class AlarmPresenter : PresenterBase
         Object.Destroy(_alarmPopup.gameObject);
     }
 
-    
 
     private void ResetElapsedTime()
     {
