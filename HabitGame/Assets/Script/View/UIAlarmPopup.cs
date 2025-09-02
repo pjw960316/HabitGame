@@ -15,8 +15,6 @@ public class UIAlarmPopup : UIPopupBase
     [SerializeField] private List<UIAlarmButton> _alarmTimeButtons = new();
     [SerializeField] private UIButtonBase _confirmButton;
 
-    private AlarmPresenter _alarmPresenter;
-
     private readonly Subject<Unit> _onConfirmed = new();
 
     #endregion

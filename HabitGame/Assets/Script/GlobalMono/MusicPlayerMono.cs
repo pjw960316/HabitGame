@@ -38,7 +38,7 @@ public class MusicPlayerMono : MonoBehaviour
             throw new NullReferenceException("_soundManager");
         }
         
-        _soundManager.RegisterMusicPlayerMono(this);
+        _soundManager.SetMusicPlayerMono(this);
     }
 
     #endregion

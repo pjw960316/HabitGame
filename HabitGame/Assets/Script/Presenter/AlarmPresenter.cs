@@ -16,6 +16,7 @@ public class AlarmPresenter : PresenterBase
     private UIToastManager _uiToastManager;
     private DataManager _dataManager;
 
+    private AudioClip _alarmLoudAudioClip;
     private AudioClip _latestSleepingAudioClip;
     private float _latestAlarmPlayingTime;
     // time
@@ -47,6 +48,7 @@ public class AlarmPresenter : PresenterBase
         // ReSharper disable once PossibleNullReferenceException
         _latestSleepingAudioClip = _alarmData.GetDefaultAlarmAudioClip();
         _latestAlarmPlayingTime = _alarmData.GetDefaultAlarmTime();
+        _alarmLoudAudioClip = _alarmData.AlarmChickenAudioClip;
 
         SetView();
 
@@ -70,7 +72,7 @@ public class AlarmPresenter : PresenterBase
             alarmTimeButton.OnButtonClicked.Subscribe(UpdateLatestTime).AddTo(_disposable);
         }
 
-        _alarmPopup.OnConfirmed.Subscribe(_ => StartAlarm()).AddTo(_disposable);
+        _alarmPopup.OnConfirmed.Subscribe(_ => StartAlarmSystem()).AddTo(_disposable);
     }
 
     #endregion
@@ -83,18 +85,20 @@ public class AlarmPresenter : PresenterBase
 
     #region 5. Request Methods
 
-    private void RequestStartingAlarm(float playingTime)
+    private void RequestPlaySleepingMusic(float playingTime)
     {
-        Observable.Timer(TimeSpan.FromSeconds(playingTime)).Subscribe(_ => RequestPlayingWakeUpSound())
+        Observable.Timer(TimeSpan.FromSeconds(playingTime))
+            .Subscribe(_ => RequestPlayLoudAlarmSound())
             .AddTo(_disposable);
 
-        _soundManager.SetAudioSourceLoop();
-        _soundManager.CommandPlayingMusic(_latestSleepingAudioClip);
+        _soundManager.SetAudioSourceLoopOn();
+        _soundManager.RequestPlaySleepingMusic(_latestSleepingAudioClip);
     }
 
-    private void RequestPlayingWakeUpSound()
+    private void RequestPlayLoudAlarmSound()
     {
-        _soundManager.CommandPlayingWakeUpSound();
+        _soundManager.SetAudioSourceLoopOn();
+        _soundManager.RequestPlayLoudAlarmMusic(_alarmLoudAudioClip);
     }
 
     #endregion
@@ -111,9 +115,9 @@ public class AlarmPresenter : PresenterBase
         _latestAlarmPlayingTime = _alarmData.GetAlarmTime(eAlarmTime);
     }
 
-    private void StartAlarm()
+    private void StartAlarmSystem()
     {
-        RequestStartingAlarm(_latestAlarmPlayingTime);
+        RequestPlaySleepingMusic(_latestAlarmPlayingTime);
 
         CloseAlarmPopup();
 

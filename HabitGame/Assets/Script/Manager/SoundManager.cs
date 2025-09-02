@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 // Note : 책임 감소
@@ -12,6 +11,8 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     #region 1. Fields
 
     private MusicPlayerMono _musicPlayerMono;
+    private AudioSource _audioSource;
+    private AudioClip _audioClip;
 
     #endregion
 
@@ -40,20 +41,42 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     {
         //
     }
+
     public void Initialize()
     {
         BindEvent();
     }
-    
-    #endregion
-
-    #region 4. Methods
-
-    
 
     private void BindEvent()
     {
     }
+
+    #endregion
+
+    #region 4. EventHandlers
+
+    //
+
+    #endregion
+
+    #region 5. Request Methods
+
+    public void RequestPlaySleepingMusic(AudioClip latestSleepingAudioClip)
+    {
+        _audioClip = latestSleepingAudioClip;
+        _musicPlayerMono.PlayMusic();
+    }
+
+    public void RequestPlayLoudAlarmMusic(AudioClip LoudAlarmAudioClip)
+    {
+        _audioSource.Stop();
+        _audioClip = LoudAlarmAudioClip;
+        _musicPlayerMono.PlayMusic();
+    }
+
+    #endregion
+
+    #region 6. Methods
 
     public void SetModel(IEnumerable<IModel> models)
     {
@@ -62,13 +85,16 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
             if (model is SoundData soundData)
             {
                 _soundData = soundData;
-                
+
                 return;
             }
         }
     }
 
-    public void RegisterMusicPlayerMono(MusicPlayerMono musicPlayerMono)
+    // note
+    // mono 객체가 awake 될 때 Set 되므로
+    // 시점은 올바르다.
+    public void SetMusicPlayerMono(MusicPlayerMono musicPlayerMono)
     {
         _musicPlayerMono = musicPlayerMono;
 
@@ -76,33 +102,15 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
         {
             throw new NullReferenceException("MusicPlayerMono is null");
         }
+
+        _audioSource = _musicPlayerMono.AudioSource;
+        _audioClip = _musicPlayerMono.AudioClip;
     }
 
-    // NOTE
-    // 추후에 원하는 musicPlayer로 음악을 커스텀 하게 재생 시킬 수 있다. (Generic)
-    // SoundManager는 왕과 같은 존재고, 여러 개의 MusicPlayerMono들이 재생의 책임이 있는 Instance
-    public void CommandPlayingMusic(AudioClip audioClip)
+    public void SetAudioSourceLoopOn()
     {
-        _musicPlayerMono.AudioClip = audioClip;
-        _musicPlayerMono.PlayMusic();
+        _audioSource.loop = true;
     }
-
-    public void CommandPlayingWakeUpSound()
-    {
-        _musicPlayerMono.AudioSource.Stop();
-
-        //_musicPlayerMono.AudioClip = SoundData.AlarmChickenAudioClip;
-        _musicPlayerMono.PlayMusic();
-    }
-
-    public void SetAudioSourceLoop()
-    {
-        _musicPlayerMono.AudioSource.loop = true;
-    }
-
-    #endregion
-
-    #region 5. EventHandlers
 
     public void Dispose()
     {
