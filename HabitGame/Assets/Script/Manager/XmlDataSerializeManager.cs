@@ -69,6 +69,9 @@ public partial class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManag
     {
         foreach (var xmlFileData in _xmlFileDataList)
         {
+            //log
+            Debug.Log($"Absolute Path : {xmlFileData.AbsolutePath}");
+            
             var xmlType = xmlFileData.DataType;
             var text = GetXmlText(xmlFileData);
             

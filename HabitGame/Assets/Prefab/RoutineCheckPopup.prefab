@@ -498,7 +498,7 @@ MonoBehaviour:
   _parentPopup: {fileID: 0}
   _toggle: {fileID: 1227790924129112630}
   _text: {fileID: 6681810662142111222}
-  _eStringKey: 12
+  _eStringKey: 10
   _checkBoxBackgroundImg: {fileID: 3523829732347848462}
   _checkBoxCheckMarkImg: {fileID: 929303604670921702}
 --- !u!1 &2164626267021515253
@@ -603,7 +603,7 @@ MonoBehaviour:
   _parentPopup: {fileID: 0}
   _toggle: {fileID: 7440918490462379357}
   _text: {fileID: 6306358038583226006}
-  _eStringKey: 11
+  _eStringKey: 9
   _checkBoxBackgroundImg: {fileID: 2961911327929943000}
   _checkBoxCheckMarkImg: {fileID: 9104334027534343448}
 --- !u!1 &2290147050973471437
@@ -1472,11 +1472,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c797e6cf97fd56f4787bb549589e43d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 0}
-  _buttonText: {fileID: 3184003650896887909}
-  _buttonTextKey: 0
   _button: {fileID: 756928051490244894}
   _isAutoText: 1
+  _buttonText: {fileID: 3184003650896887909}
+  _buttonTextKey: 0
 --- !u!1 &4934968133340549655
 GameObject:
   m_ObjectHideFlags: 0
@@ -2449,7 +2448,7 @@ MonoBehaviour:
   _parentPopup: {fileID: 0}
   _toggle: {fileID: 2940213869812420804}
   _text: {fileID: 8120389097882433744}
-  _eStringKey: 13
+  _eStringKey: 11
   _checkBoxBackgroundImg: {fileID: 8043430032181239391}
   _checkBoxCheckMarkImg: {fileID: 7017544275671597615}
 --- !u!1 &8829654417072854296
@@ -2690,6 +2689,6 @@ MonoBehaviour:
   _parentPopup: {fileID: 0}
   _toggle: {fileID: 3787099960681709370}
   _text: {fileID: 3611715980073782094}
-  _eStringKey: 10
+  _eStringKey: 8
   _checkBoxBackgroundImg: {fileID: 1596419505400355893}
   _checkBoxCheckMarkImg: {fileID: 5493253028135161522}

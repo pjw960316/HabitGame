@@ -134,11 +134,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c797e6cf97fd56f4787bb549589e43d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _canvas: {fileID: 0}
-  _buttonText: {fileID: 8766727467811719566}
-  _buttonTextKey: 0
   _button: {fileID: 1862991015764950317}
   _isAutoText: 0
+  _buttonText: {fileID: 8766727467811719566}
+  _buttonTextKey: 0
 --- !u!1 &5602783628480277733
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,7 +228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _imageText: {fileID: 7054864194548084926}
-  _imageTextKey: 14
+  _imageTextKey: 12
   _image: {fileID: 3062784261802785660}
   _isAutoSetText: 1
 --- !u!1 &5633785703270820038
