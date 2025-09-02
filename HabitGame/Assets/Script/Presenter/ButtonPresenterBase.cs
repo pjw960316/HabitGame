@@ -21,6 +21,8 @@ public class ButtonPresenterBase : PresenterBase
 
     public override void Initialize(IView view)
     {
+        base.Initialize(view);
+        
         if (view is UIButtonBase uiButton)
         {
             _uiButtonBase = uiButton;

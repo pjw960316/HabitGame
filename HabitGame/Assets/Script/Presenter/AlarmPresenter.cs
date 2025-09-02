@@ -11,14 +11,12 @@ public class AlarmPresenter : PresenterBase
     private UIAlarmPopup _alarmPopup;
     private AlarmData _alarmData;
 
-    // Note : Manager
-    private SoundManager _soundManager;
-    private UIToastManager _uiToastManager;
-    private DataManager _dataManager;
-
     private AudioClip _alarmLoudAudioClip;
     private AudioClip _latestSleepingAudioClip;
     private float _latestAlarmPlayingTime;
+
+    private TimeSpan _elapsedSleepingAudioClipPlayingTime;
+    private readonly CompositeDisposable _alarmDisposable = new();
     // time
 
     #endregion
@@ -34,10 +32,6 @@ public class AlarmPresenter : PresenterBase
     public sealed override void Initialize(IView view)
     {
         base.Initialize(view);
-
-        _soundManager = SoundManager.Instance;
-        _uiToastManager = UIToastManager.Instance;
-        _dataManager = DataManager.Instance;
 
         _alarmPopup = _view as UIAlarmPopup;
         _alarmData = _dataManager.GetAlarmModel() as AlarmData;
@@ -85,18 +79,33 @@ public class AlarmPresenter : PresenterBase
 
     #region 5. Request Methods
 
-    private void RequestPlaySleepingMusic(float playingTime)
+    private void RequestPlaySleepingMusic(float sleepingMusicPlayingTime)
     {
-        Observable.Timer(TimeSpan.FromSeconds(playingTime))
+        Observable.Interval(TimeSpan.FromSeconds(1))
+            .Subscribe(_ => Test())
+            .AddTo(_alarmDisposable);
+        
+        Observable.Timer(TimeSpan.FromMinutes(sleepingMusicPlayingTime))
             .Subscribe(_ => RequestPlayLoudAlarmSound())
-            .AddTo(_disposable);
+            .AddTo(_alarmDisposable);
 
         _soundManager.SetAudioSourceLoopOn();
         _soundManager.RequestPlaySleepingMusic(_latestSleepingAudioClip);
     }
 
+    private void Test()
+    {
+        _elapsedSleepingAudioClipPlayingTime += TimeSpan.FromSeconds(1);
+        var cachedTime = _elapsedSleepingAudioClipPlayingTime; //too long Name
+        
+        var elapsedTimeString = $"{cachedTime.Hours:D2}:{cachedTime.Minutes:D2}:{cachedTime.Seconds:D2}";
+    }
+
     private void RequestPlayLoudAlarmSound()
     {
+        Debug.Log("수면 음악 종료 알람 시작");
+        DisposeAlarmSubscribe();
+        
         _soundManager.SetAudioSourceLoopOn();
         _soundManager.RequestPlayLoudAlarmMusic(_alarmLoudAudioClip);
     }
@@ -121,6 +130,8 @@ public class AlarmPresenter : PresenterBase
 
         CloseAlarmPopup();
 
+        OpenAlarmTimerPopup();
+
         _uiToastManager.ShowToast(EToastStringKey.EAlarmConfirm);
     }
 
@@ -129,6 +140,16 @@ public class AlarmPresenter : PresenterBase
     private void CloseAlarmPopup()
     {
         Object.Destroy(_alarmPopup.gameObject);
+    }
+
+    private void OpenAlarmTimerPopup()
+    {
+        //_uiM
+    }
+
+    private void DisposeAlarmSubscribe()
+    {
+        _alarmDisposable?.Dispose();
     }
 
     #endregion

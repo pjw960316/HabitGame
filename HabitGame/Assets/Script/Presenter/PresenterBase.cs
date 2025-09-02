@@ -4,6 +4,11 @@ public abstract class PresenterBase : IPresenter
 {
     #region 1. Fields
 
+    protected SoundManager _soundManager;
+    protected UIToastManager _uiToastManager;
+    protected DataManager _dataManager;
+    protected MyCharacterManager _myCharacterManager;
+    
     protected IView _view;
     protected IModel _model;
     protected readonly CompositeDisposable _disposable = new();
@@ -20,6 +25,11 @@ public abstract class PresenterBase : IPresenter
 
     public virtual void Initialize(IView view)
     {
+        _soundManager = SoundManager.Instance;
+        _uiToastManager = UIToastManager.Instance;
+        _myCharacterManager = MyCharacterManager.Instance;
+        _dataManager = DataManager.Instance;
+        
         _view = view;
         
         //fix

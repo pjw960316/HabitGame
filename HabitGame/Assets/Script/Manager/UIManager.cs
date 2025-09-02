@@ -73,6 +73,11 @@ public class UIManager : ManagerBase<UIManager>, IManager
         TPresenter presenter = new TPresenter();
         presenter.Initialize(view);
     }
+
+    public void ConnectViewAndPresenter()
+    {
+        
+    }
     
     public void OpenPopupByStringKey(EPopupKey key, Transform transform)
     {

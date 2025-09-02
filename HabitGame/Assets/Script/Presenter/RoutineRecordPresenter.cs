@@ -13,7 +13,6 @@ public class RoutineRecordPresenter : PresenterBase
 
     private UIRoutineRecordPopup _uiRoutineRecordPopup;
 
-    private MyCharacterManager _myCharacterManager;
     private ImmutableSortedDictionary<string, ImmutableList<bool>> _routineRecordDictionary;
 
     #endregion
@@ -30,7 +29,6 @@ public class RoutineRecordPresenter : PresenterBase
     {
         base.Initialize(view);
 
-        _myCharacterManager = MyCharacterManager.Instance;
         _routineRecordDictionary = _myCharacterManager.GetRoutineRecordDictionary();
 
         _uiRoutineRecordPopup = _view as UIRoutineRecordPopup;

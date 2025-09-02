@@ -70,6 +70,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     public void RequestPlayLoudAlarmMusic(AudioClip LoudAlarmAudioClip)
     {
         _audioSource.Stop();
+        
         _audioClip = LoudAlarmAudioClip;
         _musicPlayerMono.PlayMusic();
     }
@@ -92,17 +93,13 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     }
 
     // note
-    // mono 객체가 awake 될 때 Set 되므로
+    // mono 객체가 Awake 될 때 Set 되므로
     // 시점은 올바르다.
     public void SetMusicPlayerMono(MusicPlayerMono musicPlayerMono)
     {
+        ExceptionHelper.CheckNullException(musicPlayerMono, "params : MusicPlayerMono");
+        
         _musicPlayerMono = musicPlayerMono;
-
-        if (_musicPlayerMono == null)
-        {
-            throw new NullReferenceException("MusicPlayerMono is null");
-        }
-
         _audioSource = _musicPlayerMono.AudioSource;
         _audioClip = _musicPlayerMono.AudioClip;
     }
