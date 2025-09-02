@@ -9,9 +9,6 @@ public class RoutineCheckPresenter : PresenterBase
     #region 1. Fields
 
     private UIRoutineCheckPopup _uiRoutineCheckPopup;
-
-    private MyCharacterManager _myCharacterManager;
-    private UIToastManager _uiToastManager;
     private MockServerManager _serverManager;
 
     #endregion
