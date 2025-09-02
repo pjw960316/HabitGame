@@ -37,7 +37,7 @@ public class UIImageBase : MonoBehaviour, IView
         OnAwake();
     }
 
-    public virtual void OnAwake()
+    protected virtual void OnAwake()
     {
         Initialize();
 
@@ -46,11 +46,6 @@ public class UIImageBase : MonoBehaviour, IView
         // Script가 UIButtonBase가 붙으면 Base의 BindEvent()가 호출되고
         // Script가 UIOpenPopupButtonBase가 붙어도 Derived의 BindEvent()가 호출되기 바람.
         BindEvent();
-
-        if (_isAutoSetText)
-        {
-            SetAutoText();
-        }
     }
 
     #endregion
@@ -67,6 +62,11 @@ public class UIImageBase : MonoBehaviour, IView
     private void Initialize()
     {
         _uiManager = UIManager.Instance;
+        
+        if (_isAutoSetText)
+        {
+            SetAutoText();
+        }
     }
 
 

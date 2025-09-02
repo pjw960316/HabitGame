@@ -27,7 +27,7 @@ public abstract class UIPopupBase : MonoBehaviour, IView
         OnAwake();
     }
 
-    public virtual void OnAwake()
+    protected virtual void OnAwake()
     {
         _uiManager = UIManager.Instance;
         _soundManager = SoundManager.Instance;

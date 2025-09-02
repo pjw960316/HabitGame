@@ -42,6 +42,10 @@ MonoBehaviour:
       Value: "{0}\uBD84"
     - Key: 13
       Value: "{0} \uACBD\uACFC \uB418\uC5C8\uC2B5\uB2C8\uB2E4. "
+    - Key: 14
+      Value: "\uC54C\uB78C \uB044\uAE30"
+    - Key: 15
+      Value: "{0}\uBD84 \uC218\uBA74\uC774 \uC2DC\uC791\uB418\uC5C8\uC2B5\uB2C8\uB2E4."
   _toastStringDictionary:
     _serializedList:
     - Key: 0

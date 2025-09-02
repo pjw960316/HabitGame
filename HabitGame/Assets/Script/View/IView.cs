@@ -10,4 +10,7 @@ public interface IView
     //public void OnAwake();
     
     //protected void Initialize();
+    
+    // todo
+    // SetView는 진짜 책임 졌으면 좋겠는데 모든 params가 다르고, 괜히 복잡해지고,,
 }

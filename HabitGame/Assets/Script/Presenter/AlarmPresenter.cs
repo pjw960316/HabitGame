@@ -16,7 +16,7 @@ public class AlarmPresenter : PresenterBase
     private AudioClip _latestSleepingAudioClip;
     private float _latestAlarmPlayingTime;
 
-    private TimeSpan _elapsedSleepingAudioClipPlayingTime;
+    private TimeSpan _elapsedTime;
     private readonly CompositeDisposable _alarmDisposable = new();
     // time
 
@@ -80,15 +80,26 @@ public class AlarmPresenter : PresenterBase
 
     #region 5. Request Methods
 
+    // todo 
+    // Presenter Connect를 관리하는 PresenterManager에서 connect 하도록
+    private void RequestOpenAlarmTimerPopup()
+    {
+        var popupTargetTransform = _uiManager.MainCanvasTransform;
+
+        _uiManager.OpenPopupByStringKey(EPopupKey.AlarmTimerPopup, popupTargetTransform);
+        _alarmTimerPopup = _uiManager.GetPopupByStringKey<UIAlarmTimerPopup>(EPopupKey.AlarmTimerPopup);
+
+        // note
+        // alarmTimerSetting
+        InitializeAlarmTimerPopupTime();
+    }
+    
     private void RequestPlaySleepingMusic(float sleepingMusicPlayingTime)
     {
-        // todo
-        // toast 없어지고 setactive 시키자.
-        
         Observable.Interval(TimeSpan.FromSeconds(1))
-            .Subscribe(_ => Test())
+            .Subscribe((_) => RequestUpdateAlarmTimerPopupTime())
             .AddTo(_alarmDisposable);
-        
+
         Observable.Timer(TimeSpan.FromMinutes(sleepingMusicPlayingTime))
             .Subscribe(_ => RequestPlayLoudAlarmSound())
             .AddTo(_alarmDisposable);
@@ -97,20 +108,24 @@ public class AlarmPresenter : PresenterBase
         _soundManager.RequestPlaySleepingMusic(_latestSleepingAudioClip);
     }
 
-    private void Test()
+    private void InitializeAlarmTimerPopupTime()
     {
-        _elapsedSleepingAudioClipPlayingTime += TimeSpan.FromSeconds(1);
-        var cachedTime = _elapsedSleepingAudioClipPlayingTime; //too long Name
-        
-        var elapsedTimeString = $"{cachedTime.Hours:D2}:{cachedTime.Minutes:D2}:{cachedTime.Seconds:D2}";
+        ResetElapsedTime();
+        var elapsedTimeString = $"{_elapsedTime.Hours:D2}:{_elapsedTime.Minutes:D2}:{_elapsedTime.Seconds:D2}";
+        _alarmTimerPopup.UpdateAlarmTimerText(elapsedTimeString);
+    }
+    private void RequestUpdateAlarmTimerPopupTime()
+    {
+        _elapsedTime += TimeSpan.FromSeconds(1);
+        var elapsedTimeString = $"{_elapsedTime.Hours:D2}:{_elapsedTime.Minutes:D2}:{_elapsedTime.Seconds:D2}";
         _alarmTimerPopup.UpdateAlarmTimerText(elapsedTimeString);
     }
 
     private void RequestPlayLoudAlarmSound()
     {
-        Debug.Log("수면 음악 종료 알람 시작");
+        ResetElapsedTime();
         DisposeAlarmSubscribe();
-        
+
         _soundManager.SetAudioSourceLoopOn();
         _soundManager.RequestPlayLoudAlarmMusic(_alarmLoudAudioClip);
     }
@@ -134,10 +149,8 @@ public class AlarmPresenter : PresenterBase
         RequestPlaySleepingMusic(_latestAlarmPlayingTime);
 
         CloseAlarmPopup();
-
-        OpenAlarmTimerPopup();
-
-        _uiToastManager.ShowToast(EToastStringKey.EAlarmConfirm);
+        
+        RequestOpenAlarmTimerPopup();
     }
 
     // refactor
@@ -147,18 +160,11 @@ public class AlarmPresenter : PresenterBase
         Object.Destroy(_alarmPopup.gameObject);
     }
 
-    private void OpenAlarmTimerPopup()
-    {
-        var popupTargetTransform = _uiManager.MainCanvasTransform;
-        
-        //test
-        var alarmTimerPopup = _uiManager.GetOpenPopupByStringKey(EPopupKey.AlarmTimerPopup, popupTargetTransform).GetComponent<UIAlarmTimerPopup>();
+    
 
-        _alarmTimerPopup = alarmTimerPopup;
-        
-        //test
-        //아닌가 필요없나?
-        //_uiManager.ConnectViewAndPresenter(_alarmTimerPopup, this);
+    private void ResetElapsedTime()
+    {
+        _elapsedTime = TimeSpan.Zero;
     }
 
     private void DisposeAlarmSubscribe()

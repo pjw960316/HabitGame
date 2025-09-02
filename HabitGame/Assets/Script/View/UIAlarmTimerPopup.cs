@@ -4,7 +4,9 @@ public class UIAlarmTimerPopup : UIPopupBase
 {
     #region 1. Fields
 
+    [SerializeField] private UIImageBase _titleWidget;
     [SerializeField] private UIImageBase _alarmTimerWidget;
+    [SerializeField] private UIButtonBase _quitAlarmButton;
 
     #endregion
 
@@ -16,7 +18,16 @@ public class UIAlarmTimerPopup : UIPopupBase
 
     #region 3. Constructor
 
-    //
+    protected override void OnAwake()
+    {
+        base.OnAwake();
+
+        Initialize();
+    }
+    private void Initialize()
+    {
+        //
+    }
 
     #endregion
 

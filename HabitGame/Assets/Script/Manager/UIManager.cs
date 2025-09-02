@@ -11,13 +11,11 @@ public class UIManager : ManagerBase<UIManager>, IManager
     #region 1. Fields
 
     private Canvas _mainCanvas;
-
     private Transform _mainCanvasTransform;
     
-    // REFACTOR
     private PopupData _popupData;
-
-    private Dictionary<Type, IPresenter> _presenterDictionary = new();
+    
+    private readonly Dictionary<EPopupKey, UIPopupBase> _popupDictionary = new();
 
     #endregion
 
@@ -81,10 +79,8 @@ public class UIManager : ManagerBase<UIManager>, IManager
     
     public void CreatePresenter<TPresenter>(IView view) where TPresenter : IPresenter, new()
     {
-        TPresenter presenter = new TPresenter();
+        var presenter = new TPresenter();
         presenter.Initialize(view);
-        
-        _presenterDictionary.Add(presenter.GetType(), presenter);
     }
 
     //test
@@ -102,21 +98,20 @@ public class UIManager : ManagerBase<UIManager>, IManager
             throw new InvalidOperationException("<UNK> <UNK> <UNK> <UNK> <UNK> <UNK>.");
         }
 
-        Object.Instantiate(popupPrefab, transform);
+        var popup = Object.Instantiate(popupPrefab, transform).GetComponent<UIPopupBase>();
+        
+        if(popup != null)
+        {
+            _popupDictionary.Add(key, popup);
+        }
     }
     
-    //test
-    public GameObject GetOpenPopupByStringKey(EPopupKey key, Transform transform)
+    public TPopup GetPopupByStringKey<TPopup>(EPopupKey key) where TPopup : UIPopupBase
     {
-        var popupPrefab = _popupData.GetPopupByEPopupKey(key);
+        _popupDictionary.TryGetValue(key, out var popup);
+        var castedPopup = popup as TPopup;
 
-        if (popupPrefab == null)
-        {
-            throw new InvalidOperationException("<UNK> <UNK> <UNK> <UNK> <UNK> <UNK>.");
-        }
-
-        var popup= Object.Instantiate(popupPrefab, transform);
-        return popup;
+        return castedPopup;
     }
 
     #endregion

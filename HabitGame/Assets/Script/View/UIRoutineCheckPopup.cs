@@ -28,7 +28,7 @@ public class UIRoutineCheckPopup : UIPopupBase
 
     #region 3. Constructor
 
-    public override void OnAwake()
+    protected override void OnAwake()
     {
         base.OnAwake();
 

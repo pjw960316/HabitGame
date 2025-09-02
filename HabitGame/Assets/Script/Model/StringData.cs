@@ -96,6 +96,8 @@ public enum EStringKey
     ERoutineCheckFour,
     ERoutineRecordTitle,
     EAlarmTimerPopupTime,
+    EQuitAlarmButton,
+    EAlarmTimerPopupTitle,
 }
 
 // note
