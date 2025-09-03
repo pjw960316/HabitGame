@@ -66,7 +66,7 @@ public class UIAlarmPopup : UIPopupBase
         BindButtonMenuEvents(AlarmAudioClipButtons);
         BindButtonMenuEvents(AlarmTimeButtons);
 
-        _confirmButton?.OnClick.AddListener(() => _onConfirmed.OnNext(Unit.Default));
+        _confirmButton?.OnClick.AddListener(OnClickConfirmButton);
     }
 
     public void SetButtonText(ImmutableDictionary<EAlarmButtonType, float> immutableDictionary)
@@ -93,6 +93,13 @@ public class UIAlarmPopup : UIPopupBase
             widget.OnButtonClicked.Subscribe(_ => { RequestUpdateButtonColor(widget.AlarmButtonType); })
                 .AddTo(_disposables);
         }
+    }
+
+    private void OnClickConfirmButton()
+    {
+        _onConfirmed.OnNext(Unit.Default);
+        
+        ClosePopup();
     }
 
     #endregion
@@ -135,7 +142,10 @@ public class UIAlarmPopup : UIPopupBase
 
     #region 6. Methods
 
-    // 
+    protected sealed override void ClosePopup()
+    {
+        base.ClosePopup();
+    }
 
     #endregion
 }

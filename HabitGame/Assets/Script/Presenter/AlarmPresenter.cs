@@ -163,18 +163,8 @@ public class AlarmPresenter : PresenterBase
     {
         RequestPlaySleepingMusic(_latestAlarmPlayingTime);
 
-        CloseAlarmPopup();
-
         RequestOpenAlarmTimerPopup();
     }
-
-    // refactor
-    // Destroy를 쓰는 게 맞는가?
-    private void CloseAlarmPopup()
-    {
-        Object.Destroy(_alarmPopup.gameObject);
-    }
-
 
     private void ResetElapsedTime()
     {

@@ -53,25 +53,42 @@ public class UIRoutineCheckPopup : UIPopupBase
 
     protected sealed override void BindEvent()
     {
-        _confirmButton.Button.onClick.AddListener(() =>
-        {
-            _onConfirmed.OnNext(default);
-
-            //refactor
-            Destroy(gameObject);
-        });
+        _confirmButton.OnClick.AddListener(OnClickConfirmButton);
     }
 
+    #endregion
+
+
+    #region 4. EventHandlers
+
+    private void OnClickConfirmButton()
+    {
+        _onConfirmed.OnNext(default);
+
+        ClosePopup();
+    }
+
+    #endregion
+
+    #region 5. Request Methods
+
+    // 
+
+    #endregion
+
+    #region 6. Methods
+
+    public void UpdateDateText(DateTime dateTime)
+    {
+        _dayText.SetText($"{dateTime}");
+    }
 
     public List<UIToggleBase> GetToggleList()
     {
         return _toggleList;
     }
 
-    // note
-    // 최초에 토글 UI 세팅만 해주면
-    // 토글 업데이트는 더 이상 할 필요가 없기에 Initialize로 구현한다.
-    public void InitializeToggle(List<int> todayCompletedRoutineIndex)
+    public void SetToggle(List<int> todayCompletedRoutineIndex)
     {
         foreach (var index in todayCompletedRoutineIndex)
         {
@@ -81,17 +98,6 @@ public class UIRoutineCheckPopup : UIPopupBase
             toggle.isOn = true;
         }
     }
-
-    public void UpdateDateText(DateTime dateTime)
-    {
-        _dayText.SetText($"{dateTime}");
-    }
-
-    #endregion
-
-    #region 5. EventHandlers
-
-    // default
 
     #endregion
 }

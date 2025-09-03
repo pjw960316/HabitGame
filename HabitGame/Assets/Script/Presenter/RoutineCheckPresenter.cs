@@ -78,7 +78,7 @@ public class RoutineCheckPresenter : PresenterBase
             return;
         }
         
-        _uiRoutineCheckPopup.InitializeToggle(todaySuccessfulRoutineIndex);
+        _uiRoutineCheckPopup.SetToggle(todaySuccessfulRoutineIndex);
     }
 
     #endregion
