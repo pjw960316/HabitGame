@@ -96,7 +96,7 @@ public class UIManager : ManagerBase<UIManager>, IManager
         
         if(popup != null)
         {
-            _popupDictionary.Add(key, popup);
+            _popupDictionary.TryAdd(key, popup);
         }
     }
     
