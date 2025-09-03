@@ -12,7 +12,6 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     private MusicPlayerMono _musicPlayerMono;
     private AudioSource _audioSource;
-    private AudioClip _audioClip;
 
     #endregion
 
@@ -69,10 +68,20 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     public void RequestPlayLoudAlarmMusic(AudioClip LoudAlarmAudioClip)
     {
-        _audioSource.Stop();
+        RequestStopPlayMusic();
         
         _audioSource.clip = LoudAlarmAudioClip;
         _musicPlayerMono.PlayMusic();
+    }
+
+    public void RequestStopPlayMusic()
+    {
+        _audioSource.Stop();
+    }
+    
+    public void RequestAudioSourceLoopOn()
+    {
+        _audioSource.loop = true;
     }
 
     #endregion
@@ -101,12 +110,6 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
         
         _musicPlayerMono = musicPlayerMono;
         _audioSource = _musicPlayerMono.AudioSource;
-        _audioClip = _audioSource.clip;
-    }
-
-    public void SetAudioSourceLoopOn()
-    {
-        _audioSource.loop = true;
     }
 
     public void Dispose()

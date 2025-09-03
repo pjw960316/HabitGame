@@ -40,7 +40,6 @@ public class AlarmPresenter : PresenterBase
         ExceptionHelper.CheckNullException(_alarmPopup, "_alarmPopup");
         ExceptionHelper.CheckNullException(_alarmData, "_alarmData");
 
-        // ReSharper disable once PossibleNullReferenceException
         _latestSleepingAudioClip = _alarmData.GetDefaultAlarmAudioClip();
         _latestAlarmPlayingTime = _alarmData.GetDefaultAlarmTime();
         _alarmLoudAudioClip = _alarmData.AlarmChickenAudioClip;
@@ -112,7 +111,7 @@ public class AlarmPresenter : PresenterBase
             .Subscribe(_ => RequestPlayLoudAlarmSound())
             .AddTo(_alarmDisposable);
 
-        _soundManager.SetAudioSourceLoopOn();
+        _soundManager.RequestAudioSourceLoopOn();
         _soundManager.RequestPlaySleepingMusic(_latestSleepingAudioClip);
     }
 
@@ -125,7 +124,7 @@ public class AlarmPresenter : PresenterBase
         var elapsedTimeString = $"{_elapsedTime.Hours:D2}:{_elapsedTime.Minutes:D2}:{_elapsedTime.Seconds:D2}";
         _alarmTimerPopup.UpdateAlarmTimerText(elapsedTimeString);
 
-        _alarmTimerPopup.OnQuitAlarm.Subscribe(_ => DisposeAlarmSubscribe());
+        _alarmTimerPopup.OnQuitAlarm.Subscribe(_ => StopAlarmSystem());
     }
 
     private void RequestUpdateAlarmTimerPopupTime()
@@ -141,7 +140,7 @@ public class AlarmPresenter : PresenterBase
         ResetElapsedTime();
         DisposeAlarmSubscribe();
 
-        _soundManager.SetAudioSourceLoopOn();
+        _soundManager.RequestAudioSourceLoopOn();
         _soundManager.RequestPlayLoudAlarmMusic(_alarmLoudAudioClip);
     }
 
@@ -170,12 +169,17 @@ public class AlarmPresenter : PresenterBase
     {
         _elapsedTime = TimeSpan.Zero;
     }
+    
+    private void StopAlarmSystem()
+    {
+        _soundManager.RequestStopPlayMusic();
+        DisposeAlarmSubscribe();
+    }
 
     private void DisposeAlarmSubscribe()
     {
         //log
         Debug.Log($"alarm 관련 Subscribe Event 모두 끊었습니다.");
-        
         _alarmDisposable?.Dispose();
     }
 
