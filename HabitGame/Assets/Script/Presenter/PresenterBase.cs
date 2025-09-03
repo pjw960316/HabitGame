@@ -7,7 +7,7 @@ public abstract class PresenterBase : IPresenter
     protected SoundManager _soundManager;
     protected UIManager _uiManager;
     protected UIToastManager _uiToastManager;
-    protected DataManager _dataManager;
+    protected ModelManager _modelManager;
     protected MyCharacterManager _myCharacterManager;
     protected StringManager _stringManager;
     
@@ -31,7 +31,7 @@ public abstract class PresenterBase : IPresenter
         _uiToastManager = UIToastManager.Instance;
         _uiManager = UIManager.Instance;
         _myCharacterManager = MyCharacterManager.Instance;
-        _dataManager = DataManager.Instance;
+        _modelManager = ModelManager.Instance;
         _stringManager = StringManager.Instance;
         
         _view = view;

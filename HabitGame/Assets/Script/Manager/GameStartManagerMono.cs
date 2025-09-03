@@ -113,7 +113,7 @@ public class GameStartManagerMono : MonoBehaviour
             manager.Initialize();
         }
         
-        DataManager.Instance.SetAllModels(_modelList);
+        ModelManager.Instance.SetAllModels(_modelList);
     }
 
     // Note

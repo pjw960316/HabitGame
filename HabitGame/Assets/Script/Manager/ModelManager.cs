@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-// refactor
-// Alarm Presenter에서 Model을 로드 할 때 필요해서 일단 만들었다.
-// 일단 모든 모델을 들고 있는 게 책임이다.
-public class DataManager : ManagerBase<DataManager>, IManager, IDisposable
+public class ModelManager : ManagerBase<ModelManager>, IManager, IDisposable
 {
     private List<IModel> _modelList = new List<IModel>();
     public void PreInitialize()
@@ -26,18 +23,17 @@ public class DataManager : ManagerBase<DataManager>, IManager, IDisposable
         _modelList = modelList;
     }
     
-    //test
-    public IModel GetAlarmModel()
+    public TModel GetModel<TModel>() where TModel : IModel
     {
         foreach (var model in _modelList)
         {
-            if (model is AlarmData alarmData)
+            if (model is TModel genericModel)
             {
-                return alarmData;
+                return genericModel;
             }
         }
 
-        return null;
+        throw new NullReferenceException("GetModel Fail");
     }
 
     public void Dispose()

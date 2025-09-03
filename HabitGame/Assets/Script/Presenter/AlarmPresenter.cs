@@ -34,7 +34,7 @@ public class AlarmPresenter : PresenterBase
         base.Initialize(view);
 
         _alarmPopup = _view as UIAlarmPopup;
-        _alarmData = _dataManager.GetAlarmModel() as AlarmData;
+        _alarmData = _modelManager.GetModel<AlarmData>();
 
         ExceptionHelper.CheckNullException(_alarmPopup, "_alarmPopup");
         if (_alarmData == null)
