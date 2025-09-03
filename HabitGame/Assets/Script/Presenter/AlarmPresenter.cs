@@ -1,7 +1,6 @@
 using System;
 using UniRx;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 public class AlarmPresenter : PresenterBase
 {
@@ -38,7 +37,10 @@ public class AlarmPresenter : PresenterBase
         _alarmData = _dataManager.GetAlarmModel() as AlarmData;
 
         ExceptionHelper.CheckNullException(_alarmPopup, "_alarmPopup");
-        ExceptionHelper.CheckNullException(_alarmData, "_alarmData");
+        if (_alarmData == null)
+        {
+            throw new NullReferenceException("_alarmData");
+        }
 
         _latestSleepingAudioClip = _alarmData.GetDefaultAlarmAudioClip();
         _latestAlarmPlayingTime = _alarmData.GetDefaultAlarmTime();
@@ -99,12 +101,11 @@ public class AlarmPresenter : PresenterBase
             .Subscribe(_ => RequestUpdateAlarmTimerPopupTime())
             .AddTo(_alarmDisposable);
 
-        /*
-         * test code
-         */
-        /*Observable.Timer(TimeSpan.FromSeconds(sleepingMusicPlayingTime))
-            .Subscribe(_ => RequestPlayLoudAlarmSound())
-            .AddTo(_alarmDisposable);*/
+        
+         //test code
+        // Observable.Timer(TimeSpan.FromSeconds(sleepingMusicPlayingTime))
+        //     .Subscribe(_ => RequestPlayLoudAlarmSound())
+        //     .AddTo(_alarmDisposable);
 
 
         Observable.Timer(TimeSpan.FromMinutes(sleepingMusicPlayingTime))
@@ -119,8 +120,9 @@ public class AlarmPresenter : PresenterBase
     {
         var titleText = _stringManager.GetUIString(EStringKey.EAlarmTimerPopupTitle, _latestAlarmPlayingTime);
         _alarmTimerPopup.SetAlarmHeaderText(titleText);
-        
+
         ResetElapsedTime();
+        
         var elapsedTimeString = $"{_elapsedTime.Hours:D2}:{_elapsedTime.Minutes:D2}:{_elapsedTime.Seconds:D2}";
         _alarmTimerPopup.UpdateAlarmTimerText(elapsedTimeString);
 
@@ -131,12 +133,12 @@ public class AlarmPresenter : PresenterBase
     {
         _elapsedTime += TimeSpan.FromSeconds(1);
         var elapsedTimeString = $"{_elapsedTime.Hours:D2}:{_elapsedTime.Minutes:D2}:{_elapsedTime.Seconds:D2}";
-        
+
         _alarmTimerPopup.UpdateAlarmTimerText(elapsedTimeString);
     }
 
     private void RequestPlayLoudAlarmSound()
-    { 
+    {
         ResetElapsedTime();
         DisposeAlarmSubscribe();
 
@@ -169,7 +171,7 @@ public class AlarmPresenter : PresenterBase
     {
         _elapsedTime = TimeSpan.Zero;
     }
-    
+
     private void StopAlarmSystem()
     {
         _soundManager.RequestStopPlayMusic();
@@ -179,7 +181,7 @@ public class AlarmPresenter : PresenterBase
     private void DisposeAlarmSubscribe()
     {
         //log
-        Debug.Log($"alarm 관련 Subscribe Event 모두 끊었습니다.");
+        Debug.Log("alarm 관련 Subscribe Event 모두 끊었습니다.");
         _alarmDisposable?.Dispose();
     }
 
