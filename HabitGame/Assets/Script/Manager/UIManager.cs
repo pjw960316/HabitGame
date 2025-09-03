@@ -82,12 +82,6 @@ public class UIManager : ManagerBase<UIManager>, IManager
         var presenter = new TPresenter();
         presenter.Initialize(view);
     }
-
-    //test
-    public void ConnectViewAndPresenter(UIAlarmTimerPopup view, AlarmPresenter presenter)
-    {
-        
-    }
     
     public void OpenPopupByStringKey(EPopupKey key, Transform transform)
     {

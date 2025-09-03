@@ -21,12 +21,22 @@ public class UIAlarmTimerPopup : UIPopupBase
     protected override void OnAwake()
     {
         base.OnAwake();
-
-        Initialize();
     }
-    private void Initialize()
+    protected sealed override void Initialize()
+    {
+        base.Initialize();
+    }
+
+    // note
+    // 얘는 연결만 된다.
+    protected override void CreatePresenterByManager()
     {
         //
+    }
+    
+    protected sealed override void BindEvent()
+    {
+        
     }
 
     #endregion
@@ -45,6 +55,10 @@ public class UIAlarmTimerPopup : UIPopupBase
 
     #region 6. Methods
 
+    public void SetAlarmHeaderText(string text)
+    {
+        
+    }
     public void UpdateAlarmTimerText(string text)
     {
         var timeText = StringManager.Instance.GetUIString(EStringKey.EAlarmTimerPopupTime, text);
@@ -53,10 +67,5 @@ public class UIAlarmTimerPopup : UIPopupBase
 
     #endregion
 
-    // note
-    // 얘는 연결만 된다.
-    protected override void CreatePresenterByManager()
-    {
-        //
-    }
+    
 }

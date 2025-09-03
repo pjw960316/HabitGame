@@ -1,13 +1,11 @@
 using UniRx;
 using UnityEngine;
 
-// note
-// popup에서 Toast를 출력할 책임을 부여해야 하는가?
-// 일단은 했다.
 public abstract class UIPopupBase : MonoBehaviour, IView
 {
     #region 1. Fields
-    
+
+    protected StringManager _stringManager;
     protected UIManager _uiManager;
     protected SoundManager _soundManager;
     protected readonly CompositeDisposable _disposables = new();
@@ -29,12 +27,12 @@ public abstract class UIPopupBase : MonoBehaviour, IView
 
     protected virtual void OnAwake()
     {
-        _uiManager = UIManager.Instance;
-        _soundManager = SoundManager.Instance;
-
+        Initialize();
+        
+        CreatePresenterByManager();
+        
         BindEvent();
     }
-    
 
     #endregion
 
@@ -52,17 +50,21 @@ public abstract class UIPopupBase : MonoBehaviour, IView
 
     #region 6. Methods
 
-    private void BindEvent()
+    protected virtual void Initialize()
     {
+        _stringManager = StringManager.Instance;
+        _uiManager = UIManager.Instance;
+        _soundManager = SoundManager.Instance;
     }
+
+    protected abstract void BindEvent();
+    protected abstract void CreatePresenterByManager();
 
     protected void ClosePopup()
     {
         //refactor
         Destroy(gameObject);
     }
-    
-    protected abstract void CreatePresenterByManager();
 
     #endregion
 }

@@ -32,16 +32,12 @@ public class UIAlarmPopup : UIPopupBase
     protected override void OnAwake()
     {
         base.OnAwake();
-
-        Initialize();
-
-        CreatePresenterByManager();
-
-        BindEvent();
     }
 
-    private void Initialize()
+    protected sealed override void Initialize()
     {
+        base.Initialize();
+        
         InitializeWidgets();
     }
 
@@ -65,7 +61,7 @@ public class UIAlarmPopup : UIPopupBase
 
     #endregion
 
-    private void BindEvent()
+    protected sealed override void BindEvent()
     {
         BindButtonMenuEvents(AlarmAudioClipButtons);
         BindButtonMenuEvents(AlarmTimeButtons);

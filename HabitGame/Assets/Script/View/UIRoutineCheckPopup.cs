@@ -32,28 +32,26 @@ public class UIRoutineCheckPopup : UIPopupBase
     {
         base.OnAwake();
 
-        CreatePresenterByManager();
-
-        Initialize();
-
-        BindEvent();
-
         _onAwakeRoutineCheckPopup.OnNext(default);
     }
 
-    private void Initialize()
+    protected sealed override void Initialize()
     {
-        UpdateDateText(DateTime.Now);
+        base.Initialize();
 
-        //Note
-        //Toggle의 최초 상태는 OnAwakeRoutineCheckPopup에서 InitializeToggle이 콜 된다.
+        UpdateDateText(DateTime.Now);
+    }
+
+    protected override void CreatePresenterByManager()
+    {
+        _uiManager.CreatePresenter<RoutineCheckPresenter>(this);
     }
 
     #endregion
 
     #region 4. Methods
 
-    private void BindEvent()
+    protected sealed override void BindEvent()
     {
         _confirmButton.Button.onClick.AddListener(() =>
         {
@@ -64,10 +62,6 @@ public class UIRoutineCheckPopup : UIPopupBase
         });
     }
 
-    protected override void CreatePresenterByManager()
-    {
-        _uiManager.CreatePresenter<RoutineCheckPresenter>(this);
-    }
 
     public List<UIToggleBase> GetToggleList()
     {

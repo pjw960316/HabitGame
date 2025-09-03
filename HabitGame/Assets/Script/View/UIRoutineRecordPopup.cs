@@ -51,16 +51,12 @@ public class UIRoutineRecordPopup : UIPopupBase
     protected override void OnAwake()
     {
         base.OnAwake();
-
-        Initialize();
-
-        CreatePresenterByManager();
-
-        BindEvent();
     }
 
-    private void Initialize()
+    protected sealed override void Initialize()
     {
+        base.Initialize();
+        
         _widgetList = new List<UIRoutineRecordWidget>();
         _widgetOffsetHeight = _widgetPrefab.GetComponent<RectTransform>().rect.height;
 
@@ -73,7 +69,7 @@ public class UIRoutineRecordPopup : UIPopupBase
         _uiManager.CreatePresenter<RoutineRecordPresenter>(this);
     }
 
-    private void BindEvent()
+    protected override void BindEvent()
     {
         _routineRecordScrollRect.onValueChanged.AddListener(_ => OnScroll());
         
