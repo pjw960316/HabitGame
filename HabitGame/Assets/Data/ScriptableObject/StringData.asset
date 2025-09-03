@@ -45,7 +45,7 @@ MonoBehaviour:
     - Key: 14
       Value: "\uC54C\uB78C \uB044\uAE30"
     - Key: 15
-      Value: "{0}\uBD84 \uC218\uBA74\uC774 \uC2DC\uC791\uB418\uC5C8\uC2B5\uB2C8\uB2E4."
+      Value: "{0}\uBD84 \uC218\uBA74\uC774 \uC2DC\uC791 \uB418\uC5C8\uC2B5\uB2C8\uB2E4."
   _toastStringDictionary:
     _serializedList:
     - Key: 0
@@ -53,3 +53,5 @@ MonoBehaviour:
     - Key: 1
       Value: "\uB8E8\uD2F4\uC744 \uB2EC\uC131\uD574\uC11C \uD604\uC7AC\uAE4C\uC9C0
         {0}\uC6D0\uC774 \uBAA8\uC600\uC2B5\uB2C8\uB2E4."
+    - Key: 2
+      Value: "\uC54C\uB78C\uC774 \uC885\uB8CC \uB418\uC5C8\uC2B5\uB2C8\uB2E4."

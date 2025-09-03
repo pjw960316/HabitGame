@@ -1,3 +1,5 @@
+using System;
+using UniRx;
 using UnityEngine;
 
 public class UIAlarmTimerPopup : UIPopupBase
@@ -8,11 +10,13 @@ public class UIAlarmTimerPopup : UIPopupBase
     [SerializeField] private UIImageBase _alarmTimerWidget;
     [SerializeField] private UIButtonBase _quitAlarmButton;
 
+    private readonly Subject<Unit> _onQuitAlarm = new();
+
     #endregion
 
     #region 2. Properties
 
-    //
+    public IObservable<Unit> OnQuitAlarm => _onQuitAlarm;
 
     #endregion
 
@@ -22,6 +26,7 @@ public class UIAlarmTimerPopup : UIPopupBase
     {
         base.OnAwake();
     }
+
     protected sealed override void Initialize()
     {
         base.Initialize();
@@ -33,17 +38,22 @@ public class UIAlarmTimerPopup : UIPopupBase
     {
         //
     }
-    
+
     protected sealed override void BindEvent()
     {
-        
+        _quitAlarmButton.OnClick.AddListener(OnClickQuitAlarmButton);
     }
 
     #endregion
 
     #region 4. EventHandlers
 
-    //
+    private void OnClickQuitAlarmButton()
+    {
+        _onQuitAlarm.OnNext(default);
+
+        ClosePopup();
+    }
 
     #endregion
 
@@ -57,15 +67,21 @@ public class UIAlarmTimerPopup : UIPopupBase
 
     public void SetAlarmHeaderText(string text)
     {
-        
+        _titleWidget.SetText(text);
     }
+
     public void UpdateAlarmTimerText(string text)
     {
         var timeText = StringManager.Instance.GetUIString(EStringKey.EAlarmTimerPopupTime, text);
         _alarmTimerWidget.SetText(timeText);
     }
 
-    #endregion
+    protected sealed override void ClosePopup()
+    {
+        base.ClosePopup();
 
-    
+        _uiToastManager.ShowToast(EToastStringKey.EAlarmQuit);
+    }
+
+    #endregion
 }

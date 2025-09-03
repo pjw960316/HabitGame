@@ -50,12 +50,12 @@ public class AlarmPresenter : PresenterBase
         BindEvent();
     }
 
-    protected override void SetView()
+    protected sealed override void SetView()
     {
         _alarmPopup.SetButtonText(_alarmData.AlarmTimeDictionary);
     }
 
-    private void BindEvent()
+    protected sealed override void BindEvent()
     {
         foreach (var alarmAudioClipButton in _alarmPopup.AlarmAudioClipButtons)
         {
@@ -91,7 +91,7 @@ public class AlarmPresenter : PresenterBase
 
         // note
         // alarmTimerSetting
-        InitializeAlarmTimerPopupTime();
+        InitializeAlarmTimerPopup();
     }
 
     private void RequestPlaySleepingMusic(float sleepingMusicPlayingTime)
@@ -116,22 +116,28 @@ public class AlarmPresenter : PresenterBase
         _soundManager.RequestPlaySleepingMusic(_latestSleepingAudioClip);
     }
 
-    private void InitializeAlarmTimerPopupTime()
+    private void InitializeAlarmTimerPopup()
     {
+        var titleText = _stringManager.GetUIString(EStringKey.EAlarmTimerPopupTitle, _latestAlarmPlayingTime);
+        _alarmTimerPopup.SetAlarmHeaderText(titleText);
+        
         ResetElapsedTime();
         var elapsedTimeString = $"{_elapsedTime.Hours:D2}:{_elapsedTime.Minutes:D2}:{_elapsedTime.Seconds:D2}";
         _alarmTimerPopup.UpdateAlarmTimerText(elapsedTimeString);
+
+        _alarmTimerPopup.OnQuitAlarm.Subscribe(_ => DisposeAlarmSubscribe());
     }
 
     private void RequestUpdateAlarmTimerPopupTime()
     {
         _elapsedTime += TimeSpan.FromSeconds(1);
         var elapsedTimeString = $"{_elapsedTime.Hours:D2}:{_elapsedTime.Minutes:D2}:{_elapsedTime.Seconds:D2}";
+        
         _alarmTimerPopup.UpdateAlarmTimerText(elapsedTimeString);
     }
 
     private void RequestPlayLoudAlarmSound()
-    {
+    { 
         ResetElapsedTime();
         DisposeAlarmSubscribe();
 
@@ -177,6 +183,9 @@ public class AlarmPresenter : PresenterBase
 
     private void DisposeAlarmSubscribe()
     {
+        //log
+        Debug.Log($"alarm 관련 Subscribe Event 모두 끊었습니다.");
+        
         _alarmDisposable?.Dispose();
     }
 

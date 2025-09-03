@@ -5,9 +5,9 @@ public abstract class UIPopupBase : MonoBehaviour, IView
 {
     #region 1. Fields
 
-    protected StringManager _stringManager;
     protected UIManager _uiManager;
-    protected SoundManager _soundManager;
+    protected UIToastManager _uiToastManager;
+
     protected readonly CompositeDisposable _disposables = new();
 
     #endregion
@@ -28,11 +28,20 @@ public abstract class UIPopupBase : MonoBehaviour, IView
     protected virtual void OnAwake()
     {
         Initialize();
-        
+
         CreatePresenterByManager();
-        
+
         BindEvent();
     }
+
+    protected virtual void Initialize()
+    {
+        _uiManager = UIManager.Instance;
+        _uiToastManager = UIToastManager.Instance;
+    }
+
+    protected abstract void BindEvent();
+    protected abstract void CreatePresenterByManager();
 
     #endregion
 
@@ -50,19 +59,10 @@ public abstract class UIPopupBase : MonoBehaviour, IView
 
     #region 6. Methods
 
-    protected virtual void Initialize()
+    protected virtual void ClosePopup()
     {
-        _stringManager = StringManager.Instance;
-        _uiManager = UIManager.Instance;
-        _soundManager = SoundManager.Instance;
-    }
+        _disposables?.Dispose();
 
-    protected abstract void BindEvent();
-    protected abstract void CreatePresenterByManager();
-
-    protected void ClosePopup()
-    {
-        //refactor
         Destroy(gameObject);
     }
 

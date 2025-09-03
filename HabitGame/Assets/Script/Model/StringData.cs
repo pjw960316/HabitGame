@@ -105,5 +105,6 @@ public enum EStringKey
 public enum EToastStringKey
 {
     EAlarmConfirm,
-    ERoutineCheckConfirm
+    ERoutineCheckConfirm,
+    EAlarmQuit,
 }

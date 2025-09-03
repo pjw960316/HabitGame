@@ -37,7 +37,7 @@ public class UIAlarmPopup : UIPopupBase
     protected sealed override void Initialize()
     {
         base.Initialize();
-        
+
         InitializeWidgets();
     }
 

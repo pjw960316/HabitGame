@@ -50,7 +50,7 @@ public class RoutineRecordPresenter : PresenterBase
         _uiRoutineRecordPopup.ShowTopContent();
     }
 
-    private void BindEvent()
+    protected sealed override void BindEvent()
     {
         _uiRoutineRecordPopup.OnUpdateScrollWidget.Subscribe(UpdateWidget).AddTo(_disposable);
     }
