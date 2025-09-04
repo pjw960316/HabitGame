@@ -101,13 +101,6 @@ public class AlarmPresenter : PresenterBase
             .Subscribe(_ => RequestUpdateAlarmTimerPopupTime())
             .AddTo(_alarmDisposable);
 
-        
-         //test code
-        // Observable.Timer(TimeSpan.FromSeconds(sleepingMusicPlayingTime))
-        //     .Subscribe(_ => RequestPlayLoudAlarmSound())
-        //     .AddTo(_alarmDisposable);
-
-
         Observable.Timer(TimeSpan.FromMinutes(sleepingMusicPlayingTime))
             .Subscribe(_ => RequestPlayLoudAlarmSound())
             .AddTo(_alarmDisposable);

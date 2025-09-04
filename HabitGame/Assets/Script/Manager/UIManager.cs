@@ -96,7 +96,11 @@ public class UIManager : ManagerBase<UIManager>, IManager
         
         if(popup != null)
         {
-            _popupDictionary.TryAdd(key, popup);
+            // note
+            // TryAdd를 사용하면, 최초로 생성한 Popup을 계속 Key의 Value로 저장합니다.
+            // 그러면 그 popup을 끌 때 Value가 null이 되므로 
+            // 매 번 새로 value를 갱신해주여 합니다.
+            _popupDictionary[key] = popup;
         }
     }
     
