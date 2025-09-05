@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using UniRx;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -10,21 +12,23 @@ public class UIManager : ManagerBase<UIManager>, IManager
 {
     #region 1. Fields
 
-    private Canvas _mainCanvas;
-    private Transform _mainCanvasTransform;
-    
     private PopupData _popupData;
-    
+
     private readonly Dictionary<EPopupKey, UIPopupBase> _popupDictionary = new();
+    private readonly HashSet<EPopupKey> _openedPopupKeyList = new();
+
+    private readonly Subject<EPopupKey> _onClosePopup = new();
 
     #endregion
 
     #region 2. Properties
 
-    public Canvas MainCanvas => _mainCanvas;
+    public Canvas MainCanvas { get; private set; }
 
-    public Transform MainCanvasTransform => _mainCanvasTransform;
+    public Transform MainCanvasTransform { get; private set; }
 
+    public Subject<EPopupKey> OnClosePopup => _onClosePopup;
+    
     #endregion
 
     #region 3. Constructor
@@ -38,20 +42,35 @@ public class UIManager : ManagerBase<UIManager>, IManager
         BindEvent();
     }
 
-    public void GetModel()
+    private void BindEvent()
     {
-        
+        // todo
+        // Manager의 Disposable 정책
+        _onClosePopup.Subscribe(RemoveOpenedPopup);
     }
 
     #endregion
 
-    #region 4. Methods
 
-    
-    private void BindEvent()
+    #region 4. EventHandlers
+
+    private void RemoveOpenedPopup(EPopupKey ePopupKey)
     {
-        
+        if (_openedPopupKeyList.Contains(ePopupKey))
+        {
+            _openedPopupKeyList.Remove(ePopupKey);
+        }
     }
+
+    #endregion
+
+    #region 5. Request Methods
+
+    // 
+
+    #endregion
+
+    #region 6. Methods
 
     public void SetModel(IEnumerable<IModel> _list)
     {
@@ -62,27 +81,27 @@ public class UIManager : ManagerBase<UIManager>, IManager
                 _popupData = uiPopupData;
             }
         }
-        
+
         if (_popupData == null)
         {
             throw new InvalidOperationException("_popupData는 null이 될 수 없습니다. 올바른 데이터를 확인해주세요.");
         }
     }
-    
-    public void InjectMainCanvas(UIMainCanvas canvas)
+
+    public void SetMainCanvas(UIMainCanvas canvas)
     {
         ExceptionHelper.CheckNullException(canvas, "MainCanvas Inject Fail");
-        
-        _mainCanvas = canvas.MainCanvas;
-        _mainCanvasTransform = _mainCanvas.transform;
+
+        MainCanvas = canvas.MainCanvas;
+        MainCanvasTransform = MainCanvas.transform;
     }
-    
+
     public void CreatePresenter<TPresenter>(IView view) where TPresenter : IPresenter, new()
     {
         var presenter = new TPresenter();
         presenter.Initialize(view);
     }
-    
+
     public void OpenPopupByStringKey(EPopupKey key, Transform transform)
     {
         var popupPrefab = _popupData.GetPopupByEPopupKey(key);
@@ -93,17 +112,18 @@ public class UIManager : ManagerBase<UIManager>, IManager
         }
 
         var popup = Object.Instantiate(popupPrefab, transform).GetComponent<UIPopupBase>();
-        
-        if(popup != null)
+
+        if (popup != null)
         {
             // note
             // TryAdd를 사용하면, 최초로 생성한 Popup을 계속 Key의 Value로 저장합니다.
             // 그러면 그 popup을 끌 때 Value가 null이 되므로 
             // 매 번 새로 value를 갱신해주여 합니다.
             _popupDictionary[key] = popup;
+            _openedPopupKeyList.Add(key);
         }
     }
-    
+
     public TPopup GetPopupByStringKey<TPopup>(EPopupKey key) where TPopup : UIPopupBase
     {
         _popupDictionary.TryGetValue(key, out var popup);
@@ -112,11 +132,15 @@ public class UIManager : ManagerBase<UIManager>, IManager
         return castedPopup;
     }
 
-    #endregion
+    public bool IsAnyPopupOpened()
+    {
+        if (_openedPopupKeyList.Any())
+        {
+            return true;
+        }
+        return false;
 
-    #region 5. EventHandlers
-
-    // default
+    }
 
     #endregion
 }

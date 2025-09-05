@@ -7,6 +7,7 @@ public abstract class UIPopupBase : MonoBehaviour, IView
 
     protected UIManager _uiManager;
     protected UIToastManager _uiToastManager;
+    protected EPopupKey _ePopupKey;
 
     protected readonly CompositeDisposable _disposables = new();
 
@@ -61,6 +62,7 @@ public abstract class UIPopupBase : MonoBehaviour, IView
 
     protected virtual void ClosePopup()
     {
+        _uiManager.OnClosePopup.OnNext(_ePopupKey);
         _disposables?.Dispose();
 
         Destroy(gameObject);

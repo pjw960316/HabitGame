@@ -36,8 +36,8 @@ public class UIMainCanvas : MonoBehaviour, IView
 
     private void Initialize()
     {
-        UIManager.Instance.InjectMainCanvas(this);
-        UIToastManager.Instance.InjectMainCanvas(this);
+        UIManager.Instance.SetMainCanvas(this);
+        UIToastManager.Instance.SetMainCanvas(this);
         
         _toastMessage.gameObject.SetActive(false);
     }

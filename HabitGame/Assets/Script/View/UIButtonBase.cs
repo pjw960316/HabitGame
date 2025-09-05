@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +15,7 @@ public class UIButtonBase : MonoBehaviour, IView
 
     protected UIManager _uiManager;
     protected StringManager _stringManager;
-    
+
     #endregion
 
     #region 2. Properties
@@ -30,17 +29,13 @@ public class UIButtonBase : MonoBehaviour, IView
 
     public void Awake()
     {
-        // Note
-        // Overriding
-        // Script가 UIButtonBase가 붙으면 Base의 OnAwake()가 호출되고
-        // Script가 UIOpenPopupButtonBase가 붙으면 Derived의 OnAwake()가 호출되기 바람.
         OnAwake();
     }
 
     protected virtual void OnAwake()
     {
         Initialize();
-        
+
         BindEvent();
     }
 
@@ -53,7 +48,7 @@ public class UIButtonBase : MonoBehaviour, IView
     }
 
 
-    protected void BindEvent()
+    protected virtual void BindEvent()
     {
         Button.onClick.AddListener(OnClickButton);
     }
@@ -76,7 +71,7 @@ public class UIButtonBase : MonoBehaviour, IView
     #endregion
 
     #region 6. Methods
-    
+
     protected void UpdateButtonColor(Color color)
     {
         _button.image.color = color;
@@ -93,5 +88,6 @@ public class UIButtonBase : MonoBehaviour, IView
 
         _buttonText.text = StringManager.Instance.GetUIString(_buttonTextKey);
     }
+
     #endregion
 }

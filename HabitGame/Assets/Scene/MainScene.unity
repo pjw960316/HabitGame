@@ -257,9 +257,8 @@ MonoBehaviour:
   _isAutoText: 1
   _buttonText: {fileID: 211622327}
   _buttonTextKey: 2
-  _buttonColor: {r: 0.9924528, g: 0.9692664, b: 0.53742254, a: 1}
   _canvas: {fileID: 1367084003}
-  ePopupKey: 1
+  _ePopupKey: 1
 --- !u!1 &154696926
 GameObject:
   m_ObjectHideFlags: 0
@@ -1604,9 +1603,8 @@ MonoBehaviour:
   _isAutoText: 1
   _buttonText: {fileID: 1729820279}
   _buttonTextKey: 3
-  _buttonColor: {r: 0.6245283, g: 1, b: 0.64992464, a: 1}
   _canvas: {fileID: 1367084003}
-  ePopupKey: 2
+  _ePopupKey: 2
 --- !u!1 &1729820277
 GameObject:
   m_ObjectHideFlags: 0
@@ -1881,9 +1879,8 @@ MonoBehaviour:
   _isAutoText: 1
   _buttonText: {fileID: 154696928}
   _buttonTextKey: 1
-  _buttonColor: {r: 0.97735846, g: 0.43335703, b: 0.43335703, a: 1}
   _canvas: {fileID: 1367084003}
-  ePopupKey: 0
+  _ePopupKey: 0
 --- !u!1 &2114881846
 GameObject:
   m_ObjectHideFlags: 0

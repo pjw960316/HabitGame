@@ -30,6 +30,8 @@ public class UIAlarmTimerPopup : UIPopupBase
     protected sealed override void Initialize()
     {
         base.Initialize();
+
+        _ePopupKey = EPopupKey.AlarmTimerPopup;
     }
 
     // note

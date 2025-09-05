@@ -57,6 +57,8 @@ public class UIRoutineRecordPopup : UIPopupBase
     {
         base.Initialize();
         
+        _ePopupKey = EPopupKey.RoutineRecordPopup;
+        
         _widgetList = new List<UIRoutineRecordWidget>();
         _widgetOffsetHeight = _widgetPrefab.GetComponent<RectTransform>().rect.height;
 

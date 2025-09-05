@@ -34,7 +34,7 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager
 
     #region 4. Methods
 
-    public void InjectMainCanvas(UIMainCanvas canvas)
+    public void SetMainCanvas(UIMainCanvas canvas)
     {
         MainCanvas = canvas;
         _toastMessage = MainCanvas.ToastMessage.gameObject;

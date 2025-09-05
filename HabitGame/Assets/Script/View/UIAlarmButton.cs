@@ -25,18 +25,13 @@ public class UIAlarmButton : UIButtonBase
     #endregion
 
     #region 3. Constructor
-
     
-    // note
-    // Unity는 Awake의 호출 순서를 보장하지 않는다.
-    // Popup의 Awake가 콜이 되어도 Widget의 콜은 늦을 수 있다.
-    // 그러므로 Initialize()로 관리
     protected override void OnAwake()
     {
         base.OnAwake();
     }
 
-    public sealed override void Initialize()
+    public override void Initialize()
     {
         base.Initialize();
         

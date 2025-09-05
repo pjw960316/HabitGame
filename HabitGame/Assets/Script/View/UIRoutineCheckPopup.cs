@@ -39,6 +39,8 @@ public class UIRoutineCheckPopup : UIPopupBase
     {
         base.Initialize();
 
+        _ePopupKey = EPopupKey.RoutineCheckPopup;
+        
         UpdateDateText(DateTime.Now);
     }
 

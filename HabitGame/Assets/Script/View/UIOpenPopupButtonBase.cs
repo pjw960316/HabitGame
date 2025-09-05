@@ -5,7 +5,8 @@ public class UIOpenPopupButtonBase : UIButtonBase
     #region 1. Fields
 
     [SerializeField] private Canvas _canvas;
-    [SerializeField] private EPopupKey ePopupKey;
+    [SerializeField] private EPopupKey _ePopupKey;
+    private Transform _canvasTransform;
 
     #endregion
 
@@ -22,14 +23,30 @@ public class UIOpenPopupButtonBase : UIButtonBase
         base.OnAwake();
     }
 
+    public sealed override void Initialize()
+    {
+        base.Initialize();
+
+        _canvasTransform = Canvas.transform;
+    }
+
+    protected sealed override void BindEvent()
+    {
+        base.BindEvent();
+    }
+
     #endregion
 
     #region 4. Methods
 
     protected override void OnClickButton()
     {
-        var targetTransform = Canvas.transform;
-        _uiManager.OpenPopupByStringKey(ePopupKey, targetTransform);
+        if (_uiManager.IsAnyPopupOpened())
+        {
+            return;
+        }
+
+        _uiManager.OpenPopupByStringKey(_ePopupKey, _canvasTransform);
     }
 
     #endregion

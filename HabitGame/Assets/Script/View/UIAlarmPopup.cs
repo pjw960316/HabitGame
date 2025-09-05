@@ -38,9 +38,13 @@ public class UIAlarmPopup : UIPopupBase
     {
         base.Initialize();
 
+        _ePopupKey = EPopupKey.AlarmPopup;
+        
         InitializeWidgets();
     }
-
+    
+    // refactor
+    // 실행 시점이 Widget의 OnAwake()라 presenter보다 늦을 수 있어서 에러 발생
     private void InitializeWidgets()
     {
         foreach (var widget in AlarmAudioClipButtons)
