@@ -5,9 +5,8 @@ using UniRx;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-// TODO
-// 무엇이 열려있고, 이런 거 관리해야 한다.
-// 열린 View와 Presenter 관리
+// note
+// 열려있는 View를 관리한다.
 public class UIManager : ManagerBase<UIManager>, IManager
 {
     #region 1. Fields
