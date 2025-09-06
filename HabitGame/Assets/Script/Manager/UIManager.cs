@@ -16,8 +16,6 @@ public class UIManager : ManagerBase<UIManager>, IManager
     private readonly Dictionary<EPopupKey, UIPopupBase> _popupDictionary = new();
     private readonly HashSet<EPopupKey> _openedPopupKeyList = new();
 
-    private readonly Subject<EPopupKey> _onClosePopup = new();
-
     #endregion
 
     #region 2. Properties
@@ -26,8 +24,8 @@ public class UIManager : ManagerBase<UIManager>, IManager
 
     public Transform MainCanvasTransform { get; private set; }
 
-    public Subject<EPopupKey> OnClosePopup => _onClosePopup;
-    
+    public Subject<EPopupKey> OnClosePopup { get; } = new();
+
     #endregion
 
     #region 3. Constructor
@@ -45,7 +43,7 @@ public class UIManager : ManagerBase<UIManager>, IManager
     {
         // todo
         // Manager의 Disposable 정책
-        _onClosePopup.Subscribe(RemoveOpenedPopup);
+        OnClosePopup.Subscribe(RemoveOpenedPopup);
     }
 
     #endregion
@@ -95,12 +93,6 @@ public class UIManager : ManagerBase<UIManager>, IManager
         MainCanvasTransform = MainCanvas.transform;
     }
 
-    public void CreatePresenter<TPresenter>(IView view) where TPresenter : IPresenter, new()
-    {
-        var presenter = new TPresenter();
-        presenter.Initialize(view);
-    }
-
     public void OpenPopupByStringKey(EPopupKey key, Transform transform)
     {
         var popupPrefab = _popupData.GetPopupByEPopupKey(key);
@@ -137,8 +129,8 @@ public class UIManager : ManagerBase<UIManager>, IManager
         {
             return true;
         }
-        return false;
 
+        return false;
     }
 
     #endregion

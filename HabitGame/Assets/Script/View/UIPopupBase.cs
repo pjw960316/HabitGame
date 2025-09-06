@@ -7,6 +7,8 @@ public abstract class UIPopupBase : MonoBehaviour, IView
 
     protected UIManager _uiManager;
     protected UIToastManager _uiToastManager;
+    protected PresenterManager _presenterManager;
+    
     protected EPopupKey _ePopupKey;
 
     protected readonly CompositeDisposable _disposables = new();
@@ -39,6 +41,7 @@ public abstract class UIPopupBase : MonoBehaviour, IView
     {
         _uiManager = UIManager.Instance;
         _uiToastManager = UIToastManager.Instance;
+        _presenterManager = PresenterManager.Instance;
     }
 
     protected abstract void BindEvent();

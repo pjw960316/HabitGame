@@ -46,7 +46,7 @@ public class UIRoutineCheckPopup : UIPopupBase
 
     protected override void CreatePresenterByManager()
     {
-        _uiManager.CreatePresenter<RoutineCheckPresenter>(this);
+        _presenterManager.CreatePresenter<RoutineCheckPresenter>(this);
     }
 
     #endregion

@@ -2,11 +2,12 @@ using System.Collections.Generic;
 
 // note
 // 열려있는 Presenter를 관리한다.
+// Factory
 public class PresenterManager : ManagerBase<PresenterManager>, IManager
 {
     #region 1. Fields
 
-    //
+    private readonly HashSet<PresenterBase> _livedPresenterHashSet = new();
 
     #endregion
 
@@ -44,6 +45,23 @@ public class PresenterManager : ManagerBase<PresenterManager>, IManager
 
     public void SetModel(IEnumerable<IModel> models)
     {
+        //
+    }
+
+    public void CreatePresenter<TPresenter>(IView view) where TPresenter : PresenterBase, new()
+    {
+        var presenter = new TPresenter();
+        presenter.Initialize(view);
+
+        _livedPresenterHashSet.Add(presenter);
+    }
+
+    public void TerminatePresenter(PresenterBase presenter)
+    {
+        if (_livedPresenterHashSet.Contains(presenter))
+        {
+            _livedPresenterHashSet.Remove(presenter);
+        }
     }
 
     #endregion

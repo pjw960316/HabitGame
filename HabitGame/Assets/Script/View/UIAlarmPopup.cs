@@ -60,7 +60,7 @@ public class UIAlarmPopup : UIPopupBase
 
     protected sealed override void CreatePresenterByManager()
     {
-        _uiManager.CreatePresenter<AlarmPresenter>(this);
+        _presenterManager.CreatePresenter<AlarmPresenter>(this);
     }
 
     #endregion

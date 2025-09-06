@@ -10,6 +10,7 @@ public abstract class PresenterBase : IPresenter
     protected ModelManager _modelManager;
     protected MyCharacterManager _myCharacterManager;
     protected StringManager _stringManager;
+    protected PresenterManager _presenterManager;
     
     protected IView _view;
     protected IModel _model;
@@ -33,6 +34,7 @@ public abstract class PresenterBase : IPresenter
         _myCharacterManager = MyCharacterManager.Instance;
         _modelManager = ModelManager.Instance;
         _stringManager = StringManager.Instance;
+        _presenterManager = PresenterManager.Instance;
         
         _view = view;
         
@@ -67,14 +69,14 @@ public abstract class PresenterBase : IPresenter
 
     #region 6. Methods
 
-    // todo
-    // closePresenter
-    // 여기서 Disposable
-    public void DestroyPresenter()
+    public void TerminatePresenter()
     {
         _disposable?.Dispose();
-
-        //나를 null로? 뭐 여튼 정리 코드 필요함.
+        
+        //refactor
+        //_view와 _model의 null처리도 해줘야 하는가?
+        
+        _presenterManager.TerminatePresenter(this);
     }
 
     #endregion

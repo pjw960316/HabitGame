@@ -68,7 +68,7 @@ public class UIRoutineRecordPopup : UIPopupBase
 
     protected override void CreatePresenterByManager()
     {
-        _uiManager.CreatePresenter<RoutineRecordPresenter>(this);
+        _presenterManager.CreatePresenter<RoutineRecordPresenter>(this);
     }
 
     protected override void BindEvent()
