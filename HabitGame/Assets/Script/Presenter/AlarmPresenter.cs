@@ -16,8 +16,11 @@ public class AlarmPresenter : PresenterBase
     private float _latestAlarmPlayingTime;
 
     private TimeSpan _elapsedTime;
+    
+    // note
+    // AlarmDisposable은 UIAlarmPopup이 종료되어도 동작해야 한다.
+    // 그러므로 PresenterBase의 _disposable과 생명주기를 다르게 해야한다.
     private readonly CompositeDisposable _alarmDisposable = new();
-    // time
 
     #endregion
 
@@ -117,9 +120,9 @@ public class AlarmPresenter : PresenterBase
         ResetElapsedTime();
         
         var elapsedTimeString = $"{_elapsedTime.Hours:D2}:{_elapsedTime.Minutes:D2}:{_elapsedTime.Seconds:D2}";
+        
         _alarmTimerPopup.UpdateAlarmTimerText(elapsedTimeString);
-
-        _alarmTimerPopup.OnQuitAlarm.Subscribe(_ => StopAlarmSystem());
+        _alarmTimerPopup.OnQuitAlarm.Subscribe(_ => StopAlarmSystem()).AddTo(_disposable);
     }
 
     private void RequestUpdateAlarmTimerPopupTime()

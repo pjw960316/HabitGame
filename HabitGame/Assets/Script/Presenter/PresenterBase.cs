@@ -69,6 +69,9 @@ public abstract class PresenterBase : IPresenter
 
     #region 6. Methods
 
+    // note
+    // 반드시 PresenterManager에서 호출한다.
+    // Factory
     public void TerminatePresenter()
     {
         _disposable?.Dispose();
