@@ -39,6 +39,7 @@ public class UIAlarmPopup : UIPopupBase
         base.Initialize();
 
         InitializeEPopupKey();
+        
         InitializeWidgets();
     }
 
@@ -47,8 +48,8 @@ public class UIAlarmPopup : UIPopupBase
         _ePopupKey = EPopupKey.AlarmPopup;
     }
 
-    // refactor
-    // 실행 시점이 Widget의 OnAwake()라 presenter보다 늦을 수 있어서 에러 발생
+    // note
+    // widget의 Initialize()는 이미 생성된 widget의 field에 접근하기에 문제 없다.
     private void InitializeWidgets()
     {
         foreach (var widget in AlarmAudioClipButtons)

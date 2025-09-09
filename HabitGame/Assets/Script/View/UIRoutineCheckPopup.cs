@@ -43,14 +43,14 @@ public class UIRoutineCheckPopup : UIPopupBase
         UpdateDateText(DateTime.Now);
     }
 
-    protected override void CreatePresenterByManager()
-    {
-        _presenterManager.CreatePresenter<RoutineCheckPresenter>(this);
-    }
-
     protected override void InitializeEPopupKey()
     {
         _ePopupKey = EPopupKey.RoutineCheckPopup;
+    }
+
+    protected override void CreatePresenterByManager()
+    {
+        _presenterManager.CreatePresenter<RoutineCheckPresenter>(this);
     }
 
     #endregion
