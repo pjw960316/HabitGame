@@ -16,7 +16,7 @@ public class AlarmPresenter : PresenterBase
     private float _latestAlarmPlayingTime;
 
     private TimeSpan _elapsedTime;
-    
+
     // note
     // AlarmDisposable은 UIAlarmPopup이 종료되어도 동작해야 한다.
     // 그러므로 PresenterBase의 _disposable과 생명주기를 다르게 해야한다.
@@ -62,7 +62,7 @@ public class AlarmPresenter : PresenterBase
     protected sealed override void BindEvent()
     {
         base.BindEvent();
-        
+
         foreach (var alarmAudioClipButton in _alarmPopup.AlarmAudioClipButtons)
         {
             alarmAudioClipButton.OnButtonClicked.Subscribe(UpdateAlarmAudioClip).AddTo(_disposable);
@@ -76,18 +76,18 @@ public class AlarmPresenter : PresenterBase
         _alarmPopup.OnConfirmed.Subscribe(_ => StartAlarmSystem()).AddTo(_disposable);
     }
 
-    
-
     #endregion
 
     #region 4. EventHandlers
 
     protected override void OnClosePopup()
     {
-        // todo : 
-        // todo : popup의 isopened 질문 후, 제거
-        if(_alarmPopup == null && _alarmTimerPopup == null)
+        Debug.Log("call");
+        if (shouldTerminatePresenter())
         {
+            // log
+            Debug.Log("AlarmPresenter 의 Presenter 제거");
+            
             TerminatePresenter();
         }
     }
@@ -130,9 +130,9 @@ public class AlarmPresenter : PresenterBase
         _alarmTimerPopup.SetAlarmHeaderText(titleText);
 
         ResetElapsedTime();
-        
+
         var elapsedTimeString = $"{_elapsedTime.Hours:D2}:{_elapsedTime.Minutes:D2}:{_elapsedTime.Seconds:D2}";
-        
+
         _alarmTimerPopup.UpdateAlarmTimerText(elapsedTimeString);
         _alarmTimerPopup.OnQuitAlarm.Subscribe(_ => StopAlarmSystem()).AddTo(_disposable);
     }
@@ -170,6 +170,10 @@ public class AlarmPresenter : PresenterBase
 
     private void StartAlarmSystem()
     {
+        _uiManager.AddPendingPopup(EPopupKey.AlarmTimerPopup);
+
+        _alarmPopup.ClosePopup();
+
         RequestPlaySleepingMusic(_latestAlarmPlayingTime);
 
         RequestOpenAlarmTimerPopup();
@@ -183,14 +187,26 @@ public class AlarmPresenter : PresenterBase
     private void StopAlarmSystem()
     {
         _soundManager.RequestStopPlayMusic();
+        
         DisposeAlarmSubscribe();
+        
+        _alarmTimerPopup.ClosePopup();
     }
 
     private void DisposeAlarmSubscribe()
     {
-        //log
-        Debug.Log("alarm 관련 Subscribe Event 모두 끊었습니다.");
         _alarmDisposable?.Dispose();
+    }
+
+    private bool shouldTerminatePresenter()
+    {
+        if (_uiManager.IsPopupOpeningOrOpened(EPopupKey.AlarmPopup) ||
+            _uiManager.IsPopupOpeningOrOpened(EPopupKey.AlarmTimerPopup))
+        {
+            return false;
+        }
+
+        return true;
     }
 
     #endregion

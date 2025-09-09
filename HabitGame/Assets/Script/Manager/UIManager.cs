@@ -14,7 +14,9 @@ public class UIManager : ManagerBase<UIManager>, IManager
     private PopupData _popupData;
 
     private readonly Dictionary<EPopupKey, UIPopupBase> _popupDictionary = new();
+    
     private readonly HashSet<EPopupKey> _openedPopupKeyList = new();
+    private readonly HashSet<EPopupKey> _pendingPopupKeyList = new();
 
     #endregion
 
@@ -63,7 +65,10 @@ public class UIManager : ManagerBase<UIManager>, IManager
 
     #region 5. Request Methods
 
-    // 
+    public void AddPendingPopup(EPopupKey ePopupKey)
+    {
+        _pendingPopupKeyList.Add(ePopupKey);
+    }
 
     #endregion
 
@@ -112,6 +117,7 @@ public class UIManager : ManagerBase<UIManager>, IManager
             // 매 번 새로 value를 갱신해주여 합니다.
             _popupDictionary[key] = popup;
             _openedPopupKeyList.Add(key);
+            _pendingPopupKeyList.Remove(key);
         }
     }
 
@@ -121,6 +127,21 @@ public class UIManager : ManagerBase<UIManager>, IManager
         var castedPopup = popup as TPopup;
 
         return castedPopup;
+    }
+
+    public bool IsPopupOpeningOrOpened(EPopupKey key)
+    {
+        if (_openedPopupKeyList.Contains(key))
+        {
+            return true;
+        }
+
+        if (_pendingPopupKeyList.Contains(key))
+        {
+            return true;
+        }
+
+        return false;
     }
 
     public bool IsAnyPopupOpened()

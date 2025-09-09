@@ -59,10 +59,8 @@ public class UIAlarmTimerPopup : UIPopupBase
     {
         _onQuitAlarm.OnNext(default);
         _uiToastManager.ShowToast(EToastStringKey.EAlarmQuit);
-        
-        ClosePopup();
     }
-
+    
     #endregion
 
     #region 5. Request Methods

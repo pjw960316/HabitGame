@@ -107,8 +107,6 @@ public class UIAlarmPopup : UIPopupBase
     private void OnClickConfirmButton()
     {
         _onConfirmed.OnNext(Unit.Default);
-
-        ClosePopup();
     }
 
     #endregion
