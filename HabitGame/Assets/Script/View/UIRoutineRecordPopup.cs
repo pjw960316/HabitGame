@@ -56,8 +56,8 @@ public class UIRoutineRecordPopup : UIPopupBase
     protected sealed override void Initialize()
     {
         base.Initialize();
-        
-        _ePopupKey = EPopupKey.RoutineRecordPopup;
+
+        InitializeEPopupKey();
         
         _widgetList = new List<UIRoutineRecordWidget>();
         _widgetOffsetHeight = _widgetPrefab.GetComponent<RectTransform>().rect.height;
@@ -69,6 +69,11 @@ public class UIRoutineRecordPopup : UIPopupBase
     protected override void CreatePresenterByManager()
     {
         _presenterManager.CreatePresenter<RoutineRecordPresenter>(this);
+    }
+
+    protected override void InitializeEPopupKey()
+    {
+        _ePopupKey = EPopupKey.RoutineRecordPopup;
     }
 
     protected override void BindEvent()

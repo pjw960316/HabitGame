@@ -31,7 +31,7 @@ public class UIAlarmTimerPopup : UIPopupBase
     {
         base.Initialize();
 
-        _ePopupKey = EPopupKey.AlarmTimerPopup;
+        InitializeEPopupKey();
     }
 
     // note
@@ -39,6 +39,11 @@ public class UIAlarmTimerPopup : UIPopupBase
     protected override void CreatePresenterByManager()
     {
         //
+    }
+
+    protected override void InitializeEPopupKey()
+    {
+        _ePopupKey = EPopupKey.AlarmTimerPopup;
     }
 
     protected sealed override void BindEvent()

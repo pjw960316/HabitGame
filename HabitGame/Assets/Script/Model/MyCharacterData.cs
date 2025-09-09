@@ -91,7 +91,7 @@ public class MyCharacterData : IModel
         {
             // note
             // 없으면 default 생성
-            Debug.Log($"Key가 없어서 \nkey가 {key}인 default routineRecord를 \nDictionary에 추가했다.");
+            Debug.LogWarning($"Key가 없어서 \nkey가 {key}인 default routineRecord를 \nDictionary에 추가했다.");
 
             todayRoutineRecordList = new List<bool> { false, false, false, false };
             _routineRecordDictionary.Add(key, todayRoutineRecordList);

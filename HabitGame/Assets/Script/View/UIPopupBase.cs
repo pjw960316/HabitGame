@@ -46,6 +46,7 @@ public abstract class UIPopupBase : MonoBehaviour, IView
 
     protected abstract void BindEvent();
     protected abstract void CreatePresenterByManager();
+    protected abstract void InitializeEPopupKey();
 
     #endregion
 

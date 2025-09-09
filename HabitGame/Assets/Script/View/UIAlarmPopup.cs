@@ -38,11 +38,15 @@ public class UIAlarmPopup : UIPopupBase
     {
         base.Initialize();
 
-        _ePopupKey = EPopupKey.AlarmPopup;
-        
+        InitializeEPopupKey();
         InitializeWidgets();
     }
-    
+
+    protected override void InitializeEPopupKey()
+    {
+        _ePopupKey = EPopupKey.AlarmPopup;
+    }
+
     // refactor
     // 실행 시점이 Widget의 OnAwake()라 presenter보다 늦을 수 있어서 에러 발생
     private void InitializeWidgets()
