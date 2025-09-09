@@ -61,6 +61,8 @@ public class AlarmPresenter : PresenterBase
 
     protected sealed override void BindEvent()
     {
+        base.BindEvent();
+        
         foreach (var alarmAudioClipButton in _alarmPopup.AlarmAudioClipButtons)
         {
             alarmAudioClipButton.OnButtonClicked.Subscribe(UpdateAlarmAudioClip).AddTo(_disposable);
@@ -74,11 +76,21 @@ public class AlarmPresenter : PresenterBase
         _alarmPopup.OnConfirmed.Subscribe(_ => StartAlarmSystem()).AddTo(_disposable);
     }
 
+    
+
     #endregion
 
     #region 4. EventHandlers
 
-    //
+    protected override void OnClosePopup()
+    {
+        // todo : 
+        // todo : popup의 isopened 질문 후, 제거
+        if(_alarmPopup == null && _alarmTimerPopup == null)
+        {
+            TerminatePresenter();
+        }
+    }
 
     #endregion
 

@@ -52,7 +52,14 @@ public class RoutineRecordPresenter : PresenterBase
 
     protected sealed override void BindEvent()
     {
+        base.BindEvent();
+        
         _uiRoutineRecordPopup.OnUpdateScrollWidget.Subscribe(UpdateWidget).AddTo(_disposable);
+    }
+
+    protected override void OnClosePopup()
+    {
+        
     }
 
     #endregion

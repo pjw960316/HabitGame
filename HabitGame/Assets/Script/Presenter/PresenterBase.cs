@@ -50,14 +50,34 @@ public abstract class PresenterBase : IPresenter
     // 로직 데이터를 본인의 Initialize()에서 초기화 한다.
     // 그 후, 그걸 이용해서 View에 Data를 Inject해서 View를 세팅할 책임이 있다.
     protected abstract void SetView();
-    protected abstract void BindEvent();
 
-
+    protected virtual void BindEvent()
+    {
+        // refactor
+        // 코드 정리
+        // 모든 Presenter는 닫힐 때 제거 여부를 검사하고 닫아야 한다. 
+        // 1Presenter Many View가 되기 때문.
+        // PresenterBase를 FieldObject에 대해서도 쓸거냐?
+        var uiPopupBase = _view as UIPopupBase;
+        uiPopupBase?.OnClose.Subscribe(_ => OnClosePopup()).AddTo(_disposable);
+    }
+    
     #endregion
 
     #region 4. EventHandlers
 
-    //
+    // note
+    // 하위 타입에서 Presenter를 제거할 지 결정할 책임을 부여한다.
+    protected abstract void OnClosePopup();
+    
+    protected void TerminatePresenter()
+    {
+        _disposable?.Dispose();
+        _presenterManager.TerminatePresenter(this);
+    }
+    
+    // todo 
+    // abstract로 _view 연결 끊는 코드 만들자.
 
     #endregion
 
@@ -69,18 +89,7 @@ public abstract class PresenterBase : IPresenter
 
     #region 6. Methods
 
-    // note
-    // 반드시 PresenterManager에서 호출한다.
-    // Factory
-    public void TerminatePresenter()
-    {
-        _disposable?.Dispose();
-        
-        //refactor
-        //_view와 _model의 null처리도 해줘야 하는가?
-        
-        _presenterManager.TerminatePresenter(this);
-    }
+    //
 
     #endregion
 }

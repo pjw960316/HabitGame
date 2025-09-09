@@ -1,3 +1,4 @@
+using System;
 using UniRx;
 using UnityEngine;
 
@@ -8,16 +9,16 @@ public abstract class UIPopupBase : MonoBehaviour, IView
     protected UIManager _uiManager;
     protected UIToastManager _uiToastManager;
     protected PresenterManager _presenterManager;
-    
+
     protected EPopupKey _ePopupKey;
 
     protected readonly CompositeDisposable _disposables = new();
+    private readonly Subject<Unit> _onClose = new();
 
     #endregion
 
     #region 2. Properties
-
-    // default
+    public IObservable<Unit> OnClose => _onClose;
 
     #endregion
 
@@ -64,11 +65,17 @@ public abstract class UIPopupBase : MonoBehaviour, IView
 
     #region 6. Methods
 
-    protected virtual void ClosePopup()
+    // note
+    // 항상 닫을 때 Presenter를 정리해야 하는 지 아닌 지 
+    // Presenter에게 판단을 넘겨야 한다.
+    // View는 항상 죽여
+    protected void ClosePopup()
     {
         _uiManager.OnClosePopup.OnNext(_ePopupKey);
+        
+        _onClose.OnNext(default);
         _disposables?.Dispose();
-
+        
         Destroy(gameObject);
     }
 

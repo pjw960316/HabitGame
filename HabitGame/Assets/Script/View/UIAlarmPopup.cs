@@ -39,7 +39,7 @@ public class UIAlarmPopup : UIPopupBase
         base.Initialize();
 
         InitializeEPopupKey();
-        
+
         InitializeWidgets();
     }
 
@@ -107,7 +107,7 @@ public class UIAlarmPopup : UIPopupBase
     private void OnClickConfirmButton()
     {
         _onConfirmed.OnNext(Unit.Default);
-        
+
         ClosePopup();
     }
 
@@ -151,10 +151,7 @@ public class UIAlarmPopup : UIPopupBase
 
     #region 6. Methods
 
-    protected sealed override void ClosePopup()
-    {
-        base.ClosePopup();
-    }
+    //
 
     #endregion
 }

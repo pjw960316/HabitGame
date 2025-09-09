@@ -43,10 +43,17 @@ public class RoutineCheckPresenter : PresenterBase
 
     protected sealed override void BindEvent()
     {
+        base.BindEvent();
+        
         _uiRoutineCheckPopup.OnAwakeRoutineCheckPopup.Subscribe(_ => InitializeRoutineCheckPopup()).AddTo(_disposable);
         _uiRoutineCheckPopup.OnConfirmed.Subscribe(_ => HandleToggleEvent()).AddTo(_disposable);
     }
-    
+
+    protected override void OnClosePopup()
+    {
+        //
+    }
+
     #endregion
 
     #region 4. Methods

@@ -58,7 +58,8 @@ public class UIAlarmTimerPopup : UIPopupBase
     private void OnClickQuitAlarmButton()
     {
         _onQuitAlarm.OnNext(default);
-
+        _uiToastManager.ShowToast(EToastStringKey.EAlarmQuit);
+        
         ClosePopup();
     }
 
@@ -81,13 +82,6 @@ public class UIAlarmTimerPopup : UIPopupBase
     {
         var timeText = StringManager.Instance.GetUIString(EStringKey.EAlarmTimerPopupTime, text);
         _alarmTimerWidget.SetText(timeText);
-    }
-
-    protected sealed override void ClosePopup()
-    {
-        base.ClosePopup();
-
-        _uiToastManager.ShowToast(EToastStringKey.EAlarmQuit);
     }
 
     #endregion
