@@ -6,20 +6,13 @@ public class AlarmPresenter : PresenterBase
 {
     #region 1. Fields
 
-    // Note : View & Model
     private UIAlarmPopup _alarmPopup;
-    private UIAlarmTimerPopup _alarmTimerPopup;
     private AlarmData _alarmData;
 
     private AudioClip _alarmLoudAudioClip;
     private AudioClip _latestSleepingAudioClip;
     private float _latestAlarmPlayingTime;
 
-    private TimeSpan _elapsedTime;
-
-    // note
-    // AlarmDisposable은 UIAlarmPopup이 종료되어도 동작해야 한다.
-    // 그러므로 PresenterBase의 _disposable과 생명주기를 다르게 해야한다.
     private readonly CompositeDisposable _alarmDisposable = new();
 
     #endregion
@@ -82,23 +75,10 @@ public class AlarmPresenter : PresenterBase
 
     protected override void OnClosePopup()
     {
-        Debug.Log("OnClosePopup");
-        
-        foreach(var i in  _uiManager._openedPopupKeyList)
-        {
-            Debug.Log($"_openedPopupKey : {i}");
-        }
-        foreach(var i in  _uiManager._pendingPopupKeyList)
-        {
-            Debug.Log($"_pendingPopupKey : {i}");
-        }
-        if (shouldTerminatePresenter())
-        {
-            // log
-            Debug.Log("AlarmPresenter 의 Presenter 제거");
-            
-            TerminatePresenter();
-        }
+        // log
+        Debug.Log("alarmPresenter Terminate Presenter");
+
+        TerminatePresenter();
     }
 
     #endregion
@@ -112,19 +92,12 @@ public class AlarmPresenter : PresenterBase
         var popupTargetTransform = _uiManager.MainCanvasTransform;
 
         _uiManager.OpenPopupByStringKey(EPopupKey.AlarmTimerPopup, popupTargetTransform);
-        _alarmTimerPopup = _uiManager.GetPopupByStringKey<UIAlarmTimerPopup>(EPopupKey.AlarmTimerPopup);
-
-        // note
-        // alarmTimerSetting
-        InitializeAlarmTimerPopup();
+        _uiManager.GetPopupByStringKey<UIAlarmTimerPopup>(EPopupKey.AlarmTimerPopup);
     }
 
     private void RequestPlaySleepingMusic(float sleepingMusicPlayingTime)
     {
-        Observable.Interval(TimeSpan.FromSeconds(1))
-            .Subscribe(_ => RequestUpdateAlarmTimerPopupTime())
-            .AddTo(_alarmDisposable);
-
+        //refactor 이거 관리
         Observable.Timer(TimeSpan.FromMinutes(sleepingMusicPlayingTime))
             .Subscribe(_ => RequestPlayLoudAlarmSound())
             .AddTo(_alarmDisposable);
@@ -133,31 +106,11 @@ public class AlarmPresenter : PresenterBase
         _soundManager.RequestPlaySleepingMusic(_latestSleepingAudioClip);
     }
 
-    private void InitializeAlarmTimerPopup()
-    {
-        var titleText = _stringManager.GetUIString(EStringKey.EAlarmTimerPopupTitle, _latestAlarmPlayingTime);
-        _alarmTimerPopup.SetAlarmHeaderText(titleText);
-
-        ResetElapsedTime();
-
-        var elapsedTimeString = $"{_elapsedTime.Hours:D2}:{_elapsedTime.Minutes:D2}:{_elapsedTime.Seconds:D2}";
-
-        _alarmTimerPopup.UpdateAlarmTimerText(elapsedTimeString);
-        _alarmTimerPopup.OnQuitAlarm.Subscribe(_ => StopAlarmSystem()).AddTo(_disposable);
-        _alarmTimerPopup.OnClose.Do(_ => Debug.Log("SubScribe")).Subscribe(_ => OnClosePopup()).AddTo(_disposable);
-    }
-
-    private void RequestUpdateAlarmTimerPopupTime()
-    {
-        _elapsedTime += TimeSpan.FromSeconds(1);
-        var elapsedTimeString = $"{_elapsedTime.Hours:D2}:{_elapsedTime.Minutes:D2}:{_elapsedTime.Seconds:D2}";
-
-        _alarmTimerPopup.UpdateAlarmTimerText(elapsedTimeString);
-    }
-
     private void RequestPlayLoudAlarmSound()
     {
-        ResetElapsedTime();
+        // refactor
+        // 얘도 옮겨야 할 듯?
+        //ResetElapsedTime();
         DisposeAlarmSubscribe();
 
         _soundManager.RequestAudioSourceLoopOn();
@@ -189,34 +142,9 @@ public class AlarmPresenter : PresenterBase
         RequestOpenAlarmTimerPopup();
     }
 
-    private void ResetElapsedTime()
-    {
-        _elapsedTime = TimeSpan.Zero;
-    }
-
-    private void StopAlarmSystem()
-    {
-        _soundManager.RequestStopPlayMusic();
-        
-        DisposeAlarmSubscribe();
-        
-        _alarmTimerPopup.ClosePopup();
-    }
-
     private void DisposeAlarmSubscribe()
     {
         _alarmDisposable?.Dispose();
-    }
-
-    private bool shouldTerminatePresenter()
-    {
-        if (_uiManager.IsPopupOpeningOrOpened(EPopupKey.AlarmPopup) ||
-            _uiManager.IsPopupOpeningOrOpened(EPopupKey.AlarmTimerPopup))
-        {
-            return false;
-        }
-
-        return true;
     }
 
     #endregion

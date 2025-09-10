@@ -12,7 +12,7 @@ public abstract class PresenterBase : IPresenter
     protected MyCharacterManager _myCharacterManager;
     protected StringManager _stringManager;
     protected PresenterManager _presenterManager;
-    
+
     protected IView _view;
     protected IModel _model;
     protected readonly CompositeDisposable _disposable = new();
@@ -36,12 +36,12 @@ public abstract class PresenterBase : IPresenter
         _modelManager = ModelManager.Instance;
         _stringManager = StringManager.Instance;
         _presenterManager = PresenterManager.Instance;
-        
+
         _view = view;
-        
+
         //fix
         _model = SoundManager.Instance.SoundData;
-        
+
         ExceptionHelper.CheckNullException(_view, "PresenterBase's _view");
         ExceptionHelper.CheckNullException(_model, "PresenterBase's _model");
     }
@@ -61,9 +61,8 @@ public abstract class PresenterBase : IPresenter
         // PresenterBase를 FieldObject에 대해서도 쓸거냐?
         var uiPopupBase = _view as UIPopupBase;
         uiPopupBase?.OnClose.Do(_ => Debug.Log("SubScribe")).Subscribe(_ => OnClosePopup()).AddTo(_disposable);
-        
     }
-    
+
     #endregion
 
     #region 4. EventHandlers
@@ -71,13 +70,13 @@ public abstract class PresenterBase : IPresenter
     // note
     // 하위 타입에서 Presenter를 제거할 지 결정할 책임을 부여한다.
     protected abstract void OnClosePopup();
-    
+
     protected void TerminatePresenter()
     {
         _disposable?.Dispose();
         _presenterManager.TerminatePresenter(this);
     }
-    
+
     // todo 
     // abstract로 _view 연결 끊는 코드 만들자.
 

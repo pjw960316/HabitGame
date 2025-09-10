@@ -17,7 +17,9 @@ public class AlarmData : ScriptableObject, IModel
     #region 2. Properties
 
     public AudioClip AlarmChickenAudioClip => _alarmChickenAudioClip;
-    public ImmutableDictionary<EAlarmButtonType, float> AlarmTimeDictionary => _alarmTimeDictionary.ToImmutableDictionary();
+
+    public ImmutableDictionary<EAlarmButtonType, float> AlarmTimeDictionary =>
+        _alarmTimeDictionary.ToImmutableDictionary();
 
     #endregion
 
