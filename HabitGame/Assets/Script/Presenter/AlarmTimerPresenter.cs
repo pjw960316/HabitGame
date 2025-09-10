@@ -54,13 +54,10 @@ public class AlarmTimerPresenter : PresenterBase
 
     protected override void SetView()
     {
-        // note : title
-        var titleText = _stringManager.GetUIString(EStringKey.EAlarmTimerPopupTitle, _latestAlarmPlayingTime);
+        var titleText = _stringManager.GetUIString(EStringKey.EAlarmTimerPopupTitle, _alarmData.LatestAlarmPlayingTime);
         _alarmTimerPopup.SetAlarmHeaderText(titleText);
-
-        // note : time
+        
         ResetElapsedTime();
-
         var elapsedTimeString = $"{_elapsedTime.Hours:D2}:{_elapsedTime.Minutes:D2}:{_elapsedTime.Seconds:D2}";
         _alarmTimerPopup.UpdateAlarmTimerText(elapsedTimeString);
     }

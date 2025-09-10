@@ -19,7 +19,7 @@ public class AlarmPresenter : PresenterBase
 
     #region 2. Properties
 
-    // default
+    //
 
     #endregion
 
@@ -58,12 +58,12 @@ public class AlarmPresenter : PresenterBase
 
         foreach (var alarmAudioClipButton in _alarmPopup.AlarmAudioClipButtons)
         {
-            alarmAudioClipButton.OnButtonClicked.Subscribe(UpdateAlarmAudioClip).AddTo(_disposable);
+            alarmAudioClipButton.OnButtonClicked.Subscribe(RequestUpdateAlarmAudioClip).AddTo(_disposable);
         }
 
         foreach (var alarmTimeButton in _alarmPopup.AlarmTimeButtons)
         {
-            alarmTimeButton.OnButtonClicked.Subscribe(UpdateLatestTime).AddTo(_disposable);
+            alarmTimeButton.OnButtonClicked.Subscribe(RequestUpdateLatestTime).AddTo(_disposable);
         }
 
         _alarmPopup.OnConfirmed.Subscribe(_ => StartAlarmSystem()).AddTo(_disposable);
@@ -116,20 +116,24 @@ public class AlarmPresenter : PresenterBase
         _soundManager.RequestAudioSourceLoopOn();
         _soundManager.RequestPlayLoudAlarmMusic(_alarmLoudAudioClip);
     }
+    
+    private void RequestUpdateAlarmAudioClip(EAlarmButtonType eAlarmAudioClip)
+    {
+        _alarmData.SetLatestSleepingAudioClip(eAlarmAudioClip);
+    }
+    
+    private void RequestUpdateLatestTime(EAlarmButtonType eAlarmTime)
+    {
+        _alarmData.SetLatestAlarmPlayingTime(eAlarmTime);
+    }
 
     #endregion
 
     #region 6. Methods
 
-    private void UpdateAlarmAudioClip(EAlarmButtonType eAlarmAudioClip)
-    {
-        _latestSleepingAudioClip = _alarmData.GetAlarmAudioClip(eAlarmAudioClip);
-    }
+    
 
-    private void UpdateLatestTime(EAlarmButtonType eAlarmTime)
-    {
-        _latestAlarmPlayingTime = _alarmData.GetAlarmTime(eAlarmTime);
-    }
+    
 
     private void StartAlarmSystem()
     {
