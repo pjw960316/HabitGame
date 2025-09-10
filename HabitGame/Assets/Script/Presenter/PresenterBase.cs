@@ -60,7 +60,8 @@ public abstract class PresenterBase : IPresenter
         // 1Presenter Many View가 되기 때문.
         // PresenterBase를 FieldObject에 대해서도 쓸거냐?
         var uiPopupBase = _view as UIPopupBase;
-        uiPopupBase?.OnClose.Subscribe(_ => OnClosePopup()).AddTo(_disposable);
+        uiPopupBase?.OnClose.Do(_ => Debug.Log("SubScribe")).Subscribe(_ => OnClosePopup()).AddTo(_disposable);
+        
     }
     
     #endregion

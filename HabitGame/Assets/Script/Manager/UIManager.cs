@@ -15,8 +15,9 @@ public class UIManager : ManagerBase<UIManager>, IManager
 
     private readonly Dictionary<EPopupKey, UIPopupBase> _popupDictionary = new();
     
-    private readonly HashSet<EPopupKey> _openedPopupKeyList = new();
-    private readonly HashSet<EPopupKey> _pendingPopupKeyList = new();
+    //test
+    public readonly HashSet<EPopupKey> _openedPopupKeyList = new();
+    public readonly HashSet<EPopupKey> _pendingPopupKeyList = new();
 
     #endregion
 

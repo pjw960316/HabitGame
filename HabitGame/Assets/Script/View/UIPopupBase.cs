@@ -75,7 +75,11 @@ public abstract class UIPopupBase : MonoBehaviour, IView
     // 내부에서 close하는 거 다 찾아서 제거
     public void ClosePopup()
     {
+        Debug.Log("ClosePopup call in UIPoupBase");
         _uiManager.OnClosePopup.OnNext(_ePopupKey);
+        
+        Debug.Log($"{_onClose.HasObservers} <- observer 여부");
+        
         _onClose.OnNext(default);
         
         _disposables?.Dispose();

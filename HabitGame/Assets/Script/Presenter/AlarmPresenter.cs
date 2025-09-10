@@ -82,7 +82,16 @@ public class AlarmPresenter : PresenterBase
 
     protected override void OnClosePopup()
     {
-        Debug.Log("call");
+        Debug.Log("OnClosePopup");
+        
+        foreach(var i in  _uiManager._openedPopupKeyList)
+        {
+            Debug.Log($"_openedPopupKey : {i}");
+        }
+        foreach(var i in  _uiManager._pendingPopupKeyList)
+        {
+            Debug.Log($"_pendingPopupKey : {i}");
+        }
         if (shouldTerminatePresenter())
         {
             // log
@@ -135,6 +144,7 @@ public class AlarmPresenter : PresenterBase
 
         _alarmTimerPopup.UpdateAlarmTimerText(elapsedTimeString);
         _alarmTimerPopup.OnQuitAlarm.Subscribe(_ => StopAlarmSystem()).AddTo(_disposable);
+        _alarmTimerPopup.OnClose.Do(_ => Debug.Log("SubScribe")).Subscribe(_ => OnClosePopup()).AddTo(_disposable);
     }
 
     private void RequestUpdateAlarmTimerPopupTime()
