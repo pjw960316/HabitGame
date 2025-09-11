@@ -77,7 +77,6 @@ public class AlarmPresenter : PresenterBase
 
     private void OnStartAlarmSystem()
     {
-        // todo : 제거?
         _uiManager.AddPendingPopup(EPopupKey.AlarmTimerPopup);
 
         _alarmPopup.ClosePopup();
