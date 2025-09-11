@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
@@ -6,14 +7,11 @@ using UnityEngine;
 public class AlarmData : ScriptableObject, IModel
 {
     #region 1. Fields
-
-    // note : 수면 음원
-    [SerializeField] private SerializedDictionary<EAlarmButtonType, AudioClip> _sleepingAudioClipDictionary = new();
+    
     [SerializeField] private SerializedDictionary<EAlarmButtonType, float> _sleepingAudioPlayTimeDictionary = new();
-
-    // note : 알람 음원
     [SerializeField] private AudioClip _alarmAudioClip;
-
+    private readonly Dictionary<EAlarmButtonType, AudioClip> _sleepingAudioClipDictionary = new();
+    
     #endregion
 
     #region 2. Properties
@@ -31,7 +29,28 @@ public class AlarmData : ScriptableObject, IModel
 
     #region 3. Constructor
 
-    //
+    //test
+    public void Initialize(Dictionary<string, AudioClip> TestAudioClip)
+    {
+        foreach (var i in TestAudioClip)
+        {
+            i.Value.LoadAudioData();
+        }
+        foreach (var i in TestAudioClip)
+        {
+            if (i.Key == "30Minutes_Jambaksa")
+            {
+                _sleepingAudioClipDictionary[EAlarmButtonType.MusicOne] = i.Value;
+                Debug.Log("1");
+            }
+
+            if (i.Key == "Airplane")
+            {
+                _sleepingAudioClipDictionary[EAlarmButtonType.MusicTwo] = i.Value;
+                Debug.Log("2");
+            }
+        }
+    }
 
     #endregion
 

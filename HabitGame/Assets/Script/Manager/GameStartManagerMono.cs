@@ -16,6 +16,10 @@ public class GameStartManagerMono : MonoBehaviour
 
     [SerializeField] private List<ScriptableObject> _scriptableObjectModels;
     
+    //test
+    public Dictionary<string, AudioClip> TestAudioClip = new();
+    
+    
     private Assembly _cSharpAssembly;
     
     // NOTE
@@ -56,6 +60,8 @@ public class GameStartManagerMono : MonoBehaviour
         //log
         Debug.Log("GameStartManagerMono LoadInitialGameState()");
         
+        TestPreLoad();
+        
         SetManagerTypesUsingReflection();
 
         InitializeManagers();
@@ -63,6 +69,16 @@ public class GameStartManagerMono : MonoBehaviour
         LivePermanent();
 
         ChangeScene();
+    }
+
+    //test
+    private void TestPreLoad()
+    {
+        var a = Resources.LoadAll<AudioClip>("Music");
+        foreach (var i in a)
+        {
+            TestAudioClip[i.name] = i;
+        }
     }
 
     private void SetManagerTypesUsingReflection()
@@ -114,6 +130,15 @@ public class GameStartManagerMono : MonoBehaviour
         }
         
         ModelManager.Instance.SetAllModels(_modelList);
+        
+        //test
+        foreach (var i in _modelList)
+        {
+            if (i is AlarmData alarmData)
+            {
+                alarmData.Initialize(TestAudioClip);
+            }
+        }
     }
 
     // Note
