@@ -1,5 +1,4 @@
 using System.Collections.Immutable;
-using System.Linq;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
@@ -11,7 +10,7 @@ public class AlarmData : ScriptableObject, IModel
     // note : 수면 음원
     [SerializeField] private SerializedDictionary<EAlarmButtonType, AudioClip> _sleepingAudioClipDictionary = new();
     [SerializeField] private SerializedDictionary<EAlarmButtonType, float> _sleepingAudioPlayTimeDictionary = new();
-    
+
     // note : 알람 음원
     [SerializeField] private AudioClip _alarmAudioClip;
 
@@ -24,7 +23,6 @@ public class AlarmData : ScriptableObject, IModel
     public AudioClip LatestSleepingAudioClip { get; private set; }
 
     public float LatestSleepingAudioPlayTime { get; private set; }
-
 
     public ImmutableDictionary<EAlarmButtonType, float> SleepingAudioPlayTimeDictionary =>
         _sleepingAudioPlayTimeDictionary.ToImmutableDictionary();
@@ -50,29 +48,6 @@ public class AlarmData : ScriptableObject, IModel
     #endregion
 
     #region 6. Methods
-
-    // note : getter
-    public AudioClip GetSleepingAudioClip(EAlarmButtonType eAlarmAudioClip)
-    {
-        _sleepingAudioClipDictionary.TryGetValue(eAlarmAudioClip, out var audioClip);
-        return audioClip;
-    }
-
-    public float GetSleepingAudioPlayTime(EAlarmButtonType eAlarmTime)
-    {
-        _sleepingAudioPlayTimeDictionary.TryGetValue(eAlarmTime, out var alarmTime);
-        return alarmTime;
-    }
-
-    public AudioClip GetDefaultSleepingAudioClip()
-    {
-        return _sleepingAudioClipDictionary.FirstOrDefault().Value;
-    }
-
-    public float GetDefaultSleepingAudioPlayTime()
-    {
-        return _sleepingAudioPlayTimeDictionary.FirstOrDefault().Value;
-    }
 
     // note : setter
     public void SetLatestSleepingAudioClip(EAlarmButtonType eAlarmAudioClip)
