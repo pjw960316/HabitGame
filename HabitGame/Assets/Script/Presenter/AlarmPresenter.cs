@@ -9,8 +9,6 @@ public class AlarmPresenter : PresenterBase
     private UIAlarmPopup _alarmPopup;
     private AlarmData _alarmData;
 
-    private AudioClip _latestSleepingAudioClip;
-
     #endregion
 
     #region 2. Properties
@@ -33,8 +31,6 @@ public class AlarmPresenter : PresenterBase
         {
             throw new NullReferenceException("_alarmData");
         }
-
-        _latestSleepingAudioClip = _alarmData.GetDefaultSleepingAudioClip();
 
         SetView();
 
@@ -100,7 +96,7 @@ public class AlarmPresenter : PresenterBase
     private void RequestPlaySleepingMusic()
     {
         _soundManager.RequestAudioSourceLoopOn();
-        _soundManager.RequestPlaySleepingMusic(_latestSleepingAudioClip);
+        _soundManager.RequestPlaySleepingMusic(_alarmData.LatestSleepingAudioClip);
     }
 
     private void RequestUpdateLatestSleepingAudioClip(EAlarmButtonType eAlarmAudioClip)

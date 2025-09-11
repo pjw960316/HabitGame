@@ -19,7 +19,7 @@ public class AlarmData : ScriptableObject, IModel
 
     #region 2. Properties
 
-    public AudioClip AlarmAudioClip { get; }
+    public AudioClip AlarmAudioClip => _alarmAudioClip;
 
     public AudioClip LatestSleepingAudioClip { get; private set; }
 
