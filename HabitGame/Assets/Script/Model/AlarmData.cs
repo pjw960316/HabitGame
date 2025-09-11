@@ -11,17 +11,17 @@ public class AlarmData : ScriptableObject, IModel
     [SerializeField] private SerializedDictionary<EAlarmButtonType, AudioClip> _alarmAudioClipDictionary = new();
     [SerializeField] private SerializedDictionary<EAlarmButtonType, float> _alarmTimeDictionary = new();
     [SerializeField] private AudioClip _alarmChickenAudioClip;
-    
-    private float _latestAlarmPlayingTime;
-    private AudioClip _latestSleepingAudioClip;
-    private AudioClip _alarmLoudAudioClip;
 
     #endregion
 
     #region 2. Properties
 
-    public AudioClip AlarmChickenAudioClip => _alarmChickenAudioClip;
-    public float LatestAlarmPlayingTime => _latestAlarmPlayingTime;
+    public AudioClip WakeUpAudioClip { get; }
+
+    public AudioClip LatestSleepingAudioClip { get; private set; }
+
+    public float LatestAlarmPlayingTime { get; private set; }
+
 
     public ImmutableDictionary<EAlarmButtonType, float> AlarmTimeDictionary =>
         _alarmTimeDictionary.ToImmutableDictionary();
@@ -70,18 +70,18 @@ public class AlarmData : ScriptableObject, IModel
     {
         return _alarmTimeDictionary.FirstOrDefault().Value;
     }
-    
+
     // note : setter
     public void SetLatestSleepingAudioClip(EAlarmButtonType eAlarmAudioClip)
     {
         _alarmAudioClipDictionary.TryGetValue(eAlarmAudioClip, out var value);
-        _latestSleepingAudioClip = value;
+        LatestSleepingAudioClip = value;
     }
-    
+
     public void SetLatestAlarmPlayingTime(EAlarmButtonType eAlarmAudioClip)
     {
         _alarmTimeDictionary.TryGetValue(eAlarmAudioClip, out var value);
-        _latestAlarmPlayingTime = value;
+        LatestAlarmPlayingTime = value;
     }
 
     #endregion

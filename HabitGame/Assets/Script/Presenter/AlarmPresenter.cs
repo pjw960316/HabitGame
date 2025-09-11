@@ -40,7 +40,7 @@ public class AlarmPresenter : PresenterBase
 
         _latestSleepingAudioClip = _alarmData.GetDefaultAlarmAudioClip();
         _latestAlarmPlayingTime = _alarmData.GetDefaultAlarmTime();
-        _alarmLoudAudioClip = _alarmData.AlarmChickenAudioClip;
+        _alarmLoudAudioClip = _alarmData.WakeUpAudioClip;
 
         SetView();
 
@@ -85,14 +85,11 @@ public class AlarmPresenter : PresenterBase
 
     #region 5. Request Methods
 
-    // todo 
-    // Presenter Connect를 관리하는 PresenterManager에서 connect 하도록
     private void RequestOpenAlarmTimerPopup()
     {
         var popupTargetTransform = _uiManager.MainCanvasTransform;
 
         _uiManager.OpenPopupByStringKey(EPopupKey.AlarmTimerPopup, popupTargetTransform);
-        _uiManager.GetPopupByStringKey<UIAlarmTimerPopup>(EPopupKey.AlarmTimerPopup);
     }
 
     private void RequestPlaySleepingMusic(float sleepingMusicPlayingTime)
@@ -116,12 +113,12 @@ public class AlarmPresenter : PresenterBase
         _soundManager.RequestAudioSourceLoopOn();
         _soundManager.RequestPlayLoudAlarmMusic(_alarmLoudAudioClip);
     }
-    
+
     private void RequestUpdateAlarmAudioClip(EAlarmButtonType eAlarmAudioClip)
     {
         _alarmData.SetLatestSleepingAudioClip(eAlarmAudioClip);
     }
-    
+
     private void RequestUpdateLatestTime(EAlarmButtonType eAlarmTime)
     {
         _alarmData.SetLatestAlarmPlayingTime(eAlarmTime);
@@ -130,10 +127,6 @@ public class AlarmPresenter : PresenterBase
     #endregion
 
     #region 6. Methods
-
-    
-
-    
 
     private void StartAlarmSystem()
     {

@@ -9,16 +9,12 @@ public class AlarmTimerPresenter : PresenterBase
     private UIAlarmTimerPopup _alarmTimerPopup;
     private AlarmData _alarmData;
 
-
     // 제거 요망?
     private AudioClip _alarmLoudAudioClip;
     private AudioClip _latestSleepingAudioClip;
     private float _latestAlarmPlayingTime;
     private TimeSpan _elapsedTime;
 
-    // note
-    // AlarmDisposable은 UIAlarmPopup이 종료되어도 동작해야 한다.
-    // 그러므로 PresenterBase의 _disposable과 생명주기를 다르게 해야한다.
     private readonly CompositeDisposable _alarmDisposable = new();
 
     #endregion
@@ -34,7 +30,7 @@ public class AlarmTimerPresenter : PresenterBase
     public sealed override void Initialize(IView view)
     {
         base.Initialize(view);
-
+        
         _alarmTimerPopup = _view as UIAlarmTimerPopup;
         _alarmData = _modelManager.GetModel<AlarmData>();
 
@@ -43,9 +39,9 @@ public class AlarmTimerPresenter : PresenterBase
             throw new NullReferenceException("Model or View is null");
         }
 
-        _latestSleepingAudioClip = _alarmData.GetDefaultAlarmAudioClip();
-        _latestAlarmPlayingTime = _alarmData.GetDefaultAlarmTime();
-        _alarmLoudAudioClip = _alarmData.AlarmChickenAudioClip;
+        _latestSleepingAudioClip = _alarmData.LatestSleepingAudioClip;
+        _latestAlarmPlayingTime = _alarmData.LatestAlarmPlayingTime;
+        _alarmLoudAudioClip = _alarmData.WakeUpAudioClip;
 
         SetView();
 
@@ -54,7 +50,7 @@ public class AlarmTimerPresenter : PresenterBase
 
     protected override void SetView()
     {
-        var titleText = _stringManager.GetUIString(EStringKey.EAlarmTimerPopupTitle, _alarmData.LatestAlarmPlayingTime);
+        var titleText = _stringManager.GetUIString(EStringKey.EAlarmTimerPopupTitle, _latestAlarmPlayingTime);
         _alarmTimerPopup.SetAlarmHeaderText(titleText);
         
         ResetElapsedTime();

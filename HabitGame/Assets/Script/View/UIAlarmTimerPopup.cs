@@ -30,15 +30,13 @@ public class UIAlarmTimerPopup : UIPopupBase
     protected sealed override void Initialize()
     {
         base.Initialize();
-
+        
         InitializeEPopupKey();
     }
 
-    // note
-    // 얘는 연결만 된다.
     protected override void CreatePresenterByManager()
     {
-        //
+        _presenterManager.CreatePresenter<AlarmTimerPresenter>(this);
     }
 
     protected override void InitializeEPopupKey()
@@ -73,6 +71,7 @@ public class UIAlarmTimerPopup : UIPopupBase
 
     public void SetAlarmHeaderText(string text)
     {
+        Debug.Log($"{text}");
         _titleWidget.SetText(text);
     }
 
