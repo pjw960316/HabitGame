@@ -30,7 +30,7 @@ public class UIAlarmTimerPopup : UIPopupBase
     protected sealed override void Initialize()
     {
         base.Initialize();
-        
+
         InitializeEPopupKey();
     }
 
@@ -58,7 +58,7 @@ public class UIAlarmTimerPopup : UIPopupBase
         _onQuitAlarm.OnNext(default);
         _uiToastManager.ShowToast(EToastStringKey.EAlarmQuit);
     }
-    
+
     #endregion
 
     #region 5. Request Methods
@@ -71,7 +71,6 @@ public class UIAlarmTimerPopup : UIPopupBase
 
     public void SetAlarmHeaderText(string text)
     {
-        Debug.Log($"{text}");
         _titleWidget.SetText(text);
     }
 

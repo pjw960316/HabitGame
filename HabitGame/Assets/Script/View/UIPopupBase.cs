@@ -70,15 +70,9 @@ public abstract class UIPopupBase : MonoBehaviour, IView
     // 반드시 Presenter를 통해 Close 되어야 합니다.
     // 항상 닫을 때 Presenter를 정리해야 하는 지 아닌 지 
     // Presenter에게 판단을 넘겨야 한다.
-    
-    // refactor
-    // 내부에서 close하는 거 다 찾아서 제거
     public void ClosePopup()
     {
-        Debug.Log("ClosePopup call in UIPoupBase");
         _uiManager.OnClosePopup.OnNext(_ePopupKey);
-        
-        Debug.Log($"{_onClose.HasObservers} <- observer 여부");
         
         _onClose.OnNext(default);
         

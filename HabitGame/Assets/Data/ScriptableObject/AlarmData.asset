@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 815989e0c2b28454ca2ad5debc18fd1b, type: 3}
   m_Name: AlarmData
   m_EditorClassIdentifier: 
-  _alarmAudioClipDictionary:
+  _sleepingAudioClipDictionary:
     _serializedList:
     - Key: 0
       Value: {fileID: 8300000, guid: 68604bbf3d301aa4fb1c904c2469adf0, type: 3}
@@ -20,7 +20,7 @@ MonoBehaviour:
       Value: {fileID: 8300000, guid: a44850f601c727348af73069aa05b175, type: 3}
     - Key: 2
       Value: {fileID: 8300000, guid: a44850f601c727348af73069aa05b175, type: 3}
-  _alarmTimeDictionary:
+  _sleepingAudioPlayTimeDictionary:
     _serializedList:
     - Key: 4
       Value: 5
@@ -32,4 +32,4 @@ MonoBehaviour:
       Value: 60
     - Key: 8
       Value: 90
-  _alarmChickenAudioClip: {fileID: 8300000, guid: 578e0ef3928252b468cb5f7fe8c056d5, type: 3}
+  _alarmAudioClip: {fileID: 8300000, guid: 578e0ef3928252b468cb5f7fe8c056d5, type: 3}

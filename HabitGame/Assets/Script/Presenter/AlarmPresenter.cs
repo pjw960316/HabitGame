@@ -9,11 +9,7 @@ public class AlarmPresenter : PresenterBase
     private UIAlarmPopup _alarmPopup;
     private AlarmData _alarmData;
 
-    private AudioClip _alarmLoudAudioClip;
     private AudioClip _latestSleepingAudioClip;
-    private float _latestAlarmPlayingTime;
-
-    private readonly CompositeDisposable _alarmDisposable = new();
 
     #endregion
 
@@ -38,9 +34,7 @@ public class AlarmPresenter : PresenterBase
             throw new NullReferenceException("_alarmData");
         }
 
-        _latestSleepingAudioClip = _alarmData.GetDefaultAlarmAudioClip();
-        _latestAlarmPlayingTime = _alarmData.GetDefaultAlarmTime();
-        _alarmLoudAudioClip = _alarmData.WakeUpAudioClip;
+        _latestSleepingAudioClip = _alarmData.GetDefaultSleepingAudioClip();
 
         SetView();
 
@@ -49,7 +43,7 @@ public class AlarmPresenter : PresenterBase
 
     protected sealed override void SetView()
     {
-        _alarmPopup.SetButtonText(_alarmData.AlarmTimeDictionary);
+        _alarmPopup.SetButtonText(_alarmData.SleepingAudioPlayTimeDictionary);
     }
 
     protected sealed override void BindEvent()
@@ -58,15 +52,15 @@ public class AlarmPresenter : PresenterBase
 
         foreach (var alarmAudioClipButton in _alarmPopup.AlarmAudioClipButtons)
         {
-            alarmAudioClipButton.OnButtonClicked.Subscribe(RequestUpdateAlarmAudioClip).AddTo(_disposable);
+            alarmAudioClipButton.OnButtonClicked.Subscribe(RequestUpdateLatestSleepingAudioClip).AddTo(_disposable);
         }
 
         foreach (var alarmTimeButton in _alarmPopup.AlarmTimeButtons)
         {
-            alarmTimeButton.OnButtonClicked.Subscribe(RequestUpdateLatestTime).AddTo(_disposable);
+            alarmTimeButton.OnButtonClicked.Subscribe(RequestUpdateLatestSleepingAudioPlayTime).AddTo(_disposable);
         }
 
-        _alarmPopup.OnConfirmed.Subscribe(_ => StartAlarmSystem()).AddTo(_disposable);
+        _alarmPopup.OnConfirmed.Subscribe(_ => OnStartAlarmSystem()).AddTo(_disposable);
     }
 
     #endregion
@@ -81,6 +75,18 @@ public class AlarmPresenter : PresenterBase
         TerminatePresenter();
     }
 
+    private void OnStartAlarmSystem()
+    {
+        // todo : 제거?
+        _uiManager.AddPendingPopup(EPopupKey.AlarmTimerPopup);
+
+        _alarmPopup.ClosePopup();
+
+        RequestPlaySleepingMusic();
+
+        RequestOpenAlarmTimerPopup();
+    }
+
     #endregion
 
     #region 5. Request Methods
@@ -92,57 +98,27 @@ public class AlarmPresenter : PresenterBase
         _uiManager.OpenPopupByStringKey(EPopupKey.AlarmTimerPopup, popupTargetTransform);
     }
 
-    private void RequestPlaySleepingMusic(float sleepingMusicPlayingTime)
+    private void RequestPlaySleepingMusic()
     {
-        //refactor 이거 관리
-        Observable.Timer(TimeSpan.FromMinutes(sleepingMusicPlayingTime))
-            .Subscribe(_ => RequestPlayLoudAlarmSound())
-            .AddTo(_alarmDisposable);
-
         _soundManager.RequestAudioSourceLoopOn();
         _soundManager.RequestPlaySleepingMusic(_latestSleepingAudioClip);
     }
 
-    private void RequestPlayLoudAlarmSound()
-    {
-        // refactor
-        // 얘도 옮겨야 할 듯?
-        //ResetElapsedTime();
-        DisposeAlarmSubscribe();
-
-        _soundManager.RequestAudioSourceLoopOn();
-        _soundManager.RequestPlayLoudAlarmMusic(_alarmLoudAudioClip);
-    }
-
-    private void RequestUpdateAlarmAudioClip(EAlarmButtonType eAlarmAudioClip)
+    private void RequestUpdateLatestSleepingAudioClip(EAlarmButtonType eAlarmAudioClip)
     {
         _alarmData.SetLatestSleepingAudioClip(eAlarmAudioClip);
     }
 
-    private void RequestUpdateLatestTime(EAlarmButtonType eAlarmTime)
+    private void RequestUpdateLatestSleepingAudioPlayTime(EAlarmButtonType eAlarmTime)
     {
-        _alarmData.SetLatestAlarmPlayingTime(eAlarmTime);
+        _alarmData.SetLatestSleepingAudioPlayTime(eAlarmTime);
     }
 
     #endregion
 
     #region 6. Methods
 
-    private void StartAlarmSystem()
-    {
-        _uiManager.AddPendingPopup(EPopupKey.AlarmTimerPopup);
-
-        _alarmPopup.ClosePopup();
-
-        RequestPlaySleepingMusic(_latestAlarmPlayingTime);
-
-        RequestOpenAlarmTimerPopup();
-    }
-
-    private void DisposeAlarmSubscribe()
-    {
-        _alarmDisposable?.Dispose();
-    }
+    //
 
     #endregion
 }

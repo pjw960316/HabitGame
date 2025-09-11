@@ -9,13 +9,10 @@ public class AlarmTimerPresenter : PresenterBase
     private UIAlarmTimerPopup _alarmTimerPopup;
     private AlarmData _alarmData;
 
-    // 제거 요망?
     private AudioClip _alarmLoudAudioClip;
-    private AudioClip _latestSleepingAudioClip;
-    private float _latestAlarmPlayingTime;
-    private TimeSpan _elapsedTime;
+    private float _latestSleepingAudioPlayTime;
 
-    private readonly CompositeDisposable _alarmDisposable = new();
+    private TimeSpan _elapsedTime;
 
     #endregion
 
@@ -30,7 +27,7 @@ public class AlarmTimerPresenter : PresenterBase
     public sealed override void Initialize(IView view)
     {
         base.Initialize(view);
-        
+
         _alarmTimerPopup = _view as UIAlarmTimerPopup;
         _alarmData = _modelManager.GetModel<AlarmData>();
 
@@ -39,9 +36,8 @@ public class AlarmTimerPresenter : PresenterBase
             throw new NullReferenceException("Model or View is null");
         }
 
-        _latestSleepingAudioClip = _alarmData.LatestSleepingAudioClip;
-        _latestAlarmPlayingTime = _alarmData.LatestAlarmPlayingTime;
-        _alarmLoudAudioClip = _alarmData.WakeUpAudioClip;
+        _latestSleepingAudioPlayTime = _alarmData.LatestSleepingAudioPlayTime;
+        _alarmLoudAudioClip = _alarmData.AlarmAudioClip;
 
         SetView();
 
@@ -50,31 +46,47 @@ public class AlarmTimerPresenter : PresenterBase
 
     protected override void SetView()
     {
-        var titleText = _stringManager.GetUIString(EStringKey.EAlarmTimerPopupTitle, _latestAlarmPlayingTime);
+        var titleText = _stringManager.GetUIString(EStringKey.EAlarmTimerPopupTitle, _latestSleepingAudioPlayTime);
         _alarmTimerPopup.SetAlarmHeaderText(titleText);
-        
-        ResetElapsedTime();
+
+        _elapsedTime = TimeSpan.Zero;
         var elapsedTimeString = $"{_elapsedTime.Hours:D2}:{_elapsedTime.Minutes:D2}:{_elapsedTime.Seconds:D2}";
         _alarmTimerPopup.UpdateAlarmTimerText(elapsedTimeString);
     }
 
     protected override void BindEvent()
     {
-        // note : 여기서 OnClose()
         base.BindEvent();
 
         _alarmTimerPopup.OnQuitAlarm.Subscribe(_ => StopAlarmSystem()).AddTo(_disposable);
 
+        Observable.Timer(TimeSpan.FromMinutes(_latestSleepingAudioPlayTime))
+            .Subscribe(_ => RequestPlayAlarm())
+            .AddTo(_disposable);
+
         Observable.Interval(TimeSpan.FromSeconds(1))
             .Subscribe(_ => RequestUpdateAlarmTimerPopupTime())
-            .AddTo(_alarmDisposable);
+            .AddTo(_disposable);
     }
 
     #endregion
 
     #region 4. EventHandlers
 
-    //
+    protected override void OnClosePopup()
+    {
+        // log
+        Debug.Log("alarmTimerPresenter Terminate Presenter");
+
+        TerminatePresenter();
+    }
+
+    private void StopAlarmSystem()
+    {
+        _soundManager.RequestStopPlayMusic();
+
+        _alarmTimerPopup.ClosePopup();
+    }
 
     #endregion
 
@@ -88,36 +100,17 @@ public class AlarmTimerPresenter : PresenterBase
         _alarmTimerPopup.UpdateAlarmTimerText(elapsedTimeString);
     }
 
+    private void RequestPlayAlarm()
+    {
+        _soundManager.RequestAudioSourceLoopOn();
+        _soundManager.RequestPlayLoudAlarmMusic(_alarmLoudAudioClip);
+    }
+
     #endregion
 
     #region 6. Methods
 
-    protected override void OnClosePopup()
-    {
-        // log
-        Debug.Log("alarmTimerPresenter Terminate Presenter");
-
-        TerminatePresenter();
-    }
-
-    private void ResetElapsedTime()
-    {
-        _elapsedTime = TimeSpan.Zero;
-    }
-
-    private void StopAlarmSystem()
-    {
-        _soundManager.RequestStopPlayMusic();
-
-        DisposeAlarmSubscribe();
-
-        _alarmTimerPopup.ClosePopup();
-    }
-
-    private void DisposeAlarmSubscribe()
-    {
-        _alarmDisposable?.Dispose();
-    }
+    //
 
     #endregion
 }

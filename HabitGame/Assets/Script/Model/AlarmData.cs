@@ -8,23 +8,26 @@ public class AlarmData : ScriptableObject, IModel
 {
     #region 1. Fields
 
-    [SerializeField] private SerializedDictionary<EAlarmButtonType, AudioClip> _alarmAudioClipDictionary = new();
-    [SerializeField] private SerializedDictionary<EAlarmButtonType, float> _alarmTimeDictionary = new();
-    [SerializeField] private AudioClip _alarmChickenAudioClip;
+    // note : 수면 음원
+    [SerializeField] private SerializedDictionary<EAlarmButtonType, AudioClip> _sleepingAudioClipDictionary = new();
+    [SerializeField] private SerializedDictionary<EAlarmButtonType, float> _sleepingAudioPlayTimeDictionary = new();
+    
+    // note : 알람 음원
+    [SerializeField] private AudioClip _alarmAudioClip;
 
     #endregion
 
     #region 2. Properties
 
-    public AudioClip WakeUpAudioClip { get; }
+    public AudioClip AlarmAudioClip { get; }
 
     public AudioClip LatestSleepingAudioClip { get; private set; }
 
-    public float LatestAlarmPlayingTime { get; private set; }
+    public float LatestSleepingAudioPlayTime { get; private set; }
 
 
-    public ImmutableDictionary<EAlarmButtonType, float> AlarmTimeDictionary =>
-        _alarmTimeDictionary.ToImmutableDictionary();
+    public ImmutableDictionary<EAlarmButtonType, float> SleepingAudioPlayTimeDictionary =>
+        _sleepingAudioPlayTimeDictionary.ToImmutableDictionary();
 
     #endregion
 
@@ -49,39 +52,39 @@ public class AlarmData : ScriptableObject, IModel
     #region 6. Methods
 
     // note : getter
-    public AudioClip GetAlarmAudioClip(EAlarmButtonType eAlarmAudioClip)
+    public AudioClip GetSleepingAudioClip(EAlarmButtonType eAlarmAudioClip)
     {
-        _alarmAudioClipDictionary.TryGetValue(eAlarmAudioClip, out var audioClip);
+        _sleepingAudioClipDictionary.TryGetValue(eAlarmAudioClip, out var audioClip);
         return audioClip;
     }
 
-    public float GetAlarmTime(EAlarmButtonType eAlarmTime)
+    public float GetSleepingAudioPlayTime(EAlarmButtonType eAlarmTime)
     {
-        _alarmTimeDictionary.TryGetValue(eAlarmTime, out var alarmTime);
+        _sleepingAudioPlayTimeDictionary.TryGetValue(eAlarmTime, out var alarmTime);
         return alarmTime;
     }
 
-    public AudioClip GetDefaultAlarmAudioClip()
+    public AudioClip GetDefaultSleepingAudioClip()
     {
-        return _alarmAudioClipDictionary.FirstOrDefault().Value;
+        return _sleepingAudioClipDictionary.FirstOrDefault().Value;
     }
 
-    public float GetDefaultAlarmTime()
+    public float GetDefaultSleepingAudioPlayTime()
     {
-        return _alarmTimeDictionary.FirstOrDefault().Value;
+        return _sleepingAudioPlayTimeDictionary.FirstOrDefault().Value;
     }
 
     // note : setter
     public void SetLatestSleepingAudioClip(EAlarmButtonType eAlarmAudioClip)
     {
-        _alarmAudioClipDictionary.TryGetValue(eAlarmAudioClip, out var value);
+        _sleepingAudioClipDictionary.TryGetValue(eAlarmAudioClip, out var value);
         LatestSleepingAudioClip = value;
     }
 
-    public void SetLatestAlarmPlayingTime(EAlarmButtonType eAlarmAudioClip)
+    public void SetLatestSleepingAudioPlayTime(EAlarmButtonType eAlarmAudioClip)
     {
-        _alarmTimeDictionary.TryGetValue(eAlarmAudioClip, out var value);
-        LatestAlarmPlayingTime = value;
+        _sleepingAudioPlayTimeDictionary.TryGetValue(eAlarmAudioClip, out var value);
+        LatestSleepingAudioPlayTime = value;
     }
 
     #endregion
