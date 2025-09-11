@@ -30,23 +30,19 @@ public class AlarmData : ScriptableObject, IModel
     #region 3. Constructor
 
     //test
-    public void Initialize(Dictionary<string, AudioClip> TestAudioClip)
+    public void Initialize(List<AudioClip> TestAudioClip)
     {
         foreach (var i in TestAudioClip)
         {
-            i.Value.LoadAudioData();
-        }
-        foreach (var i in TestAudioClip)
-        {
-            if (i.Key == "30Minutes_Jambaksa")
+            if (i.name == "30Minutes_Jambaksa")
             {
-                _sleepingAudioClipDictionary[EAlarmButtonType.MusicOne] = i.Value;
+                _sleepingAudioClipDictionary[EAlarmButtonType.MusicOne] = i;
                 Debug.Log("1");
             }
 
-            if (i.Key == "Airplane")
+            if (i.name == "Airplane")
             {
-                _sleepingAudioClipDictionary[EAlarmButtonType.MusicTwo] = i.Value;
+                _sleepingAudioClipDictionary[EAlarmButtonType.MusicTwo] = i;
                 Debug.Log("2");
             }
         }

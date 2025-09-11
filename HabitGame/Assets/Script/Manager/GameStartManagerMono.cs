@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using AYellowpaper.SerializedCollections;
+using Cysharp.Threading.Tasks;
+using NUnit.Framework.Internal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,7 +19,7 @@ public class GameStartManagerMono : MonoBehaviour
     [SerializeField] private List<ScriptableObject> _scriptableObjectModels;
     
     //test
-    public Dictionary<string, AudioClip> TestAudioClip = new();
+    public List<AudioClip> TestAudioClip = new();
     
     
     private Assembly _cSharpAssembly;
@@ -40,6 +42,8 @@ public class GameStartManagerMono : MonoBehaviour
 
     private void Awake()
     {
+        TestPreLoad();
+        
         Initialize();
         
         LoadInitialGameState();
@@ -58,26 +62,42 @@ public class GameStartManagerMono : MonoBehaviour
     private void LoadInitialGameState()
     {
         //log
-        Debug.Log("GameStartManagerMono LoadInitialGameState()");
-        
-        TestPreLoad();
+        Debug.Log("GameStartManagerMono LoadInitialGameState Start");
         
         SetManagerTypesUsingReflection();
-
+        
         InitializeManagers();
         
         LivePermanent();
+        
+        //ChangeScene();
 
-        ChangeScene();
+        Test().Forget();
+        Debug.Log("GameStartManagerMono LoadInitialGameState Success And ChangeScene");
     }
+    
 
     //test
-    private void TestPreLoad()
+    private async void TestPreLoad()
     {
-        var a = Resources.LoadAll<AudioClip>("Music");
-        foreach (var i in a)
+        var a = await Resources.LoadAsync<AudioClip>("Music/30Minutes_Jambaksa");
+        var aa = a as AudioClip;
+        TestAudioClip.Add(aa);
+        
+        Debug.Log("aa end");
+        
+        var b = await Resources.LoadAsync<AudioClip>("Music/Airplane");
+        var bb = b as AudioClip;
+        TestAudioClip.Add(bb);
+
+        Debug.Log("bb end");
+        
+        foreach (var i in _modelList)
         {
-            TestAudioClip[i.name] = i;
+            if (i is AlarmData alarmData)
+            {
+                alarmData.Initialize(TestAudioClip);
+            }
         }
     }
 
@@ -130,15 +150,6 @@ public class GameStartManagerMono : MonoBehaviour
         }
         
         ModelManager.Instance.SetAllModels(_modelList);
-        
-        //test
-        foreach (var i in _modelList)
-        {
-            if (i is AlarmData alarmData)
-            {
-                alarmData.Initialize(TestAudioClip);
-            }
-        }
     }
 
     // Note
@@ -215,6 +226,12 @@ public class GameStartManagerMono : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
+    private async UniTaskVoid Test()
+    {
+        await UniTask.Delay(10000*4);
+
+        ChangeScene();
+    }
     private void ChangeScene()
     {
         SceneManager.LoadScene(MAIN_SCENE_NAME);
