@@ -47,10 +47,13 @@ public class GameStartManagerMono : MonoBehaviour
 
     private void Initialize()
     {
-        TestPreLoad();
+        PreLoadAsync().Forget();
 
+        Debug.Log("3");
         _managerList = new List<IManager>();
         _modelList = new List<IModel>();
+        
+        Debug.Log("4");
     }
 
     #endregion
@@ -76,14 +79,16 @@ public class GameStartManagerMono : MonoBehaviour
 
         InitializeManagerTypesUsingReflection();
 
+        Debug.Log("5");
         InitializeManagers();
 
+        Debug.Log("6");
         InitializeModels();
     }
 
 
     //test
-    private async void TestPreLoad()
+    private async UniTaskVoid PreLoadAsync()
     {
         var a = await Resources.LoadAsync<AudioClip>("Music/30Minutes_Jambaksa");
         var aa = a as AudioClip;
