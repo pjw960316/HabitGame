@@ -14,11 +14,8 @@ public class GameStartManagerMono : MonoBehaviour
     private const string MAIN_SCENE_NAME = "MainScene";
     private const int LOAD_SCENE_SHOW_TIME = 10000; //ms
 
-    //test
-    public List<AudioClip> TestAudioClip = new();
-    
     [SerializeField] private List<ScriptableObject> _scriptableObjectModels;
-    
+
     private Assembly _cSharpAssembly;
     private List<Type> _managerTypeList;
     private List<IManager> _managerList;
@@ -40,20 +37,17 @@ public class GameStartManagerMono : MonoBehaviour
 
         LoadInitialGameState();
 
+        PreLoadAudioDataAsync().Forget();
+
         LiveGameStartManagerMonoPermanent();
-        
+
         ShowGameLoadSceneAsync().Forget();
     }
 
     private void Initialize()
     {
-        PreLoadAsync().Forget();
-
-        Debug.Log("3");
         _managerList = new List<IManager>();
         _modelList = new List<IModel>();
-        
-        Debug.Log("4");
     }
 
     #endregion
@@ -79,35 +73,34 @@ public class GameStartManagerMono : MonoBehaviour
 
         InitializeManagerTypesUsingReflection();
 
-        Debug.Log("5");
         InitializeManagers();
 
-        Debug.Log("6");
         InitializeModels();
     }
-
-
-    //test
-    private async UniTaskVoid PreLoadAsync()
+    
+    private async UniTaskVoid PreLoadAudioDataAsync()
     {
-        var a = await Resources.LoadAsync<AudioClip>("Music/30Minutes_Jambaksa");
-        var aa = a as AudioClip;
-        TestAudioClip.Add(aa);
-
-        Debug.Log("aa end");
-
-        var b = await Resources.LoadAsync<AudioClip>("Music/Airplane");
-        var bb = b as AudioClip;
-        TestAudioClip.Add(bb);
-
-        Debug.Log("bb end");
-
-        foreach (var i in _modelList)
+        var alarmData = _modelList.OfType<AlarmData>().FirstOrDefault();
+        if (alarmData == null)
         {
-            if (i is AlarmData alarmData)
-            {
-                alarmData.Initialize(TestAudioClip);
-            }
+            throw new NullReferenceException("alarmData is null");
+        }
+        
+        alarmData.Initialize();
+        var sleepingAudioClipPathDictionary = alarmData.SleepingAudioClipPathDictionary;
+
+        foreach (var element in sleepingAudioClipPathDictionary)
+        {
+            var key = element.Key;
+            var relativePath = element.Value;
+
+            var loadData = await Resources.LoadAsync<AudioClip>(relativePath);
+            var memoryLoadedAudioClip = loadData as AudioClip;
+
+            alarmData.SetSleepingAudioClipDictionary(key, memoryLoadedAudioClip);
+                    
+            //log
+            Debug.Log($"{relativePath}의 음원 파일 {memoryLoadedAudioClip?.name}이 비동기로 로드 되었습니다");
         }
     }
 

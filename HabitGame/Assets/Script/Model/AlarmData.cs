@@ -7,11 +7,20 @@ using UnityEngine;
 public class AlarmData : ScriptableObject, IModel
 {
     #region 1. Fields
+
+    private const string BaseDirectoryName = "Music";
+
+
+    // note
+    // AudioClip의 메모리 적재를 GameStartManagerMono로 옮긴다.
+    // 그러기 위해 Path가 필요하다.
+    // Path를 추출하기 위한 용도고, 실제로 메모리에 적재되지 않는다.
+    private readonly Dictionary<EAlarmButtonType, string> _sleepingAudioClipPathDictionary = new();
+    [SerializeField] private SerializedDictionary<EAlarmButtonType, AudioClip> _sleepingAudioClipDictionary = new();
     
     [SerializeField] private SerializedDictionary<EAlarmButtonType, float> _sleepingAudioPlayTimeDictionary = new();
     [SerializeField] private AudioClip _alarmAudioClip;
-    private readonly Dictionary<EAlarmButtonType, AudioClip> _sleepingAudioClipDictionary = new();
-    
+
     #endregion
 
     #region 2. Properties
@@ -22,6 +31,8 @@ public class AlarmData : ScriptableObject, IModel
 
     public float LatestSleepingAudioPlayTime { get; private set; }
 
+    public ImmutableDictionary<EAlarmButtonType, string> SleepingAudioClipPathDictionary => _sleepingAudioClipPathDictionary.ToImmutableDictionary();
+
     public ImmutableDictionary<EAlarmButtonType, float> SleepingAudioPlayTimeDictionary =>
         _sleepingAudioPlayTimeDictionary.ToImmutableDictionary();
 
@@ -29,22 +40,19 @@ public class AlarmData : ScriptableObject, IModel
 
     #region 3. Constructor
 
-    //test
-    public void Initialize(List<AudioClip> TestAudioClip)
+    public void Initialize()
     {
-        foreach (var i in TestAudioClip)
-        {
-            if (i.name == "30Minutes_Jambaksa")
-            {
-                _sleepingAudioClipDictionary[EAlarmButtonType.MusicOne] = i;
-                Debug.Log("1");
-            }
+        InitializeSleepingAudioClipPathDictionary();
+    }
 
-            if (i.name == "Airplane")
-            {
-                _sleepingAudioClipDictionary[EAlarmButtonType.MusicTwo] = i;
-                Debug.Log("2");
-            }
+    private void InitializeSleepingAudioClipPathDictionary()
+    {
+        foreach (var audioClip in _sleepingAudioClipDictionary)
+        {
+            var audioClipName = audioClip.Value.name;
+            var path = $"{BaseDirectoryName}/{audioClipName}";
+
+            _sleepingAudioClipPathDictionary[audioClip.Key] = path;
         }
     }
 
@@ -65,6 +73,11 @@ public class AlarmData : ScriptableObject, IModel
     #region 6. Methods
 
     // note : setter
+
+    public void SetSleepingAudioClipDictionary(EAlarmButtonType eAlarmButtonType, AudioClip memoryLoadedAudioClip)
+    {
+        _sleepingAudioClipDictionary[eAlarmButtonType] = memoryLoadedAudioClip;
+    }
     public void SetLatestSleepingAudioClip(EAlarmButtonType eAlarmAudioClip)
     {
         _sleepingAudioClipDictionary.TryGetValue(eAlarmAudioClip, out var value);
