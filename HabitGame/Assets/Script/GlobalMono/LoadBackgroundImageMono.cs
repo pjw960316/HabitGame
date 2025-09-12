@@ -41,7 +41,8 @@ public class LoadBackgroundImageMono : MonoBehaviour
     private void BindEvent()
     {
         _changeBackgroundSpriteDisposable =
-            Observable.Interval(TimeSpan.FromSeconds(CHANGE_BACKGROUND_TIME)).Subscribe(_ => OnChangeBackgroundSprite());
+            Observable.Interval(TimeSpan.FromSeconds(CHANGE_BACKGROUND_TIME))
+                .Subscribe(_ => OnChangeBackgroundSprite());
     }
 
     #endregion

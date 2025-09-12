@@ -14,16 +14,12 @@ public class GameStartManagerMono : MonoBehaviour
     private const string MAIN_SCENE_NAME = "MainScene";
     private const int LOAD_SCENE_SHOW_TIME = 10000; //ms
 
-    [SerializeField] private List<ScriptableObject> _scriptableObjectModels;
-
     //test
     public List<AudioClip> TestAudioClip = new();
-
-
+    
+    [SerializeField] private List<ScriptableObject> _scriptableObjectModels;
+    
     private Assembly _cSharpAssembly;
-
-    // NOTE
-    // ScriptableObject + XML Deserialized Model
     private List<Type> _managerTypeList;
     private List<IManager> _managerList;
     private List<IModel> _modelList;
@@ -53,8 +49,8 @@ public class GameStartManagerMono : MonoBehaviour
     {
         TestPreLoad();
 
-        _modelList = new List<IModel>();
         _managerList = new List<IManager>();
+        _modelList = new List<IModel>();
     }
 
     #endregion
@@ -78,7 +74,7 @@ public class GameStartManagerMono : MonoBehaviour
         //log
         Debug.Log("GameStartManagerMono : LoadInitialGameState Start");
 
-        SetManagerTypesUsingReflection();
+        InitializeManagerTypesUsingReflection();
 
         InitializeManagers();
 
@@ -110,7 +106,7 @@ public class GameStartManagerMono : MonoBehaviour
         }
     }
 
-    private void SetManagerTypesUsingReflection()
+    private void InitializeManagerTypesUsingReflection()
     {
         _cSharpAssembly = AppDomain.CurrentDomain.GetAssemblies()
             .FirstOrDefault(asm => asm.GetName().Name == MAIN_ASSEMBLY);

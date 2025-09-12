@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 public class ModelManager : ManagerBase<ModelManager>, IManager, IDisposable
 {
-    private List<IModel> _modelList = new List<IModel>();
+    private List<IModel> _modelList = new();
+
     public void PreInitialize()
     {
         //
@@ -22,7 +23,7 @@ public class ModelManager : ManagerBase<ModelManager>, IManager, IDisposable
     {
         _modelList = modelList;
     }
-    
+
     public TModel GetModel<TModel>() where TModel : IModel
     {
         foreach (var model in _modelList)
