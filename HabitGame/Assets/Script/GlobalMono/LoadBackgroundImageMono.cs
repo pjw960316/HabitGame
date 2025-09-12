@@ -10,6 +10,8 @@ public class LoadBackgroundImageMono : MonoBehaviour
 {
     #region 1. Fields
 
+    private const int CHANGE_BACKGROUND_TIME = 1;
+    
     [SerializeField] private Image _backgroundSprite;
     [SerializeField] private List<Sprite> _backgroundSpriteList = new();
 
@@ -39,7 +41,7 @@ public class LoadBackgroundImageMono : MonoBehaviour
     private void BindEvent()
     {
         _changeBackgroundSpriteDisposable =
-            Observable.Interval(TimeSpan.FromSeconds(2)).Subscribe(_ => OnChangeBackgroundSprite());
+            Observable.Interval(TimeSpan.FromSeconds(CHANGE_BACKGROUND_TIME)).Subscribe(_ => OnChangeBackgroundSprite());
     }
 
     #endregion

@@ -1,11 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using AYellowpaper.SerializedCollections;
 using Cysharp.Threading.Tasks;
-using NUnit.Framework.Internal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,15 +12,16 @@ public class GameStartManagerMono : MonoBehaviour
 
     private const string MAIN_ASSEMBLY = "Assembly-CSharp";
     private const string MAIN_SCENE_NAME = "MainScene";
+    private const int LOAD_SCENE_SHOW_TIME = 10000; //ms
 
     [SerializeField] private List<ScriptableObject> _scriptableObjectModels;
-    
+
     //test
     public List<AudioClip> TestAudioClip = new();
-    
-    
+
+
     private Assembly _cSharpAssembly;
-    
+
     // NOTE
     // ScriptableObject + XML Deserialized Model
     private List<Type> _managerTypeList;
@@ -42,40 +40,51 @@ public class GameStartManagerMono : MonoBehaviour
 
     private void Awake()
     {
-        TestPreLoad();
-        
         Initialize();
-        
+
         LoadInitialGameState();
+
+        LiveGameStartManagerMonoPermanent();
+        
+        ShowGameLoadSceneAsync().Forget();
     }
 
     private void Initialize()
     {
+        TestPreLoad();
+
         _modelList = new List<IModel>();
         _managerList = new List<IManager>();
     }
 
     #endregion
 
-    #region 4. Methods
+    #region 4. EventHandlers
+
+    //
+
+    #endregion
+
+    #region 5. Request Methods
+
+    // 
+
+    #endregion
+
+    #region 6. Methods
 
     private void LoadInitialGameState()
     {
         //log
-        Debug.Log("GameStartManagerMono LoadInitialGameState Start");
-        
-        SetManagerTypesUsingReflection();
-        
-        InitializeManagers();
-        
-        LivePermanent();
-        
-        //ChangeScene();
+        Debug.Log("GameStartManagerMono : LoadInitialGameState Start");
 
-        Test().Forget();
-        Debug.Log("GameStartManagerMono LoadInitialGameState Success And ChangeScene");
+        SetManagerTypesUsingReflection();
+
+        InitializeManagers();
+
+        InitializeModels();
     }
-    
+
 
     //test
     private async void TestPreLoad()
@@ -83,15 +92,15 @@ public class GameStartManagerMono : MonoBehaviour
         var a = await Resources.LoadAsync<AudioClip>("Music/30Minutes_Jambaksa");
         var aa = a as AudioClip;
         TestAudioClip.Add(aa);
-        
+
         Debug.Log("aa end");
-        
+
         var b = await Resources.LoadAsync<AudioClip>("Music/Airplane");
         var bb = b as AudioClip;
         TestAudioClip.Add(bb);
 
         Debug.Log("bb end");
-        
+
         foreach (var i in _modelList)
         {
             if (i is AlarmData alarmData)
@@ -138,7 +147,7 @@ public class GameStartManagerMono : MonoBehaviour
         {
             manager.PreInitialize();
         }
-        
+
         ConnectModelsInManagers();
 
         // Note
@@ -148,7 +157,10 @@ public class GameStartManagerMono : MonoBehaviour
         {
             manager.Initialize();
         }
-        
+    }
+
+    private void InitializeModels()
+    {
         ModelManager.Instance.SetAllModels(_modelList);
     }
 
@@ -174,7 +186,7 @@ public class GameStartManagerMono : MonoBehaviour
     private void ConnectModelsInManagers()
     {
         SetModelList();
-        
+
         foreach (var manager in _managerList)
         {
             manager.SetModel(_modelList);
@@ -184,6 +196,7 @@ public class GameStartManagerMono : MonoBehaviour
     private void SetModelList()
     {
         SetModelListWithScriptableObject();
+
         SetModelListWithDeserializedXml();
     }
 
@@ -198,7 +211,7 @@ public class GameStartManagerMono : MonoBehaviour
                 scriptableObjectModelCount++;
             }
         }
-        
+
         //Log
         Debug.Log($"{scriptableObjectModelCount}개의 ScriptableObject가 Model로 _modelList에 추가되었습니다.");
     }
@@ -206,7 +219,7 @@ public class GameStartManagerMono : MonoBehaviour
     private void SetModelListWithDeserializedXml()
     {
         var _xmlDataSerializeManager = XmlDataSerializeManager.Instance;
-        ExceptionHelper.CheckNullException(_xmlDataSerializeManager , "_xmlDataSerializeManager");
+        ExceptionHelper.CheckNullException(_xmlDataSerializeManager, "_xmlDataSerializeManager");
 
         var modelList = _xmlDataSerializeManager.GetModelListWithDeserializedXml();
 
@@ -216,22 +229,23 @@ public class GameStartManagerMono : MonoBehaviour
             _modelList.Add(model);
             xmlModelCount++;
         }
-        
+
         //Log
         Debug.Log($"{xmlModelCount}개의 xml이 Model로 _modelList에 추가되었습니다.");
     }
 
-    private void LivePermanent()
+    private void LiveGameStartManagerMonoPermanent()
     {
         DontDestroyOnLoad(this);
     }
 
-    private async UniTaskVoid Test()
+    private async UniTaskVoid ShowGameLoadSceneAsync()
     {
-        await UniTask.Delay(10000*4);
+        await UniTask.Delay(LOAD_SCENE_SHOW_TIME);
 
         ChangeScene();
     }
+
     private void ChangeScene()
     {
         SceneManager.LoadScene(MAIN_SCENE_NAME);
