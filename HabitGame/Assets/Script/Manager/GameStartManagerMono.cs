@@ -77,7 +77,7 @@ public class GameStartManagerMono : MonoBehaviour
 
         InitializeModels();
     }
-    
+
     private async UniTaskVoid PreLoadAudioDataAsync()
     {
         var alarmData = _modelList.OfType<AlarmData>().FirstOrDefault();
@@ -85,7 +85,7 @@ public class GameStartManagerMono : MonoBehaviour
         {
             throw new NullReferenceException("alarmData is null");
         }
-        
+
         alarmData.Initialize();
         var sleepingAudioClipPathDictionary = alarmData.SleepingAudioClipPathDictionary;
 
@@ -98,7 +98,7 @@ public class GameStartManagerMono : MonoBehaviour
             var memoryLoadedAudioClip = loadData as AudioClip;
 
             alarmData.SetSleepingAudioClipDictionary(key, memoryLoadedAudioClip);
-                    
+
             //log
             Debug.Log($"{relativePath}의 음원 파일 {memoryLoadedAudioClip?.name}이 비동기로 로드 되었습니다");
         }

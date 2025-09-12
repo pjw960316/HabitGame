@@ -10,14 +10,13 @@ public class AlarmData : ScriptableObject, IModel
 
     private const string BaseDirectoryName = "Music";
 
-
     // note
     // AudioClip의 메모리 적재를 GameStartManagerMono로 옮긴다.
     // 그러기 위해 Path가 필요하다.
     // Path를 추출하기 위한 용도고, 실제로 메모리에 적재되지 않는다.
     private readonly Dictionary<EAlarmButtonType, string> _sleepingAudioClipPathDictionary = new();
     [SerializeField] private SerializedDictionary<EAlarmButtonType, AudioClip> _sleepingAudioClipDictionary = new();
-    
+
     [SerializeField] private SerializedDictionary<EAlarmButtonType, float> _sleepingAudioPlayTimeDictionary = new();
     [SerializeField] private AudioClip _alarmAudioClip;
 
@@ -31,7 +30,8 @@ public class AlarmData : ScriptableObject, IModel
 
     public float LatestSleepingAudioPlayTime { get; private set; }
 
-    public ImmutableDictionary<EAlarmButtonType, string> SleepingAudioClipPathDictionary => _sleepingAudioClipPathDictionary.ToImmutableDictionary();
+    public ImmutableDictionary<EAlarmButtonType, string> SleepingAudioClipPathDictionary =>
+        _sleepingAudioClipPathDictionary.ToImmutableDictionary();
 
     public ImmutableDictionary<EAlarmButtonType, float> SleepingAudioPlayTimeDictionary =>
         _sleepingAudioPlayTimeDictionary.ToImmutableDictionary();
@@ -78,6 +78,7 @@ public class AlarmData : ScriptableObject, IModel
     {
         _sleepingAudioClipDictionary[eAlarmButtonType] = memoryLoadedAudioClip;
     }
+
     public void SetLatestSleepingAudioClip(EAlarmButtonType eAlarmAudioClip)
     {
         _sleepingAudioClipDictionary.TryGetValue(eAlarmAudioClip, out var value);
