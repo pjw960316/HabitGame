@@ -1,11 +1,8 @@
-using System;
-using UnityEngine;
-
 public class FieldObjectSparrow : FieldObjectBase
 {
     #region 1. Fields
 
-    [SerializeField] private Transform _sparrowTransform;
+    //
 
     #endregion
 
@@ -17,23 +14,37 @@ public class FieldObjectSparrow : FieldObjectBase
 
     #region 3. Constructor
 
-    // refactor 
-    // base
-    private void Awake()
+    protected override void OnAwake()
     {
-        
+        base.OnAwake();
     }
 
-    private void FixedUpdate()
+    protected sealed override void Initialize()
     {
-        _sparrowTransform.position += new Vector3(0.02f, 0, 0);
+        base.Initialize();
+
+        // test code start
+        FieldObjectAnimator.Play("Walk");
+    }
+
+    protected sealed override void CreatePresenterByManager()
+    {
+        //
+    }
+
+    protected sealed override void BindEvent()
+    {
+        //
     }
 
     #endregion
 
     #region 4. EventHandlers
 
-    //
+    private void FixedUpdate()
+    {
+        //
+    }
 
     #endregion
 
