@@ -12,7 +12,12 @@ public class GameStartManagerMono : MonoBehaviour
 
     private const string MAIN_ASSEMBLY = "Assembly-CSharp";
     private const string MAIN_SCENE_NAME = "MainScene";
-    private const int LOAD_SCENE_SHOW_TIME = 10000; //ms
+    
+#if UNITY_EDITOR
+    private const int LOAD_SCENE_SHOW_TIME = 10; //ms
+#else 
+    private const int LOAD_SCENE_SHOW_TIME = 10000; 
+#endif
 
     [SerializeField] private List<ScriptableObject> _scriptableObjectModels;
 
