@@ -2,7 +2,7 @@ using System;
 using UniRx;
 using UnityEngine;
 
-public class AlarmTimerPresenter : PresenterBase
+public class AlarmTimerPresenter : UIPresenterBase
 {
     #region 1. Fields
 

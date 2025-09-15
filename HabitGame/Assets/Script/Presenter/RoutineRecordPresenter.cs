@@ -5,7 +5,7 @@ using UniRx;
 using UnityEngine;
 using ScrollData = UIRoutineRecordPopup.ScrollData;
 
-public class RoutineRecordPresenter : PresenterBase
+public class RoutineRecordPresenter : UIPresenterBase
 {
     #region 1. Fields
 

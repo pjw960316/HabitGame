@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using UniRx;
 
-public class RoutineCheckPresenter : PresenterBase
+public class RoutineCheckPresenter : UIPresenterBase
 {
     #region 1. Fields
 

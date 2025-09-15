@@ -7,7 +7,7 @@ public class PresenterManager : ManagerBase<PresenterManager>, IManager
 {
     #region 1. Fields
 
-    private readonly HashSet<PresenterBase> _livedPresenterHashSet = new();
+    private readonly HashSet<UIPresenterBase> _livedPresenterHashSet = new();
 
     #endregion
 
@@ -48,7 +48,7 @@ public class PresenterManager : ManagerBase<PresenterManager>, IManager
         //
     }
 
-    public void CreatePresenter<TPresenter>(IView view) where TPresenter : PresenterBase, new()
+    public void CreatePresenter<TPresenter>(IView view) where TPresenter : UIPresenterBase, new()
     {
         var presenter = new TPresenter();
         presenter.Initialize(view);
@@ -56,7 +56,7 @@ public class PresenterManager : ManagerBase<PresenterManager>, IManager
         _livedPresenterHashSet.Add(presenter);
     }
 
-    public void TerminatePresenter(PresenterBase presenter)
+    public void TerminatePresenter(UIPresenterBase presenter)
     {
         if (_livedPresenterHashSet.Contains(presenter))
         {

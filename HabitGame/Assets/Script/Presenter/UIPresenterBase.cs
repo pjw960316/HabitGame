@@ -1,7 +1,6 @@
 using UniRx;
-using UnityEngine;
 
-public abstract class PresenterBase : IPresenter
+public abstract class UIPresenterBase : IPresenter
 {
     #region 1. Fields
 

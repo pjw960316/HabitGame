@@ -2,7 +2,7 @@ using System;
 using UniRx;
 using UnityEngine;
 
-public class AlarmPresenter : PresenterBase
+public class AlarmPresenter : UIPresenterBase
 {
     #region 1. Fields
 
