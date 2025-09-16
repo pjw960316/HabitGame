@@ -55,6 +55,14 @@ public class PresenterManager : ManagerBase<PresenterManager>, IManager
 
         _livedPresenterHashSet.Add(presenter);
     }
+    
+    // refactor 
+    // 아마 presenterbase를 상단에 놓고, UIPresenterbase랑 charcaterpresenterBase로 구분해야 할듯?
+    public void CreatePresenter2<TPresenter>(IView view) where TPresenter : FieldObjectPresenterBase, new()
+    {
+        var presenter = new TPresenter();
+        presenter.Initialize(view);
+    }
 
     public void TerminatePresenter(UIPresenterBase presenter)
     {

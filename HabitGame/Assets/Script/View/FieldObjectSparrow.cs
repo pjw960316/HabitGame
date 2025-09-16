@@ -24,12 +24,11 @@ public class FieldObjectSparrow : FieldObjectBase
         base.Initialize();
 
         // test code start
-        FieldObjectAnimator.Play("Walk");
     }
 
     protected sealed override void CreatePresenterByManager()
     {
-        //
+        _presenterManager.CreatePresenter2<SparrowPresenter>(this);
     }
 
     protected sealed override void BindEvent()

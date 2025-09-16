@@ -7,6 +7,8 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
     [SerializeField] protected Transform FieldObjectTransform;
     [SerializeField] protected Animator FieldObjectAnimator;
 
+    protected PresenterManager _presenterManager;
+    
     #endregion
 
     #region 2. Properties
@@ -33,7 +35,7 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 
     protected virtual void Initialize()
     {
-        //
+        _presenterManager = PresenterManager.Instance;
     }
 
     protected abstract void BindEvent();
