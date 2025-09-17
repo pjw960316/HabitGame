@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public abstract class FieldObjectBase : MonoBehaviour, IView
@@ -6,13 +5,13 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
     #region 1. Fields
 
     [SerializeField] protected Transform _myFieldObjectTransform;
+    [SerializeField] protected EFieldObject _eFieldObjectKey;
 
     protected int _instanceID;
-    protected EFieldObject _eFieldObjectKey;
-    
+
     protected PresenterManager _presenterManager;
     protected FieldObjectManager _fieldObjectManager;
-    
+
     #endregion
 
     #region 2. Properties
@@ -46,7 +45,6 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 
     protected virtual void OnStart()
     {
-        
     }
 
     protected virtual void Initialize()
@@ -55,14 +53,12 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
         _fieldObjectManager = FieldObjectManager.Instance;
 
         _instanceID = GetInstanceID();
-        InitializeEnumKey();
 
         _fieldObjectManager.RegisterFieldObjectInActiveDictionary(this);
     }
 
     protected abstract void BindEvent();
     protected abstract void CreatePresenterByManager();
-    protected abstract void InitializeEnumKey();
 
     #endregion
 
@@ -89,4 +85,10 @@ public enum EFieldObject
 {
     SPARROW,
     LAND,
+    ROCK,
+    MUSHROOM,
+    BUSH,
+    FLOWER,
+    GRASS,
+    TREE,
 }

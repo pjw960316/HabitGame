@@ -1,8 +1,11 @@
+using UniRx;
+
 public abstract class FieldObjectPresenterBase : IPresenter
 {
     #region 1. Fields
 
     protected IView _view;
+    protected CompositeDisposable _disposable = new();
 
     #endregion
 

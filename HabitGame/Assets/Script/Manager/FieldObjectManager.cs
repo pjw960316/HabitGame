@@ -4,7 +4,7 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>, IManager
 {
     #region 1. Fields
 
-    private Dictionary<EFieldObject,FieldObjectBase> _activeFieldObjectDictionary = new();
+    private readonly Dictionary<EFieldObject, FieldObjectBase> _activeFieldObjectDictionary = new();
 
     #endregion
 
@@ -56,11 +56,6 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>, IManager
 
         return fieldObjectBase as TFieldObject;
     }
-    
-        
-    
 
     #endregion
-    
-    
 }

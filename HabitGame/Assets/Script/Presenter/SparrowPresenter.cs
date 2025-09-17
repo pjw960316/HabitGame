@@ -1,7 +1,10 @@
+using UniRx;
+using UnityEngine;
+
 public class SparrowPresenter : FieldObjectPresenterBase
 {
     #region 1. Fields
-
+    
     private FieldObjectSparrow _fieldObjectSparrow;
 
     #endregion
@@ -30,13 +33,22 @@ public class SparrowPresenter : FieldObjectPresenterBase
     protected sealed override void BindEvent()
     {
         base.BindEvent();
+
+        _fieldObjectSparrow.OnCollision.Subscribe(OnCollision).AddTo(_disposable);
     }
 
     #endregion
 
     #region 4. EventHandlers
 
-    //
+    private void OnCollision(Collision collision)
+    {
+        var gameObject = collision.gameObject;
+        
+
+        // todo
+        // 타입별로 switch - case
+    }
 
     #endregion
 
