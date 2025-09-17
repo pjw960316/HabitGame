@@ -1,10 +1,11 @@
 using UnityEngine;
 
-public class FieldObjectSparrow : FieldObjectBase
+public class FieldObjectLand : FieldObjectBase
 {
     #region 1. Fields
 
-    [SerializeField] protected Animator _sparrowAnimator;
+    private FieldObjectSparrow _fieldObjectSparrow;
+    private Transform _sparrowTransform;
 
     #endregion
 
@@ -21,6 +22,13 @@ public class FieldObjectSparrow : FieldObjectBase
         base.OnAwake();
     }
 
+    protected override void OnStart()
+    {
+        base.OnStart();
+
+        SetFieldObjectSparrow();
+    }
+
     protected sealed override void Initialize()
     {
         base.Initialize();
@@ -30,22 +38,24 @@ public class FieldObjectSparrow : FieldObjectBase
 
     protected sealed override void InitializeEnumKey()
     {
-        _eFieldObjectKey = EFieldObject.SPARROW;
+        _eFieldObjectKey = EFieldObject.LAND;
     }
 
     protected sealed override void BindEvent()
     {
-        //
+    }
+
+    private void SetFieldObjectSparrow()
+    {
+        _fieldObjectSparrow = _fieldObjectManager.GetFieldObject<FieldObjectSparrow>(EFieldObject.SPARROW);
+        _sparrowTransform = _fieldObjectSparrow.transform;
     }
 
     #endregion
 
     #region 4. EventHandlers
 
-    private void FixedUpdate()
-    {
-        //
-    }
+    //
 
     #endregion
 
@@ -57,10 +67,12 @@ public class FieldObjectSparrow : FieldObjectBase
 
     #region 6. Methods
 
-    protected sealed override void CreatePresenterByManager()
-    {
-        _presenterManager.CreatePresenter2<SparrowPresenter>(this);
-    }
+    // 
 
     #endregion
+
+
+    protected override void CreatePresenterByManager()
+    {
+    }
 }

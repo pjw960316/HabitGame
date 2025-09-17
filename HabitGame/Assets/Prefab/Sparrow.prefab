@@ -573,8 +573,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 655844904bbd8eb4da8dc14ca660dd13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FieldObjectTransform: {fileID: 6788538757290762322}
-  FieldObjectAnimator: {fileID: 6788538757290762327}
+  _myFieldObjectTransform: {fileID: 6788538757290762322}
+  _sparrowAnimator: {fileID: 6788538757290762327}
 --- !u!1 &6788538757856321312
 GameObject:
   m_ObjectHideFlags: 0
