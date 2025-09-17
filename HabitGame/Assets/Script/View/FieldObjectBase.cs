@@ -17,6 +17,8 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 
     #region 2. Properties
 
+    public Transform MyFieldObjectTransform => _myFieldObjectTransform;
+
     public EFieldObject EFieldObjectKey => _eFieldObjectKey;
 
     #endregion
@@ -54,6 +56,8 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 
         _instanceID = GetInstanceID();
         InitializeEnumKey();
+
+        _fieldObjectManager.RegisterFieldObjectInActiveDictionary(this);
     }
 
     protected abstract void BindEvent();

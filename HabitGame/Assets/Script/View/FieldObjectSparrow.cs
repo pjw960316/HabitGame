@@ -5,7 +5,7 @@ public class FieldObjectSparrow : FieldObjectBase
     #region 1. Fields
 
     [SerializeField] protected Animator _sparrowAnimator;
-
+    
     #endregion
 
     #region 2. Properties
@@ -24,8 +24,6 @@ public class FieldObjectSparrow : FieldObjectBase
     protected sealed override void Initialize()
     {
         base.Initialize();
-
-        // test code start
     }
 
     protected sealed override void InitializeEnumKey()

@@ -48,7 +48,7 @@ public class FieldObjectLand : FieldObjectBase
     private void SetFieldObjectSparrow()
     {
         _fieldObjectSparrow = _fieldObjectManager.GetFieldObject<FieldObjectSparrow>(EFieldObject.SPARROW);
-        _sparrowTransform = _fieldObjectSparrow.transform;
+        _sparrowTransform = _fieldObjectSparrow.MyFieldObjectTransform;
     }
 
     #endregion

@@ -44,7 +44,7 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>, IManager
     {
     }
 
-    public void AddFieldObjectInActiveDictionary(FieldObjectBase fieldObject)
+    public void RegisterFieldObjectInActiveDictionary(FieldObjectBase fieldObject)
     {
         var key = fieldObject.EFieldObjectKey;
         _activeFieldObjectDictionary[key] = fieldObject;
