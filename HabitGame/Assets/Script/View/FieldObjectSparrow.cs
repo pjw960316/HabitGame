@@ -1,4 +1,7 @@
+using System;
+using UniRx;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class FieldObjectSparrow : FieldObjectBase
 {
@@ -24,6 +27,9 @@ public class FieldObjectSparrow : FieldObjectBase
     protected sealed override void Initialize()
     {
         base.Initialize();
+
+        _sparrowAnimator.Play("Walk");
+
     }
 
     protected sealed override void InitializeEnumKey()
@@ -42,7 +48,16 @@ public class FieldObjectSparrow : FieldObjectBase
 
     private void FixedUpdate()
     {
-        //
+        _myFieldObjectTransform.position += new Vector3(-0.01f, 0, -0.01f);
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        _sparrowAnimator.Play("Idle_A");
+        Observable.Timer(TimeSpan.FromSeconds(1)).Subscribe(_ =>
+        {
+            _sparrowAnimator.Play("Walk");
+        });
     }
 
     #endregion
