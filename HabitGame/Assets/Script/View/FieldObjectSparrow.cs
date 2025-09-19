@@ -29,9 +29,14 @@ public class FieldObjectSparrow : FieldObjectBase
         base.Initialize();
     }
 
+    protected override void InitializeEnumFieldObjectKey()
+    {
+        _eFieldObjectKey = EFieldObject.SPARROW;
+    }
+
     protected sealed override void BindEvent()
     {
-        Observable.Timer(TimeSpan.FromSeconds(1)).Subscribe(_ => { Debug.Log("hi"); });
+        //
     }
 
     #endregion

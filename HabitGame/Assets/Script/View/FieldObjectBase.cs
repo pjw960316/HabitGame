@@ -4,9 +4,9 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 {
     #region 1. Fields
 
-    [SerializeField] protected Transform _myFieldObjectTransform;
-    [SerializeField] protected EFieldObject _eFieldObjectKey;
-
+    [SerializeField] protected Transform _myFieldObjectTransform; 
+    
+    protected EFieldObject _eFieldObjectKey;
     protected int _instanceID;
 
     protected PresenterManager _presenterManager;
@@ -53,10 +53,14 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
         _fieldObjectManager = FieldObjectManager.Instance;
 
         _instanceID = GetInstanceID();
-
+        InitializeEnumFieldObjectKey();
+        
+        // note 
+        // 반드시 EFieldObjectKey가 선행 세팅 되어야 한다.
         _fieldObjectManager.RegisterFieldObjectInActiveDictionary(this);
     }
 
+    protected abstract void InitializeEnumFieldObjectKey();
     protected abstract void BindEvent();
     protected abstract void CreatePresenterByManager();
 

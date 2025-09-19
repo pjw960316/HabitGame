@@ -43,6 +43,11 @@ public class FieldObjectLand : FieldObjectBase
         // test code start
     }
 
+    protected override void InitializeEnumFieldObjectKey()
+    {
+        _eFieldObjectKey = EFieldObject.LAND;
+    }
+
     protected sealed override void BindEvent()
     {
     }

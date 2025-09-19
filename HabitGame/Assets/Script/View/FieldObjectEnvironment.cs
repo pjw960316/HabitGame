@@ -1,3 +1,5 @@
+// refactor 
+// abstract?
 public class FieldObjectEnvironment : FieldObjectBase
 {
     #region 1. Fields
@@ -22,6 +24,13 @@ public class FieldObjectEnvironment : FieldObjectBase
     protected sealed override void Initialize()
     {
         base.Initialize();
+    }
+
+    protected override void InitializeEnumFieldObjectKey()
+    {
+        // refactor 
+        // 얘는 하위에서?
+        _eFieldObjectKey = EFieldObject.BUSH;
     }
 
     protected sealed override void BindEvent()
