@@ -123,3 +123,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _myFieldObjectTransform: {fileID: 7405846476849834440}
+  _lod_0_Environment_GameObject: {fileID: 7405846476849542632}

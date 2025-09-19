@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class FieldObjectLand : FieldObjectBase
@@ -11,7 +12,6 @@ public class FieldObjectLand : FieldObjectBase
     [SerializeField] private Transform _environmentsBaseTransform;
 
     private FieldObjectSparrow _fieldObjectSparrow;
-    private Transform _sparrowTransform;
 
     #endregion
 
@@ -48,16 +48,49 @@ public class FieldObjectLand : FieldObjectBase
     private void SetFieldObjectSparrow()
     {
         _fieldObjectSparrow = _fieldObjectManager.GetFieldObject<FieldObjectSparrow>(EFieldObject.SPARROW);
-        _sparrowTransform = _fieldObjectSparrow.MyFieldObjectTransform;
     }
 
     private void CreateFieldObjectEnvironments()
     {
-        //test
-        var rock = Instantiate(_rockPrefab, _environmentsBaseTransform);
+        // refactor
+        List<GameObject> list = new List<GameObject>();
+        for (int i = 0; i < 100; i++)
+        {
+            list.Add(Instantiate(_rockPrefab, _environmentsBaseTransform));
+        }
+        
+        var x = list[0].GetComponent<FieldObjectEnvironmentBase>().GetEnvironment_X_Length();
+        var z = list[0].GetComponent<FieldObjectEnvironmentBase>().GetEnvironment_Z_Length();
+        
 
-        var renderer = rock.GetComponent<Renderer>();
-        var size = renderer.bounds.size; // x=가로, y=세로, z=깊이
+        int idx = 0;
+        for (int i = 0; i < 25; i++)
+        {
+            list[i].transform.position = new Vector3(x * idx, 0, 0) + _environmentsBaseTransform.position;
+            idx++;
+        }
+
+        idx = 0;
+        for (int i = 25; i < 50; i++)
+        {
+            list[i].transform.position = new Vector3(x * idx, 0, x * 25) + _environmentsBaseTransform.position;
+            idx++;
+        }
+
+        idx = 0;
+        for (int i = 50; i < 75; i++)
+        {
+            list[i].transform.position = new Vector3(0, 0, z * idx) + _environmentsBaseTransform.position;
+            idx++;
+        }
+
+        idx = 0;
+        for (int i = 75; i < 100; i++)
+        {
+            list[i].transform.position = new Vector3(z * 25, 0, z * idx) + _environmentsBaseTransform.position;
+            idx++;
+        }
+       
     }
 
     #endregion

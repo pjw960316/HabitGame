@@ -1,8 +1,12 @@
+using UnityEngine;
+
 public abstract class FieldObjectEnvironmentBase : FieldObjectBase
 {
     #region 1. Fields
 
-    //
+    [SerializeField] protected GameObject _lod_0_Environment_GameObject;
+
+    protected Vector3 _lod_0_Environment_BoundSize;
 
     #endregion
 
@@ -17,6 +21,8 @@ public abstract class FieldObjectEnvironmentBase : FieldObjectBase
     protected override void Initialize()
     {
         base.Initialize();
+
+        _lod_0_Environment_BoundSize = _lod_0_Environment_GameObject.GetComponent<MeshRenderer>().bounds.size;
     }
 
     protected override void CreatePresenterByManager()
@@ -45,7 +51,15 @@ public abstract class FieldObjectEnvironmentBase : FieldObjectBase
 
     #region 6. Methods
 
-    // 
+    public float GetEnvironment_X_Length()
+    {
+        return _lod_0_Environment_BoundSize.x;
+    }
+
+    public float GetEnvironment_Z_Length()
+    {
+        return _lod_0_Environment_BoundSize.z;
+    }
 
     #endregion
 }
