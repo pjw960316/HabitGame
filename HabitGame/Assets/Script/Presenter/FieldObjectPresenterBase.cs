@@ -5,7 +5,8 @@ public abstract class FieldObjectPresenterBase : IPresenter
     #region 1. Fields
 
     protected IView _view;
-    protected CompositeDisposable _disposable = new();
+    protected IModel _model;
+    protected readonly CompositeDisposable _disposable = new();
 
     #endregion
 
