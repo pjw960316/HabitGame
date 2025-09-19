@@ -48,6 +48,11 @@ public class FieldObjectSparrow : FieldObjectBase
         _onCollision.OnNext(other);
     }
 
+    public void ChangeAnimation(string animTrigger)
+    {
+        _sparrowAnimator.SetBool(animTrigger, true);
+    }
+
     #endregion
 
     #region 5. Request Methods
@@ -61,17 +66,6 @@ public class FieldObjectSparrow : FieldObjectBase
     protected sealed override void CreatePresenterByManager()
     {
         _presenterManager.CreateFieldObjectPresenter<SparrowPresenter>(this);
-    }
-
-    #endregion
-
-    #region 7. Animation Methods
-
-    // todo
-    // dictionary로 관리해서 key로 받고 하는.
-    public void ChangeAnimation()
-    {
-        //_sparrowAnimator.SetTrigger();
     }
 
     #endregion

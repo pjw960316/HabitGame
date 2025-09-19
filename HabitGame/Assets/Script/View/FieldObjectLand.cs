@@ -60,7 +60,6 @@ public class FieldObjectLand : FieldObjectBase
         
         var renderer = rock.GetComponent<Renderer>();
         Vector3 size = renderer.bounds.size; // x=가로, y=세로, z=깊이
-        Debug.Log($"Width: {size.x}, Height: {size.y}, Depth: {size.z}");
     }
 
     #endregion

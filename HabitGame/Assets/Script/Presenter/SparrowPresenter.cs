@@ -43,6 +43,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
         base.BindEvent();
 
         _fieldObjectSparrow.OnCollision.Subscribe(OnCollision).AddTo(_disposable);
+        _sparrowData.OnSparrowStateChanged.Subscribe(OnChangeSparrowState).AddTo(_disposable);
     }
 
     #endregion
@@ -51,14 +52,42 @@ public class SparrowPresenter : FieldObjectPresenterBase
 
     private void OnCollision(Collision collision)
     {
+        var fieldObjectBase = collision.gameObject.GetComponent<FieldObjectBase>();
         
-        var gameObject = collision.gameObject;
-        
+        ExceptionHelper.CheckNullException(fieldObjectBase, "FieldObjectBase");
 
-        // todo
-        // 타입별로 switch - case
+        if (fieldObjectBase is FieldObjectEnvironmentBase fieldObjectEnvironmentBase)
+        {
+            // todo
+            // 특별한 거랑 특별하지 않은 거 모두 구분
+            if (fieldObjectEnvironmentBase is FieldObjectRock)
+            {
+                OnCollideWithRock();
+                _sparrowData.ChangeSparrowState(ESparrowState.IDLE);
+            }
+            
+            //test
+            //collisionDTO.OnChangedState.Invoke("ToIdle");
+        }
     }
 
+    private void OnCollideWithRock()
+    {
+        
+    }
+
+    public void OnChangeSparrowState(ESparrowState changedState)
+    {
+        // refactor
+        // reactiveProperty의 초기값에도 콜이 들어옴.
+        if (changedState == ESparrowState.WALK)
+        {
+            return;
+        }
+        Debug.Log($"OnChangeSparrowState : {changedState}");
+        
+        _fieldObjectSparrow.ChangeAnimation("IsIdle");
+    }
     #endregion
 
     #region 5. Request Methods

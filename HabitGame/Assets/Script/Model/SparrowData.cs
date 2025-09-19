@@ -13,19 +13,20 @@
 // refactor 
 // UI랑 생명주기를 다르게? -> FieldObjectDataBase?
 
-using UnityEngine;
+using System;
+using UniRx;
 
 public class SparrowData : IModel
 {
     #region 1. Fields
 
-    private ESparrowState _eSparrowState;
+    private readonly ReactiveProperty<ESparrowState> _sparrowState = new();
 
     #endregion
 
     #region 2. Properties
 
-    //
+    public IObservable<ESparrowState> OnSparrowStateChanged => _sparrowState;
 
     #endregion
 
@@ -38,7 +39,7 @@ public class SparrowData : IModel
 
     private void Initialize()
     {
-        _eSparrowState = ESparrowState.WALK;
+        _sparrowState.Value = ESparrowState.WALK;
     }
 
     #endregion
@@ -59,7 +60,7 @@ public class SparrowData : IModel
 
     public void ChangeSparrowState(ESparrowState changedState)
     {
-        _eSparrowState = changedState;
+        _sparrowState.Value = changedState;
     }
 
     #endregion
@@ -67,5 +68,6 @@ public class SparrowData : IModel
 
 public enum ESparrowState
 {
-    WALK
+    WALK,
+    IDLE
 }
