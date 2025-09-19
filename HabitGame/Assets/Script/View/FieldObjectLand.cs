@@ -23,11 +23,6 @@ public class FieldObjectLand : FieldObjectBase
 
     #region 3. Constructor
 
-    protected override void OnAwake()
-    {
-        base.OnAwake();
-    }
-
     protected override void OnStart()
     {
         base.OnStart();

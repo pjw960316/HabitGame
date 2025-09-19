@@ -51,6 +51,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
 
     private void OnCollision(Collision collision)
     {
+        
         var gameObject = collision.gameObject;
         
 

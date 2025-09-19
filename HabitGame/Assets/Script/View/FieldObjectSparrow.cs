@@ -19,11 +19,6 @@ public class FieldObjectSparrow : FieldObjectBase
 
     #region 3. Constructor
 
-    protected override void OnAwake()
-    {
-        base.OnAwake();
-    }
-
     protected sealed override void Initialize()
     {
         base.Initialize();
@@ -48,11 +43,9 @@ public class FieldObjectSparrow : FieldObjectBase
         _myFieldObjectTransform.position += new Vector3(-0.01f, 0, -0.01f);
     }
 
-    // todo
-    // getcomponent 안 쓰고 , collide 객체에 대해 얘가 어떤 타입인지만 파악하는 코드?
     private void OnCollisionEnter(Collision other)
     {
-        //_onCollision.OnNext(other);
+        _onCollision.OnNext(other);
     }
 
     #endregion

@@ -4,8 +4,8 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 {
     #region 1. Fields
 
-    [SerializeField] protected Transform _myFieldObjectTransform; 
-    
+    [SerializeField] protected Transform _myFieldObjectTransform;
+
     protected EFieldObject _eFieldObjectKey;
     protected int _instanceID;
 
@@ -29,7 +29,9 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
         OnAwake();
     }
 
-    protected virtual void OnAwake()
+    // note
+    // virtual로 변경하지 마세요.
+    private void OnAwake()
     {
         Initialize();
 
@@ -54,15 +56,15 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 
         _instanceID = GetInstanceID();
         InitializeEnumFieldObjectKey();
-        
+
         // note 
         // 반드시 EFieldObjectKey가 선행 세팅 되어야 한다.
         _fieldObjectManager.RegisterFieldObjectInActiveDictionary(this);
     }
 
     protected abstract void InitializeEnumFieldObjectKey();
-    protected abstract void BindEvent();
     protected abstract void CreatePresenterByManager();
+    protected abstract void BindEvent();
 
     #endregion
 
@@ -94,5 +96,5 @@ public enum EFieldObject
     BUSH,
     FLOWER,
     GRASS,
-    TREE,
+    TREE
 }
