@@ -6,6 +6,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
     #region 1. Fields
     
     private FieldObjectSparrow _fieldObjectSparrow;
+    private SparrowData _sparrowData;
 
     #endregion
 
@@ -25,6 +26,13 @@ public class SparrowPresenter : FieldObjectPresenterBase
         {
             _fieldObjectSparrow = sparrow;
         }
+        ExceptionHelper.CheckNullException(_fieldObjectSparrow, "_fieldObjectSparrow is null");
+
+        if (_model is SparrowData sparrowData)
+        {
+            _sparrowData = sparrowData;
+        }
+        ExceptionHelper.CheckNullException(_sparrowData, "_sparrowData is null");
         
         BindEvent();
     }

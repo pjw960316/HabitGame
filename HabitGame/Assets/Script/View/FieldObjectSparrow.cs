@@ -67,7 +67,7 @@ public class FieldObjectSparrow : FieldObjectBase
 
     protected sealed override void CreatePresenterByManager()
     {
-        _presenterManager.CreatePresenter2<SparrowPresenter>(this);
+        _presenterManager.CreateFieldObjectPresenter<SparrowPresenter>(this);
     }
 
     #endregion

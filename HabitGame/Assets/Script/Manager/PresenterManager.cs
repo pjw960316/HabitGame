@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 // note
 // 열려있는 Presenter를 관리한다.
@@ -8,6 +10,7 @@ public class PresenterManager : ManagerBase<PresenterManager>, IManager
     #region 1. Fields
 
     private readonly HashSet<UIPresenterBase> _livedPresenterHashSet = new();
+    private readonly Dictionary<Type, Type> _fieldObjectViewModelTypeMatchDictionary = new();
 
     #endregion
 
@@ -25,6 +28,12 @@ public class PresenterManager : ManagerBase<PresenterManager>, IManager
 
     public void Initialize()
     {
+        InitializeFieldFieldObjectViewModelMatchDictionary();
+    }
+
+    private void InitializeFieldFieldObjectViewModelMatchDictionary()
+    {
+        _fieldObjectViewModelTypeMatchDictionary[typeof(FieldObjectSparrow)] = typeof(SparrowData);
     }
 
     #endregion
@@ -56,9 +65,7 @@ public class PresenterManager : ManagerBase<PresenterManager>, IManager
         _livedPresenterHashSet.Add(presenter);
     }
     
-    // refactor 
-    // 아마 presenterbase를 상단에 놓고, UIPresenterbase랑 charcaterpresenterBase로 구분해야 할듯?
-    public void CreatePresenter2<TPresenter>(IView view) where TPresenter : FieldObjectPresenterBase, new()
+    public void CreateFieldObjectPresenter<TPresenter>(IView view) where TPresenter : FieldObjectPresenterBase, new()
     {
         var presenter = new TPresenter();
         presenter.Initialize(view);
@@ -70,6 +77,16 @@ public class PresenterManager : ManagerBase<PresenterManager>, IManager
         {
             _livedPresenterHashSet.Remove(presenter);
         }
+    }
+
+    public Type GetModelTypeUsingMatchDictionary(Type typeKey)
+    {
+        if (_fieldObjectViewModelTypeMatchDictionary.TryGetValue(typeKey, out var value))
+        {
+            return value;
+        }
+
+        throw new KeyNotFoundException();
     }
 
     #endregion
