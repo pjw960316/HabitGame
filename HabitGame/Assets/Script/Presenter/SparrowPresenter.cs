@@ -4,7 +4,7 @@ using UnityEngine;
 public class SparrowPresenter : FieldObjectPresenterBase
 {
     #region 1. Fields
-    
+
     private FieldObjectSparrow _fieldObjectSparrow;
     private SparrowData _sparrowData;
 
@@ -26,14 +26,16 @@ public class SparrowPresenter : FieldObjectPresenterBase
         {
             _fieldObjectSparrow = sparrow;
         }
+
         ExceptionHelper.CheckNullException(_fieldObjectSparrow, "_fieldObjectSparrow is null");
 
         if (_model is SparrowData sparrowData)
         {
             _sparrowData = sparrowData;
         }
+
         ExceptionHelper.CheckNullException(_sparrowData, "_sparrowData is null");
-        
+
         BindEvent();
     }
 
@@ -53,7 +55,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
     private void OnCollision(Collision collision)
     {
         var fieldObjectBase = collision.gameObject.GetComponent<FieldObjectBase>();
-        
+
         ExceptionHelper.CheckNullException(fieldObjectBase, "FieldObjectBase");
 
         if (fieldObjectBase is FieldObjectEnvironmentBase fieldObjectEnvironmentBase)
@@ -65,7 +67,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
                 OnCollideWithRock();
                 _sparrowData.ChangeSparrowState(ESparrowState.IDLE);
             }
-            
+
             //test
             //collisionDTO.OnChangedState.Invoke("ToIdle");
         }
@@ -73,7 +75,6 @@ public class SparrowPresenter : FieldObjectPresenterBase
 
     private void OnCollideWithRock()
     {
-        
     }
 
     public void OnChangeSparrowState(ESparrowState changedState)
@@ -84,10 +85,12 @@ public class SparrowPresenter : FieldObjectPresenterBase
         {
             return;
         }
+
         Debug.Log($"OnChangeSparrowState : {changedState}");
-        
+
         _fieldObjectSparrow.ChangeAnimation("IsIdle");
     }
+
     #endregion
 
     #region 5. Request Methods
