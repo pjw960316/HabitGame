@@ -14,31 +14,35 @@ public class FieldObjectLand : FieldObjectBase
         Left,
         Right
     }
+
     public class PlacementHelper
     {
-        private int _offset;
-        private readonly Dictionary<EPath,Vector3> _placeVectorDictionary = new();
-        
-        public PlacementHelper(float environment_X_Length, float environment_Z_Length)
+        private readonly float _environment_X_Length;
+        private readonly float _environment_Z_Length;
+        private readonly int _oneSideEnvironmentCount;
+
+
+        public PlacementHelper(float environment_X_Length, float environment_Z_Length, int oneSideEnvironmentCount)
         {
-            _placeVectorDictionary[EPath.Bottom] = new Vector3(environment_X_Length * _offset, 0, 0);
-            _placeVectorDictionary[EPath.Top] = new Vector3(environment_X_Length * _offset, 0, environment_X_Length * SQUARE_SIDE_COUNT);
-            _placeVectorDictionary[EPath.Left] = new Vector3(0, 0, environment_Z_Length * _offset);
-            _placeVectorDictionary[EPath.Right] = new Vector3(environment_Z_Length * SQUARE_SIDE_COUNT, 0, environment_Z_Length * _offset);
+            _environment_X_Length = environment_X_Length;
+            _environment_Z_Length = environment_Z_Length;
+            _oneSideEnvironmentCount = oneSideEnvironmentCount;
         }
 
         public Vector3 GetPosition(EPath path, int offset)
         {
-            _offset = offset;
-            if (_placeVectorDictionary.TryGetValue(path, out var pos))
+            return path switch
             {
-                return pos;
-            }
-
-            throw new KeyNotFoundException();
+                EPath.Bottom => new Vector3(_environment_X_Length * offset, 0, 0),
+                EPath.Top => new Vector3(_environment_X_Length * offset, 0, _environment_X_Length * _oneSideEnvironmentCount),
+                EPath.Left => new Vector3(0, 0, _environment_Z_Length * offset),
+                EPath.Right => new Vector3(_environment_Z_Length * _oneSideEnvironmentCount, 0,
+                    _environment_Z_Length * offset),
+                _ => throw new NullReferenceException()
+            };
         }
     }
-    
+
     #region 1. Fields
 
     [SerializeField] private GameObject _treePrefab;
@@ -79,7 +83,7 @@ public class FieldObjectLand : FieldObjectBase
     protected sealed override void Initialize()
     {
         base.Initialize();
-        
+
         _oneSideEnvironmentCount = _borderEnvironmentsCount / SQUARE_SIDE_COUNT;
     }
 
@@ -106,19 +110,20 @@ public class FieldObjectLand : FieldObjectBase
         var environment_X_Length = firstObject.GetEnvironment_X_Length();
         var environment_Z_Length = firstObject.GetEnvironment_Z_Length();
 
-        var placementHelper = new PlacementHelper(environment_X_Length, environment_Z_Length);
+        var placementHelper = new PlacementHelper(environment_X_Length, environment_Z_Length, _oneSideEnvironmentCount);
+        var environmentsBaseTransformPosition = _environmentsBaseTransform.position;
         var offset = 0;
+        var idx = 0;
 
         for (var i = 0; i < SQUARE_SIDE_COUNT; i++)
         {
             for (var j = 0; j < _oneSideEnvironmentCount; j++)
             {
-                var idx = i * j;
                 list[idx].position = placementHelper.GetPosition(_createOrder[i], offset) +
-                                     _environmentsBaseTransform.position;
+                                     environmentsBaseTransformPosition;
+                idx++;
                 offset++;
             }
-
             offset = 0;
         }
     }
