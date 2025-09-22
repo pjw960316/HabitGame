@@ -1,3 +1,4 @@
+using System;
 using UniRx;
 using UnityEngine;
 
@@ -66,6 +67,12 @@ public class SparrowPresenter : FieldObjectPresenterBase
             {
                 OnCollideWithRock();
                 _sparrowData.ChangeSparrowState(ESparrowState.IDLE);
+
+                Observable.Timer(TimeSpan.FromSeconds(1f)).Subscribe(_ =>
+                {
+                    _sparrowData.ChangeSparrowState(ESparrowState.WALK);
+
+                });
             }
 
             //test
@@ -75,20 +82,21 @@ public class SparrowPresenter : FieldObjectPresenterBase
 
     private void OnCollideWithRock()
     {
+        _fieldObjectSparrow.transform.Rotate(0f, 180f, 0f);
     }
 
+    //test
     public void OnChangeSparrowState(ESparrowState changedState)
     {
-        // refactor
-        // reactiveProperty의 초기값에도 콜이 들어옴.
+        Debug.Log($"OnChangeSparrowState : {changedState}");
         if (changedState == ESparrowState.WALK)
         {
-            return;
+            _fieldObjectSparrow.ChangeAnimation("IsWalk");
         }
-
-        Debug.Log($"OnChangeSparrowState : {changedState}");
-
-        _fieldObjectSparrow.ChangeAnimation("IsIdle");
+        if (changedState == ESparrowState.IDLE)
+        {
+            _fieldObjectSparrow.ChangeAnimation("IsIdle");
+        }
     }
 
     #endregion
