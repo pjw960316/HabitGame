@@ -86,7 +86,12 @@ public class FieldObjectSparrow : FieldObjectBase
 
         // 새로운 바라보는 방향을 기준으로 걷기 벡터 재계산
         _forwardVector = _sparrowRigidBody.transform.forward;
-        _sparrowSpeed = 0f;
+        _sparrowWalkMovement = _forwardVector * (_sparrowSpeed * Time.fixedDeltaTime);
+    }
+
+    public void ChangeSparrowSpeed(float speed)
+    {
+        _sparrowSpeed = speed;
         _sparrowWalkMovement = _forwardVector * (_sparrowSpeed * Time.fixedDeltaTime);
     }
     #endregion

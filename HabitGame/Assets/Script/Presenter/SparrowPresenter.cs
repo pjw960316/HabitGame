@@ -79,11 +79,15 @@ public class SparrowPresenter : FieldObjectPresenterBase
         Debug.Log("Collide with Rock");
         
         // note : 박아서 스턴 된 애니메이션 의도
+        _fieldObjectSparrow.ChangeSparrowSpeed(0f);
         _sparrowData.ChangeSparrowState(ESparrowState.FLY);
 
+        // todo
+        // 의도 되지 않은 타이밍에 콜 되는 거 막기
         Observable.Timer(TimeSpan.FromSeconds(COLLIDED_ROCK_ANIMATION_CHANGE_SECOND)).Subscribe(_ =>
         {
             _fieldObjectSparrow.RotateSparrow();
+            _fieldObjectSparrow.ChangeSparrowSpeed(1f);
             _sparrowData.ChangeSparrowState(ESparrowState.WALK);
         }).AddTo(_disposable);
     }
