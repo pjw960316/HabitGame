@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class FieldObjectLand : FieldObjectBase
 {
     public enum EPath
@@ -13,34 +12,6 @@ public class FieldObjectLand : FieldObjectBase
         Right
     }
 
-    public class PlacementHelper
-    {
-        private readonly float _environment_X_Length;
-        private readonly float _environment_Z_Length;
-        private readonly int _oneSideEnvironmentCount;
-
-
-        public PlacementHelper(float environment_X_Length, float environment_Z_Length, int oneSideEnvironmentCount)
-        {
-            _environment_X_Length = environment_X_Length;
-            _environment_Z_Length = environment_Z_Length;
-            _oneSideEnvironmentCount = oneSideEnvironmentCount;
-        }
-
-        public Vector3 GetPosition(EPath path, int offset)
-        {
-            return path switch
-            {
-                EPath.Bottom => new Vector3(_environment_X_Length * offset, 0, 0),
-                EPath.Top => new Vector3(_environment_X_Length * offset, 0, _environment_X_Length * _oneSideEnvironmentCount),
-                EPath.Left => new Vector3(0, 0, _environment_Z_Length * offset),
-                EPath.Right => new Vector3(_environment_Z_Length * _oneSideEnvironmentCount, 0,
-                    _environment_Z_Length * offset),
-                _ => throw new NullReferenceException()
-            };
-        }
-    }
-
     #region 1. Fields
 
     [SerializeField] private GameObject _treePrefab;
@@ -49,7 +20,7 @@ public class FieldObjectLand : FieldObjectBase
     [SerializeField] private GameObject _bushPrefab;
     [SerializeField] private Transform _environmentsBaseTransform;
 
-    private readonly int _borderEnvironmentsCount = 100;
+    private readonly int _borderEnvironmentsCount = 48;
     private const int SQUARE_SIDE_COUNT = 4;
     private int _oneSideEnvironmentCount;
 
@@ -107,8 +78,6 @@ public class FieldObjectLand : FieldObjectBase
         var firstObject = list[0].GetComponent<FieldObjectEnvironmentBase>();
         var environment_X_Length = firstObject.GetEnvironment_X_Length();
         var environment_Z_Length = firstObject.GetEnvironment_Z_Length();
-
-        var placementHelper = new PlacementHelper(environment_X_Length, environment_Z_Length, _oneSideEnvironmentCount);
         var environmentsBaseTransformPosition = _environmentsBaseTransform.position;
         var offset = 0;
         var idx = 0;
@@ -117,11 +86,12 @@ public class FieldObjectLand : FieldObjectBase
         {
             for (var j = 0; j < _oneSideEnvironmentCount; j++)
             {
-                list[idx].position = placementHelper.GetPosition(_createOrder[i], offset) +
+                list[idx].position = GetPosition(_createOrder[i], offset, environment_X_Length, environment_Z_Length) +
                                      environmentsBaseTransformPosition;
                 idx++;
                 offset++;
             }
+
             offset = 0;
         }
     }
@@ -142,7 +112,19 @@ public class FieldObjectLand : FieldObjectBase
 
     #region 6. Methods
 
-    // 
+    private Vector3 GetPosition(EPath path, int offset, float environment_X_Length, float environment_Z_Length)
+    {
+        return path switch
+        {
+            EPath.Bottom => new Vector3(environment_X_Length * offset, 0, 0),
+            EPath.Top => new Vector3(environment_X_Length * offset, 0,
+                environment_X_Length * _oneSideEnvironmentCount),
+            EPath.Left => new Vector3(0, 0, environment_Z_Length * offset),
+            EPath.Right => new Vector3(environment_Z_Length * _oneSideEnvironmentCount, 0,
+                environment_Z_Length * offset),
+            _ => throw new NullReferenceException()
+        };
+    }
 
     #endregion
 
