@@ -16,7 +16,6 @@
 using System;
 using System.Collections.Generic;
 using UniRx;
-using UnityEngine;
 
 public class SparrowData : IModel
 {
@@ -24,7 +23,7 @@ public class SparrowData : IModel
 
     private readonly ReactiveProperty<ESparrowState> _sparrowState = new();
     private readonly Dictionary<ESparrowState, int> _sparrowStateAnimatorMatchDictionary = new();
-    
+
     #endregion
 
     #region 2. Properties
@@ -47,21 +46,30 @@ public class SparrowData : IModel
         _sparrowState.Value = ESparrowState.WALK;
 
         InitializeSparrowStateAnimatorMatchDictionary();
+
+        BindEvent();
     }
 
     private void InitializeSparrowStateAnimatorMatchDictionary()
     {
         _sparrowStateAnimatorMatchDictionary[ESparrowState.WALK] =
             AnimatorParameterHelper.GetAnimatorParameterHashCode(EAnimatorParams.WALK);
-        
+
         _sparrowStateAnimatorMatchDictionary[ESparrowState.IDLE] =
             AnimatorParameterHelper.GetAnimatorParameterHashCode(EAnimatorParams.IDLE);
-        
+
         _sparrowStateAnimatorMatchDictionary[ESparrowState.FLY] =
             AnimatorParameterHelper.GetAnimatorParameterHashCode(EAnimatorParams.FLY);
-        
+
         _sparrowStateAnimatorMatchDictionary[ESparrowState.EAT] =
             AnimatorParameterHelper.GetAnimatorParameterHashCode(EAnimatorParams.EAT);
+    }
+
+    // todo
+    // dispose
+    private void BindEvent()
+    {
+        OnSparrowStateChanged.Subscribe(_ => { });
     }
 
     #endregion
@@ -88,10 +96,11 @@ public class SparrowData : IModel
     #endregion
 }
 
+// refactor : animation parameter의 숫자가 바뀌면 이상해짐
 public enum ESparrowState
 {
-    WALK,
-    IDLE,
-    FLY,
-    EAT,
+    IDLE = 0,
+    WALK = 1,
+    FLY = 2,
+    EAT = 3
 }

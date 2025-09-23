@@ -11,7 +11,6 @@ public class FieldObjectSparrow : FieldObjectBase
     private readonly Subject<Collision> _onCollision = new();
 
     private Rigidbody _sparrowRigidBody;
-    private Vector3 _forwardVector;
     private Vector3 _sparrowWalkMovement;
 
     #endregion
@@ -31,8 +30,7 @@ public class FieldObjectSparrow : FieldObjectBase
         _sparrowRigidBody = _myFieldObjectTransform.GetComponent<Rigidbody>();
         ExceptionHelper.CheckNullException(_sparrowRigidBody, "_sparrowRigidBody");
 
-        _forwardVector = _myFieldObjectTransform.forward;
-        _sparrowWalkMovement = _forwardVector * (_sparrowSpeed * Time.fixedDeltaTime);
+        _sparrowWalkMovement = _myFieldObjectTransform.forward * (_sparrowSpeed * Time.fixedDeltaTime);
     }
 
     protected override void InitializeEnumFieldObjectKey()
@@ -74,25 +72,20 @@ public class FieldObjectSparrow : FieldObjectBase
         _presenterManager.CreateFieldObjectPresenter<SparrowPresenter>(this);
     }
 
-    public void ChangeAnimation(int animID)
+    public void ChangeAnimation(int enumKey)
     {
-        _sparrowAnimator.SetBool(animID, true);
+        _sparrowAnimator.SetInteger("Sparrow", enumKey);
     }
-    
-    public void RotateSparrow()
-    {
-        var newRotation = Quaternion.Euler(0f, 180f, 0f) * _sparrowRigidBody.rotation;
-        _sparrowRigidBody.MoveRotation(newRotation);
 
-        // 새로운 바라보는 방향을 기준으로 걷기 벡터 재계산
-        _forwardVector = _sparrowRigidBody.transform.forward;
-        _sparrowWalkMovement = _forwardVector * (_sparrowSpeed * Time.fixedDeltaTime);
+    public void RotateSparrow(int angle)
+    {
+        _myFieldObjectTransform.Rotate(new Vector3(0, angle, 0));
     }
 
     public void ChangeSparrowSpeed(float speed)
     {
         _sparrowSpeed = speed;
-        _sparrowWalkMovement = _forwardVector * (_sparrowSpeed * Time.fixedDeltaTime);
+        _sparrowWalkMovement = _myFieldObjectTransform.forward * (_sparrowSpeed * Time.fixedDeltaTime);
     }
     #endregion
 }

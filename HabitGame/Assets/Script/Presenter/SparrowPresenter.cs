@@ -7,7 +7,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
     #region 1. Fields
 
     private const float COLLIDED_ROCK_ANIMATION_CHANGE_SECOND = 1f;
-    
+    private const int HALF_TURN_ANGLE = 180;
     
     private FieldObjectSparrow _fieldObjectSparrow;
     private SparrowData _sparrowData;
@@ -81,13 +81,13 @@ public class SparrowPresenter : FieldObjectPresenterBase
         // note : 박아서 스턴 된 애니메이션 의도
         _fieldObjectSparrow.ChangeSparrowSpeed(0f);
         _sparrowData.ChangeSparrowState(ESparrowState.FLY);
-
+        
         // todo
         // 의도 되지 않은 타이밍에 콜 되는 거 막기
         Observable.Timer(TimeSpan.FromSeconds(COLLIDED_ROCK_ANIMATION_CHANGE_SECOND)).Subscribe(_ =>
         {
-            _fieldObjectSparrow.RotateSparrow();
-            _fieldObjectSparrow.ChangeSparrowSpeed(1f);
+            _fieldObjectSparrow.RotateSparrow(HALF_TURN_ANGLE);
+            _fieldObjectSparrow.ChangeSparrowSpeed(3f);
             _sparrowData.ChangeSparrowState(ESparrowState.WALK);
         }).AddTo(_disposable);
     }
@@ -104,10 +104,10 @@ public class SparrowPresenter : FieldObjectPresenterBase
     public void OnChangeSparrowState(ESparrowState changedState)
     {
         //log
-        Debug.Log($"reactiveProperty State Change Call : {changedState}");
+        Debug.Log($"reactiveProperty State Change Call : {(int)changedState} / {changedState}");
         
         var animIDKey = _sparrowData.SparrowStateAnimatorMatchDictionary[changedState];
-        _fieldObjectSparrow.ChangeAnimation(animIDKey);
+        _fieldObjectSparrow.ChangeAnimation((int)changedState);
     }
 
     #endregion
