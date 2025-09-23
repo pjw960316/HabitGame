@@ -81,15 +81,21 @@ public class FieldObjectSparrow : FieldObjectBase
         _sparrowAnimator.SetInteger(_sparrowAnimatorParameter, enumKey);
     }
 
-    public void RotateSparrow(int angle)
+    public void RotateSparrowAndKeepDirection(int angle)
     {
         _myFieldObjectTransform.Rotate(new Vector3(0, angle, 0));
+        _sparrowWalkMovement = _myFieldObjectTransform.forward * (_sparrowSpeed * Time.fixedDeltaTime);
     }
 
     public void ChangeSparrowSpeed(float speed)
     {
         _sparrowSpeed = speed;
         _sparrowWalkMovement = _myFieldObjectTransform.forward * (_sparrowSpeed * Time.fixedDeltaTime);
+    }
+
+    public void StopSparrowMovePosition()
+    {
+        ChangeSparrowSpeed(0f);
     }
     #endregion
 }

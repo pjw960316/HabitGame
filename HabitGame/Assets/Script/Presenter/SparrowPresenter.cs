@@ -1,16 +1,21 @@
 using System;
 using UniRx;
 using UnityEngine;
+using Random = System.Random;
 
 public class SparrowPresenter : FieldObjectPresenterBase
 {
     #region 1. Fields
 
     private const float COLLIDED_ROCK_ANIMATION_CHANGE_SECOND = 1f;
-    private const int HALF_TURN_ANGLE = 180;
+    private const int FULL_ROTATION = 360;
+    private const float ROTATION_CHANGE_INTERVAL_SECOND = 3f;
 
     private FieldObjectSparrow _fieldObjectSparrow;
     private SparrowData _sparrowData;
+
+    private readonly CompositeDisposable _sparrowRandomPathDisposable = new();
+    private readonly Random _randomMaker = new Random();
 
     #endregion
 
@@ -79,17 +84,18 @@ public class SparrowPresenter : FieldObjectPresenterBase
         // log
         Debug.Log("Collide with Rock");
 
-        // note : 박아서 스턴 된 애니메이션 의도
-        _fieldObjectSparrow.ChangeSparrowSpeed(0f);
+        _fieldObjectSparrow.StopSparrowMovePosition();
         _sparrowData.ChangeSparrowState(ESparrowState.FLY);
 
         // todo
         // 의도 되지 않은 타이밍에 콜 되는 거 막기
         Observable.Timer(TimeSpan.FromSeconds(COLLIDED_ROCK_ANIMATION_CHANGE_SECOND)).Subscribe(_ =>
         {
-            _fieldObjectSparrow.RotateSparrow(HALF_TURN_ANGLE);
+            _fieldObjectSparrow.RotateSparrowAndKeepDirection(FULL_ROTATION / 2);
+
             _sparrowData.ChangeSparrowState(ESparrowState.WALK);
-            _fieldObjectSparrow.ChangeSparrowSpeed(3f);
+
+            _fieldObjectSparrow.ChangeSparrowSpeed(1.2f);
         }).AddTo(_disposable);
     }
 
@@ -100,11 +106,12 @@ public class SparrowPresenter : FieldObjectPresenterBase
 
         _sparrowData.ChangeSparrowState(ESparrowState.EAT);
     }
-
-    // note : model's ReactiveProperty Event
+    
     public void OnChangeSparrowState(ESparrowState changedState)
     {
         _fieldObjectSparrow.ChangeAnimation((int)changedState);
+
+        ChangeWalkDirectionRandomly(changedState);
     }
 
     #endregion
@@ -117,7 +124,19 @@ public class SparrowPresenter : FieldObjectPresenterBase
 
     #region 6. Methods
 
-    // 
+    private void ChangeWalkDirectionRandomly(ESparrowState changedState)
+    {
+        _sparrowRandomPathDisposable?.Clear();
+        
+        if (changedState == ESparrowState.WALK)
+        {
+            Observable.Interval(TimeSpan.FromSeconds(ROTATION_CHANGE_INTERVAL_SECOND)).Subscribe(_ =>
+            {
+                var randDegree = _randomMaker.Next(0, FULL_ROTATION);
+                _fieldObjectSparrow.RotateSparrowAndKeepDirection(randDegree);
+            }).AddTo(_sparrowRandomPathDisposable);
+        }
+    }
 
     #endregion
 }
