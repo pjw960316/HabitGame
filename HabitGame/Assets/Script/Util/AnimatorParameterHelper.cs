@@ -10,7 +10,12 @@ public enum EAnimatorParams
     FLY,
     JUMP,
     SIT,
-    SPIN
+    SPIN,
+    STUN,
+    
+    
+    // Enum 개수 파악 용도
+    COUNT
 }
 
 public static class AnimatorParameterHelper
@@ -40,13 +45,17 @@ public static class AnimatorParameterHelper
         _animatorParameterDictionary[EAnimatorParams.IDLE] = Animator.StringToHash("IsIdle");
         _animatorParameterDictionary[EAnimatorParams.RUN] = Animator.StringToHash("IsRun");
         _animatorParameterDictionary[EAnimatorParams.EAT] = Animator.StringToHash("IsEat");
-        _animatorParameterDictionary[EAnimatorParams.FLY] = Animator.StringToHash("IsFly");
+        _animatorParameterDictionary[EAnimatorParams.FLY] = Animator.StringToHash("IsFly"); 
         _animatorParameterDictionary[EAnimatorParams.JUMP] = Animator.StringToHash("IsJump");
         _animatorParameterDictionary[EAnimatorParams.SIT] = Animator.StringToHash("IsSit");
         _animatorParameterDictionary[EAnimatorParams.SPIN] = Animator.StringToHash("IsSpin");
 
+        if (_animatorParameterDictionary.Count != (int)EAnimatorParams.COUNT)
+        {
+            Debug.LogWarning($"_animatorParameterDictionary : {_animatorParameterDictionary.Count} / enum : {EAnimatorParams.COUNT}");
+        }
         // log
-        Debug.Log($"AnimatorParameterDictionary has {_animatorParameterDictionary.Count} Elements");
+        
     }
 
     #endregion

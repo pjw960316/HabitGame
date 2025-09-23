@@ -61,35 +61,32 @@ public class SparrowPresenter : FieldObjectPresenterBase
 
         if (fieldObjectBase is FieldObjectEnvironmentBase fieldObjectEnvironmentBase)
         {
-            // todo
-            // 특별한 거랑 특별하지 않은 거 모두 구분
             if (fieldObjectEnvironmentBase is FieldObjectRock)
             {
                 OnCollideWithRock();
-                _sparrowData.ChangeSparrowState(ESparrowState.IDLE);
-
+                
                 Observable.Timer(TimeSpan.FromSeconds(1f)).Subscribe(_ =>
                 {
                     _sparrowData.ChangeSparrowState(ESparrowState.WALK);
                 });
             }
-
-            //test
-            //collisionDTO.OnChangedState.Invoke("ToIdle");
         }
     }
 
     private void OnCollideWithRock()
     {
-        _fieldObjectSparrow.transform.Rotate(0f, 180f, 0f);
+        // note
+        // 박아서 스턴 된 느낌
+        _sparrowData.ChangeSparrowState(ESparrowState.FLY);
     }
 
     // note
     // model's ReactiveProperty Event
     public void OnChangeSparrowState(ESparrowState changedState)
     {
-        Debug.Log($"OnChangeSparrowState : {changedState}");
-
+        //log
+        Debug.Log($"reactiveProperty Event Call : {changedState}");
+        
         var animIDKey = _sparrowData.SparrowStateAnimatorMatchDictionary[changedState];
         _fieldObjectSparrow.ChangeAnimation(animIDKey);
     }

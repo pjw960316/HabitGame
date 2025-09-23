@@ -57,8 +57,8 @@ public class SparrowData : IModel
         _sparrowStateAnimatorMatchDictionary[ESparrowState.IDLE] =
             AnimatorParameterHelper.GetAnimatorParameterHashCode(EAnimatorParams.IDLE);
         
-        _sparrowStateAnimatorMatchDictionary[ESparrowState.STUN] =
-            AnimatorParameterHelper.GetAnimatorParameterHashCode(EAnimatorParams.FLY); // 이게 비슷함.
+        _sparrowStateAnimatorMatchDictionary[ESparrowState.FLY] =
+            AnimatorParameterHelper.GetAnimatorParameterHashCode(EAnimatorParams.FLY);
         
         _sparrowStateAnimatorMatchDictionary[ESparrowState.EAT] =
             AnimatorParameterHelper.GetAnimatorParameterHashCode(EAnimatorParams.EAT);
@@ -95,6 +95,6 @@ public enum ESparrowState
 {
     WALK,
     IDLE,
-    STUN,
+    FLY,
     EAT,
 }

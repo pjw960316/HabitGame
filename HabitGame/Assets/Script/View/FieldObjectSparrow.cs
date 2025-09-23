@@ -56,7 +56,7 @@ public class FieldObjectSparrow : FieldObjectBase
 
     private void OnCollisionEnter(Collision other)
     {
-        RotateSparrow();
+        //RotateSparrow();
 
         _onCollision.OnNext(other);
     }
