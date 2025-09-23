@@ -82,9 +82,6 @@ public class SparrowData : IModel
 
     public void ChangeSparrowState(ESparrowState changedState)
     {
-        // log
-        Debug.Log($"Sparrow State Change : {changedState}");
-        
         _sparrowState.Value = changedState;
     }
 

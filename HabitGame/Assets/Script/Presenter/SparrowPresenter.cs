@@ -6,6 +6,9 @@ public class SparrowPresenter : FieldObjectPresenterBase
 {
     #region 1. Fields
 
+    private const float COLLIDED_ROCK_ANIMATION_CHANGE_SECOND = 1f;
+    
+    
     private FieldObjectSparrow _fieldObjectSparrow;
     private SparrowData _sparrowData;
 
@@ -53,39 +56,51 @@ public class SparrowPresenter : FieldObjectPresenterBase
 
     #region 4. EventHandlers
 
+    // note : 충돌 개체 별 분기
     private void OnCollision(Collision collision)
     {
-        var fieldObjectBase = collision.gameObject.GetComponent<FieldObjectBase>();
+        var fieldObjectEnvironmentBase = collision.gameObject.GetComponent<FieldObjectBase>() as FieldObjectEnvironmentBase;
 
-        ExceptionHelper.CheckNullException(fieldObjectBase, "FieldObjectBase");
-
-        if (fieldObjectBase is FieldObjectEnvironmentBase fieldObjectEnvironmentBase)
+        switch (fieldObjectEnvironmentBase)
         {
-            if (fieldObjectEnvironmentBase is FieldObjectRock)
-            {
+            case FieldObjectRock:
                 OnCollideWithRock();
-                
-                Observable.Timer(TimeSpan.FromSeconds(1f)).Subscribe(_ =>
-                {
-                    _sparrowData.ChangeSparrowState(ESparrowState.WALK);
-                });
-            }
+                break;
+            case FieldObjectMushroom:
+            case FieldObjectFlower:
+                OnCollideWithEatableEnvironment();
+                break;
         }
     }
 
     private void OnCollideWithRock()
     {
-        // note
-        // 박아서 스턴 된 느낌
+        // log
+        Debug.Log("Collide with Rock");
+        
+        // note : 박아서 스턴 된 애니메이션 의도
         _sparrowData.ChangeSparrowState(ESparrowState.FLY);
+
+        Observable.Timer(TimeSpan.FromSeconds(COLLIDED_ROCK_ANIMATION_CHANGE_SECOND)).Subscribe(_ =>
+        {
+            _fieldObjectSparrow.RotateSparrow();
+            _sparrowData.ChangeSparrowState(ESparrowState.WALK);
+        }).AddTo(_disposable);
     }
 
-    // note
-    // model's ReactiveProperty Event
+    private void OnCollideWithEatableEnvironment()
+    {
+        // log
+        Debug.Log("Collide with Flower 또는 Mushroom");
+        
+        _sparrowData.ChangeSparrowState(ESparrowState.EAT);
+    }
+
+    // note : model's ReactiveProperty Event
     public void OnChangeSparrowState(ESparrowState changedState)
     {
         //log
-        Debug.Log($"reactiveProperty Event Call : {changedState}");
+        Debug.Log($"reactiveProperty State Change Call : {changedState}");
         
         var animIDKey = _sparrowData.SparrowStateAnimatorMatchDictionary[changedState];
         _fieldObjectSparrow.ChangeAnimation(animIDKey);
