@@ -6,10 +6,13 @@ public class FieldObjectSparrow : FieldObjectBase
 {
     #region 1. Fields
 
+    private const string SPARROW_ANIMATOR_PARAMETER = "Sparrow";
+    
     [SerializeField] protected Animator _sparrowAnimator;
     [SerializeField] private float _sparrowSpeed;
+    
     private readonly Subject<Collision> _onCollision = new();
-
+    private int _sparrowAnimatorParameter;
     private Rigidbody _sparrowRigidBody;
     private Vector3 _sparrowWalkMovement;
 
@@ -31,6 +34,7 @@ public class FieldObjectSparrow : FieldObjectBase
         ExceptionHelper.CheckNullException(_sparrowRigidBody, "_sparrowRigidBody");
 
         _sparrowWalkMovement = _myFieldObjectTransform.forward * (_sparrowSpeed * Time.fixedDeltaTime);
+        _sparrowAnimatorParameter = Animator.StringToHash(SPARROW_ANIMATOR_PARAMETER);
     }
 
     protected override void InitializeEnumFieldObjectKey()
@@ -74,7 +78,7 @@ public class FieldObjectSparrow : FieldObjectBase
 
     public void ChangeAnimation(int enumKey)
     {
-        _sparrowAnimator.SetInteger("Sparrow", enumKey);
+        _sparrowAnimator.SetInteger(_sparrowAnimatorParameter, enumKey);
     }
 
     public void RotateSparrow(int angle)

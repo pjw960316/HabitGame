@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using UniRx;
 
 public class SparrowData : IModel
@@ -22,7 +23,6 @@ public class SparrowData : IModel
     #region 1. Fields
 
     private readonly ReactiveProperty<ESparrowState> _sparrowState = new();
-    private readonly Dictionary<ESparrowState, int> _sparrowStateAnimatorMatchDictionary = new();
 
     #endregion
 
@@ -30,7 +30,6 @@ public class SparrowData : IModel
 
     public IObservable<ESparrowState> OnSparrowStateChanged => _sparrowState;
 
-    public Dictionary<ESparrowState, int> SparrowStateAnimatorMatchDictionary => _sparrowStateAnimatorMatchDictionary;
 
     #endregion
 
@@ -45,24 +44,7 @@ public class SparrowData : IModel
     {
         _sparrowState.Value = ESparrowState.WALK;
 
-        InitializeSparrowStateAnimatorMatchDictionary();
-
         BindEvent();
-    }
-
-    private void InitializeSparrowStateAnimatorMatchDictionary()
-    {
-        _sparrowStateAnimatorMatchDictionary[ESparrowState.WALK] =
-            AnimatorParameterHelper.GetAnimatorParameterHashCode(EAnimatorParams.WALK);
-
-        _sparrowStateAnimatorMatchDictionary[ESparrowState.IDLE] =
-            AnimatorParameterHelper.GetAnimatorParameterHashCode(EAnimatorParams.IDLE);
-
-        _sparrowStateAnimatorMatchDictionary[ESparrowState.FLY] =
-            AnimatorParameterHelper.GetAnimatorParameterHashCode(EAnimatorParams.FLY);
-
-        _sparrowStateAnimatorMatchDictionary[ESparrowState.EAT] =
-            AnimatorParameterHelper.GetAnimatorParameterHashCode(EAnimatorParams.EAT);
     }
 
     // todo
@@ -96,7 +78,8 @@ public class SparrowData : IModel
     #endregion
 }
 
-// refactor : animation parameter의 숫자가 바뀌면 이상해짐
+// note
+// Animator의 condition과 다르지 않도록 주의
 public enum ESparrowState
 {
     IDLE = 0,

@@ -1,24 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum EAnimatorParams
-{
-    WALK,
-    IDLE,
-    RUN,
-    EAT,
-    FLY,
-    JUMP,
-    SIT,
-    SPIN,
-    STUN,
-    
-    
-    // Enum 개수 파악 용도
-    COUNT
-}
-
-public static class AnimatorParameterHelper
+// note
+// legacy code 
+// Parameter가 늘어나면 모를까 일단 필요 없다.
+/*public static class AnimatorParameterHelper
 {
     #region 1. Fields
 
@@ -85,4 +71,4 @@ public static class AnimatorParameterHelper
     }
 
     #endregion
-}
+}*/
