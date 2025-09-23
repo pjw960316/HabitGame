@@ -9,7 +9,7 @@ public class FieldObjectSparrow : FieldObjectBase
     [SerializeField] protected Animator _sparrowAnimator;
     [SerializeField] private float _sparrowSpeed;
     private readonly Subject<Collision> _onCollision = new();
-    
+
     private Rigidbody _sparrowRigidBody;
     private Vector3 _forwardVector;
     private Vector3 _sparrowWalkMovement;
@@ -27,7 +27,7 @@ public class FieldObjectSparrow : FieldObjectBase
     protected sealed override void Initialize()
     {
         base.Initialize();
-        
+
         _sparrowRigidBody = _myFieldObjectTransform.GetComponent<Rigidbody>();
         ExceptionHelper.CheckNullException(_sparrowRigidBody, "_sparrowRigidBody");
 
@@ -57,22 +57,22 @@ public class FieldObjectSparrow : FieldObjectBase
     private void OnCollisionEnter(Collision other)
     {
         RotateSparrow();
-        
+
         _onCollision.OnNext(other);
     }
 
-    public void ChangeAnimation(string animTrigger)
+    public void ChangeAnimation(int animID)
     {
-        _sparrowAnimator.SetBool(animTrigger, true);
+        _sparrowAnimator.SetBool(animID, true);
     }
 
     // note
     // 참새를 돌려서 걷는 방향 변경
-    
+
     //test
     private void RotateSparrow()
     {
-        Quaternion newRotation = Quaternion.Euler(0f, 180f, 0f) * _sparrowRigidBody.rotation;
+        var newRotation = Quaternion.Euler(0f, 180f, 0f) * _sparrowRigidBody.rotation;
         _sparrowRigidBody.MoveRotation(newRotation);
 
         // 새로운 바라보는 방향을 기준으로 걷기 벡터 재계산

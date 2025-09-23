@@ -71,7 +71,6 @@ public class SparrowPresenter : FieldObjectPresenterBase
                 Observable.Timer(TimeSpan.FromSeconds(1f)).Subscribe(_ =>
                 {
                     _sparrowData.ChangeSparrowState(ESparrowState.WALK);
-
                 });
             }
 
@@ -85,18 +84,14 @@ public class SparrowPresenter : FieldObjectPresenterBase
         _fieldObjectSparrow.transform.Rotate(0f, 180f, 0f);
     }
 
-    //test
+    // note
+    // model's ReactiveProperty Event
     public void OnChangeSparrowState(ESparrowState changedState)
     {
         Debug.Log($"OnChangeSparrowState : {changedState}");
-        if (changedState == ESparrowState.WALK)
-        {
-            _fieldObjectSparrow.ChangeAnimation("IsWalk");
-        }
-        if (changedState == ESparrowState.IDLE)
-        {
-            _fieldObjectSparrow.ChangeAnimation("IsIdle");
-        }
+
+        var animIDKey = _sparrowData.SparrowStateAnimatorMatchDictionary[changedState];
+        _fieldObjectSparrow.ChangeAnimation(animIDKey);
     }
 
     #endregion

@@ -14,19 +14,24 @@
 // UI랑 생명주기를 다르게? -> FieldObjectDataBase?
 
 using System;
+using System.Collections.Generic;
 using UniRx;
+using UnityEngine;
 
 public class SparrowData : IModel
 {
     #region 1. Fields
 
     private readonly ReactiveProperty<ESparrowState> _sparrowState = new();
-
+    private readonly Dictionary<ESparrowState, int> _sparrowStateAnimatorMatchDictionary = new();
+    
     #endregion
 
     #region 2. Properties
 
     public IObservable<ESparrowState> OnSparrowStateChanged => _sparrowState;
+
+    public Dictionary<ESparrowState, int> SparrowStateAnimatorMatchDictionary => _sparrowStateAnimatorMatchDictionary;
 
     #endregion
 
@@ -40,6 +45,23 @@ public class SparrowData : IModel
     private void Initialize()
     {
         _sparrowState.Value = ESparrowState.WALK;
+
+        InitializeSparrowStateAnimatorMatchDictionary();
+    }
+
+    private void InitializeSparrowStateAnimatorMatchDictionary()
+    {
+        _sparrowStateAnimatorMatchDictionary[ESparrowState.WALK] =
+            AnimatorParameterHelper.GetAnimatorParameterHashCode(EAnimatorParams.WALK);
+        
+        _sparrowStateAnimatorMatchDictionary[ESparrowState.IDLE] =
+            AnimatorParameterHelper.GetAnimatorParameterHashCode(EAnimatorParams.IDLE);
+        
+        _sparrowStateAnimatorMatchDictionary[ESparrowState.STUN] =
+            AnimatorParameterHelper.GetAnimatorParameterHashCode(EAnimatorParams.FLY); // 이게 비슷함.
+        
+        _sparrowStateAnimatorMatchDictionary[ESparrowState.EAT] =
+            AnimatorParameterHelper.GetAnimatorParameterHashCode(EAnimatorParams.EAT);
     }
 
     #endregion
@@ -60,6 +82,9 @@ public class SparrowData : IModel
 
     public void ChangeSparrowState(ESparrowState changedState)
     {
+        // log
+        Debug.Log($"Sparrow State Change : {changedState}");
+        
         _sparrowState.Value = changedState;
     }
 
@@ -69,5 +94,7 @@ public class SparrowData : IModel
 public enum ESparrowState
 {
     WALK,
-    IDLE
+    IDLE,
+    STUN,
+    EAT,
 }
