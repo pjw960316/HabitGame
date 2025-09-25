@@ -15,7 +15,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
     private SparrowData _sparrowData;
 
     private readonly CompositeDisposable _sparrowRandomPathDisposable = new();
-    private readonly Random _randomMaker = new Random();
+    private readonly Random _randomMaker = new();
 
     #endregion
 
@@ -31,11 +31,13 @@ public class SparrowPresenter : FieldObjectPresenterBase
     {
         base.Initialize(view);
 
+        // view
         if (_view is FieldObjectSparrow sparrow)
         {
             _fieldObjectSparrow = sparrow;
         }
 
+        // model
         ExceptionHelper.CheckNullException(_fieldObjectSparrow, "_fieldObjectSparrow is null");
 
         if (_model is SparrowData sparrowData)
@@ -44,7 +46,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
         }
 
         ExceptionHelper.CheckNullException(_sparrowData, "_sparrowData is null");
-
+        
         BindEvent();
     }
 

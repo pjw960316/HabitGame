@@ -35,7 +35,7 @@ public class RoutineRecordPresenter : UIPresenterBase
         ExceptionHelper.CheckNullException(_uiRoutineRecordPopup, "_uiRoutineRecordPopup");
 
         SetView();
-
+        
         BindEvent();
     }
 

@@ -1,6 +1,5 @@
 using System;
 using UniRx;
-using UnityEngine;
 
 // note
 // UI Presenter & Field Presenter의 상위 타입
@@ -26,33 +25,31 @@ public abstract class FieldObjectPresenterBase : PresenterBase
         base.Initialize(view);
 
         CastView();
+        
         InitializeModel();
     }
 
     private void CastView()
     {
         _fieldObjectBase = _view as FieldObjectBase;
-        
-        if(_fieldObjectBase == null)
+
+        if (_fieldObjectBase == null)
         {
             throw new InvalidCastException("_fieldObjectBase");
         }
     }
-    
+
     private void InitializeModel()
     {
         var modelType = _presenterManager.GetModelTypeUsingMatchDictionary(_view.GetType());
         var model = Activator.CreateInstance(modelType) as IModel;
-        
+
         _model = model;
     }
 
     protected virtual void BindEvent()
     {
-        _fieldObjectBase.OnDestroyFieldObject.Subscribe(_ =>
-        {
-            OnOnDestroyFieldObject();
-        });
+        _fieldObjectBase.OnDestroyFieldObject.Subscribe(_ => { OnOnDestroyFieldObject(); });
     }
 
     #endregion

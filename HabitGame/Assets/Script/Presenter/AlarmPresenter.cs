@@ -33,7 +33,7 @@ public class AlarmPresenter : UIPresenterBase
         }
 
         SetView();
-
+        
         BindEvent();
     }
 

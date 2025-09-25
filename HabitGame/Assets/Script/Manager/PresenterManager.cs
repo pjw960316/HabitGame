@@ -59,6 +59,7 @@ public class PresenterManager : ManagerBase<PresenterManager>, IManager
     public void CreatePresenter<TPresenter>(IView view) where TPresenter : PresenterBase, new()
     {
         var presenter = new TPresenter();
+        
         presenter.Initialize(view);
 
         _livedPresenterHashSet.Add(presenter);

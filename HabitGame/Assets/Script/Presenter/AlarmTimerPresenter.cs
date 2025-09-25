@@ -40,7 +40,7 @@ public class AlarmTimerPresenter : UIPresenterBase
         _alarmLoudAudioClip = _alarmData.AlarmAudioClip;
 
         SetView();
-
+        
         BindEvent();
     }
 
