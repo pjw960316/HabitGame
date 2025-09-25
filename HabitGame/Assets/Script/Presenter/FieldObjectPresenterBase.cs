@@ -61,7 +61,6 @@ public abstract class FieldObjectPresenterBase : PresenterBase
 
     private void OnOnDestroyFieldObject()
     {
-        Debug.Log("hi");
         TerminatePresenter();
     }
 

@@ -137,6 +137,13 @@ public class SparrowPresenter : FieldObjectPresenterBase
             }).AddTo(_sparrowRandomPathDisposable);
         }
     }
+    
+    protected sealed override void DisposeCompositeDisposables()
+    {
+        base.DisposeCompositeDisposables();
+        
+        _sparrowRandomPathDisposable?.Dispose();
+    }
 
     #endregion
 }

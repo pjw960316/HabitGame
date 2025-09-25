@@ -58,10 +58,20 @@ public class PresenterBase : IPresenter
 
     #region 6. Methods
 
+    // 
     protected void TerminatePresenter()
     {
-        _disposable?.Dispose();
+        DisposeCompositeDisposables();
+        
         _presenterManager.TerminatePresenter(this);
+    }
+
+    // note
+    // 최상단의 _disposable은 항상 base. 을 호출해서 Dispose 시키고
+    // Derived Type에서 각각 생성한 disposable들은 override된 DisposeCompositeDisposables()에서 호출되도록 구현
+    protected virtual void DisposeCompositeDisposables()
+    {
+        _disposable?.Dispose();
     }
 
     #endregion
