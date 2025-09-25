@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 // note
 // 열려있는 Presenter를 관리한다.
@@ -9,7 +8,7 @@ public class PresenterManager : ManagerBase<PresenterManager>, IManager
 {
     #region 1. Fields
 
-    private readonly HashSet<UIPresenterBase> _livedPresenterHashSet = new();
+    private readonly HashSet<PresenterBase> _livedPresenterHashSet = new();
     private readonly Dictionary<Type, Type> _fieldObjectViewModelTypeMatchDictionary = new();
 
     #endregion
@@ -57,21 +56,15 @@ public class PresenterManager : ManagerBase<PresenterManager>, IManager
         //
     }
 
-    public void CreatePresenter<TPresenter>(IView view) where TPresenter : UIPresenterBase, new()
+    public void CreatePresenter<TPresenter>(IView view) where TPresenter : PresenterBase, new()
     {
         var presenter = new TPresenter();
         presenter.Initialize(view);
 
         _livedPresenterHashSet.Add(presenter);
     }
-    
-    public void CreateFieldObjectPresenter<TPresenter>(IView view) where TPresenter : FieldObjectPresenterBase, new()
-    {
-        var presenter = new TPresenter();
-        presenter.Initialize(view);
-    }
 
-    public void TerminatePresenter(UIPresenterBase presenter)
+    public void TerminatePresenter(PresenterBase presenter)
     {
         if (_livedPresenterHashSet.Contains(presenter))
         {

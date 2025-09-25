@@ -1,15 +1,15 @@
 using System;
 using UniRx;
+using UnityEngine;
 
-public abstract class FieldObjectPresenterBase : IPresenter
+// note
+// UI Presenter & Field Presenter의 상위 타입
+// View를 받아서 생성.
+public abstract class FieldObjectPresenterBase : PresenterBase
 {
     #region 1. Fields
 
-    protected PresenterManager _presenterManager;
-    
-    protected FieldObjectBase _view;
-    protected IModel _model;
-    protected readonly CompositeDisposable _disposable = new();
+    private FieldObjectBase _fieldObjectBase;
 
     #endregion
 
@@ -21,24 +21,26 @@ public abstract class FieldObjectPresenterBase : IPresenter
 
     #region 3. Constructor
 
-    public virtual void Initialize(IView view)
+    public override void Initialize(IView view)
     {
-        _presenterManager = PresenterManager.Instance;
+        base.Initialize(view);
 
-        InitializeViewAndModel(view);
+        CastView();
+        InitializeModel();
     }
 
-    private void InitializeViewAndModel(IView view)
+    private void CastView()
     {
-        if (view is FieldObjectBase fieldObjectBase)
-        {
-            _view = fieldObjectBase;
-        }
-        else
-        {
-            throw new NullReferenceException("_view is not FieldObjectBase Type");
-        }
+        _fieldObjectBase = _view as FieldObjectBase;
         
+        if(_fieldObjectBase == null)
+        {
+            throw new InvalidCastException("_fieldObjectBase");
+        }
+    }
+    
+    private void InitializeModel()
+    {
         var modelType = _presenterManager.GetModelTypeUsingMatchDictionary(_view.GetType());
         var model = Activator.CreateInstance(modelType) as IModel;
         
@@ -47,13 +49,21 @@ public abstract class FieldObjectPresenterBase : IPresenter
 
     protected virtual void BindEvent()
     {
+        _fieldObjectBase.OnDestroyFieldObject.Subscribe(_ =>
+        {
+            OnOnDestroyFieldObject();
+        });
     }
 
     #endregion
 
     #region 4. EventHandlers
 
-    //
+    private void OnOnDestroyFieldObject()
+    {
+        Debug.Log("hi");
+        TerminatePresenter();
+    }
 
     #endregion
 

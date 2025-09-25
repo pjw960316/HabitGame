@@ -32,7 +32,7 @@ public abstract class FieldObjectEnvironmentBase : FieldObjectBase
 
     protected override void BindEvent()
     {
-        //
+        base.BindEvent();
     }
 
     #endregion

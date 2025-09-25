@@ -63,6 +63,7 @@ public class FieldObjectLand : FieldObjectBase
 
     protected sealed override void BindEvent()
     {
+        base.BindEvent();
     }
 
     private void CreateFieldObjectEnvironments()

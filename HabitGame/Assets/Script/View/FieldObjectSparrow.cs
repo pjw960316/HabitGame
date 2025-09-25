@@ -44,7 +44,7 @@ public class FieldObjectSparrow : FieldObjectBase
 
     protected sealed override void BindEvent()
     {
-        //
+        base.BindEvent();
     }
 
     #endregion
@@ -73,7 +73,7 @@ public class FieldObjectSparrow : FieldObjectBase
 
     protected sealed override void CreatePresenterByManager()
     {
-        _presenterManager.CreateFieldObjectPresenter<SparrowPresenter>(this);
+        _presenterManager.CreatePresenter<SparrowPresenter>(this);
     }
 
     public void ChangeAnimation(int enumKey)

@@ -1,3 +1,5 @@
+using System;
+using UniRx;
 using UnityEngine;
 
 public abstract class FieldObjectBase : MonoBehaviour, IView
@@ -11,6 +13,7 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 
     protected PresenterManager _presenterManager;
     protected FieldObjectManager _fieldObjectManager;
+    private Subject<Unit> _onDestroyFieldObject = new();
 
     #endregion
 
@@ -19,6 +22,8 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
     public Transform MyFieldObjectTransform => _myFieldObjectTransform;
 
     public EFieldObject EFieldObjectKey => _eFieldObjectKey;
+
+    public Subject<Unit> OnDestroyFieldObject => _onDestroyFieldObject;
 
     #endregion
 
@@ -64,13 +69,22 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 
     protected abstract void InitializeEnumFieldObjectKey();
     protected abstract void CreatePresenterByManager();
-    protected abstract void BindEvent();
+    
+    protected virtual void BindEvent()
+    {
+        
+    }
 
     #endregion
 
     #region 4. EventHandlers
 
-    //
+    // note
+    // virtual로 변경하지 마세요.
+    private void OnDestroy()
+    {
+        _onDestroyFieldObject.OnNext(default);
+    }
 
     #endregion
 

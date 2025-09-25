@@ -1,20 +1,10 @@
 using UniRx;
 
-public abstract class UIPresenterBase : IPresenter
+public abstract class UIPresenterBase : PresenterBase
 {
     #region 1. Fields
 
-    protected SoundManager _soundManager;
-    protected UIManager _uiManager;
-    protected UIToastManager _uiToastManager;
-    protected ModelManager _modelManager;
-    protected MyCharacterManager _myCharacterManager;
-    protected StringManager _stringManager;
-    protected PresenterManager _presenterManager;
-
-    protected IView _view;
-    protected IModel _model;
-    protected readonly CompositeDisposable _disposable = new();
+    //
 
     #endregion
 
@@ -26,22 +16,12 @@ public abstract class UIPresenterBase : IPresenter
 
     #region 3. Constructor
 
-    public virtual void Initialize(IView view)
+    public override void Initialize(IView view)
     {
-        _soundManager = SoundManager.Instance;
-        _uiToastManager = UIToastManager.Instance;
-        _uiManager = UIManager.Instance;
-        _myCharacterManager = MyCharacterManager.Instance;
-        _modelManager = ModelManager.Instance;
-        _stringManager = StringManager.Instance;
-        _presenterManager = PresenterManager.Instance;
-
-        _view = view;
+        base.Initialize(view);
 
         //fix
         _model = SoundManager.Instance.SoundData;
-
-        ExceptionHelper.CheckNullException(_view, "PresenterBase's _view");
         ExceptionHelper.CheckNullException(_model, "PresenterBase's _model");
     }
 
@@ -60,19 +40,10 @@ public abstract class UIPresenterBase : IPresenter
     #endregion
 
     #region 4. EventHandlers
-
-    // note
-    // 하위 타입에서 Presenter를 제거할 지 결정할 책임을 부여한다.
+    
+    // refactor
+    // 이거 왜 abstract지?
     protected abstract void OnClosePopup();
-
-    protected void TerminatePresenter()
-    {
-        _disposable?.Dispose();
-        _presenterManager.TerminatePresenter(this);
-    }
-
-    // todo 
-    // abstract로 _view 연결 끊는 코드 만들자.
 
     #endregion
 
