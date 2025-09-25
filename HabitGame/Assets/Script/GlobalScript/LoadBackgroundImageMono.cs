@@ -4,13 +4,11 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
-// note
-// LoadScene에서만 사용할 스크립트
 public class LoadBackgroundImageMono : MonoBehaviour
 {
     #region 1. Fields
 
-    private const int CHANGE_BACKGROUND_TIME = 1;
+    private const float CHANGE_BACKGROUND_TIME = 0.8f;
     
     [SerializeField] private Image _backgroundSprite;
     [SerializeField] private List<Sprite> _backgroundSpriteList = new();
@@ -61,6 +59,14 @@ public class LoadBackgroundImageMono : MonoBehaviour
         _backgroundSprite.sprite = _backgroundSpriteList[_listIndex];
     }
 
+    private void OnDestroy()
+    {
+        _backgroundSpriteList?.Clear();
+        _backgroundSpriteList = null;
+
+        _changeBackgroundSpriteDisposable?.Dispose();
+    }
+
     #endregion
 
     #region 5. Request Methods
@@ -71,12 +77,9 @@ public class LoadBackgroundImageMono : MonoBehaviour
 
     #region 6. Methods
 
-    private void OnDestroy()
+    public float GetChangeBackgroundTime()
     {
-        _backgroundSpriteList.Clear();
-        _backgroundSpriteList = null;
-
-        _changeBackgroundSpriteDisposable.Dispose();
+        return CHANGE_BACKGROUND_TIME;
     }
 
     #endregion

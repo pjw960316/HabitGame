@@ -14,11 +14,14 @@ public class GameStartManagerMono : MonoBehaviour
     private const string MAIN_SCENE_NAME = "MainScene";
     
 #if UNITY_EDITOR
-    private const int LOAD_SCENE_SHOW_TIME = 10; //ms
+    private const int LOAD_SCENE_BACKGROUND_CHANGE_COUNT = 5;
 #else 
-    private const int LOAD_SCENE_SHOW_TIME = 10000; 
+    private const int LOAD_SCENE_BACKGROUND_CHANGE_COUNT = 7; 
 #endif
 
+    [SerializeField] private LoadBackgroundImageMono _loadBackgroundImageMono;
+    [SerializeField] private Canvas _canvas;
+    
     [SerializeField] private List<ScriptableObject> _scriptableObjectModels;
 
     private Assembly _cSharpAssembly;
@@ -46,7 +49,7 @@ public class GameStartManagerMono : MonoBehaviour
 
         LiveGameStartManagerMonoPermanent();
 
-        ShowGameLoadSceneAsync().Forget();
+        ShowGameLoadSceneBackgroundAsync().Forget();
     }
 
     private void Initialize()
@@ -81,32 +84,6 @@ public class GameStartManagerMono : MonoBehaviour
         InitializeManagers();
 
         InitializeModels();
-    }
-
-    private async UniTaskVoid PreLoadAudioDataAsync()
-    {
-        var alarmData = _modelList.OfType<AlarmData>().FirstOrDefault();
-        if (alarmData == null)
-        {
-            throw new NullReferenceException("alarmData is null");
-        }
-
-        alarmData.Initialize();
-        var sleepingAudioClipPathDictionary = alarmData.SleepingAudioClipPathDictionary;
-
-        foreach (var element in sleepingAudioClipPathDictionary)
-        {
-            var key = element.Key;
-            var relativePath = element.Value;
-
-            var loadData = await Resources.LoadAsync<AudioClip>(relativePath);
-            var memoryLoadedAudioClip = loadData as AudioClip;
-
-            alarmData.SetSleepingAudioClipDictionary(key, memoryLoadedAudioClip);
-
-            //log
-            Debug.Log($"{relativePath}의 음원 파일 {memoryLoadedAudioClip?.name}이 비동기로 로드 되었습니다");
-        }
     }
 
     private void InitializeManagerTypesUsingReflection()
@@ -235,20 +212,62 @@ public class GameStartManagerMono : MonoBehaviour
 
     private void LiveGameStartManagerMonoPermanent()
     {
+        //log
+        Debug.Log("Live Permanent");
+        
         DontDestroyOnLoad(this);
-    }
-
-    private async UniTaskVoid ShowGameLoadSceneAsync()
-    {
-        await UniTask.Delay(LOAD_SCENE_SHOW_TIME);
-
-        ChangeScene();
     }
 
     private void ChangeScene()
     {
+        //log
+        Debug.Log("Scene Change");
+        
         SceneManager.LoadScene(MAIN_SCENE_NAME);
     }
 
+    #endregion
+    
+    #region 7. Async Methods
+    
+    private async UniTaskVoid PreLoadAudioDataAsync()
+    {
+        var alarmData = _modelList.OfType<AlarmData>().FirstOrDefault();
+        if (alarmData == null)
+        {
+            throw new NullReferenceException("alarmData is null");
+        }
+
+        alarmData.Initialize();
+        var sleepingAudioClipPathDictionary = alarmData.SleepingAudioClipPathDictionary;
+
+        foreach (var element in sleepingAudioClipPathDictionary)
+        {
+            var key = element.Key;
+            var relativePath = element.Value;
+
+            var loadData = await Resources.LoadAsync<AudioClip>(relativePath);
+            var memoryLoadedAudioClip = loadData as AudioClip;
+
+            alarmData.SetSleepingAudioClipDictionary(key, memoryLoadedAudioClip);
+
+            //log
+            Debug.Log($"{relativePath}의 음원 파일 {memoryLoadedAudioClip?.name}이 비동기로 로드 되었습니다");
+        }
+        
+        ChangeScene();
+    }
+    
+    private async UniTaskVoid ShowGameLoadSceneBackgroundAsync()
+    {
+        var loadSceneBackgroundPlayTime =
+            LOAD_SCENE_BACKGROUND_CHANGE_COUNT * _loadBackgroundImageMono.GetChangeBackgroundTime();
+        
+        await UniTask.Delay(TimeSpan.FromSeconds(loadSceneBackgroundPlayTime));
+        
+        Destroy(_loadBackgroundImageMono.gameObject);
+        Destroy(_canvas);
+    }
+    
     #endregion
 }
