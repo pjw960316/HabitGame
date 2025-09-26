@@ -7,12 +7,14 @@ public class SparrowPresenter : FieldObjectPresenterBase
 {
     #region 1. Fields
 
-    private const float COLLIDED_ROCK_ANIMATION_CHANGE_SECOND = 1f;
     private const int FULL_ROTATION = 360;
-    private const float ROTATION_CHANGE_INTERVAL_SECOND = 3f;
-
+    private const float COLLIDED_ROCK_ANIMATION_CHANGE_SECOND = 1f;
+    private const double DIRECTION_CHANGE_INTERVAL_SECOND_MAX = 10f;
+    private const int DIRECTION_CHANGE_INTERVAL_UPDATE_PERIOD_SECOND = 5;
+    
     private FieldObjectSparrow _fieldObjectSparrow;
     private SparrowData _sparrowData;
+    private double _directionChangeIntervalSecond;
 
     private readonly CompositeDisposable _sparrowRandomPathDisposable = new();
     private readonly Random _randomMaker = new();
@@ -36,16 +38,15 @@ public class SparrowPresenter : FieldObjectPresenterBase
         {
             _fieldObjectSparrow = sparrow;
         }
-
-        // model
         ExceptionHelper.CheckNullException(_fieldObjectSparrow, "_fieldObjectSparrow is null");
 
         if (_model is SparrowData sparrowData)
         {
             _sparrowData = sparrowData;
         }
-
         ExceptionHelper.CheckNullException(_sparrowData, "_sparrowData is null");
+
+        _directionChangeIntervalSecond = DIRECTION_CHANGE_INTERVAL_SECOND_MAX / 2;
         
         BindEvent();
     }
@@ -57,6 +58,11 @@ public class SparrowPresenter : FieldObjectPresenterBase
 
         _fieldObjectSparrow.OnCollision.Subscribe(OnCollision).AddTo(_disposable);
         _sparrowData.OnSparrowStateChanged.Subscribe(OnChangeSparrowState).AddTo(_disposable);
+
+        Observable.Interval(TimeSpan.FromSeconds(DIRECTION_CHANGE_INTERVAL_UPDATE_PERIOD_SECOND)).Subscribe(_ =>
+        {
+            _directionChangeIntervalSecond = _randomMaker.NextDouble() * DIRECTION_CHANGE_INTERVAL_SECOND_MAX;
+        }).AddTo(_disposable);
     }
 
     #endregion
@@ -132,8 +138,10 @@ public class SparrowPresenter : FieldObjectPresenterBase
         
         if (changedState == ESparrowState.WALK)
         {
-            Observable.Interval(TimeSpan.FromSeconds(ROTATION_CHANGE_INTERVAL_SECOND)).Subscribe(_ =>
+            Observable.Interval(TimeSpan.FromSeconds(_directionChangeIntervalSecond)).Subscribe(_ =>
             {
+                Debug.Log($"{_fieldObjectSparrow.GetInstanceID() } {_directionChangeIntervalSecond}");
+                
                 var randDegree = _randomMaker.Next(0, FULL_ROTATION);
                 _fieldObjectSparrow.RotateSparrowAndKeepDirection(randDegree);
             }).AddTo(_sparrowRandomPathDisposable);

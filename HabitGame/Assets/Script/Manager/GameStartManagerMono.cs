@@ -14,7 +14,7 @@ public class GameStartManagerMono : MonoBehaviour
     private const string MAIN_SCENE_NAME = "MainScene";
     
 #if UNITY_EDITOR
-    private const int LOAD_SCENE_BACKGROUND_CHANGE_COUNT = 5;
+    private const int LOAD_SCENE_BACKGROUND_CHANGE_COUNT = 1;
 #else 
     private const int LOAD_SCENE_BACKGROUND_CHANGE_COUNT = 7; 
 #endif
