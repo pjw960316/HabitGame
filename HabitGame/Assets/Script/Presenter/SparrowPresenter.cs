@@ -9,12 +9,14 @@ public class SparrowPresenter : FieldObjectPresenterBase
 
     private const int FULL_ROTATION = 360;
     private const float COLLIDED_ROCK_ANIMATION_CHANGE_SECOND = 1f;
-    private const double DIRECTION_CHANGE_INTERVAL_SECOND_MAX = 10f;
+    private const int DIRECTION_CHANGE_INTERVAL_SECOND_MAX = 10;
     private const int DIRECTION_CHANGE_INTERVAL_UPDATE_PERIOD_SECOND = 5;
     
     private FieldObjectSparrow _fieldObjectSparrow;
     private SparrowData _sparrowData;
     private double _directionChangeIntervalSecond;
+    private ESparrowState _currentSparrowState;
+    private int _impatienceLevel;
 
     private readonly CompositeDisposable _sparrowRandomPathDisposable = new();
     private readonly Random _randomMaker = new();
@@ -45,8 +47,13 @@ public class SparrowPresenter : FieldObjectPresenterBase
             _sparrowData = sparrowData;
         }
         ExceptionHelper.CheckNullException(_sparrowData, "_sparrowData is null");
-
-        _directionChangeIntervalSecond = DIRECTION_CHANGE_INTERVAL_SECOND_MAX / 2;
+        
+        _currentSparrowState = _sparrowData.GetSparrowState();
+        
+        // note
+        // 이 값이 낮으면 성격이 급하다 -> 방향 전환을 자주한다.
+        _impatienceLevel =
+            _randomMaker.Next(DIRECTION_CHANGE_INTERVAL_SECOND_MAX / 2, DIRECTION_CHANGE_INTERVAL_SECOND_MAX);
         
         BindEvent();
     }
@@ -62,6 +69,11 @@ public class SparrowPresenter : FieldObjectPresenterBase
         Observable.Interval(TimeSpan.FromSeconds(DIRECTION_CHANGE_INTERVAL_UPDATE_PERIOD_SECOND)).Subscribe(_ =>
         {
             _directionChangeIntervalSecond = _randomMaker.NextDouble() * DIRECTION_CHANGE_INTERVAL_SECOND_MAX;
+        }).AddTo(_disposable);
+        
+        Observable.Interval(TimeSpan.FromSeconds(_impatienceLevel)).Subscribe(_ =>
+        {
+            ChangeDirectionRandomly(_currentSparrowState);
         }).AddTo(_disposable);
     }
 
@@ -118,8 +130,6 @@ public class SparrowPresenter : FieldObjectPresenterBase
     public void OnChangeSparrowState(ESparrowState changedState)
     {
         _fieldObjectSparrow.ChangeAnimation((int)changedState);
-
-        ChangeWalkDirectionRandomly(changedState);
     }
 
     #endregion
@@ -132,20 +142,20 @@ public class SparrowPresenter : FieldObjectPresenterBase
 
     #region 6. Methods
 
-    private void ChangeWalkDirectionRandomly(ESparrowState changedState)
+    private void ChangeDirectionRandomly(ESparrowState changedState)
     {
-        _sparrowRandomPathDisposable?.Clear();
-        
-        if (changedState == ESparrowState.WALK)
+        Observable.Timer(TimeSpan.FromSeconds(_directionChangeIntervalSecond)).Subscribe(_ =>
         {
-            Observable.Interval(TimeSpan.FromSeconds(_directionChangeIntervalSecond)).Subscribe(_ =>
+            if (changedState != ESparrowState.WALK)
             {
-                Debug.Log($"{_fieldObjectSparrow.GetInstanceID() } {_directionChangeIntervalSecond}");
-                
-                var randDegree = _randomMaker.Next(0, FULL_ROTATION);
-                _fieldObjectSparrow.RotateSparrowAndKeepDirection(randDegree);
-            }).AddTo(_sparrowRandomPathDisposable);
-        }
+                return;
+            }
+            
+            Debug.Log($"{_fieldObjectSparrow.name }  :  {_directionChangeIntervalSecond}");
+            
+            var randDegree = _randomMaker.Next(0, FULL_ROTATION);
+            _fieldObjectSparrow.RotateSparrowAndKeepDirection(randDegree);
+        }).AddTo(_sparrowRandomPathDisposable);
     }
     
     protected sealed override void DisposeCompositeDisposables()

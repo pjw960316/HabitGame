@@ -14,8 +14,6 @@
 // UI랑 생명주기를 다르게? -> FieldObjectDataBase?
 
 using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using UniRx;
 
 public class SparrowData : IModel
@@ -73,6 +71,11 @@ public class SparrowData : IModel
     public void ChangeSparrowState(ESparrowState changedState)
     {
         _sparrowState.Value = changedState;
+    }
+
+    public ESparrowState GetSparrowState()
+    {
+        return _sparrowState.Value;
     }
 
     #endregion

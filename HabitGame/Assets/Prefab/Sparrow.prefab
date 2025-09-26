@@ -603,7 +603,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _myFieldObjectTransform: {fileID: 6788538757290762322}
   _sparrowAnimator: {fileID: 6788538757290762327}
-  _sparrowSpeed: 0.8
+  _sparrowSpeed: 0.2
 --- !u!1 &6788538757856321312
 GameObject:
   m_ObjectHideFlags: 0
