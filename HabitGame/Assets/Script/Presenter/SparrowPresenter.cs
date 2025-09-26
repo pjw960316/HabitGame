@@ -66,14 +66,23 @@ public class SparrowPresenter : FieldObjectPresenterBase
         _fieldObjectSparrow.OnCollision.Subscribe(OnCollision).AddTo(_disposable);
         _sparrowData.OnSparrowStateChanged.Subscribe(OnChangeSparrowState).AddTo(_disposable);
 
+        BindWalkRandomEvent();
+    }
+
+    // refactor
+    // 네이밍 너무 어려움
+    private void BindWalkRandomEvent()
+    {
+        // note : 방향 전환 하는 Observable의 타이머 값을 랜덤 하게
         Observable.Interval(TimeSpan.FromSeconds(DIRECTION_CHANGE_INTERVAL_UPDATE_PERIOD_SECOND)).Subscribe(_ =>
         {
             _directionChangeIntervalSecond = _randomMaker.NextDouble() * DIRECTION_CHANGE_INTERVAL_SECOND_MAX;
         }).AddTo(_disposable);
         
+        // note : 참새의 성향에 따라 방향전환의 빈도를 Observable로 관리
         Observable.Interval(TimeSpan.FromSeconds(_impatienceLevel)).Subscribe(_ =>
         {
-            ChangeDirectionRandomly(_currentSparrowState);
+            ChangeDirectionRandomlyIfWalk(_currentSparrowState);
         }).AddTo(_disposable);
     }
 
@@ -142,7 +151,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
 
     #region 6. Methods
 
-    private void ChangeDirectionRandomly(ESparrowState changedState)
+    private void ChangeDirectionRandomlyIfWalk(ESparrowState changedState)
     {
         Observable.Timer(TimeSpan.FromSeconds(_directionChangeIntervalSecond)).Subscribe(_ =>
         {
