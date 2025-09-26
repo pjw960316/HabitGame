@@ -11,6 +11,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
     private const float COLLIDED_ROCK_ANIMATION_CHANGE_SECOND = 1f;
     private const int DIRECTION_CHANGE_INTERVAL_SECOND_MAX = 10;
     private const int DIRECTION_CHANGE_INTERVAL_UPDATE_PERIOD_SECOND = 5;
+    private const int EAT_SECOND = 15;
 
     private FieldObjectSparrow _fieldObjectSparrow;
     private SparrowData _sparrowData;
@@ -108,8 +109,10 @@ public class SparrowPresenter : FieldObjectPresenterBase
 
     private void OnCollision(Collision collision)
     {
-        var fieldObjectBase = collision.gameObject.GetComponent<FieldObjectBase>();
+        var fieldObjectBase = collision.gameObject.GetComponentInParent<FieldObjectBase>();
+        ExceptionHelper.CheckNullException(fieldObjectBase, "fieldObjectBase script X");
 
+        Debug.Log($"{_fieldObjectSparrow.name}이 {collision.gameObject.name}이랑 부딪혔다.");
         _fieldObjectSparrow.StopSparrowMoving();
 
         switch (fieldObjectBase)
@@ -129,6 +132,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
 
     private void OnCollideWithRock()
     {
+        Debug.Log("ROCK");
         _sparrowData.ChangeSparrowState(ESparrowState.FLY);
 
         // todo
@@ -143,11 +147,19 @@ public class SparrowPresenter : FieldObjectPresenterBase
 
     private void OnCollideWithEatableEnvironment()
     {
+        Debug.Log("MushRoom | Flower");
         _sparrowData.ChangeSparrowState(ESparrowState.EAT);
+        
+        Observable.Timer(TimeSpan.FromSeconds(EAT_SECOND)).Subscribe(_ =>
+        {
+            _sparrowData.ChangeSparrowState(ESparrowState.WALK);
+        }).AddTo(_disposable);
     }
 
     private void OnCollideWithOtherSparrow()
     {
+        Debug.Log("OtherSparrow");
+        
         _fieldObjectSparrow.RotateToFaceCollisionObject();
         _sparrowData.ChangeSparrowState(ESparrowState.ATTACK);
 

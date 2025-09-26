@@ -40,16 +40,8 @@ public class SparrowData : IModel
     private void Initialize()
     {
         _sparrowState.Value = ESparrowState.WALK;
-
-        BindEvent();
     }
 
-    // todo
-    // dispose
-    private void BindEvent()
-    {
-        OnSparrowStateChanged.Subscribe(_ => { });
-    }
 
     #endregion
 
