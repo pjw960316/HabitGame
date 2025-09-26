@@ -11,7 +11,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
     private const float COLLIDED_ROCK_ANIMATION_CHANGE_SECOND = 1f;
     private const int DIRECTION_CHANGE_INTERVAL_SECOND_MAX = 10;
     private const int DIRECTION_CHANGE_INTERVAL_UPDATE_PERIOD_SECOND = 5;
-    
+
     private FieldObjectSparrow _fieldObjectSparrow;
     private SparrowData _sparrowData;
     private double _directionChangeIntervalSecond;
@@ -40,21 +40,23 @@ public class SparrowPresenter : FieldObjectPresenterBase
         {
             _fieldObjectSparrow = sparrow;
         }
+
         ExceptionHelper.CheckNullException(_fieldObjectSparrow, "_fieldObjectSparrow is null");
 
         if (_model is SparrowData sparrowData)
         {
             _sparrowData = sparrowData;
         }
+
         ExceptionHelper.CheckNullException(_sparrowData, "_sparrowData is null");
-        
+
         _currentSparrowState = _sparrowData.GetSparrowState();
-        
+
         // note
         // 이 값이 낮으면 성격이 급하다 -> 방향 전환을 자주한다.
         _impatienceLevel =
             _randomMaker.Next(DIRECTION_CHANGE_INTERVAL_SECOND_MAX / 2, DIRECTION_CHANGE_INTERVAL_SECOND_MAX);
-        
+
         BindEvent();
     }
 
@@ -78,7 +80,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
         {
             _directionChangeIntervalSecond = _randomMaker.NextDouble() * DIRECTION_CHANGE_INTERVAL_SECOND_MAX;
         }).AddTo(_disposable);
-        
+
         // note : 참새의 성향에 따라 방향전환의 빈도를 Observable로 관리
         Observable.Interval(TimeSpan.FromSeconds(_impatienceLevel)).Subscribe(_ =>
         {
@@ -88,15 +90,29 @@ public class SparrowPresenter : FieldObjectPresenterBase
 
     #endregion
 
-    #region 4. EventHandlers
+    #region 4-1. EventHandlers - Normal
 
-    // note : 충돌 개체 별 분기
+    public void OnChangeSparrowState(ESparrowState changedState)
+    {
+        _fieldObjectSparrow.ChangeAnimation((int)changedState);
+
+        if (changedState == ESparrowState.WALK)
+        {
+            _fieldObjectSparrow.ChangeSparrowDefaultSpeed();
+        }
+    }
+
+    #endregion
+
+    # region 4-2. EventHandlers - Collision
+
     private void OnCollision(Collision collision)
     {
-        var fieldObjectEnvironmentBase =
-            collision.gameObject.GetComponent<FieldObjectBase>() as FieldObjectEnvironmentBase;
+        var fieldObjectBase = collision.gameObject.GetComponent<FieldObjectBase>();
 
-        switch (fieldObjectEnvironmentBase)
+        _fieldObjectSparrow.StopSparrowMoving();
+
+        switch (fieldObjectBase)
         {
             case FieldObjectRock:
                 OnCollideWithRock();
@@ -105,40 +121,40 @@ public class SparrowPresenter : FieldObjectPresenterBase
             case FieldObjectFlower:
                 OnCollideWithEatableEnvironment();
                 break;
+            case FieldObjectSparrow:
+                OnCollideWithOtherSparrow();
+                break;
         }
     }
 
     private void OnCollideWithRock()
     {
-        // log
-        Debug.Log("Collide with Rock");
-
-        _fieldObjectSparrow.StopSparrowMovePosition();
         _sparrowData.ChangeSparrowState(ESparrowState.FLY);
 
         // todo
         // 의도 되지 않은 타이밍에 콜 되는 거 막기
         Observable.Timer(TimeSpan.FromSeconds(COLLIDED_ROCK_ANIMATION_CHANGE_SECOND)).Subscribe(_ =>
         {
-            _fieldObjectSparrow.RotateSparrowAndKeepDirection(FULL_ROTATION / 2);
+            _fieldObjectSparrow.ChangeSparrowPath(FULL_ROTATION / 2);
 
             _sparrowData.ChangeSparrowState(ESparrowState.WALK);
-
-            _fieldObjectSparrow.ChangeSparrowSpeed(1.2f);
         }).AddTo(_disposable);
     }
 
     private void OnCollideWithEatableEnvironment()
     {
-        // log
-        Debug.Log("Collide with Flower 또는 Mushroom");
-
         _sparrowData.ChangeSparrowState(ESparrowState.EAT);
     }
-    
-    public void OnChangeSparrowState(ESparrowState changedState)
+
+    private void OnCollideWithOtherSparrow()
     {
-        _fieldObjectSparrow.ChangeAnimation((int)changedState);
+        _fieldObjectSparrow.RotateToFaceCollisionObject();
+        _sparrowData.ChangeSparrowState(ESparrowState.ATTACK);
+
+        Observable.Timer(TimeSpan.FromSeconds(1f)).Subscribe(_ =>
+        {
+            _sparrowData.ChangeSparrowState(ESparrowState.WALK);
+        }).AddTo(_disposable);
     }
 
     #endregion
@@ -159,18 +175,18 @@ public class SparrowPresenter : FieldObjectPresenterBase
             {
                 return;
             }
-            
-            Debug.Log($"{_fieldObjectSparrow.name }  :  {_directionChangeIntervalSecond}");
-            
+
+            Debug.Log($"{_fieldObjectSparrow.name}  :  {_directionChangeIntervalSecond}");
+
             var randDegree = _randomMaker.Next(0, FULL_ROTATION);
-            _fieldObjectSparrow.RotateSparrowAndKeepDirection(randDegree);
+            _fieldObjectSparrow.ChangeSparrowPath(randDegree);
         }).AddTo(_sparrowRandomPathDisposable);
     }
-    
+
     protected sealed override void DisposeCompositeDisposables()
     {
         base.DisposeCompositeDisposables();
-        
+
         _sparrowRandomPathDisposable?.Dispose();
     }
 

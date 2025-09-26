@@ -27,8 +27,7 @@ public class SparrowData : IModel
     #region 2. Properties
 
     public IObservable<ESparrowState> OnSparrowStateChanged => _sparrowState;
-
-
+    
     #endregion
 
     #region 3. Constructor
@@ -88,5 +87,6 @@ public enum ESparrowState
     IDLE = 0,
     WALK = 1,
     FLY = 2,
-    EAT = 3
+    EAT = 3,
+    ATTACK = 4,
 }
