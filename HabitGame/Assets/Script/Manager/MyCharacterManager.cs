@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using JetBrains.Annotations;
-using UnityEngine;
+using UniRx;
 
 // refactor
 // 아직 Manager -> Model에 Request를 붙여야 되는 것에 대한 확실한 답을 못 내림.
@@ -10,19 +10,16 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 {
     #region 1. Fields
 
-    // Note
-    // Model을 외부에서 접근하게 하지말고
-    // 필요하면 argument로 전달해라
     private MyCharacterData _myCharacterData;
     private XmlDataSerializeManager _xmlDataSerializeManager;
 
-    //
+    private readonly Subject<Unit> _onUpdateRoutineSuccess = new();
 
     #endregion
 
     #region 2. Properties
 
-    // default
+    public Subject<Unit> OnUpdateRoutineSuccess => _onUpdateRoutineSuccess;
 
     #endregion
 
@@ -100,6 +97,8 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
     {
         RequestUpdateRoutineRecordDictionary(todaySuccessfulRoutineIndexByView, dateTime);
 
+        _onUpdateRoutineSuccess.OnNext(default);
+        
         // refactor
         // 이걸 매번 할 필요는 없지?
         // 게임 종료시에만?

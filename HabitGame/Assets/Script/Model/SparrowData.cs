@@ -81,4 +81,5 @@ public enum ESparrowState
     FLY = 2,
     EAT = 3,
     ATTACK = 4,
+    SPIN = 5,
 }

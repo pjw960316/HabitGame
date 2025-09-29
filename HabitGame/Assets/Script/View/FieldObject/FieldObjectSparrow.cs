@@ -104,13 +104,18 @@ public class FieldObjectSparrow : FieldObjectBase
     public void ChangeSparrowSpeed(float speed)
     {
         _sparrowSpeed = speed;
+        
         UpdateSparrowMovement();
     }
 
     public void ChangeSparrowDefaultSpeed()
     {
-        _sparrowSpeed = DefaultSparrowSpeed;
-        UpdateSparrowMovement();
+        ChangeSparrowSpeed(DefaultSparrowSpeed);
+    }
+
+    public void ChangeSparrowSpeedZero()
+    {
+        ChangeSparrowSpeed(0f);
     }
 
     private void UpdateSparrowMovement()

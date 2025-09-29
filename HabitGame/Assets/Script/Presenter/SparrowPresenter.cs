@@ -15,6 +15,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
     private const int DIRECTION_CHANGE_INTERVAL_SECOND_MAX = 10;
     private const int DIRECTION_CHANGE_INTERVAL_UPDATE_PERIOD_SECOND = 5;
     private const int EAT_SECOND = 15;
+    private const int DANCE_SECOND = 5;
 
     private FieldObjectSparrow _fieldObjectSparrow;
     private SparrowData _sparrowData;
@@ -71,6 +72,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
 
         _fieldObjectSparrow.OnCollision.Subscribe(OnCollision).AddTo(_disposable);
         _sparrowData.OnSparrowStateChanged.Subscribe(OnChangeSparrowState).AddTo(_disposable);
+        _myCharacterManager.OnUpdateRoutineSuccess.Subscribe(OnChangeSparrowSpinState).AddTo(_disposable);
 
         BindWalkRandomEvent();
     }
@@ -80,13 +82,15 @@ public class SparrowPresenter : FieldObjectPresenterBase
     private void BindWalkRandomEvent()
     {
         // note : 방향 전환 하는 Observable의 타이머 값을 랜덤 하게
-        Observable.Interval(TimeSpan.FromSeconds(DIRECTION_CHANGE_INTERVAL_UPDATE_PERIOD_SECOND)).Subscribe(_ =>
-        {
-            _directionChangeIntervalSecond = _randomMaker.Next(0, DIRECTION_CHANGE_INTERVAL_SECOND_MAX);
-        }).AddTo(_disposable);
+        Observable.Interval(TimeSpan.FromSeconds(DIRECTION_CHANGE_INTERVAL_UPDATE_PERIOD_SECOND))
+            .Subscribe(_ =>
+            {
+                _directionChangeIntervalSecond = _randomMaker.Next(0, DIRECTION_CHANGE_INTERVAL_SECOND_MAX);
+            }).AddTo(_disposable);
 
         // note : 참새의 성향에 따라 방향전환의 빈도를 Observable로 관리
-        Observable.Interval(TimeSpan.FromSeconds(_impatienceLevel)).Subscribe(_ => { ChangeDirectionRandomlyIfWalk(); })
+        Observable.Interval(TimeSpan.FromSeconds(_impatienceLevel))
+            .Subscribe(_ => { ChangeDirectionRandomlyIfWalk(); })
             .AddTo(_disposable);
     }
 
@@ -94,6 +98,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
 
     #region 4-1. EventHandlers - Normal
 
+    // note : SparrowData에서 state를 바꾸면 ReactiveProperty로 인해 콜이 된다.
     public void OnChangeSparrowState(ESparrowState changedState)
     {
         _currentSparrowState = changedState;
@@ -105,6 +110,14 @@ public class SparrowPresenter : FieldObjectPresenterBase
         {
             _fieldObjectSparrow.ChangeSparrowDefaultSpeed();
         }
+    }
+
+    private void OnChangeSparrowSpinState(Unit _)
+    {
+        _fieldObjectSparrow.ChangeSparrowSpeedZero();
+        _sparrowData.ChangeSparrowState(ESparrowState.SPIN);
+        
+        ChangeToWalkStateAfterDelay(DANCE_SECOND, QUARTER_ROTATION);
     }
 
     #endregion
@@ -142,24 +155,14 @@ public class SparrowPresenter : FieldObjectPresenterBase
     {
         _sparrowData.ChangeSparrowState(ESparrowState.FLY);
 
-        Observable.Timer(TimeSpan.FromSeconds(COLLIDED_ROCK_ANIMATION_CHANGE_SECOND)).Subscribe(_ =>
-        {
-            _fieldObjectSparrow.ChangeSparrowPath(HALF_ROTATION);
-
-            _sparrowData.ChangeSparrowState(ESparrowState.WALK);
-        }).AddTo(_disposable);
+        ChangeToWalkStateAfterDelay(COLLIDED_ROCK_ANIMATION_CHANGE_SECOND, HALF_ROTATION);
     }
 
     private void OnCollideWithEatableEnvironment()
     {
         _fieldObjectSparrow.RotateToFaceCollisionObject();
         _sparrowData.ChangeSparrowState(ESparrowState.EAT);
-
-        Observable.Timer(TimeSpan.FromSeconds(EAT_SECOND)).Subscribe(_ =>
-        {
-            _sparrowData.ChangeSparrowState(ESparrowState.WALK);
-            _fieldObjectSparrow.ChangeSparrowPath(HALF_ROTATION);
-        }).AddTo(_disposable);
+        ChangeToWalkStateAfterDelay(EAT_SECOND, HALF_ROTATION);
     }
 
     private void OnCollideWithOtherSparrow()
@@ -167,11 +170,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
         _fieldObjectSparrow.RotateToFaceCollisionObject();
         _sparrowData.ChangeSparrowState(ESparrowState.ATTACK);
 
-        Observable.Timer(TimeSpan.FromSeconds(1f)).Subscribe(_ =>
-        {
-            _sparrowData.ChangeSparrowState(ESparrowState.WALK);
-            _fieldObjectSparrow.ChangeSparrowPath(QUARTER_ROTATION);
-        }).AddTo(_disposable);
+        ChangeToWalkStateAfterDelay(1f, QUARTER_ROTATION);
     }
 
     // test
@@ -180,12 +179,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
     {
         _sparrowData.ChangeSparrowState(ESparrowState.FLY);
 
-        Observable.Timer(TimeSpan.FromSeconds(COLLIDED_ROCK_ANIMATION_CHANGE_SECOND)).Subscribe(_ =>
-        {
-            _fieldObjectSparrow.ChangeSparrowPath(HALF_ROTATION);
-
-            _sparrowData.ChangeSparrowState(ESparrowState.WALK);
-        }).AddTo(_disposable);
+        ChangeToWalkStateAfterDelay(COLLIDED_ROCK_ANIMATION_CHANGE_SECOND, HALF_ROTATION);
     }
 
     #endregion
@@ -198,6 +192,16 @@ public class SparrowPresenter : FieldObjectPresenterBase
 
     #region 6. Methods
 
+    private void ChangeToWalkStateAfterDelay(float delaySeconds, int sparrowRotationDegree)
+    {
+        Observable.Timer(TimeSpan.FromSeconds(delaySeconds)).Subscribe(_ =>
+        {
+            _fieldObjectSparrow.ChangeSparrowPath(sparrowRotationDegree);
+            
+            _sparrowData.ChangeSparrowState(ESparrowState.WALK);
+        }).AddTo(_disposable);
+    }
+    
     private void ChangeDirectionRandomlyIfWalk()
     {
         Observable.Timer(TimeSpan.FromSeconds(_directionChangeIntervalSecond)).Subscribe(_ =>
