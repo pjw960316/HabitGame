@@ -9,6 +9,7 @@ public abstract class UIPopupBase : MonoBehaviour, IView
     protected UIManager _uiManager;
     protected UIToastManager _uiToastManager;
     protected PresenterManager _presenterManager;
+    protected CameraManager _cameraManager;
 
     protected EPopupKey _ePopupKey;
 
@@ -44,6 +45,7 @@ public abstract class UIPopupBase : MonoBehaviour, IView
         _uiManager = UIManager.Instance;
         _uiToastManager = UIToastManager.Instance;
         _presenterManager = PresenterManager.Instance;
+        _cameraManager = CameraManager.Instance;
     }
 
     protected abstract void BindEvent();
