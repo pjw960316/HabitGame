@@ -104,6 +104,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
         _currentSparrowState = changedState;
         _fieldObjectSparrow.ChangeAnimation((int)_currentSparrowState);
 
+        // log
         Debug.Log($"{_fieldObjectSparrow.name}'s State Change -> {_currentSparrowState}");
 
         if (_currentSparrowState == ESparrowState.WALK)

@@ -19,6 +19,8 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 
     #region 2. Properties
 
+    public int InstanceID => _instanceID;
+
     public Transform MyFieldObjectTransform => _myFieldObjectTransform;
 
     public EFieldObject EFieldObjectKey => _eFieldObjectKey;

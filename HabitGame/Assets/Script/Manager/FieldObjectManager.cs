@@ -1,11 +1,12 @@
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 
 public class FieldObjectManager : ManagerBase<FieldObjectManager>, IManager
 {
     #region 1. Fields
 
-    private readonly Dictionary<EFieldObject, FieldObjectBase> _activeFieldObjectDictionary = new();
+    // note : key = InstanceID (UnityEngine.Object)
+    private readonly Dictionary<int, FieldObjectBase> _activeFieldObjectDictionary = new();
 
     #endregion
 
@@ -47,15 +48,23 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>, IManager
 
     public void RegisterFieldObjectInActiveDictionary(FieldObjectBase fieldObject)
     {
-        var key = fieldObject.EFieldObjectKey;
+        var key = fieldObject.InstanceID;
         _activeFieldObjectDictionary[key] = fieldObject;
     }
 
-    public TFieldObject GetFieldObject<TFieldObject>(EFieldObject eFieldObjectKey) where TFieldObject : FieldObjectBase
+    public TFieldObject GetFieldObject<TFieldObject>(int instanceID) where TFieldObject : FieldObjectBase
     {
-        _activeFieldObjectDictionary.TryGetValue(eFieldObjectKey, out var fieldObjectBase);
+        _activeFieldObjectDictionary.TryGetValue(instanceID, out var fieldObjectBase);
 
         return fieldObjectBase as TFieldObject;
+    }
+
+    // note : 테스트 용도로 제작
+    public FieldObjectSparrow GetFirstSparrow(int instanceID)
+    {
+        return _activeFieldObjectDictionary
+            .Where(element => element.Value is FieldObjectSparrow)
+            .FirstOrDefault(element => element.Key != instanceID).Value as FieldObjectSparrow;
     }
 
     #endregion
