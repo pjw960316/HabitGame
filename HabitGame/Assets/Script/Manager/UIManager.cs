@@ -16,10 +16,8 @@ public class UIManager : ManagerBase<UIManager>, IManager
     private readonly Dictionary<EPopupKey, UIPopupBase> _popupDictionary = new();
 
     private readonly Subject<EPopupKey> _onOpenPopup = new();
-    private readonly Subject<EPopupKey> _onClosePopup = new();
     
     public readonly HashSet<EPopupKey> _openedPopupKeyList = new();
-    public readonly HashSet<EPopupKey> _pendingPopupKeyList = new();
 
     #endregion
 
@@ -30,7 +28,6 @@ public class UIManager : ManagerBase<UIManager>, IManager
     public Transform MainCanvasTransform { get; private set; }
 
     public Subject<EPopupKey> OnOpenPopup => _onOpenPopup;
-    public IObservable<EPopupKey> OnClosePopup => _onClosePopup;
 
     #endregion
 
@@ -47,9 +44,7 @@ public class UIManager : ManagerBase<UIManager>, IManager
 
     private void BindEvent()
     {
-        // todo
-        // Manager의 Disposable 정책
-        OnClosePopup.Subscribe(RemoveOpenedPopup);
+        //
     }
 
     #endregion
@@ -57,7 +52,7 @@ public class UIManager : ManagerBase<UIManager>, IManager
 
     #region 4. EventHandlers
 
-    private void RemoveOpenedPopup(EPopupKey ePopupKey)
+    public void RemoveOpenedPopup(EPopupKey ePopupKey)
     {
         if (_openedPopupKeyList.Contains(ePopupKey))
         {
@@ -73,11 +68,6 @@ public class UIManager : ManagerBase<UIManager>, IManager
     #endregion
 
     #region 5. Request Methods
-
-    public void AddPendingPopup(EPopupKey ePopupKey)
-    {
-        _pendingPopupKeyList.Add(ePopupKey);
-    }
 
     // test
     private void RequestUpdateCameraPos()
@@ -132,7 +122,6 @@ public class UIManager : ManagerBase<UIManager>, IManager
             // 매 번 새로 value를 갱신해주여 합니다.
             _popupDictionary[key] = popup;
             _openedPopupKeyList.Add(key);
-            _pendingPopupKeyList.Remove(key);
         }
     }
 
@@ -144,39 +133,9 @@ public class UIManager : ManagerBase<UIManager>, IManager
         return castedPopup;
     }
 
-    public bool IsPopupOpeningOrOpened(EPopupKey key)
-    {
-        if (_openedPopupKeyList.Contains(key))
-        {
-            return true;
-        }
-
-        if (_pendingPopupKeyList.Contains(key))
-        {
-            return true;
-        }
-
-        return false;
-    }
-
     public bool IsAnyPopupOpened()
     {
         if (_openedPopupKeyList.Any())
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-    public bool IsAnyPopupOpenedOrPending()
-    {
-        if (IsAnyPopupOpened())
-        {
-            return true;
-        }
-
-        if (_pendingPopupKeyList.Any())
         {
             return true;
         }

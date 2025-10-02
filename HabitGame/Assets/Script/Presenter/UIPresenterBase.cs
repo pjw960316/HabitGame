@@ -1,10 +1,10 @@
-using UniRx;
-
 public abstract class UIPresenterBase : PresenterBase
 {
     #region 1. Fields
 
-    //
+    // refactor
+    // 항상 팝업임
+    private UIPopupBase _popupBase;
 
     #endregion
 
@@ -20,8 +20,9 @@ public abstract class UIPresenterBase : PresenterBase
     {
         base.Initialize(view);
 
-        
-        
+        _popupBase = _view as UIPopupBase;
+        ExceptionHelper.CheckNullException(_popupBase, "_popupBase is null");
+
         //fix
         _model = SoundManager.Instance.SoundData;
         ExceptionHelper.CheckNullException(_model, "PresenterBase's _model");
@@ -41,14 +42,17 @@ public abstract class UIPresenterBase : PresenterBase
     #endregion
 
     #region 4. EventHandlers
-    
+
     //
 
     #endregion
 
     #region 5. Request Methods
 
-    // 
+    private void RequestUpdateLivedPopup(EPopupKey ePopupKey)
+    {
+        _uiManager.RemoveOpenedPopup(ePopupKey);
+    }
 
     #endregion
 
@@ -58,10 +62,10 @@ public abstract class UIPresenterBase : PresenterBase
     // UI는 Popup 정리 + Presenter 정리
     protected void Close()
     {
-        //refactor
-        var popup = _view as UIPopupBase;
-        popup?.ClosePopup();
-        
+        _popupBase.ClosePopup();
+
+        RequestUpdateLivedPopup(_popupBase.EPopupKey);
+
         TerminatePresenter();
     }
 
