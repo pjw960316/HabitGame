@@ -1,6 +1,5 @@
 using System;
 using UniRx;
-using UnityEngine;
 
 public class AlarmPresenter : UIPresenterBase
 {
@@ -33,7 +32,7 @@ public class AlarmPresenter : UIPresenterBase
         }
 
         SetView();
-        
+
         BindEvent();
     }
 
@@ -63,20 +62,14 @@ public class AlarmPresenter : UIPresenterBase
 
     #region 4. EventHandlers
 
-    
-
     private void OnStartAlarmSystem()
     {
-        // refactor 이 pending 없애자. 
-        //_uiManager.AddPendingPopup(EPopupKey.AlarmTimerPopup);
-
         RequestPlaySleepingMusic();
 
         RequestOpenAlarmTimerPopup();
 
         Close();
     }
-    
 
     #endregion
 
