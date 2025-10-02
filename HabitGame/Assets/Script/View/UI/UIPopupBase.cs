@@ -74,7 +74,7 @@ public abstract class UIPopupBase : MonoBehaviour, IView
     // Presenter에게 판단을 넘겨야 한다.
     public void ClosePopup()
     {
-        _uiManager.OnClosePopup.OnNext(_ePopupKey);
+        //_uiManager.OnClosePopup.OnNext(_ePopupKey);
         
         _onClose.OnNext(default);
         

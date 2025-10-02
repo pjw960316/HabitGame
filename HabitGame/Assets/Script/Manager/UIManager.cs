@@ -14,6 +14,10 @@ public class UIManager : ManagerBase<UIManager>, IManager
     private PopupData _popupData;
 
     private readonly Dictionary<EPopupKey, UIPopupBase> _popupDictionary = new();
+
+    private readonly Subject<EPopupKey> _onOpenPopup = new();
+    private readonly Subject<EPopupKey> _onClosePopup = new();
+    
     public readonly HashSet<EPopupKey> _openedPopupKeyList = new();
     public readonly HashSet<EPopupKey> _pendingPopupKeyList = new();
 
@@ -25,7 +29,8 @@ public class UIManager : ManagerBase<UIManager>, IManager
 
     public Transform MainCanvasTransform { get; private set; }
 
-    public Subject<EPopupKey> OnClosePopup { get; } = new();
+    public Subject<EPopupKey> OnOpenPopup => _onOpenPopup;
+    public IObservable<EPopupKey> OnClosePopup => _onClosePopup;
 
     #endregion
 
@@ -58,6 +63,11 @@ public class UIManager : ManagerBase<UIManager>, IManager
         {
             _openedPopupKeyList.Remove(ePopupKey);
         }
+
+        if (IsAnyPopupOpened() == false)
+        {
+            RequestUpdateCameraPos();
+        }
     }
 
     #endregion
@@ -67,6 +77,12 @@ public class UIManager : ManagerBase<UIManager>, IManager
     public void AddPendingPopup(EPopupKey ePopupKey)
     {
         _pendingPopupKeyList.Add(ePopupKey);
+    }
+
+    // test
+    private void RequestUpdateCameraPos()
+    {
+        CameraManager.Instance.RequestMainCameraDispose();
     }
 
     #endregion
@@ -146,6 +162,21 @@ public class UIManager : ManagerBase<UIManager>, IManager
     public bool IsAnyPopupOpened()
     {
         if (_openedPopupKeyList.Any())
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool IsAnyPopupOpenedOrPending()
+    {
+        if (IsAnyPopupOpened())
+        {
+            return true;
+        }
+
+        if (_pendingPopupKeyList.Any())
         {
             return true;
         }

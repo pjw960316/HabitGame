@@ -105,7 +105,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
         _fieldObjectSparrow.ChangeAnimation((int)_currentSparrowState);
 
         // log
-        Debug.Log($"{_fieldObjectSparrow.name}'s State Change -> {_currentSparrowState}");
+        // Debug.Log($"{_fieldObjectSparrow.name}'s State Change -> {_currentSparrowState}");
 
         if (_currentSparrowState == ESparrowState.WALK)
         {
@@ -130,7 +130,8 @@ public class SparrowPresenter : FieldObjectPresenterBase
         var fieldObjectBase = collision.gameObject.GetComponentInParent<FieldObjectBase>();
         ExceptionHelper.CheckNullException(fieldObjectBase, "fieldObjectBase script X");
 
-        Debug.Log($"{_fieldObjectSparrow.name}가 {fieldObjectBase.EFieldObjectKey}와 부딪혔다");
+        // Log
+        //Debug.Log($"{_fieldObjectSparrow.name}가 {fieldObjectBase.EFieldObjectKey}와 부딪혔다");
         
         _fieldObjectSparrow.StopSparrowMoving();
 

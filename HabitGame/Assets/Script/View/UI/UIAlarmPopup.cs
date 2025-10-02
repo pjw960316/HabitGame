@@ -43,6 +43,7 @@ public class UIAlarmPopup : UIPopupBase
         InitializeWidgets();
     }
 
+
     protected override void InitializeEPopupKey()
     {
         _ePopupKey = EPopupKey.AlarmPopup;

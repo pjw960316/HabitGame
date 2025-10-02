@@ -1,4 +1,7 @@
+using System;
+using UniRx;
 using UnityEngine;
+using Observable = UniRx.Observable;
 
 public class MainCameraMono : MonoBehaviour
 {
@@ -8,6 +11,7 @@ public class MainCameraMono : MonoBehaviour
     
     private CameraManager _cameraManager;
     private Transform _mainCameraTransform;
+    private IDisposable _followFieldObjectObservable;
     
     #endregion
 
@@ -48,9 +52,24 @@ public class MainCameraMono : MonoBehaviour
 
     #region 6. Methods
 
+    // note : UI가 떠 있을 때.
     public void FollowFieldObject(Transform fieldObjectTransform)
     {
-        _mainCameraTransform.LookAt(fieldObjectTransform);
+        //_mainCameraTransform.LookAt(fieldObjectTransform);
+        _mainCamera.fieldOfView = 60f;
+        
+        _followFieldObjectObservable = Observable.Interval(TimeSpan.FromMilliseconds(10f)).Subscribe(_ =>
+        {
+            Vector3 direction = fieldObjectTransform.position - new Vector3(1,0,-2) - _mainCameraTransform.position;
+            _mainCameraTransform.rotation = Quaternion.LookRotation(direction.normalized);
+            _mainCameraTransform.position = fieldObjectTransform.position + new Vector3(0, 1, -1);
+        });
+        Debug.Log($"{fieldObjectTransform.gameObject.name}");
+    }
+
+    public void DisposeFollowFieldObjectInterval()
+    {
+        _followFieldObjectObservable?.Dispose();
     }
 
     #endregion

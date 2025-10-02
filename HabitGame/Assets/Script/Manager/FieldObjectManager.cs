@@ -67,5 +67,11 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>, IManager
             .FirstOrDefault(element => element.Key != instanceID).Value as FieldObjectSparrow;
     }
 
+    public FieldObjectSparrow GetFirstSparrowAny()
+    {
+        return _activeFieldObjectDictionary
+            .FirstOrDefault(element => element.Value is FieldObjectSparrow).Value as FieldObjectSparrow;
+    }
+
     #endregion
 }
