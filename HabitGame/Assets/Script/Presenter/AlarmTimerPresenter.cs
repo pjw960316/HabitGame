@@ -57,8 +57,8 @@ public class AlarmTimerPresenter : UIPresenterBase
     protected override void BindEvent()
     {
         base.BindEvent();
-
-        _alarmTimerPopup.OnQuitAlarm.Subscribe(_ => StopAlarmSystem()).AddTo(_disposable);
+        
+        _alarmTimerPopup.OnQuitAlarm.Subscribe(_ => OnStopAlarmSystem()).AddTo(_disposable);
 
         Observable.Timer(TimeSpan.FromMinutes(_latestSleepingAudioPlayTime))
             .Subscribe(_ => RequestPlayAlarm())
@@ -73,19 +73,11 @@ public class AlarmTimerPresenter : UIPresenterBase
 
     #region 4. EventHandlers
 
-    protected override void OnClosePopup()
-    {
-        // log
-        Debug.Log("alarmTimerPresenter Terminate Presenter");
-
-        TerminatePresenter();
-    }
-
-    private void StopAlarmSystem()
+    private void OnStopAlarmSystem()
     {
         _soundManager.RequestStopPlayMusic();
 
-        _alarmTimerPopup.ClosePopup();
+        Close();
     }
 
     #endregion

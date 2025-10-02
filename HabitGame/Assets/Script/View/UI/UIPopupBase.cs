@@ -14,12 +14,13 @@ public abstract class UIPopupBase : MonoBehaviour, IView
     protected EPopupKey _ePopupKey;
 
     protected readonly CompositeDisposable _disposables = new();
-    private readonly Subject<Unit> _onClose = new();
+    private readonly Subject<Unit> _onCloseRequest = new();
 
     #endregion
 
     #region 2. Properties
-    public IObservable<Unit> OnClose => _onClose;
+
+    public IObservable<Unit> OnCloseRequest => _onCloseRequest;
     public EPopupKey EPopupKey => _ePopupKey;
 
     #endregion
@@ -56,32 +57,21 @@ public abstract class UIPopupBase : MonoBehaviour, IView
 
     #region 4. EventHandlers
 
-    //
+
+    // note
+    // Presenter가 호출한다.
+    public void ClosePopup()
+    {
+        _disposables?.Dispose();
+
+        Destroy(gameObject);
+    }
 
     #endregion
 
     #region 5. Request Methods
 
-    // 
-
-    #endregion
-
-    #region 6. Methods
-
-    // note
-    // 반드시 Presenter를 통해 Close 되어야 합니다.
-    // 항상 닫을 때 Presenter를 정리해야 하는 지 아닌 지 
-    // Presenter에게 판단을 넘겨야 한다.
-    public void ClosePopup()
-    {
-        //_uiManager.OnClosePopup.OnNext(_ePopupKey);
-        
-        _onClose.OnNext(default);
-        
-        _disposables?.Dispose();
-        
-        Destroy(gameObject);
-    }
+    //
 
     #endregion
 }

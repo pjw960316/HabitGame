@@ -63,24 +63,20 @@ public class AlarmPresenter : UIPresenterBase
 
     #region 4. EventHandlers
 
-    protected override void OnClosePopup()
-    {
-        // log
-        Debug.Log("alarmPresenter Terminate Presenter");
-
-        TerminatePresenter();
-    }
+    
 
     private void OnStartAlarmSystem()
     {
-        _uiManager.AddPendingPopup(EPopupKey.AlarmTimerPopup);
-
-        _alarmPopup.ClosePopup();
+        // refactor 이 pending 없애자. 
+        //_uiManager.AddPendingPopup(EPopupKey.AlarmTimerPopup);
 
         RequestPlaySleepingMusic();
 
         RequestOpenAlarmTimerPopup();
+
+        Close();
     }
+    
 
     #endregion
 

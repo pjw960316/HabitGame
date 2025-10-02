@@ -56,6 +56,7 @@ public class UIAlarmTimerPopup : UIPopupBase
     private void OnClickQuitAlarmButton()
     {
         _onQuitAlarm.OnNext(default);
+        
         _uiToastManager.ShowToast(EToastStringKey.EAlarmQuit);
     }
 

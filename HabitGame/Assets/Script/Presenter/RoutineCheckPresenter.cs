@@ -49,10 +49,6 @@ public class RoutineCheckPresenter : UIPresenterBase
         _uiRoutineCheckPopup.OnConfirmed.Subscribe(_ => HandleToggleEvent()).AddTo(_disposable);
     }
 
-    protected override void OnClosePopup()
-    {
-        //
-    }
 
     #endregion
 
@@ -99,6 +95,8 @@ public class RoutineCheckPresenter : UIPresenterBase
         if (serverResult == EServerResult.SUCCESS)
         {
             _myCharacterManager.UpdateRoutineRecord(todaySuccessfulRoutineIndex, dateTime);
+
+            Close();
 
             RequestShowToast();
         }

@@ -20,6 +20,8 @@ public abstract class UIPresenterBase : PresenterBase
     {
         base.Initialize(view);
 
+        
+        
         //fix
         _model = SoundManager.Instance.SoundData;
         ExceptionHelper.CheckNullException(_model, "PresenterBase's _model");
@@ -33,17 +35,14 @@ public abstract class UIPresenterBase : PresenterBase
 
     protected virtual void BindEvent()
     {
-        var popup = _view as UIPopupBase;
-        popup?.OnClose.Subscribe(_ => OnClosePopup()).AddTo(_disposable);
+        //
     }
 
     #endregion
 
     #region 4. EventHandlers
     
-    // refactor
-    // 이거 왜 abstract지?
-    protected abstract void OnClosePopup();
+    //
 
     #endregion
 
@@ -55,7 +54,16 @@ public abstract class UIPresenterBase : PresenterBase
 
     #region 6. Methods
 
-    //
+    // note
+    // UI는 Popup 정리 + Presenter 정리
+    protected void Close()
+    {
+        //refactor
+        var popup = _view as UIPopupBase;
+        popup?.ClosePopup();
+        
+        TerminatePresenter();
+    }
 
     #endregion
 }

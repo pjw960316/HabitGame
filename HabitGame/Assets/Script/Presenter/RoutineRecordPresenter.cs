@@ -55,11 +55,7 @@ public class RoutineRecordPresenter : UIPresenterBase
         base.BindEvent();
         
         _uiRoutineRecordPopup.OnUpdateScrollWidget.Subscribe(UpdateWidget).AddTo(_disposable);
-    }
-
-    protected override void OnClosePopup()
-    {
-        
+        _uiRoutineRecordPopup.OnCloseButtonClicked.Subscribe(_ => Close()).AddTo(_disposable);
     }
 
     #endregion

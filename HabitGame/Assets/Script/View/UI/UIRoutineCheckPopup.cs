@@ -70,8 +70,6 @@ public class UIRoutineCheckPopup : UIPopupBase
     private void OnClickConfirmButton()
     {
         _onConfirmed.OnNext(default);
-
-        ClosePopup();
     }
 
     #endregion

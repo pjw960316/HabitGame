@@ -23,14 +23,14 @@ public class UIRoutineRecordPopup : UIPopupBase
 
     #region 1. Fields
 
+    private const float WIDGET_SCROLL_UP_OFFSET = 2f;
+    private const float WIDGET_SCROLL_DOWN_OFFSET = 2f;
+    
     [SerializeField] private GameObject _widgetPrefab;
     [SerializeField] private GameObject _viewPort;
     [SerializeField] private GameObject _contents;
     [SerializeField] private ScrollRect _routineRecordScrollRect;
     [SerializeField] private UIButtonBase _closeBtn;
-
-    private const float WIDGET_SCROLL_UP_OFFSET = 2f;
-    private const float WIDGET_SCROLL_DOWN_OFFSET = 2f;
 
     private List<UIRoutineRecordWidget> _widgetList;
     private float _widgetOffsetHeight;
@@ -38,11 +38,14 @@ public class UIRoutineRecordPopup : UIPopupBase
     private float _currentVerticalNormalizedPosition;
 
     private readonly Subject<ScrollData> _onUpdateScrollWidget = new();
+    private readonly Subject<Unit> _onCloseButtonClicked = new Subject<Unit>();
     
     #endregion
 
     #region 2. Properties
     public IObservable<ScrollData> OnUpdateScrollWidget => _onUpdateScrollWidget;
+
+    public Subject<Unit> OnCloseButtonClicked => _onCloseButtonClicked;
 
     #endregion
 
@@ -80,7 +83,10 @@ public class UIRoutineRecordPopup : UIPopupBase
     {
         _routineRecordScrollRect.onValueChanged.AddListener(_ => OnScroll());
         
-        _closeBtn.OnClick.AddListener(ClosePopup);
+        _closeBtn.OnClick.AddListener(() =>
+        {
+            _onCloseButtonClicked.OnNext(default);
+        });
     }
 
     #endregion
