@@ -12,7 +12,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     #region 1. Fields
 
     private SoundData _soundData;
-    private MusicPlayerController _mainMusicPlayerController;
+    private MainMusicController _mainMusicPlayerController;
 
     #endregion
 
@@ -56,7 +56,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
         }
     }
 
-    public void SetMusicPlayerMono(MusicPlayerController musicPlayerController)
+    public void SetMainMusicPlayerController(MainMusicController musicPlayerController)
     {
         _mainMusicPlayerController = musicPlayerController;
         ExceptionHelper.CheckNullException(_mainMusicPlayerController, "_mainMusicPlayerController");
@@ -83,6 +83,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
         _mainMusicPlayerController.UpdateAudioClipAndPlay(_soundData.BackgroundAudioClip);
     }
 
+    // refactor
     public void PlayMusic(AudioClip audioClip)
     {
         _mainMusicPlayerController.UpdateAudioClipAndPlay(audioClip);

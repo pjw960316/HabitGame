@@ -1,19 +1,19 @@
 using System;
 using UnityEngine;
 
-public class MusicPlayerController : MonoBehaviour
+public abstract class SoundControllerBase : MonoBehaviour
 {
     #region 1. Fields
 
-    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] protected AudioSource _audioSource;
 
-    private readonly SoundManager _soundManager = SoundManager.Instance;
+    protected SoundManager _soundManager;
 
     #endregion
 
     #region 2. Properties
 
-    public AudioSource AudioSource => _audioSource;
+    //
 
     #endregion
 
@@ -21,18 +21,34 @@ public class MusicPlayerController : MonoBehaviour
 
     private void Awake()
     {
+        Initialize();
+    }
+
+    protected virtual void Initialize()
+    {
+        _soundManager = SoundManager.Instance;
+        
         if (_soundManager == null)
         {
             throw new NullReferenceException("_soundManager");
         }
-
-        _soundManager.SetMusicPlayerMono(this);
-        _soundManager.PlayBackgroundMusic();
     }
 
     #endregion
 
-    #region 4. Methods
+    #region 4. EventHandlers
+
+    //
+
+    #endregion
+
+    #region 5. Request Methods
+
+    // 
+
+    #endregion
+
+    #region 6. Methods
 
     public void UpdateAudioClipAndPlay(AudioClip audioClip)
     {
