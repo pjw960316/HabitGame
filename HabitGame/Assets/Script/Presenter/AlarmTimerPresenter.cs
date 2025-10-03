@@ -75,7 +75,7 @@ public class AlarmTimerPresenter : UIPresenterBase
 
     private void OnStopAlarmSystem()
     {
-        _soundManager.RequestStopPlayMusic();
+        _soundManager.StopPlayMusic();
 
         Close();
     }
@@ -94,8 +94,8 @@ public class AlarmTimerPresenter : UIPresenterBase
 
     private void RequestPlayAlarm()
     {
-        _soundManager.RequestAudioSourceLoopOn();
-        _soundManager.RequestPlayLoudAlarmMusic(_alarmLoudAudioClip);
+        _soundManager.SetAudioSourceLoopOn();
+        _soundManager.PlayLoudAlarmMusic(_alarmLoudAudioClip);
     }
 
     #endregion

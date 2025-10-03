@@ -65,26 +65,26 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     #region 5. Request Methods
 
-    public void RequestPlaySleepingMusic(AudioClip latestSleepingAudioClip)
+    public void PlaySleepingMusic(AudioClip latestSleepingAudioClip)
     {
         _audioSource.clip = latestSleepingAudioClip;
         _musicPlayerMono.PlayMusic();
     }
 
-    public void RequestPlayLoudAlarmMusic(AudioClip LoudAlarmAudioClip)
+    public void PlayLoudAlarmMusic(AudioClip LoudAlarmAudioClip)
     {
-        RequestStopPlayMusic();
+        StopPlayMusic();
         
         _audioSource.clip = LoudAlarmAudioClip;
         _musicPlayerMono.PlayMusic();
     }
 
-    public void RequestStopPlayMusic()
+    public void StopPlayMusic()
     {
         _audioSource.Stop();
     }
     
-    public void RequestAudioSourceLoopOn()
+    public void SetAudioSourceLoopOn()
     {
         _audioSource.loop = true;
     }
