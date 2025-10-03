@@ -70,13 +70,13 @@ public class MainCameraMono : MonoBehaviour
         //_mainCameraTransform.LookAt(fieldObjectTransform);
         _mainCamera.fieldOfView = 86f;
         
+        _followFieldObjectObservable?.Dispose();
         _followFieldObjectObservable = Observable.Interval(TimeSpan.FromMilliseconds(10f)).Subscribe(_ =>
         {
             Vector3 direction = fieldObjectTransform.position - new Vector3(0,-0.7f,-2) - _mainCameraTransform.position;
             _mainCameraTransform.rotation = Quaternion.LookRotation(direction.normalized);
             _mainCameraTransform.position = fieldObjectTransform.position + new Vector3(0, 1, -1);
         });
-        Debug.Log($"{fieldObjectTransform.gameObject.name}");
     }
 
     public void DisposeFollowSparrowCameraMoving()
