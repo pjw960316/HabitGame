@@ -5,6 +5,7 @@ using UnityEngine;
 // Note : 책임 감소
 // 처음 개발할 때는 SoundManager가 모든 SoundData를 관리하도록 설계를 했지만
 // 이제는 SoundManager는 Presenter로 부터 AudioClip을 받고 재생하는 기능만 책임진다.
+
 [Serializable]
 public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 {
@@ -50,9 +51,29 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     {
         //
     }
-    
+
     private void BindEvent()
     {
+    }
+
+    public void SetModel(IEnumerable<IModel> models)
+    {
+        foreach (var model in models)
+        {
+            if (model is SoundData soundData)
+            {
+                _soundData = soundData;
+                return;
+            }
+        }
+    }
+
+    public void SetMusicPlayerMono(MusicPlayerMono musicPlayerMono)
+    {
+        ExceptionHelper.CheckNullException(musicPlayerMono, "params : MusicPlayerMono");
+
+        _musicPlayerMono = musicPlayerMono;
+        _audioSource = _musicPlayerMono.AudioSource;
     }
 
     #endregion
@@ -65,6 +86,12 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     #region 5. Request Methods
 
+    //
+
+    #endregion
+
+    #region 6. Methods
+
     public void PlaySleepingMusic(AudioClip latestSleepingAudioClip)
     {
         _audioSource.clip = latestSleepingAudioClip;
@@ -74,7 +101,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     public void PlayLoudAlarmMusic(AudioClip LoudAlarmAudioClip)
     {
         StopPlayMusic();
-        
+
         _audioSource.clip = LoudAlarmAudioClip;
         _musicPlayerMono.PlayMusic();
     }
@@ -83,38 +110,10 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     {
         _audioSource.Stop();
     }
-    
+
     public void SetAudioSourceLoopOn()
     {
         _audioSource.loop = true;
-    }
-
-    #endregion
-
-    #region 6. Methods
-
-    public void SetModel(IEnumerable<IModel> models)
-    {
-        foreach (var model in models)
-        {
-            if (model is SoundData soundData)
-            {
-                _soundData = soundData;
-
-                return;
-            }
-        }
-    }
-
-    // note
-    // mono 객체가 Awake 될 때 Set 되므로
-    // 시점은 올바르다.
-    public void SetMusicPlayerMono(MusicPlayerMono musicPlayerMono)
-    {
-        ExceptionHelper.CheckNullException(musicPlayerMono, "params : MusicPlayerMono");
-        
-        _musicPlayerMono = musicPlayerMono;
-        _audioSource = _musicPlayerMono.AudioSource;
     }
 
     public void Dispose()
