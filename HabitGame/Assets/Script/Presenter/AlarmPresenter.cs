@@ -85,7 +85,7 @@ public class AlarmPresenter : UIPresenterBase
     private void RequestPlaySleepingMusic()
     {
         _soundManager.SetAudioSourceLoopOn();
-        _soundManager.PlaySleepingMusic(_alarmData.LatestSleepingAudioClip);
+        _soundManager.PlayMusic(_alarmData.LatestSleepingAudioClip);
     }
 
     private void RequestUpdateLatestSleepingAudioClip(EAlarmButtonType eAlarmAudioClip)

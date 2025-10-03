@@ -12,7 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15782ba2b8f62aa4085abe3f39256417, type: 3}
   m_Name: SoundData
   m_EditorClassIdentifier: 
-  _alarmChickenAudioClip: {fileID: 8300000, guid: 578e0ef3928252b468cb5f7fe8c056d5, type: 3}
-  _firstSleepingAudioClip: {fileID: 8300000, guid: 68604bbf3d301aa4fb1c904c2469adf0, type: 3}
-  _secondSleepingAudioClip: {fileID: 8300000, guid: e1bceeb2f7aeb06489ba6f89fa0357e2, type: 3}
-  _thirdSleepingAudioClip: {fileID: 8300000, guid: e1bceeb2f7aeb06489ba6f89fa0357e2, type: 3}
+  _backgroundAudioClip: {fileID: 8300000, guid: 3e669aac65adf8d4ea572f2674e95711, type: 3}

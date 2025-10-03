@@ -1,31 +1,19 @@
 using System;
 using UnityEngine;
 
-// TODO
-// 인터페이스로 묶어서 이런 음악 재생기에게 책임을 부여해라.
-public class MusicPlayerMono : MonoBehaviour
+public class MusicPlayerController : MonoBehaviour
 {
     #region 1. Fields
 
     [SerializeField] private AudioSource _audioSource;
-    
+
     private readonly SoundManager _soundManager = SoundManager.Instance;
 
     #endregion
 
     #region 2. Properties
 
-    public AudioSource AudioSource
-    {
-        get => _audioSource;
-        private set => _audioSource = value;
-    }
-
-    public AudioClip AudioClip
-    {
-        get => _audioSource.clip;
-        set => _audioSource.clip = value;
-    }
+    public AudioSource AudioSource => _audioSource;
 
     #endregion
 
@@ -37,16 +25,30 @@ public class MusicPlayerMono : MonoBehaviour
         {
             throw new NullReferenceException("_soundManager");
         }
-        
+
         _soundManager.SetMusicPlayerMono(this);
+        _soundManager.PlayBackgroundMusic();
     }
 
     #endregion
 
     #region 4. Methods
-    public void PlayMusic()
+
+    public void UpdateAudioClipAndPlay(AudioClip audioClip)
     {
-        _audioSource?.Play();
+        _audioSource.clip = audioClip;
+        _audioSource.Play();
     }
+
+    public void StopPlayMusic()
+    {
+        _audioSource.Stop();
+    }
+
+    public void SetLoopOn()
+    {
+        _audioSource.loop = true;
+    }
+
     #endregion
 }

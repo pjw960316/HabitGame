@@ -1288,7 +1288,7 @@ GameObject:
   - component: {fileID: 1059252639}
   - component: {fileID: 1059252638}
   m_Layer: 0
-  m_Name: MusicPlayer
+  m_Name: MainMusicPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2831,6 +2831,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 747050444}
   - {fileID: 1147651252}
+  - {fileID: 1059252640}
   - {fileID: 1367084004}
   - {fileID: 1683673520}
   - {fileID: 1453479159}
@@ -2839,4 +2840,3 @@ SceneRoots:
   - {fileID: 570734875}
   - {fileID: 246553140}
   - {fileID: 2114881849}
-  - {fileID: 1059252640}

@@ -11,27 +11,14 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 {
     #region 1. Fields
 
-    private MusicPlayerMono _musicPlayerMono;
-    private AudioSource _audioSource;
+    private SoundData _soundData;
+    private MusicPlayerController _mainMusicPlayerController;
 
     #endregion
 
     #region 2. Properties
 
-    private SoundData _soundData;
-
-    public SoundData SoundData
-    {
-        get
-        {
-            if (_soundData != null)
-            {
-                return _soundData;
-            }
-
-            throw new NullReferenceException("_soundData is Null");
-        }
-    }
+    public SoundData SoundData => _soundData;
 
     #endregion
 
@@ -44,12 +31,11 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     public void Initialize()
     {
-        BindEvent();
     }
 
     public void LateInitialize()
     {
-        //
+        BindEvent();
     }
 
     private void BindEvent()
@@ -63,17 +49,17 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
             if (model is SoundData soundData)
             {
                 _soundData = soundData;
+                ExceptionHelper.CheckNullException(_soundData, "SoundData");
+
                 return;
             }
         }
     }
 
-    public void SetMusicPlayerMono(MusicPlayerMono musicPlayerMono)
+    public void SetMusicPlayerMono(MusicPlayerController musicPlayerController)
     {
-        ExceptionHelper.CheckNullException(musicPlayerMono, "params : MusicPlayerMono");
-
-        _musicPlayerMono = musicPlayerMono;
-        _audioSource = _musicPlayerMono.AudioSource;
+        _mainMusicPlayerController = musicPlayerController;
+        ExceptionHelper.CheckNullException(_mainMusicPlayerController, "_mainMusicPlayerController");
     }
 
     #endregion
@@ -92,29 +78,26 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     #region 6. Methods
 
-    public void PlaySleepingMusic(AudioClip latestSleepingAudioClip)
+    public void PlayBackgroundMusic()
     {
-        _audioSource.clip = latestSleepingAudioClip;
-        _musicPlayerMono.PlayMusic();
+        _mainMusicPlayerController.UpdateAudioClipAndPlay(_soundData.BackgroundAudioClip);
     }
 
-    public void PlayLoudAlarmMusic(AudioClip LoudAlarmAudioClip)
+    public void PlayMusic(AudioClip audioClip)
     {
-        StopPlayMusic();
-
-        _audioSource.clip = LoudAlarmAudioClip;
-        _musicPlayerMono.PlayMusic();
+        _mainMusicPlayerController.UpdateAudioClipAndPlay(audioClip);
     }
 
     public void StopPlayMusic()
     {
-        _audioSource.Stop();
+        _mainMusicPlayerController.StopPlayMusic();
     }
 
     public void SetAudioSourceLoopOn()
     {
-        _audioSource.loop = true;
+        _mainMusicPlayerController.SetLoopOn();
     }
+    
 
     public void Dispose()
     {
