@@ -32,6 +32,11 @@ public class MockServerManager : ManagerBase<MockServerManager>, IManager
     {
         //
     }
+    
+    public void LateInitialize()
+    {
+        //
+    }
 
     #endregion
 

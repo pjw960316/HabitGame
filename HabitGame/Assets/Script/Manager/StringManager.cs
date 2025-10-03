@@ -37,6 +37,11 @@ public class StringManager : ManagerBase<StringManager>, IManager, IDisposable
     public void Initialize()
     {
     }
+    
+    public void LateInitialize()
+    {
+        //
+    }
 
     #endregion
 

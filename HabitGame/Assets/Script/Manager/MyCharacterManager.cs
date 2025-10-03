@@ -39,6 +39,11 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 
         RequestInitializeRoutineRecordDictionary();
     }
+    
+    public void LateInitialize()
+    {
+        //
+    }
 
     #endregion
 

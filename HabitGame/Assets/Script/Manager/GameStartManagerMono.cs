@@ -115,10 +115,8 @@ public class GameStartManagerMono : MonoBehaviour
     private void InitializeManagers()
     {
         CreateSingletonManagers();
-
-        // Note
-        // 싱글턴을 생성하고
-        // 모든 세팅 전에 필요한 기능을 수행한다.
+        // note : Manager 마다 _instance에 싱글턴 생성된 완료된 시점
+        
         foreach (var manager in _managerList)
         {
             manager.PreInitialize();
@@ -126,12 +124,14 @@ public class GameStartManagerMono : MonoBehaviour
 
         ConnectModelsInManagers();
 
-        // Note
-        // 모든 싱글턴이 생성된 이후의 시점이니
-        // 참조 가능
         foreach (var manager in _managerList)
         {
             manager.Initialize();
+        }
+        
+        foreach (var manager in _managerList)
+        {
+            manager.LateInitialize();
         }
     }
 

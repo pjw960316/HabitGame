@@ -40,6 +40,10 @@ public partial class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManag
         //
     }
 
+    public void LateInitialize()
+    {
+        //
+    }
     #endregion
 
     #region 4. EventHandlers

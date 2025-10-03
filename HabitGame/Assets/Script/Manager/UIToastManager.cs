@@ -30,6 +30,11 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager
     {
     }
 
+    public void LateInitialize()
+    {
+        //
+    }
+    
     #endregion
 
     #region 4. Methods

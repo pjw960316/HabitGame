@@ -12,6 +12,10 @@ public class MainCameraMono : MonoBehaviour
     private CameraManager _cameraManager;
     private Transform _mainCameraTransform;
     private IDisposable _followFieldObjectObservable;
+
+    private Vector3 _initializedMainCameraPosition;
+    private Quaternion _initializedMainCameraRotation;
+    private float _initializedMainCameraFOV;
     
     #endregion
 
@@ -34,6 +38,15 @@ public class MainCameraMono : MonoBehaviour
     {
         _cameraManager = CameraManager.Instance;
         _mainCameraTransform = _mainCamera.transform;
+
+        CacheInitializedCameraData();
+    }
+
+    private void CacheInitializedCameraData()
+    {
+        _initializedMainCameraPosition = _mainCameraTransform.position;
+        _initializedMainCameraRotation = _mainCameraTransform.rotation;
+        _initializedMainCameraFOV = _mainCamera.fieldOfView;
     }
 
     #endregion
@@ -52,8 +65,7 @@ public class MainCameraMono : MonoBehaviour
 
     #region 6. Methods
 
-    // note : UI가 떠 있을 때.
-    public void FollowFieldObject(Transform fieldObjectTransform)
+    public void UpdateToFollowFieldObject(Transform fieldObjectTransform)
     {
         //_mainCameraTransform.LookAt(fieldObjectTransform);
         _mainCamera.fieldOfView = 60f;
@@ -67,9 +79,16 @@ public class MainCameraMono : MonoBehaviour
         Debug.Log($"{fieldObjectTransform.gameObject.name}");
     }
 
-    public void DisposeFollowFieldObjectInterval()
+    public void DisposeFollowSparrowCameraMoving()
     {
         _followFieldObjectObservable?.Dispose();
+    }
+
+    public void ReturnToDefaultCameraSetting()
+    {
+        _mainCameraTransform.position = _initializedMainCameraPosition;
+        _mainCameraTransform.rotation = _initializedMainCameraRotation;
+        _mainCamera.fieldOfView = _initializedMainCameraFOV;
     }
 
     #endregion

@@ -14,6 +14,10 @@ public class ModelManager : ManagerBase<ModelManager>, IManager, IDisposable
     {
     }
 
+    public void LateInitialize()
+    {
+        //
+    }
     public void SetModel(IEnumerable<IModel> models)
     {
         //

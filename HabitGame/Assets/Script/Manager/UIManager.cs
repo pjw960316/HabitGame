@@ -11,23 +11,28 @@ public class UIManager : ManagerBase<UIManager>, IManager
 {
     #region 1. Fields
 
-    private PopupData _popupData;
-
+    private readonly HashSet<EPopupKey> _openedPopupKeyList = new();
     private readonly Dictionary<EPopupKey, UIPopupBase> _popupDictionary = new();
 
+    private PopupData _popupData;
+    private Canvas _mainCanvas;
+    private Transform _mainCanvasTransform;
+
+    private CameraManager _cameraManager;
+
     private readonly Subject<EPopupKey> _onOpenPopup = new();
-    
-    public readonly HashSet<EPopupKey> _openedPopupKeyList = new();
+    private readonly Subject<EPopupKey> _onClosePopup = new();
 
     #endregion
 
     #region 2. Properties
 
-    public Canvas MainCanvas { get; private set; }
+    public Canvas MainCanvas => _mainCanvas;
+    public Transform MainCanvasTransform => _mainCanvasTransform;
 
-    public Transform MainCanvasTransform { get; private set; }
+    public IObservable<EPopupKey> OnOpenPopup => _onOpenPopup;
 
-    public Subject<EPopupKey> OnOpenPopup => _onOpenPopup;
+    public Subject<EPopupKey> OnClosePopup => _onClosePopup;
 
     #endregion
 
@@ -39,6 +44,11 @@ public class UIManager : ManagerBase<UIManager>, IManager
 
     public void Initialize()
     {
+        _cameraManager = CameraManager.Instance;
+    }
+
+    public void LateInitialize()
+    {
         BindEvent();
     }
 
@@ -46,38 +56,6 @@ public class UIManager : ManagerBase<UIManager>, IManager
     {
         //
     }
-
-    #endregion
-
-
-    #region 4. EventHandlers
-
-    public void RemoveOpenedPopup(EPopupKey ePopupKey)
-    {
-        if (_openedPopupKeyList.Contains(ePopupKey))
-        {
-            _openedPopupKeyList.Remove(ePopupKey);
-        }
-
-        if (IsAnyPopupOpened() == false)
-        {
-            RequestUpdateCameraPos();
-        }
-    }
-
-    #endregion
-
-    #region 5. Request Methods
-
-    // test
-    private void RequestUpdateCameraPos()
-    {
-        CameraManager.Instance.RequestMainCameraDispose();
-    }
-
-    #endregion
-
-    #region 6. Methods
 
     public void SetModel(IEnumerable<IModel> _list)
     {
@@ -99,13 +77,30 @@ public class UIManager : ManagerBase<UIManager>, IManager
     {
         ExceptionHelper.CheckNullException(canvas, "MainCanvas Inject Fail");
 
-        MainCanvas = canvas.MainCanvas;
-        MainCanvasTransform = MainCanvas.transform;
+        _mainCanvas = canvas.MainCanvas;
+        _mainCanvasTransform = MainCanvas.transform;
     }
 
-    public void OpenPopupByStringKey(EPopupKey key, Transform transform)
+    #endregion
+
+
+    #region 4. EventHandlers
+
+    //
+
+    #endregion
+
+    #region 5. Request Methods
+
+    //
+
+    #endregion
+
+    #region 6. Methods
+
+    public void OpenPopupByStringKey(EPopupKey popupKey, Transform transform)
     {
-        var popupPrefab = _popupData.GetPopupByEPopupKey(key);
+        var popupPrefab = _popupData.GetPopupByEPopupKey(popupKey);
 
         if (popupPrefab == null)
         {
@@ -116,21 +111,21 @@ public class UIManager : ManagerBase<UIManager>, IManager
 
         if (popup != null)
         {
-            // note
-            // TryAdd를 사용하면, 최초로 생성한 Popup을 계속 Key의 Value로 저장합니다.
-            // 그러면 그 popup을 끌 때 Value가 null이 되므로 
-            // 매 번 새로 value를 갱신해주여 합니다.
-            _popupDictionary[key] = popup;
-            _openedPopupKeyList.Add(key);
+            _popupDictionary[popupKey] = popup;
+            _openedPopupKeyList.Add(popupKey);
+
+            _onOpenPopup.OnNext(popupKey);
         }
     }
 
-    public TPopup GetPopupByStringKey<TPopup>(EPopupKey key) where TPopup : UIPopupBase
+    public void RemoveOpenedPopup(EPopupKey popupKey)
     {
-        _popupDictionary.TryGetValue(key, out var popup);
-        var castedPopup = popup as TPopup;
+        if (_openedPopupKeyList.Contains(popupKey))
+        {
+            _openedPopupKeyList.Remove(popupKey);
 
-        return castedPopup;
+            _onClosePopup.OnNext(popupKey);
+        }
     }
 
     public bool IsAnyPopupOpened()

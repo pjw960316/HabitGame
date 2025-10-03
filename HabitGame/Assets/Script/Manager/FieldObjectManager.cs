@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,6 +25,10 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>, IManager
 
     public void Initialize()
     {
+    }
+    public void LateInitialize()
+    {
+        //
     }
 
     #endregion
@@ -71,6 +76,21 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>, IManager
     {
         return _activeFieldObjectDictionary
             .FirstOrDefault(element => element.Value is FieldObjectSparrow).Value as FieldObjectSparrow;
+    }
+
+    public FieldObjectSparrow GetRandomSparrow()
+    {
+        var aliveSparrowContainer = _activeFieldObjectDictionary.Where(element => element.Value is FieldObjectSparrow).ToList();
+        
+        if (aliveSparrowContainer.Count == 0)
+        {
+            throw new ArgumentOutOfRangeException();
+        }
+        
+        var rand = new Random();
+        var randValue = rand.Next(0, aliveSparrowContainer.Count-1);
+
+        return aliveSparrowContainer[randValue].Value as FieldObjectSparrow;
     }
 
     #endregion

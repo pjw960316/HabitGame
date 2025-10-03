@@ -46,6 +46,11 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
         BindEvent();
     }
 
+    public void LateInitialize()
+    {
+        //
+    }
+    
     private void BindEvent()
     {
     }

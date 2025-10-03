@@ -57,9 +57,7 @@ public abstract class UIPopupBase : MonoBehaviour, IView
 
     #region 4. EventHandlers
 
-
-    // note
-    // Presenter가 호출한다.
+    // note : Presenter가 호출한다.
     public void ClosePopup()
     {
         _disposables?.Dispose();

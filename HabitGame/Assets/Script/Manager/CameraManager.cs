@@ -1,11 +1,17 @@
 using System.Collections.Generic;
 using UniRx;
+using UnityEngine;
 
 public class CameraManager : ManagerBase<CameraManager>, IManager
 {
     #region 1. Fields
 
     private MainCameraMono _mainCamera;
+
+    private UIManager _uiManager;
+    private FieldObjectManager _fieldObjectManager;
+
+    private readonly CompositeDisposable _followSparrowCameraMoveDisposable = new();
 
     #endregion
 
@@ -24,6 +30,12 @@ public class CameraManager : ManagerBase<CameraManager>, IManager
 
     public void Initialize()
     {
+        _uiManager = UIManager.Instance;
+        _fieldObjectManager = FieldObjectManager.Instance;
+    }
+
+    public void LateInitialize()
+    {
         BindEvent();
     }
 
@@ -32,16 +44,29 @@ public class CameraManager : ManagerBase<CameraManager>, IManager
         //
     }
 
+    public void SetMainCamera(MainCameraMono mainCameraMono)
+    {
+        _mainCamera = mainCameraMono;
+    }
+
     private void BindEvent()
     {
-        UIManager.Instance.OnOpenPopup.Subscribe(_ =>
+        _uiManager.OnOpenPopup
+            .Subscribe(_ =>
+            {
+                var randomSparrow = _fieldObjectManager.GetRandomSparrow();
+                SetMainCameraToFollowSparrow(randomSparrow); 
+            })
+            .AddTo(_followSparrowCameraMoveDisposable);
+
+        _uiManager.OnClosePopup.Subscribe(_ =>
         {
-            //ExecuteMainCameraToFollowFieldObject();
+            _mainCamera.DisposeFollowSparrowCameraMoving();
 
+            ReturnToDefaultCameraSetting();
         });
-
     }
-    
+
     #endregion
 
     #region 4. EventHandlers
@@ -52,27 +77,22 @@ public class CameraManager : ManagerBase<CameraManager>, IManager
 
     #region 5. Request Methods
 
-    public void RequestMainCameraDispose()
-    {
-        _mainCamera.DisposeFollowFieldObjectInterval();
-    }
+    //
 
     #endregion
 
     #region 6. Methods
 
-    public void ExecuteMainCameraToFollowFieldObject(FieldObjectBase fieldObjectBase)
+    private void SetMainCameraToFollowSparrow(FieldObjectBase fieldObjectBase)
     {
         var fieldObjectTransform = fieldObjectBase.transform;
 
-        _mainCamera.FollowFieldObject(fieldObjectTransform);
+        _mainCamera.UpdateToFollowFieldObject(fieldObjectTransform);
     }
 
-    // refactor
-    // _mainCamera는 null 일 수 있지 않은가.
-    public void SetMainCamera(MainCameraMono mainCameraMono)
+    private void ReturnToDefaultCameraSetting()
     {
-        _mainCamera = mainCameraMono;
+        _mainCamera.ReturnToDefaultCameraSetting();
     }
 
     #endregion

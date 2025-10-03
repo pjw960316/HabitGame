@@ -25,6 +25,11 @@ public class GameManager : ManagerBase<GameManager>, IManager
     {
         TurnOnScreenAlways();
     }
+    
+    public void LateInitialize()
+    {
+        //
+    }
 
     #endregion
 

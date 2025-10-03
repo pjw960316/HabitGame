@@ -29,6 +29,11 @@ public class PresenterManager : ManagerBase<PresenterManager>, IManager
     {
         InitializeFieldFieldObjectViewModelMatchDictionary();
     }
+    
+    public void LateInitialize()
+    {
+        //
+    }
 
     private void InitializeFieldFieldObjectViewModelMatchDictionary()
     {
