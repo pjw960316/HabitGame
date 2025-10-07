@@ -20,12 +20,11 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
     private const int EAT_SECOND = 15;
     private const int DANCE_SECOND = 5;
 
-    protected EAnimalState _currentSparrowState;
-    
+    protected EAnimalState _currentAnimalState;
     private FieldObjectAnimalBase _fieldObjectAnimal;
     
     // refactor
-    protected SparrowData _sparrowData;
+    protected FieldObjectAnimalData _animalData;
     
     private int _directionChangeIntervalSecond;
     private int _impatienceLevel;
@@ -55,11 +54,9 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
         ExceptionHelper.CheckNullException(_fieldObjectAnimal, "_fieldObjectAnimal is null");
         
         // model
-        // refactor : 이거 상위 타입으로, 의외로 model은 공용 Animation이니.
-        // 일단 sparrow 붙여서
-        if (_model is SparrowData sparrowData)
+        if (_model is FieldObjectAnimalData animalData)
         {
-            _sparrowData = sparrowData;
+            _animalData = animalData;
         }
 
         // note
@@ -67,7 +64,7 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
         _impatienceLevel =
             _randomMaker.Next(DIRECTION_CHANGE_INTERVAL_SECOND_MAX / 2, DIRECTION_CHANGE_INTERVAL_SECOND_MAX);
         
-        ExceptionHelper.CheckNullException(_sparrowData, "_sparrowData is null");
+        ExceptionHelper.CheckNullException(_animalData, "_sparrowData is null");
     }
 
     protected override void BindEvent()
@@ -75,10 +72,7 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
         base.BindEvent();
 
         _fieldObjectAnimal.OnCollision.Subscribe(OnCollision).AddTo(_disposable);
-        
-        // refactor 
-        // 이거도 여기 있어야 함 -> 상태 변경 시 모두 Animation 바뀔 필요 있음.
-        //_sparrowData.OnSparrowStateChanged.Subscribe(OnChangeSparrowState).AddTo(_disposable);
+        _animalData.OnAnimalStateChanged.Subscribe(OnChangeSparrowState).AddTo(_disposable);
         
         BindWalkRandomEvent();
     }
@@ -103,91 +97,78 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
     #region 4-1. EventHandlers - Normal
 
     // note : SparrowData에서 state를 바꾸면 ReactiveProperty로 인해 콜이 된다.
-    /*public void OnChangeSparrowState(ESparrowState changedState)
+    public void OnChangeSparrowState(EAnimalState changedState)
     {
-        _currentSparrowState = changedState;
+        _currentAnimalState = changedState;
         
-        //refactor
-        //이건 하위
+        // refactor : 모든 animal은 changeAnimation이 되어야 한다.
         //_fieldObjectAnimal.ChangeAnimation((int)_currentSparrowState);
 
-        // log
-        // Debug.Log($"{_fieldObjectSparrow.name}'s State Change -> {_currentSparrowState}");
-
-        if (_currentSparrowState == ESparrowState.WALK)
+        if (_currentAnimalState == EAnimalState.WALK)
         {
             _fieldObjectAnimal.ChangeAnimalDefaultSpeed();
         }
-    }*/
-
-    /*private void OnChangeSparrowSpinState(Unit _)
-    {
-        _fieldObjectAnimal.ChangeAnimalSpeedZero();
-        _sparrowData.ChangeSparrowState(ESparrowState.SPIN);
-        
-        ChangeToWalkStateAfterDelay(DANCE_SECOND, QUARTER_ROTATION);
-    }*/
+    }
 
     #endregion
 
     # region 4-2. EventHandlers - Collision
 
-    // note : 모든 동물 마다의 OnCollision은 다르지만 구현을 해야지
-    protected abstract void OnCollision(Collision collision);
-    // {
-    //     var fieldObjectBase = collision.gameObject.GetComponentInParent<FieldObjectBase>();
-    //     ExceptionHelper.CheckNullException(fieldObjectBase, "fieldObjectBase script X");
-    //     
-    //     _fieldObjectAnimal.StopAnimalMoving();
-    //
-    //     switch (fieldObjectBase)
-    //     {
-    //         case FieldObjectRock:
-    //             OnCollideWithRock();
-    //             break;
-    //         case FieldObjectMushroom:
-    //         case FieldObjectFlower:
-    //             OnCollideWithEatableEnvironment();
-    //             break;
-    //         case FieldObjectSparrow:
-    //             OnCollideWithOtherSparrow();
-    //             break;
-    //         case FieldObjectTree:
-    //             OnCollideWithTree();
-    //             break;
-    //     }
-    // }
-
-    /*private void OnCollideWithRock()
+    protected void OnCollision(Collision collision)
     {
-        _sparrowData.ChangeSparrowState(ESparrowState.FLY);
-
-        ChangeToWalkStateAfterDelay(COLLIDED_ROCK_ANIMATION_CHANGE_SECOND, HALF_ROTATION);
+        var fieldObjectBase = collision.gameObject.GetComponentInParent<FieldObjectBase>();
+        ExceptionHelper.CheckNullException(fieldObjectBase, "fieldObjectBase script X");
+        
+        _fieldObjectAnimal.StopAnimalMoving();
+    
+        switch (fieldObjectBase)
+        {
+            case FieldObjectRock:
+                OnCollideWithRock();
+                break;
+            case FieldObjectMushroom:
+            case FieldObjectFlower:
+                OnCollideWithEatableEnvironment();
+                break;
+            case FieldObjectSparrow:
+                OnCollideWithOtherSparrow();
+                break;
+            case FieldObjectTree:
+                OnCollideWithTree();
+                break;
+        }
     }
 
-    private void OnCollideWithEatableEnvironment()
+    protected virtual void OnCollideWithRock()
     {
-        _fieldObjectAnimal.RotateToFaceCollisionObject();
-        _sparrowData.ChangeSparrowState(ESparrowState.EAT);
-        ChangeToWalkStateAfterDelay(EAT_SECOND, HALF_ROTATION);
+        /*_sparrowData.ChangeSparrowState(EAnimalState.FLY);
+
+        ChangeToWalkStateAfterDelay(COLLIDED_ROCK_ANIMATION_CHANGE_SECOND, HALF_ROTATION);*/
     }
 
-    private void OnCollideWithOtherSparrow()
+    protected virtual void OnCollideWithEatableEnvironment()
     {
-        _fieldObjectAnimal.RotateToFaceCollisionObject();
-        _sparrowData.ChangeSparrowState(ESparrowState.ATTACK);
+        /*_fieldObjectAnimal.RotateToFaceCollisionObject();
+        _sparrowData.ChangeSparrowState(EAnimalState.EAT);
+        ChangeToWalkStateAfterDelay(EAT_SECOND, HALF_ROTATION);*/
+    }
 
-        ChangeToWalkStateAfterDelay(1f, QUARTER_ROTATION);
+    protected virtual void OnCollideWithOtherSparrow()
+    {
+        /*_fieldObjectAnimal.RotateToFaceCollisionObject();
+        _sparrowData.ChangeSparrowState(EAnimalState.ATTACK);
+
+        ChangeToWalkStateAfterDelay(1f, QUARTER_ROTATION);*/
     }
 
     // test
     //일단 rock
-    private void OnCollideWithTree()
+    protected virtual void OnCollideWithTree()
     {
-        _sparrowData.ChangeSparrowState(ESparrowState.FLY);
+        /*_sparrowData.ChangeSparrowState(EAnimalState.FLY);
 
-        ChangeToWalkStateAfterDelay(COLLIDED_ROCK_ANIMATION_CHANGE_SECOND, HALF_ROTATION);
-    }*/
+        ChangeToWalkStateAfterDelay(COLLIDED_ROCK_ANIMATION_CHANGE_SECOND, HALF_ROTATION);*/
+    }
 
     #endregion
 
@@ -201,13 +182,13 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
 
     // refactor
     // animation마다 요 동작은 동일한데 이 animation 코드
-    private void ChangeToWalkStateAfterDelay(float delaySeconds, int sparrowRotationDegree)
+    protected void ChangeToWalkStateAfterDelay(float delaySeconds, int sparrowRotationDegree)
     {
         Observable.Timer(TimeSpan.FromSeconds(delaySeconds)).Subscribe(_ =>
         {
             _fieldObjectAnimal.ChangeAnimalPath(sparrowRotationDegree);
             
-            _sparrowData.ChangeSparrowState(EAnimalState.WALK);
+            _animalData.ChangeAnimalState(EAnimalState.WALK);
         }).AddTo(_disposable);
     }
     
@@ -215,7 +196,7 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
     {
         Observable.Timer(TimeSpan.FromSeconds(_directionChangeIntervalSecond)).Subscribe(_ =>
         {
-            if (_currentSparrowState != EAnimalState.WALK)
+            if (_currentAnimalState != EAnimalState.WALK)
             {
                 return;
             }

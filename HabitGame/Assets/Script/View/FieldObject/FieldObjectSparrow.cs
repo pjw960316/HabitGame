@@ -4,11 +4,11 @@ public class FieldObjectSparrow : FieldObjectAnimalBase
 {
     #region 1. Fields
 
-    private const string SPARROW_ANIMATOR_PARAMETER = "Sparrow";
+    
 
-    [SerializeField] private Animator _sparrowAnimator;
+    //[SerializeField] private Animator _sparrowAnimator;
 
-    private int _sparrowAnimatorParameter;
+    
 
     #endregion
 
@@ -23,8 +23,6 @@ public class FieldObjectSparrow : FieldObjectAnimalBase
     protected sealed override void Initialize()
     {
         base.Initialize();
-
-        _sparrowAnimatorParameter = Animator.StringToHash(SPARROW_ANIMATOR_PARAMETER);
     }
 
     protected override void InitializeEnumFieldObjectKey()

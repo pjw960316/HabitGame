@@ -37,7 +37,7 @@ public class PresenterManager : ManagerBase<PresenterManager>, IManager
 
     private void InitializeFieldFieldObjectViewModelMatchDictionary()
     {
-        _fieldObjectViewModelTypeMatchDictionary[typeof(FieldObjectSparrow)] = typeof(SparrowData);
+        _fieldObjectViewModelTypeMatchDictionary[typeof(FieldObjectSparrow)] = typeof(FieldObjectAnimalData);
     }
 
     #endregion

@@ -16,30 +16,30 @@
 using System;
 using UniRx;
 
-public class SparrowData : IModel
+public class FieldObjectAnimalData : IModel
 {
     #region 1. Fields
 
-    private readonly ReactiveProperty<EAnimalState> _sparrowState = new();
+    private readonly ReactiveProperty<EAnimalState> _animalState = new();
 
     #endregion
 
     #region 2. Properties
 
-    public IObservable<EAnimalState> OnSparrowStateChanged => _sparrowState;
+    public IObservable<EAnimalState> OnAnimalStateChanged => _animalState;
     
     #endregion
 
     #region 3. Constructor
 
-    public SparrowData()
+    public FieldObjectAnimalData()
     {
         Initialize();
     }
 
     private void Initialize()
     {
-        _sparrowState.Value = EAnimalState.WALK;
+        _animalState.Value = EAnimalState.WALK;
     }
 
 
@@ -59,14 +59,14 @@ public class SparrowData : IModel
 
     #region 6. Methods
 
-    public void ChangeSparrowState(EAnimalState changedState)
+    public void ChangeAnimalState(EAnimalState changedState)
     {
-        _sparrowState.Value = changedState;
+        _animalState.Value = changedState;
     }
 
-    public EAnimalState GetSparrowState()
+    public EAnimalState GetAnimalState()
     {
-        return _sparrowState.Value;
+        return _animalState.Value;
     }
 
     #endregion
