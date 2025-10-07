@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
@@ -43,6 +44,8 @@ public class AlarmData : ScriptableObject, IModel
     public void Initialize()
     {
         InitializeSleepingAudioClipPathDictionary();
+        
+        InitializeAudioClipAndPlayTimeToDefault();
     }
 
     private void InitializeSleepingAudioClipPathDictionary()
@@ -54,6 +57,12 @@ public class AlarmData : ScriptableObject, IModel
 
             _sleepingAudioClipPathDictionary[audioClip.Key] = path;
         }
+    }
+
+    private void InitializeAudioClipAndPlayTimeToDefault()
+    {
+        LatestSleepingAudioClip = _sleepingAudioClipDictionary.FirstOrDefault().Value;
+        LatestSleepingAudioPlayTime = 0f;
     }
 
     #endregion
@@ -89,6 +98,11 @@ public class AlarmData : ScriptableObject, IModel
     {
         _sleepingAudioPlayTimeDictionary.TryGetValue(eAlarmAudioClip, out var value);
         LatestSleepingAudioPlayTime = value;
+    }
+
+    public void RestoreAudioClipAndPlayTimeToDefault()
+    {
+        InitializeAudioClipAndPlayTimeToDefault();
     }
 
     #endregion

@@ -77,6 +77,8 @@ public class AlarmTimerPresenter : UIPresenterBase
     {
         _soundManager.StopPlayMusic();
         _soundManager.PlayBackgroundMusic();
+        
+        _alarmData.RestoreAudioClipAndPlayTimeToDefault();
 
         Close();
     }

@@ -108,7 +108,7 @@ public class AlarmPresenter : UIPresenterBase
 
     private bool IsAlarmDataSelected()
     {
-        if (_alarmData.LatestSleepingAudioClip == null || _alarmData.LatestSleepingAudioPlayTime == 0f)
+        if (_alarmData.LatestSleepingAudioPlayTime == 0f)
         {
             return false;
         }
