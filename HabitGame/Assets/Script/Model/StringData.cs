@@ -107,4 +107,5 @@ public enum EToastStringKey
     EAlarmConfirm,
     ERoutineCheckConfirm,
     EAlarmQuit,
+    EAlarmSelectPlease,
 }

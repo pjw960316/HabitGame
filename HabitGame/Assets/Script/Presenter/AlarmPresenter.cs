@@ -1,5 +1,6 @@
 using System;
 using UniRx;
+using UnityEngine;
 
 public class AlarmPresenter : UIPresenterBase
 {
@@ -64,6 +65,13 @@ public class AlarmPresenter : UIPresenterBase
 
     private void OnStartAlarmSystem()
     {
+        if (!IsAlarmDataSelected())
+        {
+            _uiToastManager.ShowToast(EToastStringKey.EAlarmSelectPlease);
+            
+            return;
+        }
+        
         RequestPlaySleepingMusic();
 
         RequestOpenAlarmTimerPopup();
@@ -96,6 +104,16 @@ public class AlarmPresenter : UIPresenterBase
     private void RequestUpdateLatestSleepingAudioPlayTime(EAlarmButtonType eAlarmTime)
     {
         _alarmData.SetLatestSleepingAudioPlayTime(eAlarmTime);
+    }
+
+    private bool IsAlarmDataSelected()
+    {
+        if (_alarmData.LatestSleepingAudioClip == null || _alarmData.LatestSleepingAudioPlayTime == 0f)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     #endregion

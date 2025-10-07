@@ -9,6 +9,8 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager
 
     public const float TOAST_MESSAGE_LIFE_TIME = 3f;
     private GameObject _toastMessage;
+    private Transform _toastMessageTransform;
+    
 
     #endregion
 
@@ -43,6 +45,7 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager
     {
         MainCanvas = canvas;
         _toastMessage = MainCanvas.ToastMessage.gameObject;
+        _toastMessageTransform = _toastMessage.transform;
     }
 
     public void SetModel(IEnumerable<IModel> models)
@@ -52,6 +55,7 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager
     public void ShowToast(EToastStringKey eToastStringKey)
     {
         UpdateToastText(eToastStringKey);
+        
         PresentToast();
     }
 
@@ -77,13 +81,12 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager
 
     private void PresentToast()
     {
+        _toastMessageTransform.SetAsLastSibling();
         _toastMessage.SetActive(true);
 
         RemoveToastMessage(_toastMessage);
     }
 
-    //note
-    //don't need disposable
     private void RemoveToastMessage(GameObject toastMessage)
     {
         Observable.Timer(TimeSpan.FromSeconds(TOAST_MESSAGE_LIFE_TIME))
