@@ -109,13 +109,13 @@ public class SparrowPresenter : FieldObjectPresenterBase
 
         if (_currentSparrowState == ESparrowState.WALK)
         {
-            _fieldObjectSparrow.ChangeSparrowDefaultSpeed();
+            _fieldObjectSparrow.ChangeAnimalDefaultSpeed();
         }
     }
 
     private void OnChangeSparrowSpinState(Unit _)
     {
-        _fieldObjectSparrow.ChangeSparrowSpeedZero();
+        _fieldObjectSparrow.ChangeAnimalSpeedZero();
         _sparrowData.ChangeSparrowState(ESparrowState.SPIN);
         
         ChangeToWalkStateAfterDelay(DANCE_SECOND, QUARTER_ROTATION);
@@ -129,11 +129,8 @@ public class SparrowPresenter : FieldObjectPresenterBase
     {
         var fieldObjectBase = collision.gameObject.GetComponentInParent<FieldObjectBase>();
         ExceptionHelper.CheckNullException(fieldObjectBase, "fieldObjectBase script X");
-
-        // Log
-        //Debug.Log($"{_fieldObjectSparrow.name}가 {fieldObjectBase.EFieldObjectKey}와 부딪혔다");
         
-        _fieldObjectSparrow.StopSparrowMoving();
+        _fieldObjectSparrow.StopAnimalMoving();
 
         switch (fieldObjectBase)
         {
@@ -198,7 +195,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
     {
         Observable.Timer(TimeSpan.FromSeconds(delaySeconds)).Subscribe(_ =>
         {
-            _fieldObjectSparrow.ChangeSparrowPath(sparrowRotationDegree);
+            _fieldObjectSparrow.ChangeAnimalPath(sparrowRotationDegree);
             
             _sparrowData.ChangeSparrowState(ESparrowState.WALK);
         }).AddTo(_disposable);
@@ -214,7 +211,7 @@ public class SparrowPresenter : FieldObjectPresenterBase
             }
 
             var randDegree = _randomMaker.Next(0, FULL_ROTATION);
-            _fieldObjectSparrow.ChangeSparrowPath(randDegree);
+            _fieldObjectSparrow.ChangeAnimalPath(randDegree);
         }).AddTo(_sparrowRandomPathDisposable);
     }
 
