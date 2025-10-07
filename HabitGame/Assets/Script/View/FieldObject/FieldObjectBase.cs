@@ -1,4 +1,3 @@
-using System;
 using UniRx;
 using UnityEngine;
 
@@ -13,7 +12,7 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 
     protected PresenterManager _presenterManager;
     protected FieldObjectManager _fieldObjectManager;
-    private Subject<Unit> _onDestroyFieldObject = new();
+    private readonly Subject<Unit> _onDestroyFieldObject = new();
 
     #endregion
 
@@ -71,10 +70,9 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 
     protected abstract void InitializeEnumFieldObjectKey();
     protected abstract void CreatePresenterByManager();
-    
+
     protected virtual void BindEvent()
     {
-        
     }
 
     #endregion
