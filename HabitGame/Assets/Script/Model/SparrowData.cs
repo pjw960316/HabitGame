@@ -20,13 +20,13 @@ public class SparrowData : IModel
 {
     #region 1. Fields
 
-    private readonly ReactiveProperty<ESparrowState> _sparrowState = new();
+    private readonly ReactiveProperty<EAnimalState> _sparrowState = new();
 
     #endregion
 
     #region 2. Properties
 
-    public IObservable<ESparrowState> OnSparrowStateChanged => _sparrowState;
+    public IObservable<EAnimalState> OnSparrowStateChanged => _sparrowState;
     
     #endregion
 
@@ -39,7 +39,7 @@ public class SparrowData : IModel
 
     private void Initialize()
     {
-        _sparrowState.Value = ESparrowState.WALK;
+        _sparrowState.Value = EAnimalState.WALK;
     }
 
 
@@ -59,12 +59,12 @@ public class SparrowData : IModel
 
     #region 6. Methods
 
-    public void ChangeSparrowState(ESparrowState changedState)
+    public void ChangeSparrowState(EAnimalState changedState)
     {
         _sparrowState.Value = changedState;
     }
 
-    public ESparrowState GetSparrowState()
+    public EAnimalState GetSparrowState()
     {
         return _sparrowState.Value;
     }
@@ -74,7 +74,7 @@ public class SparrowData : IModel
 
 // note
 // Animator의 condition과 다르지 않도록 주의
-public enum ESparrowState
+public enum EAnimalState
 {
     IDLE = 0,
     WALK = 1,

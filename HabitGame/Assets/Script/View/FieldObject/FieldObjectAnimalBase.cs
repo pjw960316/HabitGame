@@ -70,12 +70,10 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
 
     #region 6. Methods
 
-    protected sealed override void CreatePresenterByManager()
+    protected override void CreatePresenterByManager()
     {
-        // refactor
-        // 이걸 presenterBase?
-        _presenterManager.CreatePresenter<SparrowPresenter>(this);
     }
+    
 
     //refactor
     //이것만

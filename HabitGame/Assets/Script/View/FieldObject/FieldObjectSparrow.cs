@@ -1,5 +1,3 @@
-using System;
-using UniRx;
 using UnityEngine;
 
 public class FieldObjectSparrow : FieldObjectAnimalBase
@@ -11,14 +9,13 @@ public class FieldObjectSparrow : FieldObjectAnimalBase
     [SerializeField] private Animator _sparrowAnimator;
 
     private int _sparrowAnimatorParameter;
-   
 
     #endregion
 
     #region 2. Properties
 
 //
-    
+
     #endregion
 
     #region 3. Constructor
@@ -26,7 +23,7 @@ public class FieldObjectSparrow : FieldObjectAnimalBase
     protected sealed override void Initialize()
     {
         base.Initialize();
-        
+
         _sparrowAnimatorParameter = Animator.StringToHash(SPARROW_ANIMATOR_PARAMETER);
     }
 
@@ -43,7 +40,7 @@ public class FieldObjectSparrow : FieldObjectAnimalBase
     #endregion
 
     #region 4. EventHandlers
-    
+
     //
 
     #endregion
@@ -56,10 +53,10 @@ public class FieldObjectSparrow : FieldObjectAnimalBase
 
     #region 6. Methods
 
-    /*protected sealed override void CreatePresenterByManager()
+    protected sealed override void CreatePresenterByManager()
     {
-        //_presenterManager.CreatePresenter<SparrowPresenter>(this);
-    }*/
+        _presenterManager.CreatePresenter<FieldObjectSparrowPresenter>(this);
+    }
 
     public void ChangeAnimation(int enumKey)
     {
