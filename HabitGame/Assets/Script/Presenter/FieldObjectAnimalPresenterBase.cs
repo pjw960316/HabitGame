@@ -8,12 +8,12 @@ using Random = System.Random;
 // 모든 동물은 걷고, 랜덤으로 방향을 돌린다.
 public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
 {
-     #region 1. Fields
+    #region 1. Fields
 
     private const int FULL_ROTATION = 360;
     private const int HALF_ROTATION = 180;
     private const int QUARTER_ROTATION = 90;
-    
+
     private const float COLLIDED_ROCK_ANIMATION_CHANGE_SECOND = 1f;
     private const int DIRECTION_CHANGE_INTERVAL_SECOND_MAX = 10;
     private const int DIRECTION_CHANGE_INTERVAL_UPDATE_PERIOD_SECOND = 5;
@@ -22,10 +22,10 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
 
     protected EAnimalState _currentAnimalState;
     private FieldObjectAnimalBase _fieldObjectAnimal;
-    
+
     // refactor
     protected FieldObjectAnimalData _animalData;
-    
+
     private int _directionChangeIntervalSecond;
     private int _impatienceLevel;
 
@@ -51,8 +51,9 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
         {
             _fieldObjectAnimal = animal;
         }
+
         ExceptionHelper.CheckNullException(_fieldObjectAnimal, "_fieldObjectAnimal is null");
-        
+
         // model
         if (_model is FieldObjectAnimalData animalData)
         {
@@ -63,7 +64,7 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
         // 이 값이 낮으면 성격이 급하다 -> 방향 전환을 자주한다.
         _impatienceLevel =
             _randomMaker.Next(DIRECTION_CHANGE_INTERVAL_SECOND_MAX / 2, DIRECTION_CHANGE_INTERVAL_SECOND_MAX);
-        
+
         ExceptionHelper.CheckNullException(_animalData, "_sparrowData is null");
     }
 
@@ -72,8 +73,8 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
         base.BindEvent();
 
         _fieldObjectAnimal.OnCollision.Subscribe(OnCollision).AddTo(_disposable);
-        _animalData.OnAnimalStateChanged.Subscribe(OnChangeSparrowState).AddTo(_disposable);
-        
+        _animalData.OnAnimalStateChanged.Subscribe(OnChangeAnimalState).AddTo(_disposable);
+
         BindWalkRandomEvent();
     }
 
@@ -97,12 +98,10 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
     #region 4-1. EventHandlers - Normal
 
     // note : SparrowData에서 state를 바꾸면 ReactiveProperty로 인해 콜이 된다.
-    public void OnChangeSparrowState(EAnimalState changedState)
+    public void OnChangeAnimalState(EAnimalState changedState)
     {
         _currentAnimalState = changedState;
-        
-        // refactor : 모든 animal은 changeAnimation이 되어야 한다.
-        //_fieldObjectAnimal.ChangeAnimation((int)_currentSparrowState);
+        _fieldObjectAnimal.ChangeAnimation((int)_currentAnimalState);
 
         if (_currentAnimalState == EAnimalState.WALK)
         {
@@ -118,9 +117,9 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
     {
         var fieldObjectBase = collision.gameObject.GetComponentInParent<FieldObjectBase>();
         ExceptionHelper.CheckNullException(fieldObjectBase, "fieldObjectBase script X");
-        
+
         _fieldObjectAnimal.StopAnimalMoving();
-    
+
         switch (fieldObjectBase)
         {
             case FieldObjectRock:
@@ -187,11 +186,11 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
         Observable.Timer(TimeSpan.FromSeconds(delaySeconds)).Subscribe(_ =>
         {
             _fieldObjectAnimal.ChangeAnimalPath(sparrowRotationDegree);
-            
+
             _animalData.ChangeAnimalState(EAnimalState.WALK);
         }).AddTo(_disposable);
     }
-    
+
     private void ChangeDirectionRandomlyIfWalk()
     {
         Observable.Timer(TimeSpan.FromSeconds(_directionChangeIntervalSecond)).Subscribe(_ =>
@@ -214,5 +213,4 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
     }
 
     #endregion
-    
 }

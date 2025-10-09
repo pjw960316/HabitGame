@@ -35,7 +35,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Sparrow
+    m_ConditionEvent: Animal
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4288408210921018982}
@@ -60,7 +60,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Sparrow
+    m_ConditionEvent: Animal
     m_EventTreshold: 4
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 994922190916806290}
@@ -85,7 +85,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Sparrow
+    m_ConditionEvent: Animal
     m_EventTreshold: 3
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6690611658312210574}
@@ -216,7 +216,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Sparrow
+    m_ConditionEvent: Animal
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4288408210921018982}
@@ -375,7 +375,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Sparrow
+    m_ConditionEvent: Animal
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4288408210921018982}
@@ -556,7 +556,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Sparrow
+    m_ConditionEvent: Animal
     m_EventTreshold: 1
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4288408210921018982}
@@ -685,7 +685,7 @@ AnimatorStateTransition:
   m_Name: IsFly
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Sparrow
+    m_ConditionEvent: Animal
     m_EventTreshold: 2
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1301906225871599310}
@@ -736,7 +736,7 @@ AnimatorController:
   m_Name: AC_Sparrow
   serializedVersion: 5
   m_AnimatorParameters:
-  - m_Name: Sparrow
+  - m_Name: Animal
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -1042,7 +1042,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 6
-    m_ConditionEvent: Sparrow
+    m_ConditionEvent: Animal
     m_EventTreshold: 5
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6258936626069699203}

@@ -7,16 +7,15 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
     #region 1. Fields
 
     private const string ANIMATOR_PARAMETER = "Animal";
-    
+
     [SerializeField] private float _animalSpeed;
     [SerializeField] private Animator _animalAnimator;
-    
+
     protected Rigidbody _animalRigidBody;
     protected Collision _currentCollision;
     protected Vector3 _animalWalkMovement;
 
-    private int d;
-    
+    private int _animalIAnimatorIntegerParameter;
     private readonly Subject<Collision> _onCollision = new();
 
     #endregion
@@ -37,7 +36,7 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
         base.Initialize();
 
         _animalIAnimatorIntegerParameter = Animator.StringToHash(ANIMATOR_PARAMETER);
-        
+
         _animalRigidBody = _myFieldObjectTransform.GetComponent<Rigidbody>();
         ExceptionHelper.CheckNullException(_animalRigidBody, "_rigidBody");
 
@@ -56,7 +55,6 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
 
     private void FixedUpdate()
     {
-        // refactor
         _animalRigidBody.MovePosition(_myFieldObjectTransform.position + _animalWalkMovement);
     }
 
@@ -80,14 +78,10 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
     protected override void CreatePresenterByManager()
     {
     }
-    
-    // refactor
-    // 이걸 변경하자.
 
     public void ChangeAnimation(int enumKey)
     {
-        _animalAnimator.SetInteger();
-        _sparrowAnimator.SetInteger(_sparrowAnimatorParameter, enumKey);
+        _animalAnimator.SetInteger(_animalIAnimatorIntegerParameter, enumKey);
     }
 
     public void ChangeAnimalPath(int angle)
@@ -100,6 +94,7 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
     {
         var path = _currentCollision.transform.position - _myFieldObjectTransform.position;
         var facePath = Quaternion.LookRotation(path);
+        
         _myFieldObjectTransform.rotation = facePath;
     }
 

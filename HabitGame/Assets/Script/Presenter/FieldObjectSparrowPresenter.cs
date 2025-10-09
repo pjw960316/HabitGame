@@ -1,6 +1,4 @@
-using System;
 using UniRx;
-using UnityEngine;
 using Random = System.Random;
 
 public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
@@ -10,7 +8,7 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
     private const int FULL_ROTATION = 360;
     private const int HALF_ROTATION = 180;
     private const int QUARTER_ROTATION = 90;
-    
+
     private const float COLLIDED_ROCK_ANIMATION_CHANGE_SECOND = 1f;
     private const int DIRECTION_CHANGE_INTERVAL_SECOND_MAX = 10;
     private const int DIRECTION_CHANGE_INTERVAL_UPDATE_PERIOD_SECOND = 5;
@@ -45,11 +43,10 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
         }
 
         ExceptionHelper.CheckNullException(_fieldObjectSparrow, "_fieldObjectSparrow is null");
-        
-        
+
+
         _currentAnimalState = _animalData.GetAnimalState();
 
-        
 
         BindEvent();
     }
@@ -58,23 +55,20 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
     protected sealed override void BindEvent()
     {
         base.BindEvent();
-        
-        
+
+
         _myCharacterManager.OnUpdateRoutineSuccess.Subscribe(OnChangeSparrowSpinState).AddTo(_disposable);
     }
-
 
     #endregion
 
     #region 4-1. EventHandlers - Normal
 
-    
-
     private void OnChangeSparrowSpinState(Unit _)
     {
         _fieldObjectSparrow.ChangeAnimalSpeedZero();
         _animalData.ChangeAnimalState(EAnimalState.SPIN);
-        
+
         ChangeToWalkStateAfterDelay(DANCE_SECOND, QUARTER_ROTATION);
     }
 
@@ -89,7 +83,7 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
     {
         var fieldObjectBase = collision.gameObject.GetComponentInParent<FieldObjectBase>();
         ExceptionHelper.CheckNullException(fieldObjectBase, "fieldObjectBase script X");
-        
+
         _fieldObjectSparrow.StopAnimalMoving();
 
         switch (fieldObjectBase)
@@ -150,7 +144,6 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
     #endregion
 
     #region 6. Methods
-    
 
     /*protected sealed override void DisposeCompositeDisposables()
     {

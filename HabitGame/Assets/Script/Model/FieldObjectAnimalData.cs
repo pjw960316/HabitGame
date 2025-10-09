@@ -27,7 +27,7 @@ public class FieldObjectAnimalData : IModel
     #region 2. Properties
 
     public IObservable<EAnimalState> OnAnimalStateChanged => _animalState;
-    
+
     #endregion
 
     #region 3. Constructor
@@ -41,7 +41,6 @@ public class FieldObjectAnimalData : IModel
     {
         _animalState.Value = EAnimalState.WALK;
     }
-
 
     #endregion
 
@@ -81,5 +80,5 @@ public enum EAnimalState
     FLY = 2,
     EAT = 3,
     ATTACK = 4,
-    SPIN = 5,
+    SPIN = 5
 }
