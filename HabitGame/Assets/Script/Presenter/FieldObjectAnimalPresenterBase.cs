@@ -107,7 +107,8 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
         _currentAnimalState = changedState;
         _fieldObjectAnimal.ChangeAnimation((int)_currentAnimalState);
 
-        Debug.Log($"{_fieldObjectAnimal.name}의 현재 상태 : {_currentAnimalState}");
+        // Log
+        //Debug.Log($"{_fieldObjectAnimal.name}의 현재 상태 : {_currentAnimalState}");
 
         if (_currentAnimalState == EAnimalState.WALK)
         {

@@ -24,7 +24,7 @@ public class UIRoutineRecordPopup : UIPopupBase
     #region 1. Fields
 
     private const float WIDGET_SCROLL_UP_OFFSET = 2f;
-    private const float WIDGET_SCROLL_DOWN_OFFSET = 2f;
+    private const float WIDGET_SCROLL_DOWN_OFFSET = 4f;
     
     [SerializeField] private GameObject _widgetPrefab;
     [SerializeField] private GameObject _viewPort;

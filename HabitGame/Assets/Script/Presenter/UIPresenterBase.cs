@@ -62,9 +62,11 @@ public abstract class UIPresenterBase : PresenterBase
     // UI는 Popup 정리 + Presenter 정리
     protected void Close()
     {
+        var popupKey = _popupBase.EPopupKey;
+        
         _popupBase.ClosePopup();
-
-        RequestUpdateLivedPopup(_popupBase.EPopupKey);
+        
+        RequestUpdateLivedPopup(popupKey);
 
         TerminatePresenter();
     }

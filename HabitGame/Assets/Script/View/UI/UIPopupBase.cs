@@ -62,6 +62,8 @@ public abstract class UIPopupBase : MonoBehaviour, IView
     {
         _disposables?.Dispose();
 
+        // refactor
+        // 이거 빨리 껐다 키면 null 뜸
         Destroy(gameObject);
     }
 
