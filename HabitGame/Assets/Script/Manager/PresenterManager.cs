@@ -38,6 +38,8 @@ public class PresenterManager : ManagerBase<PresenterManager>, IManager
     private void InitializeFieldFieldObjectViewModelMatchDictionary()
     {
         _fieldObjectViewModelTypeMatchDictionary[typeof(FieldObjectSparrow)] = typeof(FieldObjectAnimalData);
+        _fieldObjectViewModelTypeMatchDictionary[typeof(FieldObjectDeer)] = typeof(FieldObjectAnimalData);
+        
     }
 
     #endregion

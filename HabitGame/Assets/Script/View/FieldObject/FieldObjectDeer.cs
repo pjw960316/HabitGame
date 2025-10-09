@@ -1,4 +1,4 @@
-public class FieldObjectSparrow : FieldObjectAnimalBase
+public class FieldObjectDeer : FieldObjectAnimalBase
 {
     #region 1. Fields
 
@@ -21,7 +21,7 @@ public class FieldObjectSparrow : FieldObjectAnimalBase
 
     protected override void InitializeEnumFieldObjectKey()
     {
-        _eFieldObjectKey = EFieldObject.SPARROW;
+        _eFieldObjectKey = EFieldObject.DEER;
     }
 
     protected sealed override void BindEvent()
@@ -47,7 +47,7 @@ public class FieldObjectSparrow : FieldObjectAnimalBase
 
     protected sealed override void CreatePresenterByManager()
     {
-        _presenterManager.CreatePresenter<FieldObjectSparrowPresenter>(this);
+        _presenterManager.CreatePresenter<FieldObjectDeerPresenter>(this);
     }
 
     #endregion

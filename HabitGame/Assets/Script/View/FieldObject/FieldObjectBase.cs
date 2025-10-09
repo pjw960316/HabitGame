@@ -59,8 +59,8 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
     {
         _presenterManager = PresenterManager.Instance;
         _fieldObjectManager = FieldObjectManager.Instance;
-
         _instanceID = GetInstanceID();
+        
         InitializeEnumFieldObjectKey();
 
         // note 
@@ -110,5 +110,6 @@ public enum EFieldObject
     BUSH,
     FLOWER,
     GRASS,
-    TREE
+    TREE,
+    DEER,
 }

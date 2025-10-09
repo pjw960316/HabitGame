@@ -15,6 +15,7 @@
 
 using System;
 using UniRx;
+using UnityEngine;
 
 public class FieldObjectAnimalData : IModel
 {
@@ -80,5 +81,6 @@ public enum EAnimalState
     FLY = 2,
     EAT = 3,
     ATTACK = 4,
-    SPIN = 5
+    SPIN = 5,
+    RUN = 6,
 }
