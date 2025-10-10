@@ -47,6 +47,8 @@ public class UIAlarmButton : UIButtonBase
 
     protected override void OnClickButton()
     {
+        base.OnClickButton();
+        
         _onButtonClicked.OnNext(_eAlarmButtonType);
     }
 

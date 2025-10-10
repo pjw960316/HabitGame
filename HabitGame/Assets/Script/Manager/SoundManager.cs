@@ -13,6 +13,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     private SoundData _soundData;
     private MainMusicController _mainMusicPlayerController;
+    private UISFXController _uiSFXController;
 
     #endregion
 
@@ -62,6 +63,12 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
         ExceptionHelper.CheckNullException(_mainMusicPlayerController, "_mainMusicPlayerController");
     }
 
+    public void SetUISFXController(UISFXController SFXController)
+    {
+        _uiSFXController = SFXController;
+        ExceptionHelper.CheckNullException(_uiSFXController, "_uiSFXController");
+    }
+
     #endregion
 
     #region 4. EventHandlers
@@ -76,14 +83,13 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     #endregion
 
-    #region 6. Methods
-
+    #region 6-1. MainMusicPlayer_Methods
+    
     public void PlayBackgroundMusic()
     {
         _mainMusicPlayerController.UpdateAudioClipAndPlay(_soundData.BackgroundAudioClip);
     }
 
-    // refactor
     public void PlayMusic(AudioClip audioClip)
     {
         _mainMusicPlayerController.UpdateAudioClipAndPlay(audioClip);
@@ -98,11 +104,33 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     {
         _mainMusicPlayerController.SetLoopOn();
     }
+    #endregion
     
-
-    public void Dispose()
+    #region 6-2. UISFX_Methods
+    
+    public void PlaySFX(AudioClip audioClip)
     {
+        _uiSFXController.UpdateAudioClipAndPlay(audioClip);
     }
 
+    public void PlayCurrentSFX()
+    {
+        _uiSFXController.PlayCurrentAudioClip();
+    }
+
+    public void StopSFX()
+    {
+        _uiSFXController.StopPlayMusic();
+    }
+
+    public void SetSFXLoopOn()
+    {
+        _uiSFXController.SetLoopOn();
+    }
+    
+    #endregion
+    
+    #region 6-3. Methods
+    public void Dispose() { }
     #endregion
 }

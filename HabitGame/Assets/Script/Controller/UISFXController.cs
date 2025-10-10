@@ -1,4 +1,4 @@
-public class EffectSoundController : SoundControllerBase
+public class UISFXController : SoundControllerBase
 {
     #region 1. Fields
 
@@ -17,6 +17,8 @@ public class EffectSoundController : SoundControllerBase
     protected override void Initialize()
     {
         base.Initialize();
+
+        _soundManager.SetUISFXController(this);
     }
 
     #endregion
@@ -35,7 +37,7 @@ public class EffectSoundController : SoundControllerBase
 
     #region 6. Methods
 
-    // 
+    //
 
     #endregion
 }

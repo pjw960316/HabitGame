@@ -15,6 +15,7 @@ public class UIButtonBase : MonoBehaviour, IView
 
     protected UIManager _uiManager;
     protected StringManager _stringManager;
+    protected SoundManager _soundManager;
 
     #endregion
 
@@ -43,6 +44,7 @@ public class UIButtonBase : MonoBehaviour, IView
     {
         _uiManager = UIManager.Instance;
         _stringManager = StringManager.Instance;
+        _soundManager = SoundManager.Instance;
 
         UpdateButtonAutoText();
     }
@@ -50,7 +52,7 @@ public class UIButtonBase : MonoBehaviour, IView
 
     protected virtual void BindEvent()
     {
-        Button.onClick.AddListener(OnClickButton);
+        OnClick.AddListener(OnClickButton);
     }
 
     #endregion
@@ -59,7 +61,7 @@ public class UIButtonBase : MonoBehaviour, IView
 
     protected virtual void OnClickButton()
     {
-        //
+        _soundManager.PlayCurrentSFX();
     }
 
     #endregion

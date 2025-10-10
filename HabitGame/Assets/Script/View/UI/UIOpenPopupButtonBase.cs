@@ -41,6 +41,8 @@ public class UIOpenPopupButtonBase : UIButtonBase
 
     protected override void OnClickButton()
     {
+        base.OnClickButton();
+
         if (_uiManager.IsAnyPopupOpened())
         {
             return;

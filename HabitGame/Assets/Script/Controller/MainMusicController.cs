@@ -1,5 +1,3 @@
-using System;
-
 public class MainMusicController : SoundControllerBase
 {
     #region 1. Fields
@@ -15,7 +13,7 @@ public class MainMusicController : SoundControllerBase
     #endregion
 
     #region 3. Constructor
-    
+
     protected override void Initialize()
     {
         base.Initialize();

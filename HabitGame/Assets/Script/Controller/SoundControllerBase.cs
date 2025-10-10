@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public abstract class SoundControllerBase : MonoBehaviour
@@ -27,11 +26,8 @@ public abstract class SoundControllerBase : MonoBehaviour
     protected virtual void Initialize()
     {
         _soundManager = SoundManager.Instance;
-        
-        if (_soundManager == null)
-        {
-            throw new NullReferenceException("_soundManager");
-        }
+
+        ExceptionHelper.CheckNullException(_audioSource, "AudioSource is missing");
     }
 
     #endregion
@@ -53,6 +49,12 @@ public abstract class SoundControllerBase : MonoBehaviour
     public void UpdateAudioClipAndPlay(AudioClip audioClip)
     {
         _audioSource.clip = audioClip;
+        _audioSource.Play();
+    }
+
+    public void PlayCurrentAudioClip()
+    {
+        ExceptionHelper.CheckNullException(_audioSource.clip, "Audioclip is missing");
         _audioSource.Play();
     }
 
