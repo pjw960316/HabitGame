@@ -5,12 +5,15 @@ public class FieldObjectAnimalData : IModel
 {
     #region 1. Fields
 
+    private bool _canChangeState = true;
+
     private readonly ReactiveProperty<EAnimalState> _animalState = new();
 
     #endregion
 
     #region 2. Properties
 
+    public bool CanChangeState => _canChangeState;
     public IObservable<EAnimalState> OnAnimalStateChanged => _animalState;
 
     #endregion
@@ -53,12 +56,22 @@ public class FieldObjectAnimalData : IModel
         return _animalState.Value;
     }
 
-    #endregion
+    public void BlockChangeState()
+    {
+        _canChangeState = false;
+    }
+
+    public void UnBlockChangeState()
+    {
+        _canChangeState = true;
+    }
 
     public void Terminate()
     {
         _animalState?.Dispose();
     }
+
+    #endregion
 }
 
 // note
@@ -71,5 +84,5 @@ public enum EAnimalState
     EAT = 3,
     ATTACK = 4,
     SPIN = 5,
-    RUN = 6,
+    RUN = 6
 }

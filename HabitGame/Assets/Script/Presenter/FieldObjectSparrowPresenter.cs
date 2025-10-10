@@ -1,3 +1,4 @@
+using System;
 using UniRx;
 
 public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
@@ -5,7 +6,7 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
     #region 1. Fields
     
     private const int EAT_SECOND = 15;
-    private const int DANCE_SECOND = 5;
+    private const int SPIN_SECOND = 3;
 
     private FieldObjectSparrow _fieldObjectSparrow;
     private int _directionChangeIntervalSecond;
@@ -50,9 +51,17 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
     private void OnChangeSparrowSpinState(Unit _)
     {
         _fieldObjectSparrow.ChangeAnimalSpeedZero();
+        
         _animalData.ChangeAnimalState(EAnimalState.SPIN);
+        _animalData.BlockChangeState();
 
-        ChangeToWalkStateAfterDelay(DANCE_SECOND, QUARTER_ROTATION);
+        Observable.Timer(TimeSpan.FromSeconds(SPIN_SECOND)).Subscribe(_ =>
+        {
+            _animalData.UnBlockChangeState();
+            
+            _fieldObjectSparrow.ChangeAnimalPath(QUARTER_ROTATION);
+            _animalData.ChangeAnimalState(EAnimalState.WALK);
+        }).AddTo(_disposable);
     }
 
     #endregion
