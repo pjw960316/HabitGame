@@ -12,9 +12,6 @@ public class UIRoutineCheckPopup : UIPopupBase
     [SerializeField] private List<UIToggleBase> _toggleList = new();
     [SerializeField] private UIButtonBase _confirmButton;
 
-    private readonly Subject<Unit> _onAwakeRoutineCheckPopup = new();
-    public IObservable<Unit> OnAwakeRoutineCheckPopup => _onAwakeRoutineCheckPopup;
-
     private readonly Subject<Unit> _onConfirmed = new();
     public IObservable<Unit> OnConfirmed => _onConfirmed;
 
@@ -27,13 +24,6 @@ public class UIRoutineCheckPopup : UIPopupBase
     #endregion
 
     #region 3. Constructor
-
-    protected override void OnAwake()
-    {
-        base.OnAwake();
-
-        _onAwakeRoutineCheckPopup.OnNext(default);
-    }
 
     protected sealed override void Initialize()
     {

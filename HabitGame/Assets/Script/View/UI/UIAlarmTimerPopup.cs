@@ -22,11 +22,6 @@ public class UIAlarmTimerPopup : UIPopupBase
 
     #region 3. Constructor
 
-    protected override void OnAwake()
-    {
-        base.OnAwake();
-    }
-
     protected sealed override void Initialize()
     {
         base.Initialize();

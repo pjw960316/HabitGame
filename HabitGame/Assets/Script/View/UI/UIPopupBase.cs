@@ -27,12 +27,8 @@ public abstract class UIPopupBase : MonoBehaviour, IView
 
     #region 3. Constructor
 
+    
     private void Awake()
-    {
-        OnAwake();
-    }
-
-    protected virtual void OnAwake()
     {
         Initialize();
 

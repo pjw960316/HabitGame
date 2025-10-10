@@ -33,35 +33,27 @@ public class RoutineCheckPresenter : UIPresenterBase
         _serverManager = MockServerManager.Instance;
 
         SetView();
-        
+
         BindEvent();
     }
 
     protected sealed override void SetView()
     {
+        UpdateDateTextPerSecond();
+
+        SetRoutineCheckToggleWidget(DateTime.Now);
     }
 
     protected sealed override void BindEvent()
     {
         base.BindEvent();
-        
-        _uiRoutineCheckPopup.OnAwakeRoutineCheckPopup.Subscribe(_ => InitializeRoutineCheckPopup()).AddTo(_disposable);
+
         _uiRoutineCheckPopup.OnConfirmed.Subscribe(_ => HandleToggleEvent()).AddTo(_disposable);
     }
-
 
     #endregion
 
     #region 4. Methods
-
-    
-
-    private void InitializeRoutineCheckPopup()
-    {
-        UpdateDateTextPerSecond();
-
-        InitializeRoutineCheckToggle(DateTime.Now);
-    }
 
     private void UpdateDateTextPerSecond()
     {
@@ -69,7 +61,7 @@ public class RoutineCheckPresenter : UIPresenterBase
             .Subscribe(_ => { _uiRoutineCheckPopup.UpdateDateText(DateTime.Now); });
     }
 
-    private void InitializeRoutineCheckToggle(DateTime dateTime)
+    private void SetRoutineCheckToggleWidget(DateTime dateTime)
     {
         var todaySuccessfulRoutineIndex = RequestGetTodaySuccessfulRoutineIndex(dateTime);
 
@@ -80,7 +72,7 @@ public class RoutineCheckPresenter : UIPresenterBase
         {
             return;
         }
-        
+
         _uiRoutineCheckPopup.SetToggle(todaySuccessfulRoutineIndex);
     }
 
