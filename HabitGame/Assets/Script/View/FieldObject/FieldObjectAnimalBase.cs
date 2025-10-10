@@ -120,10 +120,5 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
         _animalWalkMovement = _myFieldObjectTransform.forward * (_animalSpeed * Time.fixedDeltaTime);
     }
 
-    public void StopAnimalMoving()
-    {
-        ChangeAnimalSpeed(0f);
-    }
-
     #endregion
 }

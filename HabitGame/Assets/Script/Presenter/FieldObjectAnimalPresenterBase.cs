@@ -129,7 +129,12 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
         var fieldObjectBase = collision.gameObject.GetComponentInParent<FieldObjectBase>();
         ExceptionHelper.CheckNullException(fieldObjectBase, "fieldObjectBase script X");
 
-        _fieldObjectAnimal.StopAnimalMoving();
+        if (fieldObjectBase.EFieldObjectKey == EFieldObject.LAND)
+        {
+            return;
+        }
+        
+        _fieldObjectAnimal.ChangeAnimalSpeedZero();
 
         switch (fieldObjectBase)
         {
