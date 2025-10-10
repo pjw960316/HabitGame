@@ -105,6 +105,7 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
         UpdateAnimalMovement();
     }
 
+    
     public void ChangeAnimalDefaultSpeed()
     {
         ChangeAnimalSpeed(DefaultAnimalSpeed);
@@ -118,11 +119,6 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
     private void UpdateAnimalMovement()
     {
         _animalWalkMovement = _myFieldObjectTransform.forward * (_animalSpeed * Time.fixedDeltaTime);
-    }
-
-    public void StopAnimalMoving()
-    {
-        ChangeAnimalSpeed(0f);
     }
 
     #endregion
