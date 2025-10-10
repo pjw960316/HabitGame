@@ -478,7 +478,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2222111361405018444, guid: 88f2fd29f58b9734683512546acec310, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3
+      value: 7.6
       objectReference: {fileID: 0}
     - target: {fileID: 2222111361405018444, guid: 88f2fd29f58b9734683512546acec310, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1498,7 +1498,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2895370853508335671, guid: 252ba5fa5d8167e42af72cf97baa830e, type: 3}
       propertyPath: _animalSpeed
-      value: 0.2
+      value: 0.42
       objectReference: {fileID: 0}
     - target: {fileID: 3161298468613301832, guid: 252ba5fa5d8167e42af72cf97baa830e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1702,7 +1702,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2895370853508335671, guid: 252ba5fa5d8167e42af72cf97baa830e, type: 3}
       propertyPath: _animalSpeed
-      value: 0.3
+      value: 0.45
       objectReference: {fileID: 0}
     - target: {fileID: 3161298468613301832, guid: 252ba5fa5d8167e42af72cf97baa830e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2099,8 +2099,28 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 93164181833780763, guid: ad4137f595ec8e2449cacca9df7d3735, type: 3}
+      propertyPath: _animalSpeed
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 93164181833780763, guid: ad4137f595ec8e2449cacca9df7d3735, type: 3}
       propertyPath: _sparrowSpeed
       value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4828689454527999712, guid: ad4137f595ec8e2449cacca9df7d3735, type: 3}
+      propertyPath: m_Drag
+      value: 7.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 4828689454527999712, guid: ad4137f595ec8e2449cacca9df7d3735, type: 3}
+      propertyPath: m_Mass
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4828689454527999712, guid: ad4137f595ec8e2449cacca9df7d3735, type: 3}
+      propertyPath: m_AngularDrag
+      value: 2.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4828689454527999712, guid: ad4137f595ec8e2449cacca9df7d3735, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6788538757290762322, guid: ad4137f595ec8e2449cacca9df7d3735, type: 3}
       propertyPath: m_LocalPosition.x
