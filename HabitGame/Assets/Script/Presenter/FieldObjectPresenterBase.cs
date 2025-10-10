@@ -25,24 +25,22 @@ public abstract class FieldObjectPresenterBase : PresenterBase
         base.Initialize(view);
 
         CastView();
-        
+
         InitializeModel();
     }
 
     private void CastView()
     {
         _fieldObjectBase = _view as FieldObjectBase;
-
-        if (_fieldObjectBase == null)
-        {
-            throw new InvalidCastException("_fieldObjectBase");
-        }
+        ExceptionHelper.CheckNullException(_fieldObjectBase,
+            "_fieldObjectBase View is null in FieldObjectPresenterBase");
     }
 
     private void InitializeModel()
     {
         var modelType = _presenterManager.GetModelTypeUsingMatchDictionary(_view.GetType());
         var model = Activator.CreateInstance(modelType) as IModel;
+        ExceptionHelper.CheckNullException(model, "model is null in FieldObjectPresenterBase");
 
         _model = model;
     }
@@ -58,6 +56,8 @@ public abstract class FieldObjectPresenterBase : PresenterBase
 
     private void OnOnDestroyFieldObject()
     {
+        TerminateModel();
+
         TerminatePresenter();
     }
 
@@ -71,7 +71,10 @@ public abstract class FieldObjectPresenterBase : PresenterBase
 
     #region 6. Methods
 
-    // 
+    private void TerminateModel()
+    {
+        _model?.Terminate();
+    }
 
     #endregion
 }

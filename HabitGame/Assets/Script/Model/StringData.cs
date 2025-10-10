@@ -72,6 +72,8 @@ public class StringData : ScriptableObject, IModel
     // default
 
     #endregion
+    
+    public void Terminate(){}
 }
 
 public interface IEnumKey

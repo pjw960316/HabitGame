@@ -23,8 +23,6 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
 
     protected EAnimalState _currentAnimalState;
     private FieldObjectAnimalBase _fieldObjectAnimal;
-
-    // refactor
     protected FieldObjectAnimalData _animalData;
 
     private int _directionChangeIntervalSecond;

@@ -41,6 +41,7 @@ public class PopupData : ScriptableObject, IModel
     // default
 
     #endregion
+    public void Terminate(){}
 }
 
 public enum EPopupKey

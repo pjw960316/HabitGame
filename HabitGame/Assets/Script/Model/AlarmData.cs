@@ -106,6 +106,8 @@ public class AlarmData : ScriptableObject, IModel
     }
 
     #endregion
+    
+    public void Terminate(){}
 }
 
 public enum EAlarmButtonType

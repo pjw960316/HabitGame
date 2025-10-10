@@ -139,4 +139,6 @@ public class MyCharacterData : IModel
     // default
 
     #endregion
+    
+    public void Terminate(){}
 }

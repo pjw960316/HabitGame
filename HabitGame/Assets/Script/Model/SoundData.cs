@@ -34,4 +34,6 @@ public class SoundData : ScriptableObject, IModel
     // default
 
     #endregion
+    
+    public void Terminate(){}
 }
