@@ -129,6 +129,8 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
         var fieldObjectBase = collision.gameObject.GetComponentInParent<FieldObjectBase>();
         ExceptionHelper.CheckNullException(fieldObjectBase, "fieldObjectBase script X");
 
+        _fieldObjectAnimal.StopAnimalMoving();
+
         switch (fieldObjectBase)
         {
             case FieldObjectRock:
@@ -150,21 +152,18 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
 
     protected virtual void OnCollideWithRock()
     {
-        _fieldObjectAnimal.ChangeAnimalSpeedZero();
         _animalData.ChangeAnimalState(EAnimalState.IDLE);
         ChangeToWalkStateAfterDelay(COLLIDED_ROCK_ANIMATION_CHANGE_SECOND, HALF_ROTATION);
     }
 
     protected virtual void OnCollideWithEatableEnvironment()
     {
-        _fieldObjectAnimal.ChangeAnimalSpeedZero();
         _animalData.ChangeAnimalState(EAnimalState.IDLE);
         ChangeToWalkStateAfterDelay(COLLIDED_ROCK_ANIMATION_CHANGE_SECOND, HALF_ROTATION);
     }
 
     protected void OnCollideWithAnimal()
     {
-        _fieldObjectAnimal.ChangeAnimalSpeedZero();
         _fieldObjectAnimal.RotateToFaceCollisionObject();
 
         _animalData.ChangeAnimalState(EAnimalState.ATTACK);
@@ -173,7 +172,6 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
 
     protected virtual void OnCollideWithTree()
     {
-        _fieldObjectAnimal.ChangeAnimalSpeedZero();
         _animalData.ChangeAnimalState(EAnimalState.IDLE);
         ChangeToWalkStateAfterDelay(COLLIDED_ROCK_ANIMATION_CHANGE_SECOND, HALF_ROTATION);
     }
