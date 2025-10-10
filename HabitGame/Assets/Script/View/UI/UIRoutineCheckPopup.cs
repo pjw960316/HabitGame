@@ -93,5 +93,16 @@ public class UIRoutineCheckPopup : UIPopupBase
         }
     }
 
+    public void BlockConfirmButton()
+    {
+        _confirmButton.Button.interactable = false;
+    }
+
+    public void UnBlockConfirmButton()
+    {
+        _confirmButton.Button.interactable = true;
+    }
+    
+
     #endregion
 }

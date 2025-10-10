@@ -82,6 +82,9 @@ public class RoutineCheckPresenter : UIPresenterBase
 
     private async UniTaskVoid RequestUpdateRoutineRecordAsync(List<int> todaySuccessfulRoutineIndex, DateTime dateTime)
     {
+        // note : 서버 시간 딜레이 이후에 꺼지므로, 그 때 접근 못하도록 (cancellation Token 대신)
+        _uiRoutineCheckPopup.BlockConfirmButton();
+        
         var serverResult = await _serverManager.RequestServerValidation();
 
         if (serverResult == EServerResult.SUCCESS)
@@ -91,6 +94,10 @@ public class RoutineCheckPresenter : UIPresenterBase
             Close();
 
             RequestShowToast();
+        }
+        else
+        {
+            _uiRoutineCheckPopup.UnBlockConfirmButton();
         }
     }
 
