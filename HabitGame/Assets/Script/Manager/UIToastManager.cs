@@ -16,8 +16,6 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager
 
     #region 2. Properties
 
-    // refactor
-    // 특수 View에 대해서 고려해라. 얘는 어차피 게임 실행 중 상시 존재잖아.
     public UIMainCanvas MainCanvas { get; private set; }
 
     #endregion

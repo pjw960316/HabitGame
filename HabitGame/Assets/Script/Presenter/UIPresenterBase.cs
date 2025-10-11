@@ -2,8 +2,6 @@ public abstract class UIPresenterBase : PresenterBase
 {
     #region 1. Fields
 
-    // refactor
-    // 항상 팝업임
     private UIPopupBase _popupBase;
 
     #endregion

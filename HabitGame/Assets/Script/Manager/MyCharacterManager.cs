@@ -4,8 +4,6 @@ using System.Collections.Immutable;
 using JetBrains.Annotations;
 using UniRx;
 
-// refactor
-// 아직 Manager -> Model에 Request를 붙여야 되는 것에 대한 확실한 답을 못 내림.
 public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 {
     #region 1. Fields

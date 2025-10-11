@@ -157,8 +157,6 @@ public class GameStartManagerMono : MonoBehaviour
         }
     }
 
-    // refactor
-    // modellist를 readonly로 전달하면 좋을듯?
     private void ConnectModelsInManagers()
     {
         SetModelList();
