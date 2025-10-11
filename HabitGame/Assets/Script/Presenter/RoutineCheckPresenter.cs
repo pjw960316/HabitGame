@@ -110,7 +110,7 @@ public class RoutineCheckPresenter : UIPresenterBase
     private void RequestShowToast()
     {
         _uiToastManager.ShowToast(EToastStringKey.ERoutineCheckConfirm,
-            _myCharacterManager.GetMonthlyRoutineSuccessMoney());
+            _myCharacterManager.GetMonthlyRoutineSuccessMoney().ToString("N0"));
     }
 
     #endregion
