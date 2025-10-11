@@ -57,7 +57,7 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
 
         Observable.Timer(TimeSpan.FromSeconds(SPIN_SECOND)).Subscribe(_ =>
         {
-            _animalData.UnBlockChangeState();
+            _animalData.AllowChangeState();
             
             _fieldObjectSparrow.ChangeAnimalPath(QUARTER_ROTATION);
             _animalData.ChangeAnimalState(EAnimalState.WALK);

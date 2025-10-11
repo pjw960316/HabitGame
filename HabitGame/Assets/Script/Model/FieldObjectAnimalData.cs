@@ -66,7 +66,7 @@ public class FieldObjectAnimalData : IModel
         _canChangeState = false;
     }
 
-    public void UnBlockChangeState()
+    public void AllowChangeState()
     {
         _canChangeState = true;
     }
