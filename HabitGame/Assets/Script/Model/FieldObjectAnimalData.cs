@@ -48,6 +48,11 @@ public class FieldObjectAnimalData : IModel
 
     public void ChangeAnimalState(EAnimalState changedState)
     {
+        if (!_canChangeState)
+        {
+            return;
+        }
+        
         _animalState.Value = changedState;
     }
 

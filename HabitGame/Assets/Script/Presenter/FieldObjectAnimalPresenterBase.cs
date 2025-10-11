@@ -102,12 +102,6 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
     // note : AnimalData에서 state를 바꾸면 ReactiveProperty로 인해 콜이 된다.
     public void OnChangeAnimalState(EAnimalState changedState)
     {
-        var predicate = _animalData.CanChangeState;
-        if (!predicate)
-        {
-            return;
-        }
-        
         _currentAnimalState = changedState;
         _fieldObjectAnimal.ChangeAnimation((int)_currentAnimalState);
 
