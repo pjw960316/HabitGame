@@ -39,9 +39,14 @@ public class MainCameraMono : MonoBehaviour
         _cameraManager = CameraManager.Instance;
         _mainCameraTransform = _mainCamera.transform;
 
+        InitializeCamera();
         CacheInitializedCameraData();
     }
 
+    private void InitializeCamera()
+    {
+        
+    }
     private void CacheInitializedCameraData()
     {
         _initializedMainCameraPosition = _mainCameraTransform.position;
