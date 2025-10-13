@@ -108,9 +108,6 @@ public class UIManager : ManagerBase<UIManager>, IManager
         }
 
         var popup = Object.Instantiate(popupPrefab, transform).GetComponent<UIPopupBase>();
-        
-        // refactor 매직 넘버
-        popup.GetComponent<RectTransform>().anchoredPosition += new Vector2(0f, 150f);
 
         if (popup != null)
         {
