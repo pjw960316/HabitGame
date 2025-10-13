@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using Cysharp.Threading.Tasks.Triggers;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -179,6 +180,18 @@ public class UIRoutineRecordPopup : UIPopupBase
         {
             var routineRecordWidget =
                 Instantiate(_widgetPrefab, _contents.transform).GetComponent<UIRoutineRecordWidget>();
+            
+            
+            //test
+            var contentsRect = _contents.GetComponent<RectTransform>().rect;
+            var viewportRect = _contents.GetComponent<RectTransform>().rect;
+            
+            routineRecordWidget.gameObject.GetComponent<RectTransform>().sizeDelta =
+                new Vector2(contentsRect.width/2f, 200f); // 200f 수정.
+            
+            
+            Debug.Log($"{_contents.GetComponent<RectTransform>().rect.x} {_contents.GetComponent<RectTransform>().rect.width}");
+            Debug.Log($"{_contents.GetComponent<RectTransform>().anchoredPosition.x} {_contents.GetComponent<RectTransform>().anchoredPosition.y}");
             
             _widgetList.Add(routineRecordWidget);
 
