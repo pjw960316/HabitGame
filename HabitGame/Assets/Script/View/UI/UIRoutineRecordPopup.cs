@@ -23,9 +23,9 @@ public class UIRoutineRecordPopup : UIPopupBase
 
     #region 1. Fields
 
-    private const float WIDGET_SCROLL_UP_OFFSET = 2f;
-    private const float WIDGET_SCROLL_DOWN_OFFSET = 4f;
     private const int WIDGET_SHOW_COUNT = 4;
+    private const float WIDGET_SCROLL_UP_OFFSET = 2.5f;
+    private const int WIDGET_SCROLL_DOWN_OFFSET = 3;
 
     [SerializeField] private GameObject _widgetPrefab;
     [SerializeField] private GameObject _scrollPanel;
@@ -35,6 +35,7 @@ public class UIRoutineRecordPopup : UIPopupBase
 
     private List<UIRoutineRecordWidget> _widgetList;
     private ScrollRect _scrollRect;
+    private RectTransform _contentsRectTransform;
 
     private float _widgetRectWidth;
     private float _widgetRectHeight;
@@ -61,20 +62,16 @@ public class UIRoutineRecordPopup : UIPopupBase
     {
         base.Initialize();
 
+        _contentsRectTransform = _contents.GetComponent<RectTransform>();
+        _currentVerticalNormalizedPosition = 1f;
+        _viewPortWorldPosY = _viewPort.transform.position.y;
+        
         InitializeEPopupKey();
-        InitializeWidgets();
+        InitializeWidgetSettingData();
+        CreateWidgets();
 
         _scrollRect = _scrollPanel.GetComponent<ScrollRect>();
         ExceptionHelper.CheckNullException(_scrollRect, "_scrollRect");
-
-
-        _currentVerticalNormalizedPosition = 1f;
-        _viewPortWorldPosY = _viewPort.transform.position.y;
-    }
-
-    protected override void CreatePresenterByManager()
-    {
-        _presenterManager.CreatePresenter<RoutineRecordPresenter>(this);
     }
 
     protected override void InitializeEPopupKey()
@@ -82,12 +79,32 @@ public class UIRoutineRecordPopup : UIPopupBase
         _ePopupKey = EPopupKey.RoutineRecordPopup;
     }
 
-    private void InitializeWidgets()
+    private void InitializeWidgetSettingData()
     {
         _widgetList = new List<UIRoutineRecordWidget>();
 
-        _widgetRectWidth = _contents.GetComponent<RectTransform>().rect.width;
+        _widgetRectWidth = _contentsRectTransform.rect.width;
         _widgetRectHeight = _scrollPanel.GetComponent<RectTransform>().rect.height / WIDGET_SHOW_COUNT;
+    }
+
+    public void CreateWidgets()
+    {
+        for (var idx = 0; idx < WIDGET_SHOW_COUNT * 2f; idx++)
+        {
+            var widget = Instantiate(_widgetPrefab, _contents.transform).GetComponent<UIRoutineRecordWidget>();
+            var widgetRect = widget.RectTransform;
+            var heightOffset = -1 * idx * _widgetRectHeight;
+
+            widgetRect.sizeDelta = new Vector2(_widgetRectWidth, _widgetRectHeight);
+            widgetRect.anchoredPosition = new Vector3(0, heightOffset, 0);
+            _widgetList.Add(widget);
+        }
+    }
+
+
+    protected override void CreatePresenterByManager()
+    {
+        _presenterManager.CreatePresenter<RoutineRecordPresenter>(this);
     }
 
     protected override void BindEvent()
@@ -104,8 +121,6 @@ public class UIRoutineRecordPopup : UIPopupBase
     private void OnScroll()
     {
         UpdateWidgetIfNeeded();
-
-        UpdateCurrentVerticalNormalizedPosition();
     }
 
     #endregion
@@ -122,7 +137,7 @@ public class UIRoutineRecordPopup : UIPopupBase
     {
         var isScrollDown = _scrollRect.verticalNormalizedPosition < _currentVerticalNormalizedPosition;
         var movingWidget = isScrollDown ? GetTopWidget() : GetBottomWidget();
-
+        
         if (isScrollDown)
         {
             var shouldScrollUpdate = movingWidget.WorldPosY >
@@ -143,12 +158,10 @@ public class UIRoutineRecordPopup : UIPopupBase
                 _onUpdateScrollWidget?.OnNext(data);
             }
         }
-    }
 
-    private void UpdateCurrentVerticalNormalizedPosition()
-    {
         _currentVerticalNormalizedPosition = _scrollRect.verticalNormalizedPosition;
     }
+
 
     public UIRoutineRecordWidget GetTopWidget()
     {
@@ -180,31 +193,7 @@ public class UIRoutineRecordPopup : UIPopupBase
         return targetWidget;
     }
 
-    public void InitializeContentsHeight(int widgetCount)
-    {
-        _contents.GetComponent<RectTransform>().sizeDelta =
-            new Vector2(GetComponent<RectTransform>().rect.width, _widgetRectHeight * widgetCount);
-    }
-
-    public void CreateRoutineRecordWidgetPrefabs(int widgetCount)
-    {
-        for (var index = 0; index < widgetCount; index++)
-        {
-            var routineRecordWidget =
-                Instantiate(_widgetPrefab, _contents.transform).GetComponent<UIRoutineRecordWidget>();
-
-
-            routineRecordWidget.RectTransform.sizeDelta =
-                new Vector2(_widgetRectWidth, _widgetRectHeight);
-
-            _widgetList.Add(routineRecordWidget);
-
-            routineRecordWidget.RectTransform.anchoredPosition =
-                new Vector3(0, -(index * _widgetRectHeight), 0);
-        }
-    }
-
-    public void InitializeRoutineRecordWidgets(
+    public void SetWidgetData(
         ImmutableSortedDictionary<string, ImmutableList<bool>> routineRecordDictionary)
     {
         var index = 0;
@@ -222,15 +211,28 @@ public class UIRoutineRecordPopup : UIPopupBase
         }
     }
 
+    public void UpdateWidgetData(UIRoutineRecordWidget movingWidget, KeyValuePair<string, ImmutableList<bool>> routineRecordData)
+    {
+        movingWidget.UpdateData(routineRecordData);
+    }
+    
     public void ShowTopContent()
     {
         _scrollRect.verticalNormalizedPosition = 1f;
     }
 
-    public void UpdateWidgetData(UIRoutineRecordWidget movingWidget,
-        KeyValuePair<string, ImmutableList<bool>> routineRecordData)
+    // note : Contents의 Height는 Presenter로 부터 데이터의 개수에 맞게 세팅
+    public void SetContentsHeight(int finalShowWidgetCount)
     {
-        movingWidget.UpdateData(routineRecordData);
+        _contentsRectTransform.sizeDelta =
+            new Vector2(_contentsRectTransform.rect.width, _widgetRectHeight * finalShowWidgetCount);
+        
+        Debug.Log($"{_widgetRectWidth} ");
+    }
+
+    public int GetWidgetShowCount()
+    {
+        return WIDGET_SHOW_COUNT;
     }
 
     #endregion

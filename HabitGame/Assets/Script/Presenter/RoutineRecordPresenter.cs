@@ -9,11 +9,7 @@ public class RoutineRecordPresenter : UIPresenterBase
 {
     #region 1. Fields
 
-    // refactor
-    private const int DEFAULT_WIDGET_COUNT = 5;
-
     private UIRoutineRecordPopup _uiRoutineRecordPopup;
-
     private ImmutableSortedDictionary<string, ImmutableList<bool>> _routineRecordDictionary;
 
     #endregion
@@ -43,11 +39,15 @@ public class RoutineRecordPresenter : UIPresenterBase
     protected sealed override void SetView()
     {
         var routineRecordCount = _routineRecordDictionary.Count;
-        var widgetPrefabCount = routineRecordCount < DEFAULT_WIDGET_COUNT ? routineRecordCount : DEFAULT_WIDGET_COUNT;
+        var showWidgetCount = _uiRoutineRecordPopup.GetWidgetShowCount();
+        var finalShowWidgetCount = (routineRecordCount < showWidgetCount)
+            ? showWidgetCount
+            : routineRecordCount;
 
-        _uiRoutineRecordPopup.InitializeContentsHeight(routineRecordCount);
-        _uiRoutineRecordPopup.CreateRoutineRecordWidgetPrefabs(widgetPrefabCount);
-        _uiRoutineRecordPopup.InitializeRoutineRecordWidgets(_routineRecordDictionary);
+        Debug.Log($"aaaaa {routineRecordCount} / {showWidgetCount} / {finalShowWidgetCount}");
+        
+        _uiRoutineRecordPopup.SetContentsHeight(finalShowWidgetCount);
+        _uiRoutineRecordPopup.SetWidgetData(_routineRecordDictionary);
         _uiRoutineRecordPopup.ShowTopContent();
     }
 
