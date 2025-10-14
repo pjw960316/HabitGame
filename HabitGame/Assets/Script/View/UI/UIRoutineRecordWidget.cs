@@ -68,7 +68,9 @@ public class UIRoutineRecordWidget : UIWidgetBase
         _isUpdated = true;
         
         Date = routineRecordElement.Key;
-        _dateWidget.SetText(routineRecordElement.Key);
+        var formattedDateString = $"{Date.Substring(0, 4)} / {Date.Substring(4, 2)} / {Date.Substring(6, 2)}"; // 날짜 포맷용 매직 넘버
+        
+        _dateWidget.SetText(formattedDateString);
 
         var routineCheckList = routineRecordElement.Value;
         var routineCheckCount = routineCheckList.Count;
