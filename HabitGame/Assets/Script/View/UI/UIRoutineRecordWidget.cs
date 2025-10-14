@@ -15,6 +15,7 @@ public class UIRoutineRecordWidget : UIWidgetBase
 
     private MyCharacterManager _myCharacterManager;
     private Transform _transform;
+    private bool _isUpdated = false;
 
     #endregion
 
@@ -24,6 +25,8 @@ public class UIRoutineRecordWidget : UIWidgetBase
 
     public float WorldPosY => _transform.position.y;
     public string Date { get; private set; }
+
+    public bool IsUpdated => _isUpdated;
 
     #endregion
 
@@ -62,6 +65,8 @@ public class UIRoutineRecordWidget : UIWidgetBase
     // Auto-Texting 되는 것 존재.
     public void UpdateData(KeyValuePair<string, ImmutableList<bool>> routineRecordElement)
     {
+        _isUpdated = true;
+        
         Date = routineRecordElement.Key;
         _dateWidget.SetText(routineRecordElement.Key);
 

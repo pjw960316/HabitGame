@@ -210,6 +210,14 @@ public class UIRoutineRecordPopup : UIPopupBase
             _widgetList[index].UpdateData(element);
             index++;
         }
+
+        foreach (var widget in _widgetList)
+        {
+            if (!widget.IsUpdated)
+            {
+                widget.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void UpdateWidgetData(UIRoutineRecordWidget movingWidget, KeyValuePair<string, ImmutableList<bool>> routineRecordData)
@@ -227,8 +235,6 @@ public class UIRoutineRecordPopup : UIPopupBase
     {
         _contentsRectTransform.sizeDelta =
             new Vector2(_contentsRectTransform.rect.width, _widgetRectHeight * finalCount);
-        
-        Debug.Log($"{_widgetRectWidth} ");
     }
 
     public int GetWidgetShowCount()
