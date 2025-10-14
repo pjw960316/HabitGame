@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -40,13 +41,16 @@ public class RoutineRecordPresenter : UIPresenterBase
     {
         var routineRecordCount = _routineRecordDictionary.Count;
         var showWidgetCount = _uiRoutineRecordPopup.GetWidgetShowCount();
-        var finalShowWidgetCount = (routineRecordCount < showWidgetCount)
-            ? showWidgetCount
-            : routineRecordCount;
+        var finalCount = (routineRecordCount < showWidgetCount)
+            ? 0
+            : routineRecordCount - showWidgetCount;
 
-        Debug.Log($"aaaaa {routineRecordCount} / {showWidgetCount} / {finalShowWidgetCount}");
+        if (finalCount < 0)
+        {
+            throw new ArgumentOutOfRangeException();
+        }
         
-        _uiRoutineRecordPopup.SetContentsHeight(finalShowWidgetCount);
+        _uiRoutineRecordPopup.SetContentsHeight(finalCount);
         _uiRoutineRecordPopup.SetWidgetData(_routineRecordDictionary);
         _uiRoutineRecordPopup.ShowTopContent();
     }

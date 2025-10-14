@@ -82,7 +82,7 @@ public class UIRoutineRecordWidget : UIWidgetBase
             }
         }
 
-        var moneyText = (_myCharacterManager.GetMoneyPerRoutineSuccess() * successCount).ToString();
+        var moneyText = (_myCharacterManager.GetMoneyPerRoutineSuccess() * successCount).ToString("N0");
         _routineRecordMoneyWidget.SetText(moneyText);
     }
 

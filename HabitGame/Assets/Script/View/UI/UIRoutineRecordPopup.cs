@@ -223,10 +223,10 @@ public class UIRoutineRecordPopup : UIPopupBase
     }
 
     // note : Contents의 Height는 Presenter로 부터 데이터의 개수에 맞게 세팅
-    public void SetContentsHeight(int finalShowWidgetCount)
+    public void SetContentsHeight(int finalCount)
     {
         _contentsRectTransform.sizeDelta =
-            new Vector2(_contentsRectTransform.rect.width, _widgetRectHeight * finalShowWidgetCount);
+            new Vector2(_contentsRectTransform.rect.width, _widgetRectHeight * finalCount);
         
         Debug.Log($"{_widgetRectWidth} ");
     }
