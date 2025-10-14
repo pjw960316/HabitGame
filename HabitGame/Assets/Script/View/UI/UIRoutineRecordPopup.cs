@@ -24,9 +24,10 @@ public class UIRoutineRecordPopup : UIPopupBase
     #region 1. Fields
 
     private const int WIDGET_SHOW_COUNT = 4;
-    private const float WIDGET_SCROLL_UP_OFFSET = 2.5f;
-    private const int WIDGET_SCROLL_DOWN_OFFSET = 3;
-
+    private const int WIDGET_CREATE_COUNT = WIDGET_SHOW_COUNT * 2;
+    private const int WIDGET_SCROLL_UP_OFFSET = 3;
+    private const int WIDGET_SCROLL_DOWN_OFFSET = 4;
+    
     [SerializeField] private GameObject _widgetPrefab;
     [SerializeField] private GameObject _scrollPanel;
     [SerializeField] private GameObject _viewPort;
@@ -89,7 +90,7 @@ public class UIRoutineRecordPopup : UIPopupBase
 
     public void CreateWidgets()
     {
-        for (var idx = 0; idx < WIDGET_SHOW_COUNT * 2f; idx++)
+        for (var idx = 0; idx < WIDGET_CREATE_COUNT; idx++)
         {
             var widget = Instantiate(_widgetPrefab, _contents.transform).GetComponent<UIRoutineRecordWidget>();
             var widgetRect = widget.RectTransform;
