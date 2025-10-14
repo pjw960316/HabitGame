@@ -78,6 +78,11 @@ public class MainCameraMono : MonoBehaviour
         _followFieldObjectObservable?.Dispose();
         _followFieldObjectObservable = Observable.Interval(TimeSpan.FromMilliseconds(10f)).Subscribe(_ =>
         {
+            if(_mainCameraTransform == null)
+            {
+                return;
+            }
+            
             Vector3 direction = fieldObjectTransform.position - new Vector3(0,-0.7f,-2) - _mainCameraTransform.position;
             _mainCameraTransform.rotation = Quaternion.LookRotation(direction.normalized);
             _mainCameraTransform.position = fieldObjectTransform.position + new Vector3(0, 1, -1);

@@ -397,9 +397,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _widgetPrefab: {fileID: 79726887295126459, guid: ca27fd7e19ce04e47a7c1a08a95ce0a3, type: 3}
+  _scrollPanel: {fileID: 8164546956805779333}
   _viewPort: {fileID: 6065171363120194344}
   _contents: {fileID: 5633785703270820038}
-  _routineRecordScrollRect: {fileID: 3073035699634891193}
   _closeBtn: {fileID: 8470320072017458913}
 --- !u!1 &6065171363120194344
 GameObject:

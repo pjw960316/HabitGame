@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using Cysharp.Threading.Tasks.Triggers;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,24 +25,28 @@ public class UIRoutineRecordPopup : UIPopupBase
 
     private const float WIDGET_SCROLL_UP_OFFSET = 2f;
     private const float WIDGET_SCROLL_DOWN_OFFSET = 4f;
-    
+    private const int WIDGET_SHOW_COUNT = 4;
+
     [SerializeField] private GameObject _widgetPrefab;
+    [SerializeField] private GameObject _scrollPanel;
     [SerializeField] private GameObject _viewPort;
     [SerializeField] private GameObject _contents;
-    [SerializeField] private ScrollRect _routineRecordScrollRect;
     [SerializeField] private UIButtonBase _closeBtn;
 
     private List<UIRoutineRecordWidget> _widgetList;
+
+    private ScrollRect _scrollRect;
     private float _widgetOffsetHeight;
     private float _viewPortWorldPosY;
     private float _currentVerticalNormalizedPosition;
 
     private readonly Subject<ScrollData> _onUpdateScrollWidget = new();
-    private readonly Subject<Unit> _onCloseButtonClicked = new Subject<Unit>();
-    
+    private readonly Subject<Unit> _onCloseButtonClicked = new();
+
     #endregion
 
     #region 2. Properties
+
     public IObservable<ScrollData> OnUpdateScrollWidget => _onUpdateScrollWidget;
 
     public Subject<Unit> OnCloseButtonClicked => _onCloseButtonClicked;
@@ -57,9 +60,12 @@ public class UIRoutineRecordPopup : UIPopupBase
         base.Initialize();
 
         InitializeEPopupKey();
-        
+
+        _scrollRect = _scrollPanel.GetComponent<ScrollRect>();
+        ExceptionHelper.CheckNullException(_scrollRect, "_scrollRect");
+
         _widgetList = new List<UIRoutineRecordWidget>();
-        _widgetOffsetHeight = _widgetPrefab.GetComponent<RectTransform>().rect.height;
+        _widgetOffsetHeight = _scrollPanel.GetComponent<RectTransform>().rect.height / WIDGET_SHOW_COUNT;
 
         _currentVerticalNormalizedPosition = 1f;
         _viewPortWorldPosY = _viewPort.transform.position.y;
@@ -77,12 +83,9 @@ public class UIRoutineRecordPopup : UIPopupBase
 
     protected override void BindEvent()
     {
-        _routineRecordScrollRect.onValueChanged.AddListener(_ => OnScroll());
-        
-        _closeBtn.OnClick.AddListener(() =>
-        {
-            _onCloseButtonClicked.OnNext(default);
-        });
+        _scrollRect.onValueChanged.AddListener(_ => OnScroll());
+
+        _closeBtn.OnClick.AddListener(() => { _onCloseButtonClicked.OnNext(default); });
     }
 
     #endregion
@@ -99,16 +102,16 @@ public class UIRoutineRecordPopup : UIPopupBase
     #endregion
 
     #region 5. Request Methods
-    
+
     //
-    
+
     #endregion
 
     #region 6. Methods
 
     private void UpdateWidgetIfNeeded()
     {
-        var isScrollDown = _routineRecordScrollRect.verticalNormalizedPosition < _currentVerticalNormalizedPosition;
+        var isScrollDown = _scrollRect.verticalNormalizedPosition < _currentVerticalNormalizedPosition;
         var movingWidget = isScrollDown ? GetTopWidget() : GetBottomWidget();
 
         if (isScrollDown)
@@ -135,7 +138,7 @@ public class UIRoutineRecordPopup : UIPopupBase
 
     private void UpdateCurrentVerticalNormalizedPosition()
     {
-        _currentVerticalNormalizedPosition = _routineRecordScrollRect.verticalNormalizedPosition;
+        _currentVerticalNormalizedPosition = _scrollRect.verticalNormalizedPosition;
     }
 
     public UIRoutineRecordWidget GetTopWidget()
@@ -180,19 +183,16 @@ public class UIRoutineRecordPopup : UIPopupBase
         {
             var routineRecordWidget =
                 Instantiate(_widgetPrefab, _contents.transform).GetComponent<UIRoutineRecordWidget>();
-            
-            
+
+
             //test
             var contentsRect = _contents.GetComponent<RectTransform>().rect;
             var viewportRect = _contents.GetComponent<RectTransform>().rect;
-            
+
+
             routineRecordWidget.gameObject.GetComponent<RectTransform>().sizeDelta =
-                new Vector2(contentsRect.width/2f, 200f); // 200f 수정.
-            
-            
-            Debug.Log($"{_contents.GetComponent<RectTransform>().rect.x} {_contents.GetComponent<RectTransform>().rect.width}");
-            Debug.Log($"{_contents.GetComponent<RectTransform>().anchoredPosition.x} {_contents.GetComponent<RectTransform>().anchoredPosition.y}");
-            
+                new Vector2(contentsRect.width / 2f, _widgetOffsetHeight); // 200f 수정.
+
             _widgetList.Add(routineRecordWidget);
 
             routineRecordWidget.RectTransform.anchoredPosition =
@@ -220,10 +220,11 @@ public class UIRoutineRecordPopup : UIPopupBase
 
     public void ShowTopContent()
     {
-        _routineRecordScrollRect.verticalNormalizedPosition = 1f;
+        _scrollRect.verticalNormalizedPosition = 1f;
     }
 
-    public void UpdateWidgetData(UIRoutineRecordWidget movingWidget, KeyValuePair<string, ImmutableList<bool>> routineRecordData)
+    public void UpdateWidgetData(UIRoutineRecordWidget movingWidget,
+        KeyValuePair<string, ImmutableList<bool>> routineRecordData)
     {
         movingWidget.UpdateData(routineRecordData);
     }
