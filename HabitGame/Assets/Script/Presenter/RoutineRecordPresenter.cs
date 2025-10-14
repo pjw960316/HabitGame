@@ -9,6 +9,7 @@ public class RoutineRecordPresenter : UIPresenterBase
 {
     #region 1. Fields
 
+    // refactor
     private const int DEFAULT_WIDGET_COUNT = 5;
 
     private UIRoutineRecordPopup _uiRoutineRecordPopup;

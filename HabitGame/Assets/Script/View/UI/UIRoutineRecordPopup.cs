@@ -11,7 +11,7 @@ public class UIRoutineRecordPopup : UIPopupBase
     {
         public readonly float Offset;
         public readonly bool IsScrollDown;
-        public readonly UIRoutineRecordWidget MovingWidget; // note : 보이지 않아서 움직일 widget 
+        public readonly UIRoutineRecordWidget MovingWidget;
 
         public ScrollData(float offset, bool isScrollDown, UIRoutineRecordWidget movingWidget)
         {
@@ -34,9 +34,11 @@ public class UIRoutineRecordPopup : UIPopupBase
     [SerializeField] private UIButtonBase _closeBtn;
 
     private List<UIRoutineRecordWidget> _widgetList;
-
     private ScrollRect _scrollRect;
-    private float _widgetOffsetHeight;
+
+    private float _widgetRectWidth;
+    private float _widgetRectHeight;
+
     private float _viewPortWorldPosY;
     private float _currentVerticalNormalizedPosition;
 
@@ -60,12 +62,11 @@ public class UIRoutineRecordPopup : UIPopupBase
         base.Initialize();
 
         InitializeEPopupKey();
+        InitializeWidgets();
 
         _scrollRect = _scrollPanel.GetComponent<ScrollRect>();
         ExceptionHelper.CheckNullException(_scrollRect, "_scrollRect");
 
-        _widgetList = new List<UIRoutineRecordWidget>();
-        _widgetOffsetHeight = _scrollPanel.GetComponent<RectTransform>().rect.height / WIDGET_SHOW_COUNT;
 
         _currentVerticalNormalizedPosition = 1f;
         _viewPortWorldPosY = _viewPort.transform.position.y;
@@ -79,6 +80,14 @@ public class UIRoutineRecordPopup : UIPopupBase
     protected override void InitializeEPopupKey()
     {
         _ePopupKey = EPopupKey.RoutineRecordPopup;
+    }
+
+    private void InitializeWidgets()
+    {
+        _widgetList = new List<UIRoutineRecordWidget>();
+
+        _widgetRectWidth = _contents.GetComponent<RectTransform>().rect.width;
+        _widgetRectHeight = _scrollPanel.GetComponent<RectTransform>().rect.height / WIDGET_SHOW_COUNT;
     }
 
     protected override void BindEvent()
@@ -117,20 +126,20 @@ public class UIRoutineRecordPopup : UIPopupBase
         if (isScrollDown)
         {
             var shouldScrollUpdate = movingWidget.WorldPosY >
-                                     _viewPortWorldPosY + _widgetOffsetHeight * WIDGET_SCROLL_DOWN_OFFSET;
+                                     _viewPortWorldPosY + _widgetRectHeight * WIDGET_SCROLL_DOWN_OFFSET;
             if (shouldScrollUpdate)
             {
-                var data = new ScrollData(_widgetOffsetHeight, isScrollDown, movingWidget);
+                var data = new ScrollData(_widgetRectHeight, isScrollDown, movingWidget);
                 _onUpdateScrollWidget?.OnNext(data);
             }
         }
         else
         {
             var shouldScrollUpdate = movingWidget.WorldPosY <
-                                     _viewPortWorldPosY - _widgetOffsetHeight * WIDGET_SCROLL_UP_OFFSET;
+                                     _viewPortWorldPosY - _widgetRectHeight * WIDGET_SCROLL_UP_OFFSET;
             if (shouldScrollUpdate)
             {
-                var data = new ScrollData(_widgetOffsetHeight, isScrollDown, movingWidget);
+                var data = new ScrollData(_widgetRectHeight, isScrollDown, movingWidget);
                 _onUpdateScrollWidget?.OnNext(data);
             }
         }
@@ -174,7 +183,7 @@ public class UIRoutineRecordPopup : UIPopupBase
     public void InitializeContentsHeight(int widgetCount)
     {
         _contents.GetComponent<RectTransform>().sizeDelta =
-            new Vector2(GetComponent<RectTransform>().rect.width, _widgetOffsetHeight * widgetCount);
+            new Vector2(GetComponent<RectTransform>().rect.width, _widgetRectHeight * widgetCount);
     }
 
     public void CreateRoutineRecordWidgetPrefabs(int widgetCount)
@@ -185,18 +194,13 @@ public class UIRoutineRecordPopup : UIPopupBase
                 Instantiate(_widgetPrefab, _contents.transform).GetComponent<UIRoutineRecordWidget>();
 
 
-            //test
-            var contentsRect = _contents.GetComponent<RectTransform>().rect;
-            var viewportRect = _contents.GetComponent<RectTransform>().rect;
-
-
-            routineRecordWidget.gameObject.GetComponent<RectTransform>().sizeDelta =
-                new Vector2(contentsRect.width / 2f, _widgetOffsetHeight); // 200f 수정.
+            routineRecordWidget.RectTransform.sizeDelta =
+                new Vector2(_widgetRectWidth, _widgetRectHeight);
 
             _widgetList.Add(routineRecordWidget);
 
             routineRecordWidget.RectTransform.anchoredPosition =
-                new Vector3(0, -(index * _widgetOffsetHeight), 0);
+                new Vector3(0, -(index * _widgetRectHeight), 0);
         }
     }
 
