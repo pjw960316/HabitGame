@@ -127,3 +127,5 @@ MonoBehaviour:
   _rockPrefab: {fileID: 7405846476849542632, guid: c6308cb7062fac34e8e50600086b12a1, type: 3}
   _mushroomPrefab: {fileID: 4385080170328260021, guid: ff62b58c5a9ea164fa8ddf8038e10cd1, type: 3}
   _bushPrefab: {fileID: 4263922822445002727, guid: 3cdafb3c2f54d434894928d72d282874, type: 3}
+  _environmentsBaseTransform: {fileID: 8031339192871210686}
+  _verticalCount: 18

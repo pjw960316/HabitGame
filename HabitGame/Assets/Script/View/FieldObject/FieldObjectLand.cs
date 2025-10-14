@@ -14,15 +14,14 @@ public class FieldObjectLand : FieldObjectBase
 
     #region 1. Fields
 
-    [SerializeField] private GameObject _treePrefab;
-    [SerializeField] private GameObject _rockPrefab;
-    [SerializeField] private GameObject _mushroomPrefab;
-    [SerializeField] private GameObject _bushPrefab;
-    [SerializeField] private Transform _environmentsBaseTransform;
-
-    private readonly int _borderEnvironmentsCount = 48;
     private const int SQUARE_SIDE_COUNT = 4;
-    private int _oneSideEnvironmentCount;
+    private const int HORIZONTAL_COUNT = 8; // 가로는 고정 -> 카메라 각도
+    
+    [SerializeField] private GameObject _rockPrefab;
+    [SerializeField] private Transform _environmentsBaseTransform;
+    [SerializeField] private int _verticalCount;
+    
+    private int _rockBordersCount;
 
     private readonly List<EPath> _createOrder = new()
     {
@@ -53,7 +52,7 @@ public class FieldObjectLand : FieldObjectBase
     {
         base.Initialize();
 
-        _oneSideEnvironmentCount = _borderEnvironmentsCount / SQUARE_SIDE_COUNT;
+        _rockBordersCount = HORIZONTAL_COUNT * 2 + _verticalCount * 2;
     }
 
     protected override void InitializeEnumFieldObjectKey()
@@ -69,7 +68,7 @@ public class FieldObjectLand : FieldObjectBase
     private void CreateFieldObjectEnvironments()
     {
         var list = new List<Transform>();
-        for (var i = 0; i < _borderEnvironmentsCount; i++)
+        for (var i = 0; i < _rockBordersCount; i++)
         {
             // note
             // high cost
@@ -83,9 +82,12 @@ public class FieldObjectLand : FieldObjectBase
         var offset = 0;
         var idx = 0;
 
+        // note
+        // 0 = 아래 / 1 = 위 / 2 = 왼쪽 / 3 = 오른쪽
         for (var i = 0; i < SQUARE_SIDE_COUNT; i++)
         {
-            for (var j = 0; j < _oneSideEnvironmentCount; j++)
+            var count = i < 2 ? HORIZONTAL_COUNT : _verticalCount;
+            for (var j = 0; j < count; j++)
             {
                 list[idx].position = GetPosition(_createOrder[i], offset, environment_X_Length, environment_Z_Length) +
                                      environmentsBaseTransformPosition;
@@ -119,9 +121,9 @@ public class FieldObjectLand : FieldObjectBase
         {
             EPath.Bottom => new Vector3(environment_X_Length * offset, 0, 0),
             EPath.Top => new Vector3(environment_X_Length * offset, 0,
-                environment_X_Length * _oneSideEnvironmentCount),
+                environment_X_Length * _verticalCount),
             EPath.Left => new Vector3(0, 0, environment_Z_Length * offset),
-            EPath.Right => new Vector3(environment_Z_Length * _oneSideEnvironmentCount, 0,
+            EPath.Right => new Vector3(environment_Z_Length * HORIZONTAL_COUNT, 0,
                 environment_Z_Length * offset),
             _ => throw new NullReferenceException()
         };
