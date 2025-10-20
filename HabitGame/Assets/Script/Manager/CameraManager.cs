@@ -85,6 +85,12 @@ public class CameraManager : ManagerBase<CameraManager>, IManager
 
     private void SetMainCameraToFollowSparrow(FieldObjectBase fieldObjectBase)
     {
+        if (fieldObjectBase == null)
+        {
+            Debug.Log($"FieldObject is Destroyed -> Not change Camera FOV");
+            return;
+        }
+        
         var fieldObjectTransform = fieldObjectBase.transform;
 
         _mainCamera.UpdateToFollowFieldObject(fieldObjectTransform);
