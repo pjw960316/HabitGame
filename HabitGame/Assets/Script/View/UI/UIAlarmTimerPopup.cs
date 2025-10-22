@@ -25,8 +25,6 @@ public class UIAlarmTimerPopup : UIPopupBase
     protected sealed override void Initialize()
     {
         base.Initialize();
-
-        InitializeEPopupKey();
     }
 
     protected override void CreatePresenterByManager()

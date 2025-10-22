@@ -6,11 +6,8 @@ public abstract class UIPopupBase : MonoBehaviour, IView
 {
     #region 1. Fields
 
-    protected UIManager _uiManager;
     protected UIToastManager _uiToastManager;
     protected PresenterManager _presenterManager;
-    protected CameraManager _cameraManager;
-
     protected EPopupKey _ePopupKey;
 
     protected readonly CompositeDisposable _disposables = new();
@@ -27,27 +24,27 @@ public abstract class UIPopupBase : MonoBehaviour, IView
 
     #region 3. Constructor
 
-    
     private void Awake()
     {
+        InitializeEPopupKey();
+        
         Initialize();
-
+        
         CreatePresenterByManager();
-
-        BindEvent();
+        
+        // note : view에서는 최상단 호출
+        BindEvent(); 
     }
 
     protected virtual void Initialize()
     {
-        _uiManager = UIManager.Instance;
         _uiToastManager = UIToastManager.Instance;
         _presenterManager = PresenterManager.Instance;
-        _cameraManager = CameraManager.Instance;
     }
-
-    protected abstract void BindEvent();
-    protected abstract void CreatePresenterByManager();
     protected abstract void InitializeEPopupKey();
+    protected abstract void CreatePresenterByManager();
+    protected abstract void BindEvent();
+    
 
     #endregion
 
@@ -58,8 +55,6 @@ public abstract class UIPopupBase : MonoBehaviour, IView
     {
         _disposables?.Dispose();
 
-        // fix
-        // 이거 빨리 껐다 키면 null 뜸
         Destroy(gameObject);
     }
 

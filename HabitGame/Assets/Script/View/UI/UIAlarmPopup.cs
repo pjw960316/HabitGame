@@ -33,8 +33,6 @@ public class UIAlarmPopup : UIPopupBase
     {
         base.Initialize();
 
-        InitializeEPopupKey();
-
         InitializeWidgets();
     }
 

@@ -28,8 +28,7 @@ public class UIRoutineCheckPopup : UIPopupBase
     protected sealed override void Initialize()
     {
         base.Initialize();
-
-        InitializeEPopupKey();
+        
         UpdateDateText(DateTime.Now);
     }
 

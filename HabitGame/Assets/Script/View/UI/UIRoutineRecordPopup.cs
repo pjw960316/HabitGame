@@ -67,7 +67,6 @@ public class UIRoutineRecordPopup : UIPopupBase
         _currentVerticalNormalizedPosition = 1f;
         _viewPortWorldPosY = _viewPort.transform.position.y;
         
-        InitializeEPopupKey();
         InitializeWidgetSettingData();
         CreateWidgets();
 
