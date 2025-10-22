@@ -22,7 +22,9 @@ public abstract class FieldObjectEnvironmentBase : FieldObjectBase
     {
         base.Initialize();
 
-        _lod_0_Environment_BoundSize = _lod_0_Environment_GameObject.GetComponent<MeshRenderer>().bounds.size;
+        var lod_0_environment_GameObject_MeshRenderer = _lod_0_Environment_GameObject.GetComponent<MeshRenderer>();
+        
+        _lod_0_Environment_BoundSize = lod_0_environment_GameObject_MeshRenderer.bounds.size;
     }
 
     protected override void CreatePresenterByManager()
