@@ -7,10 +7,10 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
     
     protected PresenterManager _presenterManager;
     protected FieldObjectManager _fieldObjectManager;
-    
-    protected Transform _fieldObjectTransform;
     protected EFieldObject _eFieldObjectKey;
     protected int _instanceID;
+    
+    private Transform _fieldObjectTransform;
     
     private readonly Subject<Unit> _onDestroyFieldObject = new();
 
@@ -23,6 +23,8 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
     public EFieldObject EFieldObjectKey => _eFieldObjectKey;
 
     public Subject<Unit> OnDestroyFieldObject => _onDestroyFieldObject;
+
+    protected Transform FieldObjectTransform => _fieldObjectTransform;
 
     #endregion
 
@@ -71,8 +73,7 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 
     #region 4. EventHandlers
 
-    // note
-    // virtual로 변경하지 마세요.
+    // note : virtual로 변경하지 마세요.
     private void OnDestroy()
     {
         _onDestroyFieldObject.OnNext(default);
