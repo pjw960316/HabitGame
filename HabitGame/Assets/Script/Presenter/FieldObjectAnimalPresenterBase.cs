@@ -9,22 +9,20 @@ using Random = System.Random;
 public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
 {
     #region 1. Fields
-
-    private const int FULL_ROTATION = 360;
+    
     protected const int HALF_ROTATION = 180;
     protected const int QUARTER_ROTATION = 90;
-
     protected const float ANIMAL_FIGHT_SECOND = 2f;
     protected const float COLLIDED_ROCK_ANIMATION_CHANGE_SECOND = 1f;
-
+    
+    private const int FULL_ROTATION = 360;
     private const int DIRECTION_CHANGE_INTERVAL_SECOND_MAX = 10;
     private const int DIRECTION_CHANGE_INTERVAL_UPDATE_PERIOD_SECOND = 5;
 
-
     protected EAnimalState _currentAnimalState;
-    private FieldObjectAnimalBase _fieldObjectAnimal;
     protected FieldObjectAnimalData _animalData;
-
+        
+    private FieldObjectAnimalBase _fieldObjectAnimal;
     private int _directionChangeIntervalSecond;
     private int _impatienceLevel;
 
