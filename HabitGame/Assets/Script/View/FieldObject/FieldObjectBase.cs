@@ -4,14 +4,14 @@ using UnityEngine;
 public abstract class FieldObjectBase : MonoBehaviour, IView
 {
     #region 1. Fields
-
-    [SerializeField] protected Transform _myFieldObjectTransform;
-
-    protected EFieldObject _eFieldObjectKey;
-    protected int _instanceID;
-
+    
     protected PresenterManager _presenterManager;
     protected FieldObjectManager _fieldObjectManager;
+    
+    protected Transform _fieldObjectTransform;
+    protected EFieldObject _eFieldObjectKey;
+    protected int _instanceID;
+    
     private readonly Subject<Unit> _onDestroyFieldObject = new();
 
     #endregion
@@ -19,9 +19,7 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
     #region 2. Properties
 
     public int InstanceID => _instanceID;
-
-    public Transform MyFieldObjectTransform => _myFieldObjectTransform;
-
+    
     public EFieldObject EFieldObjectKey => _eFieldObjectKey;
 
     public Subject<Unit> OnDestroyFieldObject => _onDestroyFieldObject;
@@ -32,15 +30,10 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 
     private void Awake()
     {
-        OnAwake();
-    }
-
-    // note
-    // virtual로 변경하지 마세요.
-    private void OnAwake()
-    {
+        InitializeEnumFieldObjectKey();
+        
         Initialize();
-
+        
         CreatePresenterByManager();
 
         BindEvent();
@@ -59,12 +52,11 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
     {
         _presenterManager = PresenterManager.Instance;
         _fieldObjectManager = FieldObjectManager.Instance;
+        
         _instanceID = GetInstanceID();
+        _fieldObjectTransform = transform;
 
-        InitializeEnumFieldObjectKey();
-
-        // note 
-        // 반드시 EFieldObjectKey가 선행 세팅 되어야 한다.
+        // note : 반드시 EFieldObjectKey가 선행 세팅 되어야 한다.
         _fieldObjectManager.RegisterFieldObjectInActiveDictionary(this);
     }
 

@@ -37,10 +37,10 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
 
         _animalIAnimatorIntegerParameter = Animator.StringToHash(ANIMATOR_PARAMETER);
 
-        _animalRigidBody = _myFieldObjectTransform.GetComponent<Rigidbody>();
+        _animalRigidBody = _fieldObjectTransform.GetComponent<Rigidbody>();
         ExceptionHelper.CheckNullException(_animalRigidBody, "_rigidBody");
 
-        _animalWalkMovement = _myFieldObjectTransform.forward * (_animalSpeed * Time.fixedDeltaTime);
+        _animalWalkMovement = _fieldObjectTransform.forward * (_animalSpeed * Time.fixedDeltaTime);
         DefaultAnimalSpeed = _animalSpeed;
     }
 
@@ -55,7 +55,7 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
 
     private void FixedUpdate()
     {
-        _animalRigidBody.MovePosition(_myFieldObjectTransform.position + _animalWalkMovement);
+        _animalRigidBody.MovePosition(_fieldObjectTransform.position + _animalWalkMovement);
     }
 
     private void OnCollisionEnter(Collision other)
@@ -86,16 +86,16 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
 
     public void ChangeAnimalPath(int angle)
     {
-        _myFieldObjectTransform.Rotate(new Vector3(0, angle, 0));
+        _fieldObjectTransform.Rotate(new Vector3(0, angle, 0));
         UpdateAnimalMovement();
     }
 
     public void RotateToFaceCollisionObject()
     {
-        var path = _currentCollision.transform.position - _myFieldObjectTransform.position;
+        var path = _currentCollision.transform.position - _fieldObjectTransform.position;
         var facePath = Quaternion.LookRotation(path);
         
-        _myFieldObjectTransform.rotation = facePath;
+        _fieldObjectTransform.rotation = facePath;
     }
 
     public void ChangeAnimalSpeed(float speed)
@@ -117,7 +117,7 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
 
     private void UpdateAnimalMovement()
     {
-        _animalWalkMovement = _myFieldObjectTransform.forward * (_animalSpeed * Time.fixedDeltaTime);
+        _animalWalkMovement = _fieldObjectTransform.forward * (_animalSpeed * Time.fixedDeltaTime);
     }
 
     #endregion
