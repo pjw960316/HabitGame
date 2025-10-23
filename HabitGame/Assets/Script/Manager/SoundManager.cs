@@ -19,7 +19,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     #region 2. Properties
 
-    public SoundData SoundData => _soundData;
+    //
 
     #endregion
 
@@ -27,7 +27,6 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     public void PreInitialize()
     {
-        //
     }
 
     public void Initialize()
@@ -36,12 +35,8 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     public void LateInitialize()
     {
-        BindEvent();
     }
 
-    private void BindEvent()
-    {
-    }
 
     public void SetModel(IEnumerable<IModel> models)
     {
@@ -84,7 +79,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     #endregion
 
     #region 6-1. MainMusicPlayer_Methods
-    
+
     public void PlayBackgroundMusic()
     {
         _mainMusicPlayerController.UpdateAudioClipAndPlay(_soundData.BackgroundAudioClip);
@@ -104,10 +99,11 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     {
         _mainMusicPlayerController.SetLoopOn();
     }
+
     #endregion
-    
+
     #region 6-2. UISFX_Methods
-    
+
     public void PlaySFX(AudioClip audioClip)
     {
         _uiSFXController.UpdateAudioClipAndPlay(audioClip);
@@ -127,10 +123,14 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
     {
         _uiSFXController.SetLoopOn();
     }
-    
+
     #endregion
-    
+
     #region 6-3. Methods
-    public void Dispose() { }
+
+    public void Dispose()
+    {
+    }
+
     #endregion
 }

@@ -5,20 +5,16 @@ using UniRx;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-// note
-// 열려있는 View를 관리한다.
 public class UIManager : ManagerBase<UIManager>, IManager
 {
     #region 1. Fields
-
-    private readonly HashSet<EPopupKey> _openedPopupKeyList = new();
-    private readonly Dictionary<EPopupKey, UIPopupBase> _popupDictionary = new();
 
     private PopupData _popupData;
     private Canvas _mainCanvas;
     private Transform _mainCanvasTransform;
 
-    private CameraManager _cameraManager;
+    private readonly HashSet<EPopupKey> _openedPopupKeyList = new();
+    private readonly Dictionary<EPopupKey, UIPopupBase> _popupDictionary = new();
 
     private readonly Subject<EPopupKey> _onOpenPopup = new();
     private readonly Subject<EPopupKey> _onClosePopup = new();
@@ -44,18 +40,12 @@ public class UIManager : ManagerBase<UIManager>, IManager
 
     public void Initialize()
     {
-        _cameraManager = CameraManager.Instance;
     }
 
     public void LateInitialize()
     {
-        BindEvent();
     }
 
-    private void BindEvent()
-    {
-        //
-    }
 
     public void SetModel(IEnumerable<IModel> _list)
     {

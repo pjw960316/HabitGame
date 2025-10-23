@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-// note
-// 열려있는 Presenter를 관리한다.
-// Factory
 public class PresenterManager : ManagerBase<PresenterManager>, IManager
 {
     #region 1. Fields
@@ -63,7 +60,7 @@ public class PresenterManager : ManagerBase<PresenterManager>, IManager
         //
     }
 
-    // note : Factory
+    // note : Factory Pattern
     public void CreatePresenter<TPresenter>(IView view) where TPresenter : PresenterBase, new()
     {
         var presenter = new TPresenter();
