@@ -18,24 +18,18 @@ public abstract class UIPresenterBase : PresenterBase
     {
         base.Initialize(view);
 
-        _popupBase = _view as UIPopupBase;
-        ExceptionHelper.CheckNullException(_popupBase, "_popupBase is null");
-
-        //fix
+        //fix : 없앨듯?
         _model = SoundManager.Instance.SoundData;
         ExceptionHelper.CheckNullException(_model, "PresenterBase's _model");
     }
 
-    // note
-    // 모든 Presenter는 Manager 또는 Model을 통해 
-    // 로직 데이터를 본인의 Initialize()에서 초기화 한다.
-    // 그 후, 그걸 이용해서 View에 Data를 Inject해서 View를 세팅할 책임이 있다.
-    protected abstract void SetView();
-
-    protected virtual void BindEvent()
+    protected override void InitializeView()
     {
-        //
+        _popupBase = _view as UIPopupBase;
+        ExceptionHelper.CheckNullException(_popupBase, "_popupBase is null");
     }
+
+    // note : model은 공용 계층이 일단을 필요없어서 여기서 override 하지 않는다.
 
     #endregion
 
@@ -61,9 +55,9 @@ public abstract class UIPresenterBase : PresenterBase
     protected void Close()
     {
         var popupKey = _popupBase.EPopupKey;
-        
+
         _popupBase.ClosePopup();
-        
+
         RequestUpdateLivedPopup(popupKey);
 
         TerminatePresenter();

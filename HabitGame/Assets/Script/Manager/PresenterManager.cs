@@ -63,11 +63,14 @@ public class PresenterManager : ManagerBase<PresenterManager>, IManager
         //
     }
 
+    // note : Factory
     public void CreatePresenter<TPresenter>(IView view) where TPresenter : PresenterBase, new()
     {
         var presenter = new TPresenter();
         
         presenter.Initialize(view);
+        presenter.SetView();
+        presenter.BindEvent();
 
         _livedPresenterHashSet.Add(presenter);
     }

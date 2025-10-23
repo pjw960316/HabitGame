@@ -1,6 +1,4 @@
-using System;
 using UniRx;
-using UnityEngine;
 
 public class AlarmPresenter : UIPresenterBase
 {
@@ -22,30 +20,29 @@ public class AlarmPresenter : UIPresenterBase
     public sealed override void Initialize(IView view)
     {
         base.Initialize(view);
-
-        _alarmPopup = _view as UIAlarmPopup;
-        _alarmData = _modelManager.GetModel<AlarmData>();
-
-        ExceptionHelper.CheckNullException(_alarmPopup, "_alarmPopup");
-        if (_alarmData == null)
-        {
-            throw new NullReferenceException("_alarmData");
-        }
-
-        SetView();
-
-        BindEvent();
     }
 
-    protected sealed override void SetView()
+    protected sealed override void InitializeView()
+    {
+        base.InitializeView();
+
+        _alarmPopup = _view as UIAlarmPopup;
+        ExceptionHelper.CheckNullException(_alarmPopup, "_alarmPopup");
+    }
+
+    protected sealed override void InitializeModel()
+    {
+        _alarmData = _modelManager.GetModel<AlarmData>();
+        ExceptionHelper.CheckNullException(_alarmData, "_alarmData");
+    }
+
+    public sealed override void SetView()
     {
         _alarmPopup.SetButtonText(_alarmData.SleepingAudioPlayTimeDictionary);
     }
 
-    protected sealed override void BindEvent()
+    public sealed override void BindEvent()
     {
-        base.BindEvent();
-
         foreach (var alarmAudioClipButton in _alarmPopup.AlarmAudioClipButtons)
         {
             alarmAudioClipButton.OnButtonClicked.Subscribe(RequestUpdateLatestSleepingAudioClip).AddTo(_disposable);
@@ -68,10 +65,10 @@ public class AlarmPresenter : UIPresenterBase
         if (!IsAlarmDataSelected())
         {
             _uiToastManager.ShowToast(EToastStringKey.EAlarmSelectPlease);
-            
+
             return;
         }
-        
+
         RequestPlaySleepingMusic();
 
         RequestOpenAlarmTimerPopup();

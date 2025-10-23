@@ -17,26 +17,30 @@ public class FieldObjectDeerPresenter : FieldObjectAnimalPresenterBase
     public sealed override void Initialize(IView view)
     {
         base.Initialize(view);
-
-        if (_view is FieldObjectDeer deer)
-        {
-            _fieldObjectDeer = deer;
-        }
-
-        ExceptionHelper.CheckNullException(_fieldObjectDeer, "_fieldObjectDeer is null");
-
-        BindEvent();
     }
 
-    protected sealed override void BindEvent()
+    protected sealed override void InitializeView()
+    {
+        base.InitializeView();
+
+        _fieldObjectDeer = _view as FieldObjectDeer;
+        ExceptionHelper.CheckNullException(_fieldObjectDeer, "_fieldObjectDeer is null");
+    }
+
+    public sealed override void SetView()
+    {
+        // note : 나중에 필요하면.
+    }
+
+    public sealed override void BindEvent()
     {
         base.BindEvent();
     }
-    
+
     #endregion
 
     # region 4. EventHandlers
-    
+
     //
 
     #endregion

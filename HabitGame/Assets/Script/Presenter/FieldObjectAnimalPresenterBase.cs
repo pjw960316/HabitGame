@@ -9,19 +9,19 @@ using Random = System.Random;
 public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
 {
     #region 1. Fields
-    
+
     protected const int HALF_ROTATION = 180;
     protected const int QUARTER_ROTATION = 90;
     protected const float ANIMAL_FIGHT_SECOND = 2f;
     protected const float COLLIDED_ROCK_ANIMATION_CHANGE_SECOND = 1f;
-    
+
     private const int FULL_ROTATION = 360;
     private const int DIRECTION_CHANGE_INTERVAL_SECOND_MAX = 10;
     private const int DIRECTION_CHANGE_INTERVAL_UPDATE_PERIOD_SECOND = 5;
 
     protected EAnimalState _currentAnimalState;
     protected FieldObjectAnimalData _animalData;
-        
+
     private FieldObjectAnimalBase _fieldObjectAnimal;
     private int _directionChangeIntervalSecond;
     private int _impatienceLevel;
@@ -43,22 +43,6 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
     {
         base.Initialize(view);
 
-        // view
-        if (_view is FieldObjectAnimalBase animal)
-        {
-            _fieldObjectAnimal = animal;
-        }
-
-        ExceptionHelper.CheckNullException(_fieldObjectAnimal, "_fieldObjectAnimal is null");
-
-        // model
-        if (_model is FieldObjectAnimalData animalData)
-        {
-            _animalData = animalData;
-        }
-
-        ExceptionHelper.CheckNullException(_animalData, "_sparrowData is null");
-
         _currentAnimalState = _animalData.GetAnimalState();
 
         // note : 이 값이 낮으면 성격이 급하다 -> 방향 전환을 자주한다.
@@ -66,7 +50,23 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
             _randomMaker.Next(DIRECTION_CHANGE_INTERVAL_SECOND_MAX / 2, DIRECTION_CHANGE_INTERVAL_SECOND_MAX);
     }
 
-    protected override void BindEvent()
+    protected override void InitializeView()
+    {
+        base.InitializeView();
+
+        _fieldObjectAnimal = _view as FieldObjectAnimalBase;
+        ExceptionHelper.CheckNullException(_fieldObjectAnimal, "_fieldObjectAnimal is null");
+    }
+
+    protected override void InitializeModel()
+    {
+        base.InitializeModel();
+
+        _animalData = _model as FieldObjectAnimalData;
+        ExceptionHelper.CheckNullException(_animalData, "_sparrowData is null");
+    }
+
+    public override void BindEvent()
     {
         base.BindEvent();
 
@@ -125,7 +125,7 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
         {
             return;
         }
-        
+
         _fieldObjectAnimal.ChangeAnimalSpeedZero();
 
         switch (fieldObjectBase)

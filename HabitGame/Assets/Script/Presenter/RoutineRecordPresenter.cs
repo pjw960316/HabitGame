@@ -26,22 +26,27 @@ public class RoutineRecordPresenter : UIPresenterBase
     public sealed override void Initialize(IView view)
     {
         base.Initialize(view);
+    }
 
-        _routineRecordDictionary = _myCharacterManager.GetRoutineRecordDictionary();
+    protected sealed override void InitializeView()
+    {
+        base.InitializeView();
 
         _uiRoutineRecordPopup = _view as UIRoutineRecordPopup;
         ExceptionHelper.CheckNullException(_uiRoutineRecordPopup, "_uiRoutineRecordPopup");
-
-        SetView();
-        
-        BindEvent();
     }
 
-    protected sealed override void SetView()
+    protected sealed override void InitializeModel()
+    {
+        // note : Manager Class를 Model로 여겼다.
+        _routineRecordDictionary = _myCharacterManager.GetRoutineRecordDictionary();
+    }
+
+    public sealed override void SetView()
     {
         var routineRecordCount = _routineRecordDictionary.Count;
         var showWidgetCount = _uiRoutineRecordPopup.GetWidgetShowCount();
-        var finalCount = (routineRecordCount < showWidgetCount)
+        var finalCount = routineRecordCount < showWidgetCount
             ? 0
             : routineRecordCount - showWidgetCount;
 
@@ -49,16 +54,14 @@ public class RoutineRecordPresenter : UIPresenterBase
         {
             throw new ArgumentOutOfRangeException();
         }
-        
+
         _uiRoutineRecordPopup.SetContentsHeight(finalCount);
         _uiRoutineRecordPopup.SetWidgetData(_routineRecordDictionary);
         _uiRoutineRecordPopup.ShowTopContent();
     }
 
-    protected sealed override void BindEvent()
+    public sealed override void BindEvent()
     {
-        base.BindEvent();
-        
         _uiRoutineRecordPopup.OnUpdateScrollWidget.Subscribe(UpdateWidget).AddTo(_disposable);
         _uiRoutineRecordPopup.OnCloseButtonClicked.Subscribe(_ => Close()).AddTo(_disposable);
     }

@@ -4,7 +4,7 @@ using UniRx;
 public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
 {
     #region 1. Fields
-    
+
     private const int EAT_SECOND = 15;
     private const int SPIN_SECOND = 3;
 
@@ -25,19 +25,22 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
     public sealed override void Initialize(IView view)
     {
         base.Initialize(view);
-
-        if (_view is FieldObjectSparrow sparrow)
-        {
-            _fieldObjectSparrow = sparrow;
-        }
-
-        ExceptionHelper.CheckNullException(_fieldObjectSparrow, "_fieldObjectSparrow is null");
-        
-        BindEvent();
     }
 
+    public override void SetView()
+    {
+        // note : 나중에 필요하면.
+    }
 
-    protected sealed override void BindEvent()
+    protected sealed override void InitializeView()
+    {
+        base.InitializeView();
+
+        _fieldObjectSparrow = _view as FieldObjectSparrow;
+        ExceptionHelper.CheckNullException(_fieldObjectSparrow, "_fieldObjectSparrow is null");
+    }
+
+    public sealed override void BindEvent()
     {
         base.BindEvent();
 
@@ -51,14 +54,14 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
     private void OnChangeSparrowSpinState(Unit _)
     {
         _fieldObjectSparrow.ChangeAnimalSpeedZero();
-        
+
         _animalData.ChangeAnimalState(EAnimalState.SPIN);
         _animalData.BlockChangeState();
 
         Observable.Timer(TimeSpan.FromSeconds(SPIN_SECOND)).Subscribe(_ =>
         {
             _animalData.AllowChangeState();
-            
+
             _fieldObjectSparrow.ChangeAnimalPath(QUARTER_ROTATION);
             _animalData.ChangeAnimalState(EAnimalState.WALK);
         }).AddTo(_disposable);

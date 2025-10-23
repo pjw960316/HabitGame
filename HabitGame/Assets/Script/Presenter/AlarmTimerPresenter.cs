@@ -28,23 +28,25 @@ public class AlarmTimerPresenter : UIPresenterBase
     {
         base.Initialize(view);
 
-        _alarmTimerPopup = _view as UIAlarmTimerPopup;
-        _alarmData = _modelManager.GetModel<AlarmData>();
-
-        if (_alarmData == null || _alarmTimerPopup == null)
-        {
-            throw new NullReferenceException("Model or View is null");
-        }
-
         _latestSleepingAudioPlayTime = _alarmData.LatestSleepingAudioPlayTime;
         _alarmLoudAudioClip = _alarmData.AlarmAudioClip;
-
-        SetView();
-        
-        BindEvent();
     }
 
-    protected override void SetView()
+    protected sealed override void InitializeView()
+    {
+        base.InitializeView();
+
+        _alarmTimerPopup = _view as UIAlarmTimerPopup;
+        ExceptionHelper.CheckNullException(_alarmTimerPopup, "_alarmTimerPopup");
+    }
+
+    protected sealed override void InitializeModel()
+    {
+        _alarmData = _modelManager.GetModel<AlarmData>();
+        ExceptionHelper.CheckNullException(_alarmData, "_alarmData");
+    }
+
+    public sealed override void SetView()
     {
         var titleText = _stringManager.GetUIString(EStringKey.EAlarmTimerPopupTitle, _latestSleepingAudioPlayTime);
         _alarmTimerPopup.SetAlarmHeaderText(titleText);
@@ -54,10 +56,8 @@ public class AlarmTimerPresenter : UIPresenterBase
         _alarmTimerPopup.UpdateAlarmTimerText(elapsedTimeString);
     }
 
-    protected override void BindEvent()
+    public sealed override void BindEvent()
     {
-        base.BindEvent();
-        
         _alarmTimerPopup.OnQuitAlarm.Subscribe(_ => OnStopAlarmSystem()).AddTo(_disposable);
 
         Observable.Timer(TimeSpan.FromMinutes(_latestSleepingAudioPlayTime))
@@ -77,7 +77,7 @@ public class AlarmTimerPresenter : UIPresenterBase
     {
         _soundManager.StopPlayMusic();
         _soundManager.PlayBackgroundMusic();
-        
+
         _alarmData.RestoreAudioClipAndPlayTimeToDefault();
 
         Close();

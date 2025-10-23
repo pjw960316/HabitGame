@@ -9,7 +9,6 @@ public class RoutineCheckPresenter : UIPresenterBase
     #region 1. Fields
 
     private UIRoutineCheckPopup _uiRoutineCheckPopup;
-    private MockServerManager _serverManager;
 
     #endregion
 
@@ -24,30 +23,29 @@ public class RoutineCheckPresenter : UIPresenterBase
     public sealed override void Initialize(IView view)
     {
         base.Initialize(view);
+    }
+
+    protected sealed override void InitializeView()
+    {
+        base.InitializeView();
 
         _uiRoutineCheckPopup = _view as UIRoutineCheckPopup;
         ExceptionHelper.CheckNullException(_uiRoutineCheckPopup, "_uiRoutineCheckPopup");
-
-        _myCharacterManager = MyCharacterManager.Instance;
-        _uiToastManager = UIToastManager.Instance;
-        _serverManager = MockServerManager.Instance;
-
-        SetView();
-
-        BindEvent();
     }
 
-    protected sealed override void SetView()
+    protected sealed override void InitializeModel()
+    {
+        // note : model does not need
+    }
+
+    public sealed override void SetView()
     {
         UpdateDateTextPerSecond();
-
         SetRoutineCheckToggleWidget(DateTime.Now);
     }
 
-    protected sealed override void BindEvent()
+    public sealed override void BindEvent()
     {
-        base.BindEvent();
-
         _uiRoutineCheckPopup.OnConfirmed.Subscribe(_ => HandleToggleEvent()).AddTo(_disposable);
     }
 
@@ -84,7 +82,7 @@ public class RoutineCheckPresenter : UIPresenterBase
     {
         // note : 서버 시간 딜레이 이후에 꺼지므로, 그 때 접근 못하도록 (cancellation Token 대신)
         _uiRoutineCheckPopup.BlockConfirmButton();
-        
+
         var serverResult = await _serverManager.RequestServerValidation();
 
         if (serverResult == EServerResult.SUCCESS)

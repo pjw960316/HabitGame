@@ -1,6 +1,6 @@
 using UniRx;
 
-public class PresenterBase : IPresenter
+public abstract class PresenterBase : IPresenter
 {
     #region 1. Fields
 
@@ -11,8 +11,8 @@ public class PresenterBase : IPresenter
     protected MyCharacterManager _myCharacterManager;
     protected StringManager _stringManager;
     protected PresenterManager _presenterManager;
+    protected MockServerManager _serverManager;
 
-    // note : View와 Model은 하위 타입에서 캐스팅 해서 사용
     protected IView _view;
     protected IModel _model;
 
@@ -37,10 +37,20 @@ public class PresenterBase : IPresenter
         _modelManager = ModelManager.Instance;
         _stringManager = StringManager.Instance;
         _presenterManager = PresenterManager.Instance;
-
+        _serverManager = MockServerManager.Instance;
         _view = view;
-        ExceptionHelper.CheckNullException(_view, "PresenterBase's _view");
+
+        InitializeView();
+        InitializeModel();
     }
+
+    public abstract void SetView();
+
+    public abstract void BindEvent();
+
+    protected abstract void InitializeView();
+
+    protected abstract void InitializeModel();
 
     #endregion
 
@@ -62,12 +72,12 @@ public class PresenterBase : IPresenter
     protected void TerminatePresenter()
     {
         DisposeCompositeDisposables();
-        
+
         _presenterManager.TerminatePresenter(this);
     }
 
     // note
-    // 최상단의 _disposable은 항상 base. 을 호출해서 Dispose 시키고
+    // 최상단의 _disposable은 항상 base를 호출해서 Dispose 시키고
     // Derived Type에서 각각 생성한 disposable들은 override된 DisposeCompositeDisposables()에서 호출되도록 구현
     protected virtual void DisposeCompositeDisposables()
     {
