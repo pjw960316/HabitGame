@@ -125,6 +125,12 @@ public class GameStartManagerMono : MonoBehaviour
         {
             manager.LateInitialize();
         }
+        
+        // refactor 위치.
+        foreach (var manager in _managerList)
+        {
+            manager.BindEvent();
+        }
     }
 
     private void InitializeModels()

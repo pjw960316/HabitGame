@@ -28,12 +28,7 @@ public class CameraManager : ManagerBase<CameraManager>
         _fieldObjectManager = FieldObjectManager.Instance;
     }
 
-    public void SetMainCamera(MainCameraMono mainCameraMono)
-    {
-        _mainCamera = mainCameraMono;
-    }
-
-    private void BindEvent()
+    public sealed override void BindEvent()
     {
         _uiManager.OnOpenPopup
             .Subscribe(_ =>
@@ -51,6 +46,10 @@ public class CameraManager : ManagerBase<CameraManager>
         });
     }
 
+    public void SetMainCamera(MainCameraMono mainCameraMono)
+    {
+        _mainCamera = mainCameraMono;
+    }
     #endregion
 
     #region 4. EventHandlers

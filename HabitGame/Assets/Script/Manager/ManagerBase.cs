@@ -62,6 +62,10 @@ public abstract class ManagerBase<T> : IManager
     {
     }
 
+    public virtual void BindEvent()
+    {
+    }
+
     public void ConnectInstanceByActivator(IManager instance)
     {
         _instance = instance as T;
