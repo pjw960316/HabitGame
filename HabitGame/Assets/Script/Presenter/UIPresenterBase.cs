@@ -17,10 +17,6 @@ public abstract class UIPresenterBase : PresenterBase
     public override void Initialize(IView view)
     {
         base.Initialize(view);
-
-        //fix : 없앨듯?
-        _model = SoundManager.Instance.SoundData;
-        ExceptionHelper.CheckNullException(_model, "PresenterBase's _model");
     }
 
     protected override void InitializeView()
