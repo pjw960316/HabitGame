@@ -31,7 +31,6 @@ public abstract class FieldObjectPresenterBase : PresenterBase
 
     protected override void InitializeModel()
     {
-        //refactor 이상함.
         var modelType = _presenterManager.GetModelTypeUsingMatchDictionary(_view.GetType());
         var model = Activator.CreateInstance(modelType) as IModel;
         ExceptionHelper.CheckNullException(model, "model is null in FieldObjectPresenterBase");
