@@ -24,6 +24,7 @@ public class GameStartManagerMono : MonoBehaviour
     [SerializeField] private List<ScriptableObject> _scriptableObjectModels;
 
     private Assembly _cSharpAssembly;
+    
     private List<Type> _managerTypeList = new();
     private List<IManager> _managerList = new();
     private List<IModel> _modelList = new();
@@ -51,9 +52,6 @@ public class GameStartManagerMono : MonoBehaviour
 
     private void Initialize()
     {
-        _managerList = new List<IManager>();
-        _modelList = new List<IModel>();
-        
         InitializeManagerTypesByReflection();
         
         // note : CreateManagers를 완료하면 싱글턴 Manager들 생성
@@ -66,20 +64,7 @@ public class GameStartManagerMono : MonoBehaviour
 
     #endregion
 
-    #region 4. EventHandlers
-
-    //
-
-    #endregion
-
-    #region 5. Request Methods
-
-    // 
-
-    #endregion
-
-    #region 6. Methods
-    
+    #region 3-1. InitializeManagers
 
     private void InitializeManagerTypesByReflection()
     {
@@ -106,7 +91,22 @@ public class GameStartManagerMono : MonoBehaviour
         }
     }
 
+    private void CreateManagers()
+    {
+        _managerList = new List<IManager>();
+        
+        foreach (var type in _managerTypeList)
+        {
+            var objectTypeInstance = Activator.CreateInstance(type);
 
+            if (objectTypeInstance is IManager manager)
+            {
+                manager.ConnectInstanceByActivator(manager);
+                _managerList.Add(manager);
+            }
+        }
+    }
+    
     private void InitializeManagers()
     {
         foreach (var manager in _managerList)
@@ -123,35 +123,20 @@ public class GameStartManagerMono : MonoBehaviour
         
         foreach (var manager in _managerList)
         {
-            manager.LateInitialize();
-        }
-        
-        // refactor 위치.
-        foreach (var manager in _managerList)
-        {
             manager.BindEvent();
         }
     }
-
+    
+    #endregion
+    
+    #region 3-2. InitializeModels (ScriptableObject & XML)
+    
     private void InitializeModels()
     {
         ModelManager.Instance.SetAllModels(_modelList);
     }
 
-    private void CreateManagers()
-    {
-        foreach (var type in _managerTypeList)
-        {
-            var objectTypeInstance = Activator.CreateInstance(type);
-
-            if (objectTypeInstance is IManager manager)
-            {
-                manager.ConnectInstanceByActivator(manager);
-                _managerList.Add(manager);
-            }
-        }
-    }
-
+    // refactor
     private void ConnectModelsInManagers()
     {
         SetModelList();
@@ -164,6 +149,7 @@ public class GameStartManagerMono : MonoBehaviour
 
     private void SetModelList()
     {
+        _modelList = new List<IModel>();
         SetModelListWithScriptableObject();
 
         SetModelListWithDeserializedXml();
@@ -202,6 +188,23 @@ public class GameStartManagerMono : MonoBehaviour
         //Log
         Debug.Log($"{xmlModelCount}개의 xml이 Model로 _modelList에 추가되었습니다.");
     }
+    
+    #endregion
+    #region 4. EventHandlers
+
+    //
+
+    #endregion
+
+    #region 5. Request Methods
+
+    // 
+
+    #endregion
+
+    
+
+    #region 6. Methods
 
     private void LiveGameStartManagerMonoPermanent()
     {

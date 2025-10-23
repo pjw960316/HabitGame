@@ -54,9 +54,6 @@ public abstract class ManagerBase<T> : IManager
     {
     }
 
-    public virtual void LateInitialize()
-    {
-    }
 
     public virtual void SetModel(IEnumerable<IModel> models)
     {
