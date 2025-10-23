@@ -21,13 +21,12 @@ public class GameStartManagerMono : MonoBehaviour
 
     [SerializeField] private LoadBackgroundImageMono _loadBackgroundImageMono;
     [SerializeField] private Canvas _canvas;
-    
     [SerializeField] private List<ScriptableObject> _scriptableObjectModels;
 
     private Assembly _cSharpAssembly;
-    private List<Type> _managerTypeList;
-    private List<IManager> _managerList;
-    private List<IModel> _modelList;
+    private List<Type> _managerTypeList = new();
+    private List<IManager> _managerList = new();
+    private List<IModel> _modelList = new();
 
     #endregion
 
@@ -43,8 +42,6 @@ public class GameStartManagerMono : MonoBehaviour
     {
         Initialize();
 
-        LoadInitialGameState();
-
         PreLoadAudioDataAsync().Forget();
 
         LiveGameStartManagerMonoPermanent();
@@ -56,6 +53,15 @@ public class GameStartManagerMono : MonoBehaviour
     {
         _managerList = new List<IManager>();
         _modelList = new List<IModel>();
+        
+        InitializeManagerTypesByReflection();
+        
+        // note : CreateManagers를 완료하면 싱글턴 Manager들 생성
+        CreateManagers();
+        
+        InitializeManagers();
+
+        InitializeModels();
     }
 
     #endregion
@@ -73,31 +79,20 @@ public class GameStartManagerMono : MonoBehaviour
     #endregion
 
     #region 6. Methods
+    
 
-    private void LoadInitialGameState()
-    {
-        //log
-        Debug.Log("GameStartManagerMono : LoadInitialGameState Start");
-
-        InitializeManagerTypesUsingReflection();
-
-        InitializeManagers();
-
-        InitializeModels();
-    }
-
-    private void InitializeManagerTypesUsingReflection()
+    private void InitializeManagerTypesByReflection()
     {
         _cSharpAssembly = AppDomain.CurrentDomain.GetAssemblies()
             .FirstOrDefault(asm => asm.GetName().Name == MAIN_ASSEMBLY);
-
         if (_cSharpAssembly == null)
         {
             throw new NullReferenceException("_cSharpAssembly is null");
         }
 
+        // note : ManagerBase<T>를 제외해야 한다. -> !type.IsAbstract
         _managerTypeList = _cSharpAssembly.GetTypes()
-            .Where(type => typeof(IManager).IsAssignableFrom(type) && type.IsClass)
+            .Where(type => typeof(IManager).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
             .ToList();
 
         if (_managerTypeList == null)
@@ -114,9 +109,6 @@ public class GameStartManagerMono : MonoBehaviour
 
     private void InitializeManagers()
     {
-        CreateSingletonManagers();
-        // note : Manager 마다 _instance에 싱글턴 생성된 완료된 시점
-        
         foreach (var manager in _managerList)
         {
             manager.PreInitialize();
@@ -140,10 +132,7 @@ public class GameStartManagerMono : MonoBehaviour
         ModelManager.Instance.SetAllModels(_modelList);
     }
 
-    // Note
-    // 여기서 각각의 생성자를 호출하며 Type에 맞는 Instance를 생성한다.
-    // 그리고 연결을 ConnectInstanceByActivator
-    private void CreateSingletonManagers()
+    private void CreateManagers()
     {
         foreach (var type in _managerTypeList)
         {

@@ -1,27 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-public class ModelManager : ManagerBase<ModelManager>, IManager, IDisposable
+public class ModelManager : ManagerBase<ModelManager>
 {
     private List<IModel> _modelList = new();
-
-    public void PreInitialize()
-    {
-        //
-    }
-
-    public void Initialize()
-    {
-    }
-
-    public void LateInitialize()
-    {
-        //
-    }
-    public void SetModel(IEnumerable<IModel> models)
-    {
-        //
-    }
 
     public void SetAllModels(List<IModel> modelList)
     {
@@ -39,10 +21,5 @@ public class ModelManager : ManagerBase<ModelManager>, IManager, IDisposable
         }
 
         throw new NullReferenceException("GetModel Fail");
-    }
-
-    public void Dispose()
-    {
-        //
     }
 }

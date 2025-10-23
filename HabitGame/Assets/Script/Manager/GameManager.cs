@@ -1,7 +1,6 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : ManagerBase<GameManager>, IManager
+public class GameManager : ManagerBase<GameManager>
 {
     #region 1. Fields
 
@@ -17,27 +16,14 @@ public class GameManager : ManagerBase<GameManager>, IManager
 
     #region 3. Constructor
 
-    public void PreInitialize()
-    {
-    }
-
-    public void Initialize()
+    public sealed override void Initialize()
     {
         TurnOnScreenAlways();
-    }
-    
-    public void LateInitialize()
-    {
-        //
     }
 
     #endregion
 
     #region 4. Methods
-
-    public void SetModel(IEnumerable<IModel> _list)
-    {
-    }
 
     private void TurnOnScreenAlways()
     {

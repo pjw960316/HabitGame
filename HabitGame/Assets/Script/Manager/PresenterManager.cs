@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-public class PresenterManager : ManagerBase<PresenterManager>, IManager
+public class PresenterManager : ManagerBase<PresenterManager>
 {
     #region 1. Fields
 
@@ -18,25 +18,11 @@ public class PresenterManager : ManagerBase<PresenterManager>, IManager
 
     #region 3. Constructor
 
-    public void PreInitialize()
-    {
-    }
-
-    public void Initialize()
-    {
-        InitializeFieldFieldObjectViewModelMatchDictionary();
-    }
-    
-    public void LateInitialize()
-    {
-        //
-    }
-
-    private void InitializeFieldFieldObjectViewModelMatchDictionary()
+    // refactor 필요한 지 체크
+    public sealed override void Initialize()
     {
         _fieldObjectViewModelTypeMatchDictionary[typeof(FieldObjectSparrow)] = typeof(FieldObjectAnimalData);
         _fieldObjectViewModelTypeMatchDictionary[typeof(FieldObjectDeer)] = typeof(FieldObjectAnimalData);
-        
     }
 
     #endregion
@@ -55,16 +41,11 @@ public class PresenterManager : ManagerBase<PresenterManager>, IManager
 
     #region 6. Methods
 
-    public void SetModel(IEnumerable<IModel> models)
-    {
-        //
-    }
-
     // note : Factory Pattern
     public void CreatePresenter<TPresenter>(IView view) where TPresenter : PresenterBase, new()
     {
         var presenter = new TPresenter();
-        
+
         presenter.Initialize(view);
         presenter.SetView();
         presenter.BindEvent();

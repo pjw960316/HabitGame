@@ -1,17 +1,15 @@
 using System;
 using System.Collections.Generic;
 
-public class StringManager : ManagerBase<StringManager>, IManager, IDisposable
+public class StringManager : ManagerBase<StringManager>
 {
     #region 1. Fields
 
-    //
+    private StringData _stringData;
 
     #endregion
 
     #region 2. Properties
-
-    private StringData _stringData;
 
     public StringData StringData
     {
@@ -30,24 +28,7 @@ public class StringManager : ManagerBase<StringManager>, IManager, IDisposable
 
     #region 3. Constructor
 
-    public void PreInitialize()
-    {
-    }
-
-    public void Initialize()
-    {
-    }
-    
-    public void LateInitialize()
-    {
-        //
-    }
-
-    #endregion
-
-    #region 4. Methods
-
-    public void SetModel(IEnumerable<IModel> models)
+    public sealed override void SetModel(IEnumerable<IModel> models)
     {
         foreach (var model in models)
         {
@@ -58,6 +39,10 @@ public class StringManager : ManagerBase<StringManager>, IManager, IDisposable
             }
         }
     }
+
+    #endregion
+
+    #region 4. Methods
 
     public string GetUIString(EStringKey eStringKey, params object[] args)
     {

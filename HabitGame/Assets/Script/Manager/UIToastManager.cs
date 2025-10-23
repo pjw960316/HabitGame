@@ -1,16 +1,14 @@
 using System;
-using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
-public class UIToastManager : ManagerBase<UIToastManager>, IManager
+public class UIToastManager : ManagerBase<UIToastManager>
 {
     #region 1. Fields
 
     public const float TOAST_MESSAGE_LIFE_TIME = 3f;
     private GameObject _toastMessage;
     private Transform _toastMessageTransform;
-    
 
     #endregion
 
@@ -22,23 +20,6 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager
 
     #region 3. Constructor
 
-    public void PreInitialize()
-    {
-    }
-
-    public void Initialize()
-    {
-    }
-
-    public void LateInitialize()
-    {
-        //
-    }
-    
-    #endregion
-
-    #region 4. Methods
-
     public void SetMainCanvas(UIMainCanvas canvas)
     {
         MainCanvas = canvas;
@@ -46,14 +27,14 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager
         _toastMessageTransform = _toastMessage.transform;
     }
 
-    public void SetModel(IEnumerable<IModel> models)
-    {
-    }
+    #endregion
+
+    #region 4. Methods
 
     public void ShowToast(EToastStringKey eToastStringKey)
     {
         UpdateToastText(eToastStringKey);
-        
+
         PresentToast();
     }
 
@@ -94,6 +75,7 @@ public class UIToastManager : ManagerBase<UIToastManager>, IManager
                 {
                     return;
                 }
+
                 toastMessage.SetActive(false);
             });
     }

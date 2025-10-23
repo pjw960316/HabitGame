@@ -1,8 +1,7 @@
-using System.Collections.Generic;
 using UniRx;
 using UnityEngine;
 
-public class CameraManager : ManagerBase<CameraManager>, IManager
+public class CameraManager : ManagerBase<CameraManager>
 {
     #region 1. Fields
 
@@ -23,25 +22,10 @@ public class CameraManager : ManagerBase<CameraManager>, IManager
 
     #region 3. Constructor
 
-    public void PreInitialize()
-    {
-        //
-    }
-
-    public void Initialize()
+    public sealed override void Initialize()
     {
         _uiManager = UIManager.Instance;
         _fieldObjectManager = FieldObjectManager.Instance;
-    }
-
-    public void LateInitialize()
-    {
-        BindEvent();
-    }
-
-    public void SetModel(IEnumerable<IModel> models)
-    {
-        //
     }
 
     public void SetMainCamera(MainCameraMono mainCameraMono)
@@ -55,7 +39,7 @@ public class CameraManager : ManagerBase<CameraManager>, IManager
             .Subscribe(_ =>
             {
                 var randomSparrow = _fieldObjectManager.GetRandomSparrow();
-                SetMainCameraToFollowSparrow(randomSparrow); 
+                SetMainCameraToFollowSparrow(randomSparrow);
             })
             .AddTo(_followSparrowCameraMoveDisposable);
 
@@ -87,10 +71,10 @@ public class CameraManager : ManagerBase<CameraManager>, IManager
     {
         if (fieldObjectBase == null)
         {
-            Debug.Log($"FieldObject is Destroyed -> Not change Camera FOV");
+            Debug.Log("FieldObject is Destroyed -> Not change Camera FOV");
             return;
         }
-        
+
         var fieldObjectTransform = fieldObjectBase.transform;
 
         _mainCamera.UpdateToFollowFieldObject(fieldObjectTransform);

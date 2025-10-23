@@ -7,7 +7,7 @@ using UnityEngine;
 // 이제는 SoundManager는 Presenter로 부터 AudioClip을 받고 재생하는 기능만 책임진다.
 
 [Serializable]
-public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
+public class SoundManager : ManagerBase<SoundManager>
 {
     #region 1. Fields
 
@@ -25,20 +25,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     #region 3. Constructor
 
-    public void PreInitialize()
-    {
-    }
-
-    public void Initialize()
-    {
-    }
-
-    public void LateInitialize()
-    {
-    }
-
-
-    public void SetModel(IEnumerable<IModel> models)
+    public sealed override void SetModel(IEnumerable<IModel> models)
     {
         foreach (var model in models)
         {
@@ -128,9 +115,7 @@ public class SoundManager : ManagerBase<SoundManager>, IManager, IDisposable
 
     #region 6-3. Methods
 
-    public void Dispose()
-    {
-    }
+    //
 
     #endregion
 }

@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 using JetBrains.Annotations;
 using UniRx;
 
-public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
+public class MyCharacterManager : ManagerBase<MyCharacterManager>
 {
     #region 1. Fields
 
@@ -23,12 +23,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 
     #region 3. Constructor
 
-    public void PreInitialize()
-    {
-        //
-    }
-
-    public void Initialize()
+    public sealed override void Initialize()
     {
         _xmlDataSerializeManager = XmlDataSerializeManager.Instance;
 
@@ -37,17 +32,12 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 
         RequestInitializeRoutineRecordDictionary();
     }
-    
-    public void LateInitialize()
-    {
-        //
-    }
 
     #endregion
 
     #region 4. Methods
 
-    public void SetModel(IEnumerable<IModel> models)
+    public sealed override void SetModel(IEnumerable<IModel> models)
     {
         foreach (var model in models)
         {
@@ -60,14 +50,14 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
 
         ExceptionHelper.CheckNullException(_myCharacterData, "_myCharacterData in MyCharacterManager");
     }
-    
+
     [CanBeNull]
     public List<int> GetTodaySuccessfulRoutineIndex(DateTime dateTime)
     {
         var key = dateTime.ToString("yyyyMMdd");
         var immutableRoutineRecordDictionary = _myCharacterData.RoutineRecordDictionary;
 
-        if (immutableRoutineRecordDictionary.TryGetValue(key, out var immutableTodayRecordList) == false)
+        if (!immutableRoutineRecordDictionary.TryGetValue(key, out var immutableTodayRecordList))
         {
             // note
             // 첫 루틴 기록이므로 아직 기록이 없으므로
@@ -101,19 +91,19 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>, IManager
         RequestUpdateRoutineRecordDictionary(todaySuccessfulRoutineIndexByView, dateTime);
 
         _onUpdateRoutineSuccess.OnNext(default);
-        
+
         // refactor
         // 이걸 매번 할 필요는 없지?
         // 게임 종료시에만?
         RequestSynchronizeDictionaryAndList();
         RequestUpdateXmlData();
     }
-    
+
     public int GetMonthlyRoutineSuccessMoney()
     {
         return _myCharacterData.MonthlyRoutineSuccessMoney;
     }
-    
+
     public int GetMoneyPerRoutineSuccess()
     {
         return _myCharacterData.MoneyPerRoutineSuccess;

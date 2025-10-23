@@ -5,7 +5,7 @@ using UniRx;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-public class UIManager : ManagerBase<UIManager>, IManager
+public class UIManager : ManagerBase<UIManager>
 {
     #region 1. Fields
 
@@ -34,20 +34,7 @@ public class UIManager : ManagerBase<UIManager>, IManager
 
     #region 3. Constructor
 
-    public void PreInitialize()
-    {
-    }
-
-    public void Initialize()
-    {
-    }
-
-    public void LateInitialize()
-    {
-    }
-
-
-    public void SetModel(IEnumerable<IModel> _list)
+    public sealed override void SetModel(IEnumerable<IModel> _list)
     {
         foreach (var scriptableObject in _list)
         {

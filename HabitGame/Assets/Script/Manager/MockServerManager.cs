@@ -8,7 +8,7 @@ using Cysharp.Threading.Tasks;
 // Note 2
 // 원래 클라는 기초적인 검증 후, 서버에 실제 로직을 요청하지만
 // 현재는 서버에 일단 요청을 하고, Success 처리 시에 클라에서 로직을 수행하는 구색만 갖춘 구현을 한다.
-public class MockServerManager : ManagerBase<MockServerManager>, IManager
+public class MockServerManager : ManagerBase<MockServerManager>
 {
     #region 1. Fields
 
@@ -24,28 +24,11 @@ public class MockServerManager : ManagerBase<MockServerManager>, IManager
 
     #region 3. Constructor
 
-    public void PreInitialize()
-    {
-    }
-
-    public void Initialize()
-    {
-        //
-    }
-    
-    public void LateInitialize()
-    {
-        //
-    }
+    //
 
     #endregion
 
     #region 4. Methods
-
-    public void SetModel(IEnumerable<IModel> models)
-    {
-    }
-
     // Note
     // 지연 + 무조건 SUCCESS return 하는 가짜 서버 구조
     // SUCCESS 하면 클라에서 데이터 변경하고, 그걸 xml네 저장하는 걸 허락한다.
