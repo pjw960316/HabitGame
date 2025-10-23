@@ -26,9 +26,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
     public sealed override void Initialize()
     {
         _xmlDataSerializeManager = XmlDataSerializeManager.Instance;
-
-        ExceptionHelper.CheckNullExceptionWithMessage(_xmlDataSerializeManager, "xmlDataSerializeManager",
-            "\n GameStartManager Initialize() makes critical Error!");
+        ExceptionHelper.CheckNullException(_xmlDataSerializeManager, "_xmlDataSerializeManager");
 
         RequestInitializeRoutineRecordDictionary();
     }
