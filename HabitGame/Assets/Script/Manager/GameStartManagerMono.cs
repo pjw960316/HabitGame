@@ -44,8 +44,8 @@ public class GameStartManagerMono : MonoBehaviour
 
         PreLoadAudioDataAsync().Forget();
 
-        LiveGameStartManagerMonoPermanent();
-
+        DoNotDestroyUntilLoadBackgroundComplete();
+        
         ShowGameLoadSceneBackgroundAsync().Forget();
     }
 
@@ -194,19 +194,17 @@ public class GameStartManagerMono : MonoBehaviour
 
     #region 6. Methods
 
-    private void LiveGameStartManagerMonoPermanent()
+    private void DoNotDestroyUntilLoadBackgroundComplete()
     {
-        //log
-        Debug.Log("Live Permanent");
-
         DontDestroyOnLoad(this);
+        
+        // note : ShowGameLoadSceneBackgroundAsync -> 비동기로 돌고 끝나면 메모리에서 내려간다.
     }
-
     private void ChangeScene()
     {
         //log
         Debug.Log("Scene Change");
-
+        
         SceneManager.LoadScene(MAIN_SCENE_NAME);
     }
 
@@ -216,7 +214,6 @@ public class GameStartManagerMono : MonoBehaviour
 
     private async UniTaskVoid PreLoadAudioDataAsync()
     {
-        //refactor
         var alarmData = ScriptableObjectManager.Instance.GetScriptableObject<AlarmData>();
         if (alarmData == null)
         {
@@ -250,8 +247,7 @@ public class GameStartManagerMono : MonoBehaviour
 
         await UniTask.Delay(TimeSpan.FromSeconds(loadSceneBackgroundPlayTime));
 
-        Destroy(_loadBackgroundImageMono.gameObject);
-        Destroy(_canvas);
+        Destroy(gameObject);
     }
 
     #endregion
