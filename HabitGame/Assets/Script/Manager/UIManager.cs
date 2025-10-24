@@ -34,20 +34,10 @@ public class UIManager : ManagerBase<UIManager>
 
     #region 3. Constructor
 
-    public sealed override void SetModel(IEnumerable<IModel> _list)
+    public sealed override void SetModel()
     {
-        foreach (var scriptableObject in _list)
-        {
-            if (scriptableObject is PopupData uiPopupData)
-            {
-                _popupData = uiPopupData;
-            }
-        }
-
-        if (_popupData == null)
-        {
-            throw new InvalidOperationException("_popupData는 null이 될 수 없습니다. 올바른 데이터를 확인해주세요.");
-        }
+        _popupData = ScriptableObjectManager.Instance.GetScriptableObject<PopupData>();
+        ExceptionHelper.CheckNullException(_popupData, "_popupData");
     }
 
     public void SetMainCanvas(UIMainCanvas canvas)

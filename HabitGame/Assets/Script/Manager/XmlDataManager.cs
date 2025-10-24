@@ -9,7 +9,7 @@ using UnityEngine;
 // 1. 모든 XML 데이터를 Deserialize 할 책임
 // 2. Deserialize 된 XML Data Instance를 각각의 Manager에게 전달.
 // 3. Serialize를 통해 XML Data를 업데이트
-public class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManager>
+public class XmlDataManager : ManagerBase<XmlDataManager>
 {
     public class XmlFileData
     {
@@ -20,7 +20,7 @@ public class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManager>
 
     #region 1. Fields
 
-    private List<IModel> _modelList;
+    private List<IModel> _deserializedXmlList;
     private List<XmlFileData> _xmlFileDataList;
 
     #endregion
@@ -35,42 +35,8 @@ public class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManager>
 
     public sealed override void PreInitialize()
     {
-        _modelList = new List<IModel>();
+        _deserializedXmlList = new List<IModel>();
         _xmlFileDataList = new List<XmlFileData>();
-
-        InitializeXmlFileDataList();
-        InitializeModelListFromXml();
-    }
-
-
-    private void InitializeXmlFileDataList()
-    {
-        _xmlFileDataList.Add(new XmlFileData
-        {
-            DataType = typeof(MyCharacterData),
-            RelativePath = "MyCharacterData",
-            AbsolutePath = Application.persistentDataPath + "/MyCharacterData.xml"
-        });
-    }
-
-    private void InitializeModelListFromXml()
-    {
-        foreach (var xmlFileData in _xmlFileDataList)
-        {
-            //log
-            Debug.Log($"Absolute Path : {xmlFileData.AbsolutePath}");
-
-            var xmlType = xmlFileData.DataType;
-            var text = GetXmlText(xmlFileData);
-
-            var xmlSerializer = new XmlSerializer(xmlType);
-            using var stringReader = new StringReader(text);
-            ExceptionHelper.CheckNullException(stringReader, "stringReader");
-
-            var model = xmlSerializer.Deserialize(stringReader) as IModel;
-
-            _modelList.Add(model);
-        }
     }
 
     #endregion
@@ -89,9 +55,49 @@ public class XmlDataSerializeManager : ManagerBase<XmlDataSerializeManager>
 
     #region 6. Methods
 
-    public List<IModel> GetModelListWithDeserializedXml()
+    public void RegisterDeserializedXmlData()
     {
-        return _modelList;
+        _xmlFileDataList.Add(new XmlFileData
+        {
+            DataType = typeof(MyCharacterData),
+            RelativePath = "MyCharacterData",
+            AbsolutePath = Application.persistentDataPath + "/MyCharacterData.xml"
+        });
+        
+        foreach (var xmlFileData in _xmlFileDataList)
+        {
+            //log
+            Debug.Log($"Absolute Path : {xmlFileData.AbsolutePath}");
+
+            var xmlType = xmlFileData.DataType;
+            var text = GetXmlText(xmlFileData);
+
+            var xmlSerializer = new XmlSerializer(xmlType);
+            using var stringReader = new StringReader(text);
+            ExceptionHelper.CheckNullException(stringReader, "stringReader");
+
+            var model = xmlSerializer.Deserialize(stringReader) as IModel;
+
+            _deserializedXmlList.Add(model);
+        }
+    }
+    
+    public T GetDeserializedXmlData<T>() where T : IModel
+    {
+        foreach (var deserializedXml in _deserializedXmlList)
+        {
+            if (deserializedXml is T targetDeserializedXml)
+            {
+                return targetDeserializedXml;
+            }
+        }
+
+        throw new NullReferenceException("GetDeserializedXml Fail");
+    }
+
+    public int GetDeserializedXmlListCount()
+    {
+        return _xmlFileDataList.Count;
     }
     
     private string GetXmlText(XmlFileData xmlFileData)

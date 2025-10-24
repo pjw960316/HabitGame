@@ -12,11 +12,11 @@ public class GameStartManagerMono : MonoBehaviour
 
     private const string MAIN_ASSEMBLY = "Assembly-CSharp";
     private const string MAIN_SCENE_NAME = "MainScene";
-    
+
 #if UNITY_EDITOR
     private const int LOAD_SCENE_BACKGROUND_CHANGE_COUNT = 1;
-#else 
-    private const int LOAD_SCENE_BACKGROUND_CHANGE_COUNT = 7; 
+#else
+    private const int LOAD_SCENE_BACKGROUND_CHANGE_COUNT = 7;
 #endif
 
     [SerializeField] private LoadBackgroundImageMono _loadBackgroundImageMono;
@@ -24,10 +24,9 @@ public class GameStartManagerMono : MonoBehaviour
     [SerializeField] private List<ScriptableObject> _scriptableObjectModels;
 
     private Assembly _cSharpAssembly;
-    
+
     private List<Type> _managerTypeList = new();
     private List<IManager> _managerList = new();
-    private List<IModel> _modelList = new();
 
     #endregion
 
@@ -53,13 +52,12 @@ public class GameStartManagerMono : MonoBehaviour
     private void Initialize()
     {
         InitializeManagerTypesByReflection();
-        
-        // note : CreateManagers를 완료하면 싱글턴 Manager들 생성
+
         CreateManagers();
         
-        InitializeManagers();
+        // note : 이 시점 이후에는 싱글턴이 null이 되지 않음이 보장된다.
 
-        InitializeModels();
+        InitializeManagers();
     }
 
     #endregion
@@ -94,7 +92,7 @@ public class GameStartManagerMono : MonoBehaviour
     private void CreateManagers()
     {
         _managerList = new List<IManager>();
-        
+
         foreach (var type in _managerTypeList)
         {
             var objectTypeInstance = Activator.CreateInstance(type);
@@ -106,7 +104,7 @@ public class GameStartManagerMono : MonoBehaviour
             }
         }
     }
-    
+
     private void InitializeManagers()
     {
         foreach (var manager in _managerList)
@@ -114,82 +112,73 @@ public class GameStartManagerMono : MonoBehaviour
             manager.PreInitialize();
         }
 
-        ConnectModelsInManagers();
+        InitializeModels();
+
+        InjectModelsInManagers();
 
         foreach (var manager in _managerList)
         {
             manager.Initialize();
         }
-        
+
         foreach (var manager in _managerList)
         {
             manager.BindEvent();
         }
     }
-    
+
     #endregion
-    
+
     #region 3-2. InitializeModels (ScriptableObject & XML)
-    
+
     private void InitializeModels()
     {
-        ModelManager.Instance.SetAllModels(_modelList);
+        InitializeScriptableObjects();
+        
+        InitializeXmlData();
     }
 
-    // refactor
-    private void ConnectModelsInManagers()
+    private void InjectModelsInManagers()
     {
-        SetModelList();
-
         foreach (var manager in _managerList)
         {
-            manager.SetModel(_modelList);
+            manager.SetModel();
         }
     }
 
-    private void SetModelList()
+    private void InitializeScriptableObjects()
     {
-        _modelList = new List<IModel>();
-        SetModelListWithScriptableObject();
-
-        SetModelListWithDeserializedXml();
-    }
-
-    private void SetModelListWithScriptableObject()
-    {
-        var scriptableObjectModelCount = 0;
-        foreach (var scriptableObjectModel in _scriptableObjectModels)
+        var scriptableObjectList = new List<ScriptableObject>();
+        var scriptableObjectCount = 0;
+        
+        foreach (var scriptableObject in _scriptableObjectModels)
         {
-            if (scriptableObjectModel is IModel model)
-            {
-                _modelList.Add(model);
-                scriptableObjectModelCount++;
-            }
+            scriptableObjectList.Add(scriptableObject);
+            scriptableObjectCount++;
         }
+
+        var scriptableObjectManager = ScriptableObjectManager.Instance;
+        ExceptionHelper.CheckNullException(scriptableObjectManager, "scriptableObjectManager");
+        
+        ScriptableObjectManager.Instance.RegisterAllScriptableObjects(scriptableObjectList);
 
         //Log
-        Debug.Log($"{scriptableObjectModelCount}개의 ScriptableObject가 Model로 _modelList에 추가되었습니다.");
+        Debug.Log($"{scriptableObjectCount}개의 ScriptableObject가 Model로 _modelList에 추가되었습니다.");
     }
 
-    private void SetModelListWithDeserializedXml()
+    private void InitializeXmlData()
     {
-        var _xmlDataSerializeManager = XmlDataSerializeManager.Instance;
-        ExceptionHelper.CheckNullException(_xmlDataSerializeManager, "_xmlDataSerializeManager");
+        var xmlDataManager = XmlDataManager.Instance;
+        ExceptionHelper.CheckNullException(xmlDataManager, "xmlDataManager");
 
-        var modelList = _xmlDataSerializeManager.GetModelListWithDeserializedXml();
-
-        var xmlModelCount = 0;
-        foreach (var model in modelList)
-        {
-            _modelList.Add(model);
-            xmlModelCount++;
-        }
+        xmlDataManager.RegisterDeserializedXmlData();
 
         //Log
-        Debug.Log($"{xmlModelCount}개의 xml이 Model로 _modelList에 추가되었습니다.");
+        Debug.Log($"{xmlDataManager.GetDeserializedXmlListCount()}개의 xml이 Model로 _modelList에 추가되었습니다.");
     }
-    
+
     #endregion
+
     #region 4. EventHandlers
 
     //
@@ -202,7 +191,6 @@ public class GameStartManagerMono : MonoBehaviour
 
     #endregion
 
-    
 
     #region 6. Methods
 
@@ -210,7 +198,7 @@ public class GameStartManagerMono : MonoBehaviour
     {
         //log
         Debug.Log("Live Permanent");
-        
+
         DontDestroyOnLoad(this);
     }
 
@@ -218,17 +206,18 @@ public class GameStartManagerMono : MonoBehaviour
     {
         //log
         Debug.Log("Scene Change");
-        
+
         SceneManager.LoadScene(MAIN_SCENE_NAME);
     }
 
     #endregion
-    
+
     #region 7. Async Methods
-    
+
     private async UniTaskVoid PreLoadAudioDataAsync()
     {
-        var alarmData = _modelList.OfType<AlarmData>().FirstOrDefault();
+        //refactor
+        var alarmData = ScriptableObjectManager.Instance.GetScriptableObject<AlarmData>();
         if (alarmData == null)
         {
             throw new NullReferenceException("alarmData is null");
@@ -250,20 +239,20 @@ public class GameStartManagerMono : MonoBehaviour
             //log
             Debug.Log($"{relativePath}의 음원 파일 {memoryLoadedAudioClip?.name}이 비동기로 로드 되었습니다");
         }
-        
+
         ChangeScene();
     }
-    
+
     private async UniTaskVoid ShowGameLoadSceneBackgroundAsync()
     {
         var loadSceneBackgroundPlayTime =
             LOAD_SCENE_BACKGROUND_CHANGE_COUNT * _loadBackgroundImageMono.GetChangeBackgroundTime();
-        
+
         await UniTask.Delay(TimeSpan.FromSeconds(loadSceneBackgroundPlayTime));
-        
+
         Destroy(_loadBackgroundImageMono.gameObject);
         Destroy(_canvas);
     }
-    
+
     #endregion
 }

@@ -25,18 +25,10 @@ public class SoundManager : ManagerBase<SoundManager>
 
     #region 3. Constructor
 
-    public sealed override void SetModel(IEnumerable<IModel> models)
+    public sealed override void SetModel()
     {
-        foreach (var model in models)
-        {
-            if (model is SoundData soundData)
-            {
-                _soundData = soundData;
-                ExceptionHelper.CheckNullException(_soundData, "SoundData");
-
-                return;
-            }
-        }
+        _soundData = ScriptableObjectManager.Instance.GetScriptableObject<SoundData>();
+        ExceptionHelper.CheckNullException(_soundData, "SoundData");
     }
 
     public void SetMainMusicPlayerController(MainMusicController musicPlayerController)

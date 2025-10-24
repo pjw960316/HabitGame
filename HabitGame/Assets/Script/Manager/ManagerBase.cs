@@ -55,7 +55,7 @@ public abstract class ManagerBase<T> : IManager
     }
 
 
-    public virtual void SetModel(IEnumerable<IModel> models)
+    public virtual void SetModel()
     {
     }
 

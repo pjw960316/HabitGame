@@ -42,7 +42,7 @@ public class AlarmTimerPresenter : UIPresenterBase
 
     protected sealed override void InitializeModel()
     {
-        _alarmData = _modelManager.GetModel<AlarmData>();
+        _alarmData = _scriptableObjectManager.GetScriptableObject<AlarmData>();
         ExceptionHelper.CheckNullException(_alarmData, "_alarmData");
     }
 

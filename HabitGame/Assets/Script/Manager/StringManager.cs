@@ -28,16 +28,10 @@ public class StringManager : ManagerBase<StringManager>
 
     #region 3. Constructor
 
-    public sealed override void SetModel(IEnumerable<IModel> models)
+    public sealed override void SetModel()
     {
-        foreach (var model in models)
-        {
-            if (model is StringData stringData)
-            {
-                _stringData = stringData;
-                return;
-            }
-        }
+        _stringData = ScriptableObjectManager.Instance.GetScriptableObject<StringData>();
+        ExceptionHelper.CheckNullException(_stringData, "_stringData");
     }
 
     #endregion

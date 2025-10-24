@@ -9,7 +9,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
     #region 1. Fields
 
     private MyCharacterData _myCharacterData;
-    private XmlDataSerializeManager _xmlDataSerializeManager;
+    private XmlDataManager _xmlDataManager;
 
     private readonly Subject<Unit> _onUpdateRoutineSuccess = new();
 
@@ -25,8 +25,8 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
     public sealed override void Initialize()
     {
-        _xmlDataSerializeManager = XmlDataSerializeManager.Instance;
-        ExceptionHelper.CheckNullException(_xmlDataSerializeManager, "_xmlDataSerializeManager");
+        _xmlDataManager = XmlDataManager.Instance;
+        ExceptionHelper.CheckNullException(_xmlDataManager, "_xmlDataSerializeManager");
 
         RequestInitializeRoutineRecordDictionary();
     }
@@ -35,17 +35,9 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
     #region 4. Methods
 
-    public sealed override void SetModel(IEnumerable<IModel> models)
+    public sealed override void SetModel()
     {
-        foreach (var model in models)
-        {
-            if (model is MyCharacterData myCharacterData)
-            {
-                _myCharacterData = myCharacterData;
-                break;
-            }
-        }
-
+        _myCharacterData = XmlDataManager.Instance.GetDeserializedXmlData<MyCharacterData>();
         ExceptionHelper.CheckNullException(_myCharacterData, "_myCharacterData in MyCharacterManager");
     }
 
@@ -113,7 +105,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
     private void RequestUpdateXmlData()
     {
-        _xmlDataSerializeManager.SerializeXmlData<MyCharacterData>(_myCharacterData);
+        _xmlDataManager.SerializeXmlData<MyCharacterData>(_myCharacterData);
     }
 
     private void RequestInitializeRoutineRecordDictionary()
