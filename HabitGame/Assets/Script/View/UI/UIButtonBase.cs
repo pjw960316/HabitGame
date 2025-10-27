@@ -2,8 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// note
-// 현재는 Presenter 붙이지 않을 계획.
+// note : Button은 Widget이므로 MVP 대신, 오직 View에서 모두 처리해도 무방하다고 생각한다.
 public class UIButtonBase : MonoBehaviour, IView
 {
     #region 1. Fields
@@ -30,16 +29,12 @@ public class UIButtonBase : MonoBehaviour, IView
 
     public void Awake()
     {
-        OnAwake();
-    }
-
-    protected virtual void OnAwake()
-    {
         Initialize();
 
         BindEvent();
     }
 
+    // note : public으로 해서, popup에서 제어해야 시점을 명확히 시킨다.
     public virtual void Initialize()
     {
         _uiManager = UIManager.Instance;
@@ -88,7 +83,7 @@ public class UIButtonBase : MonoBehaviour, IView
 
         ExceptionHelper.CheckNullException(_buttonText, "buttonText");
 
-        _buttonText.text = StringManager.Instance.GetUIString(_buttonTextKey);
+        _buttonText.text = _stringManager.GetUIString(_buttonTextKey);
     }
 
     #endregion

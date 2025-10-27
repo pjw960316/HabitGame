@@ -2,8 +2,7 @@ using System;
 using UniRx;
 using UnityEngine;
 
-// note
-// AlarmButton = AudioClipButton + TimeButton
+// note : AlarmButton = AudioClipButton + TimeButton
 public class UIAlarmButton : UIButtonBase
 {
     #region 1. Fields
@@ -25,11 +24,6 @@ public class UIAlarmButton : UIButtonBase
     #endregion
 
     #region 3. Constructor
-    
-    protected override void OnAwake()
-    {
-        base.OnAwake();
-    }
 
     public override void Initialize()
     {

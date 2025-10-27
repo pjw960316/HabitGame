@@ -31,9 +31,8 @@ public abstract class UIPopupBase : MonoBehaviour, IView
         Initialize();
         
         CreatePresenterByManager();
-        
-        // note : view에서는 최상단 호출
-        BindEvent(); 
+
+        BindEvent();
     }
 
     protected virtual void Initialize()

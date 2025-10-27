@@ -35,26 +35,24 @@ public class UIAlarmPopup : UIPopupBase
 
         InitializeWidgets();
     }
-
-
+    
     protected override void InitializeEPopupKey()
     {
         _ePopupKey = EPopupKey.AlarmPopup;
     }
 
-    // note
-    // widget의 Initialize()는 이미 생성된 widget의 field에 접근하기에 문제 없다.
+    // note : popup이 widget의 initialize 제어권을 가져, 시점을 조절한다. (awake는 시점을 알 수 없으니)
     private void InitializeWidgets()
     {
-        foreach (var widget in AlarmAudioClipButtons)
-        {
-            widget.Initialize();
-        }
+          foreach (var widget in AlarmAudioClipButtons)
+          {
+              widget.Initialize();
+          }
 
-        foreach (var widget in AlarmTimeButtons)
-        {
-            widget.Initialize();
-        }
+          foreach (var widget in AlarmTimeButtons)
+          {
+              widget.Initialize();
+          }
     }
 
     protected sealed override void CreatePresenterByManager()
@@ -93,7 +91,11 @@ public class UIAlarmPopup : UIPopupBase
     {
         foreach (var widget in list)
         {
-            widget.OnButtonClicked.Subscribe(_ => { RequestUpdateButtonColor(widget.AlarmButtonType); })
+            widget.OnButtonClicked
+                .Subscribe(_ =>
+                {
+                    RequestUpdateButtonColor(widget.AlarmButtonType);
+                })
                 .AddTo(_disposables);
         }
     }

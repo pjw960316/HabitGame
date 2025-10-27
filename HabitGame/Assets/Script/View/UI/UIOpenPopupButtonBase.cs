@@ -18,11 +18,6 @@ public class UIOpenPopupButtonBase : UIButtonBase
 
     #region 3. Constructor
 
-    protected override void OnAwake()
-    {
-        base.OnAwake();
-    }
-
     public sealed override void Initialize()
     {
         base.Initialize();
