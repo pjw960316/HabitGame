@@ -6,12 +6,13 @@ using UnityEngine.UI;
 public class UIButtonBase : MonoBehaviour, IView
 {
     #region 1. Fields
-
-    [SerializeField] protected Button _button;
+    
     [SerializeField] protected bool _isAutoText;
+    [SerializeField] protected Button _button;
     [SerializeField] protected TextMeshProUGUI _buttonText;
     [SerializeField] protected EStringKey _buttonTextKey;
 
+    protected Image _buttonImage;
     protected UIManager _uiManager;
     protected StringManager _stringManager;
     protected SoundManager _soundManager;
@@ -40,10 +41,10 @@ public class UIButtonBase : MonoBehaviour, IView
         _uiManager = UIManager.Instance;
         _stringManager = StringManager.Instance;
         _soundManager = SoundManager.Instance;
+        _buttonImage = _button.image;
 
         UpdateButtonAutoText();
     }
-
 
     protected virtual void BindEvent()
     {
@@ -71,7 +72,7 @@ public class UIButtonBase : MonoBehaviour, IView
 
     protected void UpdateButtonColor(Color color)
     {
-        _button.image.color = color;
+        _buttonImage.color = color;
     }
 
     protected void UpdateButtonAutoText()
