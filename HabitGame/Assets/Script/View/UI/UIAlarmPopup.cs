@@ -64,7 +64,8 @@ public class UIAlarmPopup : UIPopupBase
 
     protected sealed override void BindEvent()
     {
-        BindWidgetEvents();
+        BindButtonMenuEvents(AlarmAudioClipButtons);
+        BindButtonMenuEvents(AlarmTimeButtons);
 
         _confirmButton?.OnClick.AddListener(OnClickConfirmButton);
     }
@@ -86,12 +87,6 @@ public class UIAlarmPopup : UIPopupBase
 
     #region 4. EventHandlers
 
-    private void BindWidgetEvents()
-    {
-        BindButtonMenuEvents(AlarmAudioClipButtons);
-        BindButtonMenuEvents(AlarmTimeButtons);
-    }
-    
     private void BindButtonMenuEvents(List<UIAlarmButton> list)
     {
         foreach (var widget in list)
