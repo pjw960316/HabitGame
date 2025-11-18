@@ -3,4 +3,4 @@
 <br>
 
 ## Script
-- ✈️:[Script Link](HabitGame/Assets/Script)
+- ✈️[Script Link](HabitGame/Assets/Script)
