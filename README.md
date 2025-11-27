@@ -16,3 +16,8 @@
 
 ## 게임 캡처
 - <img width="684" height="1229" alt="스크린샷 2025-11-18 190004" src="https://github.com/user-attachments/assets/21dca036-bec4-4a58-a092-a9766812c241" />
+
+<br>
+
+## 게임 영상
+- ![bandicam 2025-11-27 16-41-17-377](https://github.com/user-attachments/assets/90b5f020-6b89-4d72-93f1-56314b035398)
