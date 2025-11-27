@@ -25,7 +25,8 @@
 <br><br>
 
 ## 게임 영상_루틴 체크
-![bandicam 2025-11-27 16-49-16-368](https://github.com/user-attachments/assets/d0969a42-9cd1-40e6-a971-611d89f12564)
+![output](https://github.com/user-attachments/assets/75eefca3-4089-4ebe-aaa0-27f18f771704)
+
 
 <br><br>
 
