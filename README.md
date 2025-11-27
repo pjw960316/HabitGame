@@ -8,6 +8,7 @@
 <br>
 
 ## 게임 다운로드
+- 게임 버전 V_1.90
 - ✈️[Download Link](https://github.com/pjw960316/HabitGame/blob/main/HabitGame_V1.9.apk)
 - View raw 클릭하면 다운로드 됩니다.
 
