@@ -17,12 +17,17 @@
 ## 게임 캡처
 <img width="400" height="711" alt="스크린샷 2025-11-18 190004" src="https://github.com/user-attachments/assets/21dca036-bec4-4a58-a092-a9766812c241" />
 
-<br>
+<br><br>
 
 ## 게임 영상_알람
 ![bandicam 2025-11-27 16-41-17-377](https://github.com/user-attachments/assets/90b5f020-6b89-4d72-93f1-56314b035398)
 
-<br>
+<br><br>
+
+## 게임 영상_루틴 체크
+![bandicam 2025-11-27 16-49-16-368](https://github.com/user-attachments/assets/d0969a42-9cd1-40e6-a971-611d89f12564)
+
+<br><br>
 
 ## 게임 영상_루틴 수행 현황
 ![bandicam 2025-11-27 16-43-40-924](https://github.com/user-attachments/assets/561481b6-a671-4b52-b94c-33ddb774f03f)
