@@ -15,9 +15,14 @@
 <br>
 
 ## 게임 캡처
-- <img width="684" height="1229" alt="스크린샷 2025-11-18 190004" src="https://github.com/user-attachments/assets/21dca036-bec4-4a58-a092-a9766812c241" />
+<img width="684" height="1229" alt="스크린샷 2025-11-18 190004" src="https://github.com/user-attachments/assets/21dca036-bec4-4a58-a092-a9766812c241" />
 
 <br>
 
-## 게임 영상
-- ![bandicam 2025-11-27 16-41-17-377](https://github.com/user-attachments/assets/90b5f020-6b89-4d72-93f1-56314b035398)
+## 게임 영상_알람
+![bandicam 2025-11-27 16-41-17-377](https://github.com/user-attachments/assets/90b5f020-6b89-4d72-93f1-56314b035398)
+
+<br>
+
+## 게임 영상_루틴 수행 현황
+![bandicam 2025-11-27 16-43-40-924](https://github.com/user-attachments/assets/561481b6-a671-4b52-b94c-33ddb774f03f)
