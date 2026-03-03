@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,7 +6,7 @@ public class InputManagerMono : MonoBehaviour
 {
     #region 1. Fields
 
-    //
+    [SerializeField] private PlayerInput _playerInput;
 
     #endregion
 
@@ -19,19 +20,18 @@ public class InputManagerMono : MonoBehaviour
 
     private void Awake()
     {
+        _playerInput.onActionTriggered += OnHandleInput;
     }
 
     #endregion
 
     #region 4. EventHandlers
-
-    private Vector2 moveInput;
-
-    public void OnMove(InputAction.CallbackContext context)
+    
+    private void OnHandleInput(InputAction.CallbackContext context)
     {
-        moveInput = context.ReadValue<Vector2>();
-        Debug.Log(moveInput);
+        var inputValue = context.ReadValue<Vector2>();
     }
+
 
     #endregion
 
