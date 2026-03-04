@@ -1060,6 +1060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerInput: {fileID: 332730280}
+  _moveInput: {fileID: 557731431597812671, guid: e0968cf3f7424d5428decad2822c1747, type: 3}
 --- !u!114 &332730280
 MonoBehaviour:
   m_ObjectHideFlags: 0
