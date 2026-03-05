@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,12 +9,16 @@ public class InputManagerMono : MonoBehaviour
     #region 1. Fields
 
     [SerializeField] private PlayerInput _playerInput;
-    
+
     // InputActionReference 추가하면 Dictionary에 추가하세요
     [SerializeField] private InputActionReference _moveInput;
-    
-    private readonly Dictionary<InputAction, Action<InputAction.CallbackContext>> _actionDict = new ();
-    
+    [SerializeField] private InputActionReference _touchInput;
+    [SerializeField] private InputActionReference _touchInputPosition;
+
+    private readonly Dictionary<InputAction, Action<InputAction.CallbackContext>> _actionDict = new();
+
+    private Vector2 _curPointerPos = new();
+
     #endregion
 
     #region 2. Properties
@@ -34,14 +37,17 @@ public class InputManagerMono : MonoBehaviour
         {
             Debug.LogError("PlayerInput Component의 액션 개수와 _actionDict의 액션 개수가 다르다.");
         }
-        
+
         _playerInput.onActionTriggered += OnHandleInput;
     }
 
     private void InitializeActionDictionary()
     {
         _actionDict[_moveInput.action] = OnHandleMove;
+        _actionDict[_touchInput.action] = OnHandleTouch;
+        _actionDict[_touchInputPosition.action] = OnHandleTouchPosition;
     }
+
     #endregion
 
     #region 4. EventHandlers
@@ -49,7 +55,7 @@ public class InputManagerMono : MonoBehaviour
     private void OnHandleInput(InputAction.CallbackContext context)
     {
         var contextState = context.phase;
-        
+
         if (contextState == InputActionPhase.Started)
         {
         }
@@ -67,8 +73,23 @@ public class InputManagerMono : MonoBehaviour
 
     private void OnHandleMove(InputAction.CallbackContext context)
     {
-        Debug.Log("hi");
+        var pathPair = context.ReadValue<Vector2>();
+        Debug.Log($"{pathPair}");
     }
+    
+    private void OnHandleTouch(InputAction.CallbackContext context)
+    {
+        Debug.Log($"{_curPointerPos}");
+    }
+    
+    // note
+    // 큰 struct 보다는 작은 vector2를 전달하고 싶다.
+    // 그러나 dict value의 타입에 맞지 않음. 
+    private void OnHandleTouchPosition(InputAction.CallbackContext context)
+    {
+        _curPointerPos = context.ReadValue<Vector2>();
+    }
+
     #endregion
 
     #region 5. Request Methods
