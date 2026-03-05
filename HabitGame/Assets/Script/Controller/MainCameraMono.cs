@@ -28,7 +28,7 @@ public class MainCameraMono : MonoBehaviour
 
     #region 2. Properties
 
-    //
+    public Camera MainCamera => _mainCamera;
 
     #endregion
 
@@ -119,6 +119,11 @@ public class MainCameraMono : MonoBehaviour
         _mainCameraTransform.position = _initializedMainCameraPosition;
         _mainCameraTransform.rotation = _initializedMainCameraRotation;
         _mainCamera.fieldOfView = _initializedMainCameraFOV;
+    }
+
+    public Ray GetRay(Vector2 pos)
+    {
+        return _mainCamera.ScreenPointToRay(pos);
     }
 
     #endregion

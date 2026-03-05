@@ -5,7 +5,7 @@ public class CameraManager : ManagerBase<CameraManager>
 {
     #region 1. Fields
 
-    private MainCameraMono _mainCamera;
+    private MainCameraMono _mainCameraMono;
 
     private UIManager _uiManager;
     private FieldObjectManager _fieldObjectManager;
@@ -15,8 +15,7 @@ public class CameraManager : ManagerBase<CameraManager>
     #endregion
 
     #region 2. Properties
-
-    //
+//
 
     #endregion
 
@@ -40,7 +39,7 @@ public class CameraManager : ManagerBase<CameraManager>
 
         _uiManager.OnClosePopup.Subscribe(_ =>
         {
-            _mainCamera.DisposeFollowSparrowCameraMoving();
+            _mainCameraMono.DisposeFollowSparrowCameraMoving();
 
             ReturnToDefaultCameraSetting();
         });
@@ -48,7 +47,7 @@ public class CameraManager : ManagerBase<CameraManager>
 
     public void SetMainCamera(MainCameraMono mainCameraMono)
     {
-        _mainCamera = mainCameraMono;
+        _mainCameraMono = mainCameraMono;
     }
     #endregion
 
@@ -60,7 +59,10 @@ public class CameraManager : ManagerBase<CameraManager>
 
     #region 5. Request Methods
 
-    //
+    public Ray RequestRay(Vector2 pos)
+    {
+        return _mainCameraMono.GetRay(pos);
+    }
 
     #endregion
 
@@ -76,12 +78,12 @@ public class CameraManager : ManagerBase<CameraManager>
 
         var fieldObjectTransform = fieldObjectBase.transform;
 
-        _mainCamera.UpdateToFollowFieldObject(fieldObjectTransform);
+        _mainCameraMono.UpdateToFollowFieldObject(fieldObjectTransform);
     }
 
     private void ReturnToDefaultCameraSetting()
     {
-        _mainCamera.ReturnToDefaultCameraSetting();
+        _mainCameraMono.ReturnToDefaultCameraSetting();
     }
 
     #endregion

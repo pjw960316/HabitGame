@@ -80,6 +80,15 @@ public class InputManagerMono : MonoBehaviour
     private void OnHandleTouch(InputAction.CallbackContext context)
     {
         Debug.Log($"{_curPointerPos}");
+
+        var ray = CameraManager.Instance.RequestRay(_curPointerPos);
+
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            Debug.Log($"Hit : {hit.collider.name}");
+        }
+
+        Debug.Log("OnHandleTouch");
     }
     
     // note
