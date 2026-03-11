@@ -1039,30 +1039,14 @@ GameObject:
   m_Component:
   - component: {fileID: 332730281}
   - component: {fileID: 332730280}
-  - component: {fileID: 332730279}
+  - component: {fileID: 332730282}
   m_Layer: 0
-  m_Name: InputManager
+  m_Name: InputController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &332730279
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 332730278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73c27a3da8ec9e14283b206c37a30b1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerInput: {fileID: 332730280}
-  _moveInput: {fileID: 557731431597812671, guid: e0968cf3f7424d5428decad2822c1747, type: 3}
-  _touchInput: {fileID: -2403698124459041972, guid: e0968cf3f7424d5428decad2822c1747, type: 3}
-  _touchInputPosition: {fileID: -3270224979326144588, guid: e0968cf3f7424d5428decad2822c1747, type: 3}
 --- !u!114 &332730280
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1116,6 +1100,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &332730282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 332730278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 083dbf375fbf65543a825384026044e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerInput: {fileID: 332730280}
+  _moveInput: {fileID: 557731431597812671, guid: e0968cf3f7424d5428decad2822c1747, type: 3}
+  _touchInput: {fileID: -2403698124459041972, guid: e0968cf3f7424d5428decad2822c1747, type: 3}
+  _touchInputPosition: {fileID: -3270224979326144588, guid: e0968cf3f7424d5428decad2822c1747, type: 3}
 --- !u!1001 &398070937
 PrefabInstance:
   m_ObjectHideFlags: 0
