@@ -48,7 +48,7 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
         _myCharacterManager.OnUpdateRoutineSuccess.Subscribe(OnChangeSparrowSpinState).AddTo(_disposable);
         _inputManager.OnTouchedFieldObject
             .FirstOrDefault(target => target?.InstanceID == _fieldObjectSparrow.InstanceID)
-            .Subscribe(target => Debug.Log($"{target}")).AddTo(_disposable);
+            .Subscribe(OnTouched).AddTo(_disposable);
     }
 
     #endregion
@@ -93,6 +93,12 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
     {
         _animalData.ChangeAnimalState(EAnimalState.IDLE);
         ChangeToWalkStateAfterDelay(COLLIDED_ROCK_ANIMATION_CHANGE_SECOND, HALF_ROTATION);
+    }
+
+    protected void OnTouched(FieldObjectBase targetSparrow)
+    {
+        // todo : 여기서 터치 기능 추가
+        Debug.Log(targetSparrow);
     }
 
     #endregion
