@@ -42,7 +42,6 @@ public class InputManager : ManagerBase<InputManager>
 
     public void UpdateMoveVector(Vector2 vector)
     {
-        Debug.Log($"{vector}");
         _moveVector = vector;
     }
 
