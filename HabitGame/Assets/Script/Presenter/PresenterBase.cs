@@ -9,6 +9,7 @@ public abstract class PresenterBase : IPresenter
     protected UIToastManager _uiToastManager;
     protected ScriptableObjectManager _scriptableObjectManager;
     protected MyCharacterManager _myCharacterManager;
+    protected InputManager _inputManager;
     protected StringManager _stringManager;
     protected PresenterManager _presenterManager;
     protected MockServerManager _serverManager;
@@ -38,6 +39,8 @@ public abstract class PresenterBase : IPresenter
         _stringManager = StringManager.Instance;
         _presenterManager = PresenterManager.Instance;
         _serverManager = MockServerManager.Instance;
+        _inputManager = InputManager.Instance;
+        
         _view = view;
 
         InitializeView();

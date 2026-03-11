@@ -1,20 +1,22 @@
-
-// note : 라우팅
-
 using System;
+using UniRx;
 using UnityEngine;
 
+// note : Mono 상속 절대 금지
 public class InputManager : ManagerBase<InputManager>
 {
     #region 1. Fields
 
     private Vector2 _moveVector;
+    private readonly ReactiveProperty<FieldObjectBase> _touchedFieldObject = new();
 
     #endregion
 
     #region 2. Properties
 
     public Vector2 MoveVector => _moveVector;
+
+    public IObservable<FieldObjectBase> OnTouchedFieldObject => _touchedFieldObject;
 
     #endregion
 
@@ -40,7 +42,16 @@ public class InputManager : ManagerBase<InputManager>
 
     public void UpdateMoveVector(Vector2 vector)
     {
+        Debug.Log($"{vector}");
         _moveVector = vector;
+    }
+
+    public void UpdateCurTouchTarget(FieldObjectBase fieldObject)
+    {
+        if (fieldObject as FieldObjectSparrow)
+        {
+            _touchedFieldObject.Value = fieldObject;
+        }
     }
 
     #endregion

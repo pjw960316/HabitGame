@@ -16,6 +16,7 @@ public class PlayerInputController : MonoBehaviour
     [SerializeField] private InputActionReference _touchInputPosition;
 
     private Vector2 _curTouchPosition;
+    
     private InputManager _inputManager;
     private CameraManager _cameraManager;
     
@@ -36,6 +37,8 @@ public class PlayerInputController : MonoBehaviour
         _inputManager = InputManager.Instance;
         _cameraManager = CameraManager.Instance;
 
+        _playerInput.onActionTriggered += OnHandleInput;
+        
         InitializeActionDictionary();
     }
     
@@ -44,8 +47,6 @@ public class PlayerInputController : MonoBehaviour
         _actionDict[_moveInput.action] = OnHandleMove;
         _actionDict[_touchInput.action] = OnHandleTouch;
         _actionDict[_touchInputPosition.action] = OnHandleTouchPosition;
-        
-        _playerInput.onActionTriggered += OnHandleInput;
     }
 
     #endregion
@@ -58,16 +59,14 @@ public class PlayerInputController : MonoBehaviour
 
         if (contextState == InputActionPhase.Started)
         {
+            //
         }
-        else if (contextState == InputActionPhase.Performed)
+        else if (contextState == InputActionPhase.Performed || contextState == InputActionPhase.Canceled)
         {
             if (_actionDict.TryGetValue(context.action, out var handler))
             {
                 handler.Invoke(context);
             }
-        }
-        else if (contextState == InputActionPhase.Canceled)
-        {
         }
     }
 
@@ -80,12 +79,17 @@ public class PlayerInputController : MonoBehaviour
     
     public void OnHandleTouch(InputAction.CallbackContext context)
     {
-        var ray = _cameraManager.RequestRay(_curTouchPosition);
-
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        if (context.canceled)
         {
-            Debug.Log($"{_curTouchPosition}");
-            Debug.Log($"Hit : {hit.collider.name}");
+            var ray = _cameraManager.RequestRay(_curTouchPosition);
+
+            if (Physics.Raycast(ray, out var hit))
+            {
+                if (hit.collider.TryGetComponent<FieldObjectSparrow>(out var sparrow))
+                {
+                    _inputManager.UpdateCurTouchTarget(sparrow);
+                }
+            }
         }
     }
     

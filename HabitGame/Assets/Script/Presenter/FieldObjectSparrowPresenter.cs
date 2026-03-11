@@ -1,5 +1,6 @@
 using System;
 using UniRx;
+using UnityEngine;
 
 public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
 {
@@ -45,6 +46,9 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
         base.BindEvent();
 
         _myCharacterManager.OnUpdateRoutineSuccess.Subscribe(OnChangeSparrowSpinState).AddTo(_disposable);
+        _inputManager.OnTouchedFieldObject
+            .FirstOrDefault(target => target?.InstanceID == _fieldObjectSparrow.InstanceID)
+            .Subscribe(target => Debug.Log($"{target}")).AddTo(_disposable);
     }
 
     #endregion
