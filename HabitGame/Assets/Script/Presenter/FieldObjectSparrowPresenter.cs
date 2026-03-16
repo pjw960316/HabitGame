@@ -45,7 +45,9 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
     {
         base.BindEvent();
 
-        _myCharacterManager.OnUpdateRoutineSuccess.Subscribe(OnChangeSparrowSpinState).AddTo(_disposable);
+        _myCharacterManager.OnUpdateRoutineSuccess
+            .Subscribe(OnChangeSparrowSpinState).AddTo(_disposable);
+        
         _inputManager.OnTouchedFieldObject
             .FirstOrDefault(target => target?.InstanceID == _fieldObjectSparrow.InstanceID)
             .Subscribe(OnTouched).AddTo(_disposable);
@@ -97,8 +99,9 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
 
     protected void OnTouched(FieldObjectBase targetSparrow)
     {
-        // todo : 여기서 터치 기능 추가
-        Debug.Log(targetSparrow);
+        // data에 상태 갱신
+        // view에 컬러 갱신
+        _fieldObjectSparrow.ChangeFieldObjectColor();
     }
 
     #endregion

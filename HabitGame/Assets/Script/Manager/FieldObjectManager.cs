@@ -1,25 +1,34 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UniRx;
 
+// note : 
+// fieldObjectManager가 fieldObject보다 먼저 생성된다.
 public class FieldObjectManager : ManagerBase<FieldObjectManager>
 {
     #region 1. Fields
 
     // note : key = InstanceID (UnityEngine.Object)
+    // todo : manager가 view를 들고 있다... -> presenter 들고 있게 수정하자.
     private readonly Dictionary<int, FieldObjectBase> _activeFieldObjectDictionary = new();
+    
+    private readonly Subject<Unit> _onUpdateTouchedFieldObject = new();
 
     #endregion
 
     #region 2. Properties
 
-    //
+    public Subject<Unit> OnUpdateTouchedFieldObject => _onUpdateTouchedFieldObject;
 
     #endregion
 
     #region 3. Constructor
 
-    //
+    public sealed override void Initialize()
+    {
+        //
+    }
 
     #endregion
 

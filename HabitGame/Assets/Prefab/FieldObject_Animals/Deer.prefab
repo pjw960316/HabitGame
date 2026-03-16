@@ -635,9 +635,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbc213abafed995439b3ecd7afc7d7f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _myFieldObjectTransform: {fileID: 3161298468613301832}
   _animalSpeed: 0
   _animalAnimator: {fileID: 6147876873679586677}
+  _lodGroup: {fileID: 6795331777207300919}
 --- !u!1 &5512041106863543837
 GameObject:
   m_ObjectHideFlags: 0
