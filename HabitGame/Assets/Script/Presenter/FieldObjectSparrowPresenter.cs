@@ -99,8 +99,10 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
 
     protected void OnTouched(FieldObjectBase targetSparrow)
     {
-        // data에 상태 갱신
-        // view에 컬러 갱신
+        // todo : 
+        // 리팩토링하다 보니 Manager가 view를 들고 있음.
+        // manager가 view 말고, 매우 간소화 된 c# 데이터를 들고 있고, 접근 주체도 달라야 한다고 생각함.
+        // 그걸 해결하고 unirx로 Touch를 처리한다. 
         _fieldObjectSparrow.ChangeFieldObjectColor();
     }
 
