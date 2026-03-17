@@ -20,6 +20,8 @@ public abstract class FieldObjectPresenterBase : PresenterBase
     public override void Initialize(IView view)
     {
         base.Initialize(view);
+
+        RegisterAtFieldObjectManager();
     }
 
     protected override void InitializeView()
@@ -67,6 +69,18 @@ public abstract class FieldObjectPresenterBase : PresenterBase
     private void TerminateModel()
     {
         _model?.Terminate();
+    }
+    
+    private void RegisterAtFieldObjectManager()
+    {
+        _fieldObjectManager.RegisterFieldObjectPresenter(this);
+        
+        _fieldObjectManager.PrintFieldObjectPresenterDictionary();
+    }
+
+    public int GetFieldObjectInstanceID()
+    {
+        return _fieldObjectBase.InstanceID;
     }
 
     #endregion

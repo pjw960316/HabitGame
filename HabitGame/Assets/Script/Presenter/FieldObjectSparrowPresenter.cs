@@ -116,7 +116,10 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
 
     #region 6. Methods
 
-    //
+    public FieldObjectSparrow GetFieldObjectSparrow()
+    {
+        return _fieldObjectSparrow;
+    }
 
     #endregion
 }

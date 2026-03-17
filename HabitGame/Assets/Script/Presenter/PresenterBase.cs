@@ -13,6 +13,7 @@ public abstract class PresenterBase : IPresenter
     protected StringManager _stringManager;
     protected PresenterManager _presenterManager;
     protected MockServerManager _serverManager;
+    protected FieldObjectManager _fieldObjectManager;
 
     protected IView _view;
     protected IModel _model;
@@ -40,9 +41,10 @@ public abstract class PresenterBase : IPresenter
         _presenterManager = PresenterManager.Instance;
         _serverManager = MockServerManager.Instance;
         _inputManager = InputManager.Instance;
+        _fieldObjectManager = FieldObjectManager.Instance;
         
         _view = view;
-
+        
         InitializeView();
         InitializeModel();
     }
@@ -86,6 +88,7 @@ public abstract class PresenterBase : IPresenter
     {
         _disposable?.Dispose();
     }
+    
 
     #endregion
 }

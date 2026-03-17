@@ -6,7 +6,6 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
     #region 1. Fields
     
     protected PresenterManager _presenterManager;
-    protected FieldObjectManager _fieldObjectManager;
     protected EFieldObject _eFieldObjectKey;
     protected int _instanceID;
     
@@ -18,8 +17,10 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 
     #region 2. Properties
 
-    public int InstanceID => _instanceID;
+    public int InstanceID => _instanceID; 
     
+    // todo : 
+    // 얘는 model이 관리하는 게 맞는 듯.
     public EFieldObject EFieldObjectKey => _eFieldObjectKey;
 
     public Subject<Unit> OnDestroyFieldObject => _onDestroyFieldObject;
@@ -32,6 +33,8 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 
     private void Awake()
     {
+        // todo : 
+        // 이거 model에서 하는 게 맞나?
         InitializeEnumFieldObjectKey();
         
         Initialize();
@@ -50,16 +53,17 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
     {
     }
 
+    // todo : 수정
     protected virtual void Initialize()
     {
         _presenterManager = PresenterManager.Instance;
-        _fieldObjectManager = FieldObjectManager.Instance;
+        //_fieldObjectManager = FieldObjectManager.Instance;
         
         _instanceID = GetInstanceID();
         _fieldObjectTransform = transform;
 
         // note : 반드시 EFieldObjectKey가 선행 세팅 되어야 한다.
-        _fieldObjectManager.RegisterFieldObjectInActiveDictionary(this);
+        //_fieldObjectManager.RegisterFieldObjectInActiveDictionary(this);
     }
 
     protected abstract void InitializeEnumFieldObjectKey();
