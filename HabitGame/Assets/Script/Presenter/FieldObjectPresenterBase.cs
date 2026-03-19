@@ -75,7 +75,7 @@ public abstract class FieldObjectPresenterBase : PresenterBase
     {
         _fieldObjectManager.RegisterFieldObjectPresenter(this);
         
-        _fieldObjectManager.PrintFieldObjectPresenterDictionary();
+        //_fieldObjectManager.PrintFieldObjectPresenterDictionary();
     }
 
     public int GetFieldObjectInstanceID()

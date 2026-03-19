@@ -11,7 +11,8 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>
 {
     #region 1. Fields
 
-    // note : key = InstanceID (UnityEngine.Object)
+    // note :
+    // key = InstanceID (UnityEngine.Object)
     private readonly Dictionary<int, FieldObjectPresenterBase> _fieldObjectPresenterDict = new();
     private readonly Subject<Unit> _onUpdateTouchedFieldObject = new();
     private readonly Random _randomMaker = new();
