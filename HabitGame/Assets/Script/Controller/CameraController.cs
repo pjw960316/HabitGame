@@ -28,9 +28,7 @@ public class CameraController : MonoBehaviour
     #endregion
 
     #region 2. Properties
-
-    public Camera MainCamera => _mainCamera;
-
+    //
     #endregion
 
     #region 3. Constructor
@@ -42,6 +40,18 @@ public class CameraController : MonoBehaviour
 
     private void Initialize()
     {
+        // todo : 
+        // controller가 manager를 들고 있지 않는 구조가 좋긴한데.
+        // 일단 하고, 필요시에 rx로 
+        _cameraManager = CameraManager.Instance;
+        
+        if (_cameraManager == null)
+        {
+            Debug.LogError("카메라 매니저가 null 입니다.");
+
+            return;
+        }
+        
         _cameraManager.SetCameraController(this);
         _mainCameraTransform = _mainCamera.transform;
 
@@ -51,8 +61,6 @@ public class CameraController : MonoBehaviour
 
     private void InitializeCameraFOV()
     {
-        // note :
-        // 개발 단계에서 기획자가 최선의 각도를 맞춰 놓았을 것.
         var originFOVDegree = _mainCamera.fieldOfView;
         var originTanFOV = Mathf.Tan(originFOVDegree * Mathf.Deg2Rad / 2f);
 
@@ -92,7 +100,6 @@ public class CameraController : MonoBehaviour
         _mainCamera.fieldOfView = FOLLOWING_CAMERA_FOV;
 
         _followFieldObjectObservable?.Dispose();
-        
         _followFieldObjectObservable = Observable
             .Interval(TimeSpan.FromMilliseconds(FOLLOWING_CAMERA_UPDATE_MILLISECONDS))
             .Subscribe(_ =>
@@ -108,19 +115,14 @@ public class CameraController : MonoBehaviour
                 _mainCameraTransform.position = fieldObjectTransform.position + FOLLOWING_CAMERA_POSITION_ADJUST_VECTOR;
             });
     }
-
-    public void DisposeFollowFieldObject()
+    
+    public void ReturnToDefaultCameraSetting()
     {
         _followFieldObjectObservable?.Dispose();
         
         _mainCameraTransform.position = _initializedMainCameraPosition;
         _mainCameraTransform.rotation = _initializedMainCameraRotation;
         _mainCamera.fieldOfView = _initializedMainCameraFOV;
-    }
-
-    public void ReturnToDefaultCameraSetting()
-    {
-        
     }
 
     public Ray GetRay(Vector2 pos)

@@ -81,7 +81,7 @@ public class PlayerInputController : MonoBehaviour
     {
         if (context.canceled)
         {
-            var ray = _cameraManager.RequestRay(_curTouchPosition);
+            var ray = _cameraManager.GetRay(_curTouchPosition);
 
             if (Physics.Raycast(ray, out var hit))
             {

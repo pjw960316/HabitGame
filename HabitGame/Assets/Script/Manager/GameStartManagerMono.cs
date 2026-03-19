@@ -58,6 +58,8 @@ public class GameStartManagerMono : MonoBehaviour
         // note : 이 시점 이후에는 싱글턴이 null이 되지 않음이 보장된다.
 
         InitializeManagers();
+
+        //PrintManagers();
     }
 
     #endregion
@@ -206,6 +208,14 @@ public class GameStartManagerMono : MonoBehaviour
         Debug.Log("Scene Change");
         
         SceneManager.LoadScene(MAIN_SCENE_NAME);
+    }
+
+    private void PrintManagers()
+    {
+        foreach (var manager in _managerList)
+        {
+            Debug.Log(manager);
+        }
     }
 
     #endregion

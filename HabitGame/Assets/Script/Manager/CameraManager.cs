@@ -41,7 +41,7 @@ public class CameraManager : ManagerBase<CameraManager>
 
     public void SetCameraController(CameraController cameraController)
     {
-        if (_cameraController == null)
+        if (cameraController == null)
         {
             Debug.LogError("CameraController is not set.");
             return;
