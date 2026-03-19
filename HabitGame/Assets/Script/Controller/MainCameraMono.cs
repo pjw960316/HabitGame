@@ -3,7 +3,7 @@ using UniRx;
 using UnityEngine;
 using Observable = UniRx.Observable;
 
-public class MainCameraMono : MonoBehaviour
+public class CameraController : MonoBehaviour
 {
     #region 1. Fields
 
@@ -14,6 +14,7 @@ public class MainCameraMono : MonoBehaviour
     [SerializeField] private Camera _mainCamera;
 
     private CameraManager _cameraManager;
+    
     private Transform _mainCameraTransform;
     private IDisposable _followFieldObjectObservable;
 
@@ -37,23 +38,21 @@ public class MainCameraMono : MonoBehaviour
     private void Awake()
     {
         Initialize();
-
-        _cameraManager.SetMainCamera(this);
     }
 
     private void Initialize()
     {
-        _cameraManager = CameraManager.Instance;
+        _cameraManager.SetCameraController(this);
         _mainCameraTransform = _mainCamera.transform;
 
         InitializeCameraFOV();
-
         CacheInitializedCameraData();
     }
 
     private void InitializeCameraFOV()
     {
-        // note : 개발 단계에서 기획자가 최선의 각도를 맞춰 놓았을 것.
+        // note :
+        // 개발 단계에서 기획자가 최선의 각도를 맞춰 놓았을 것.
         var originFOVDegree = _mainCamera.fieldOfView;
         var originTanFOV = Mathf.Tan(originFOVDegree * Mathf.Deg2Rad / 2f);
 
@@ -88,11 +87,12 @@ public class MainCameraMono : MonoBehaviour
 
     #region 6. Methods
 
-    public void UpdateToFollowFieldObject(Transform fieldObjectTransform)
+    public void StartFollowFieldObject(Transform fieldObjectTransform)
     {
         _mainCamera.fieldOfView = FOLLOWING_CAMERA_FOV;
 
         _followFieldObjectObservable?.Dispose();
+        
         _followFieldObjectObservable = Observable
             .Interval(TimeSpan.FromMilliseconds(FOLLOWING_CAMERA_UPDATE_MILLISECONDS))
             .Subscribe(_ =>
@@ -109,22 +109,24 @@ public class MainCameraMono : MonoBehaviour
             });
     }
 
-    public void DisposeFollowSparrowCameraMoving()
+    public void DisposeFollowFieldObject()
     {
         _followFieldObjectObservable?.Dispose();
+        
+        _mainCameraTransform.position = _initializedMainCameraPosition;
+        _mainCameraTransform.rotation = _initializedMainCameraRotation;
+        _mainCamera.fieldOfView = _initializedMainCameraFOV;
     }
 
     public void ReturnToDefaultCameraSetting()
     {
-        _mainCameraTransform.position = _initializedMainCameraPosition;
-        _mainCameraTransform.rotation = _initializedMainCameraRotation;
-        _mainCamera.fieldOfView = _initializedMainCameraFOV;
+        
     }
 
     public Ray GetRay(Vector2 pos)
     {
         return _mainCamera.ScreenPointToRay(pos);
     }
-
+    
     #endregion
 }

@@ -5,7 +5,7 @@ public class CameraManager : ManagerBase<CameraManager>
 {
     #region 1. Fields
 
-    private MainCameraMono _mainCameraMono;
+    private CameraController _cameraController;
 
     private UIManager _uiManager;
     private FieldObjectManager _fieldObjectManager;
@@ -15,8 +15,7 @@ public class CameraManager : ManagerBase<CameraManager>
     #endregion
 
     #region 2. Properties
-//
-
+    //
     #endregion
 
     #region 3. Constructor
@@ -30,60 +29,49 @@ public class CameraManager : ManagerBase<CameraManager>
     public sealed override void BindEvent()
     {
         _uiManager.OnOpenPopup
-            .Subscribe(_ =>
-            {
-                var randomSparrow = _fieldObjectManager.GetRandomSparrow();
-                SetMainCameraToFollowSparrow(randomSparrow);
-            })
+            .Subscribe(_ => { RequestFollowSparrow(); })
             .AddTo(_followSparrowCameraMoveDisposable);
 
-        _uiManager.OnClosePopup.Subscribe(_ =>
-        {
-            _mainCameraMono.DisposeFollowSparrowCameraMoving();
-
-            ReturnToDefaultCameraSetting();
-        });
+        _uiManager.OnClosePopup
+            .Subscribe(_ =>
+            {
+                _cameraController.ReturnToDefaultCameraSetting();
+            }).AddTo(_followSparrowCameraMoveDisposable);
     }
 
-    public void SetMainCamera(MainCameraMono mainCameraMono)
+    public void SetCameraController(CameraController cameraController)
     {
-        _mainCameraMono = mainCameraMono;
+        if (_cameraController == null)
+        {
+            Debug.LogError("CameraController is not set.");
+            return;
+        }
+        
+        _cameraController = cameraController;
     }
+
     #endregion
 
     #region 4. EventHandlers
-
     //
-
     #endregion
 
     #region 5. Request Methods
 
-    public Ray RequestRay(Vector2 pos)
+    private void RequestFollowSparrow()
     {
-        return _mainCameraMono.GetRay(pos);
+        var randomSparrow = _fieldObjectManager.GetRandomSparrow();
+
+        _cameraController.StartFollowFieldObject(randomSparrow.transform);
     }
 
     #endregion
 
     #region 6. Methods
 
-    private void SetMainCameraToFollowSparrow(FieldObjectBase fieldObjectBase)
+    public Ray GetRay(Vector2 pos)
     {
-        if (fieldObjectBase == null)
-        {
-            Debug.Log("FieldObject is Destroyed -> Not change Camera FOV");
-            return;
-        }
-
-        var fieldObjectTransform = fieldObjectBase.transform;
-
-        _mainCameraMono.UpdateToFollowFieldObject(fieldObjectTransform);
-    }
-
-    private void ReturnToDefaultCameraSetting()
-    {
-        _mainCameraMono.ReturnToDefaultCameraSetting();
+        return _cameraController.GetRay(pos);
     }
 
     #endregion
