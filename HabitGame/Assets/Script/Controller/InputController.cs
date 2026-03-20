@@ -1,26 +1,71 @@
-using System;
 using System.Collections.Generic;
+using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// note : inspector를 통해 데이터 받고, 가공하고, 예외처리 하고, Manager에게 열어준다.
+public enum EInput
+{
+    MOVE,
+    TOUCH,
+    TOUCH_POS
+}
+
+public interface IInputHandler
+{
+    public void HandleInput(InputAction.CallbackContext context);
+}
+
+public class MoveHandler : IInputHandler
+{
+    public void HandleInput(InputAction.CallbackContext context)
+    {
+        var pathPair = context.ReadValue<Vector2>();
+
+        _inputManager.UpdateMoveVector(pathPair);
+    }
+}
+
+public class TouchHandler : IInputHandler
+{
+    public void HandleInput(InputAction.CallbackContext context)
+    {
+        if (context.canceled)
+        {
+            var ray = _cameraManager.GetRay(_curTouchPosition);
+
+            if (Physics.Raycast(ray, out var hit))
+            {
+                if (hit.collider.TryGetComponent<FieldObjectSparrow>(out var sparrow))
+                {
+                    _inputManager.UpdateCurTouchTarget(sparrow);
+                }
+            }
+        }
+    }
+}
+
+public class TouchPosHandler : IInputHandler
+{
+    public void HandleInput(InputAction.CallbackContext context)
+    {
+        _curTouchPosition = context.ReadValue<Vector2>();
+    }
+}
+
 public class PlayerInputController : MonoBehaviour
 {
     #region 1. Fields
-    
+
     [SerializeField] private PlayerInput _playerInput;
 
-    // InputActionReference 추가하면 Dictionary에 추가하세요
-    [SerializeField] private InputActionReference _moveInput;
-    [SerializeField] private InputActionReference _touchInput;
-    [SerializeField] private InputActionReference _touchInputPosition;
+    private readonly SerializedDictionary<EInput, InputActionReference> _inspectorInputDict = new();
+    private readonly Dictionary<InputAction, EInput> _inputActionDict = new();
+    private readonly Dictionary<EInput, IInputHandler> _handlerDict = new();
 
     private Vector2 _curTouchPosition;
-    
+
     private InputManager _inputManager;
     private CameraManager _cameraManager;
-    
-    private readonly Dictionary<InputAction, Action<InputAction.CallbackContext>> _actionDict = new();
 
     #endregion
 
@@ -38,15 +83,24 @@ public class PlayerInputController : MonoBehaviour
         _cameraManager = CameraManager.Instance;
 
         _playerInput.onActionTriggered += OnHandleInput;
-        
-        InitializeActionDictionary();
+
+        InitializeInputActionDictionary();
     }
-    
-    private void InitializeActionDictionary()
+
+    private void InitializeInputActionDictionary()
     {
-        _actionDict[_moveInput.action] = OnHandleMove;
-        _actionDict[_touchInput.action] = OnHandleTouch;
-        _actionDict[_touchInputPosition.action] = OnHandleTouchPosition;
+        // mapping
+        foreach (var kv in _inspectorInputDict)
+        {
+            _inputActionDict[kv.Value.action] = kv.Key;
+        }
+
+        // strategy pattern mapping
+        foreach (var kv in _inputActionDict)
+        {
+            var enumKey = kv.Value;
+            _handlerDict[enumKey] = GetHandler(enumKey);
+        }
     }
 
     #endregion
@@ -63,39 +117,34 @@ public class PlayerInputController : MonoBehaviour
         }
         else if (contextState == InputActionPhase.Performed || contextState == InputActionPhase.Canceled)
         {
-            if (_actionDict.TryGetValue(context.action, out var handler))
-            {
-                handler.Invoke(context);
-            }
+            var inputEnum = GetInputEnum(context);
+            var handler = _handlerDict[inputEnum];
+
+            handler.HandleInput(context);
         }
     }
 
-    public void OnHandleMove(InputAction.CallbackContext context)
+    private EInput GetInputEnum(InputAction.CallbackContext context)
     {
-        var pathPair = context.ReadValue<Vector2>();
-        
-        _inputManager.UpdateMoveVector(pathPair);
+        var action = context.action;
+
+        return _inputActionDict[action];
     }
-    
-    public void OnHandleTouch(InputAction.CallbackContext context)
+
+    private IInputHandler GetHandler(EInput eInput)
     {
-        if (context.canceled)
+        switch (eInput)
         {
-            var ray = _cameraManager.GetRay(_curTouchPosition);
-
-            if (Physics.Raycast(ray, out var hit))
-            {
-                if (hit.collider.TryGetComponent<FieldObjectSparrow>(out var sparrow))
-                {
-                    _inputManager.UpdateCurTouchTarget(sparrow);
-                }
-            }
+            case EInput.MOVE:
+                return new MoveHandler();
+            case EInput.TOUCH:
+                return new TouchHandler();
+            case EInput.TOUCH_POS:
+                return new TouchPosHandler();
         }
-    }
-    
-    public void OnHandleTouchPosition(InputAction.CallbackContext context)
-    {
-        _curTouchPosition = context.ReadValue<Vector2>();
+
+        // todo : warning
+        return null;
     }
 
     #endregion
