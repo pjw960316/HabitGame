@@ -2,7 +2,6 @@ using System;
 using UniRx;
 using UnityEngine;
 
-// note : Mono 상속 절대 금지
 public class InputManager : ManagerBase<InputManager>
 {
     #region 1. Fields
