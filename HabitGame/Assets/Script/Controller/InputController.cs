@@ -52,7 +52,7 @@ public class TouchPosHandler : IInputHandler
     }
 }
 
-public class PlayerInputController : MonoBehaviour
+public class InputController : MonoBehaviour, IController
 {
     #region 1. Fields
 
@@ -64,7 +64,6 @@ public class PlayerInputController : MonoBehaviour
 
     private Vector2 _curTouchPosition;
 
-    private InputManager _inputManager;
     private CameraManager _cameraManager;
 
     #endregion
@@ -79,9 +78,10 @@ public class PlayerInputController : MonoBehaviour
 
     private void Awake()
     {
-        _inputManager = InputManager.Instance;
         _cameraManager = CameraManager.Instance;
 
+        InputManager.Instance.RegisterController(this);
+        
         _playerInput.onActionTriggered += OnHandleInput;
 
         InitializeInputActionDictionary();
@@ -157,7 +157,10 @@ public class PlayerInputController : MonoBehaviour
 
     #region 6. Methods
 
-    // 
+    public void Test()
+    {
+        
+    }
 
     #endregion
 }

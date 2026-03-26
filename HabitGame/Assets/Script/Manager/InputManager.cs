@@ -2,7 +2,7 @@ using System;
 using UniRx;
 using UnityEngine;
 
-public class InputManager : ManagerBase<InputManager>
+public class InputManager : ControllerManagerBase<InputManager,InputController>
 {
     #region 1. Fields
 
