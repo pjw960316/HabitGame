@@ -21,7 +21,7 @@ public class MoveHandler : IInputHandler
     {
         var pathPair = context.ReadValue<Vector2>();
 
-        _inputManager.UpdateMoveVector(pathPair);
+        //_inputManager.UpdateMoveVector(pathPair);
     }
 }
 
@@ -31,7 +31,7 @@ public class TouchHandler : IInputHandler
     {
         if (context.canceled)
         {
-            var ray = _cameraManager.GetRay(_curTouchPosition);
+            /*var ray = _cameraManager.GetRay(_curTouchPosition);
 
             if (Physics.Raycast(ray, out var hit))
             {
@@ -39,7 +39,7 @@ public class TouchHandler : IInputHandler
                 {
                     _inputManager.UpdateCurTouchTarget(sparrow);
                 }
-            }
+            }*/
         }
     }
 }
@@ -48,7 +48,7 @@ public class TouchPosHandler : IInputHandler
 {
     public void HandleInput(InputAction.CallbackContext context)
     {
-        _curTouchPosition = context.ReadValue<Vector2>();
+        //_curTouchPosition = context.ReadValue<Vector2>();
     }
 }
 
