@@ -22,7 +22,7 @@ public class MoveHandler : IInputHandler
     {
         var pathPair = context.ReadValue<Vector2>();
 
-        InputManager.Instance.UpdateMoveVector(pathPair);
+        inputManager.UpdateMoveVector(pathPair);
     }
 }
 
@@ -38,7 +38,7 @@ public class TouchHandler : IInputHandler
             {
                 if (hit.collider.TryGetComponent<FieldObjectSparrow>(out var sparrow))
                 {
-                    InputManager.Instance.UpdateCurTouchTarget(sparrow);
+                    inputManager.UpdateCurTouchTarget(sparrow);
                 }
             }
         }
