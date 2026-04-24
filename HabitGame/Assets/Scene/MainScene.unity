@@ -1113,9 +1113,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerInput: {fileID: 332730280}
-  _moveInput: {fileID: 557731431597812671, guid: e0968cf3f7424d5428decad2822c1747, type: 3}
-  _touchInput: {fileID: -2403698124459041972, guid: e0968cf3f7424d5428decad2822c1747, type: 3}
-  _touchInputPosition: {fileID: -3270224979326144588, guid: e0968cf3f7424d5428decad2822c1747, type: 3}
+  _inspectorInputDict:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 557731431597812671, guid: e0968cf3f7424d5428decad2822c1747, type: 3}
+    - Key: 1
+      Value: {fileID: -2403698124459041972, guid: e0968cf3f7424d5428decad2822c1747, type: 3}
+    - Key: 2
+      Value: {fileID: -3270224979326144588, guid: e0968cf3f7424d5428decad2822c1747, type: 3}
 --- !u!1001 &398070937
 PrefabInstance:
   m_ObjectHideFlags: 0

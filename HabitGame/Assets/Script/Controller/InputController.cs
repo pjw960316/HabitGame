@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
@@ -12,43 +13,44 @@ public enum EInput
 
 public interface IInputHandler
 {
-    public void HandleInput(InputAction.CallbackContext context);
+    public void HandleInput(InputAction.CallbackContext context, InputManager inputManager);
 }
 
 public class MoveHandler : IInputHandler
 {
-    public void HandleInput(InputAction.CallbackContext context)
+    public void HandleInput(InputAction.CallbackContext context, InputManager inputManager)
     {
         var pathPair = context.ReadValue<Vector2>();
 
-        //_inputManager.UpdateMoveVector(pathPair);
+        InputManager.Instance.UpdateMoveVector(pathPair);
     }
 }
 
 public class TouchHandler : IInputHandler
 {
-    public void HandleInput(InputAction.CallbackContext context)
+    public void HandleInput(InputAction.CallbackContext context, InputManager inputManager)
     {
         if (context.canceled)
         {
-            /*var ray = _cameraManager.GetRay(_curTouchPosition);
+            var ray = CameraManager.Instance.GetRay(inputManager.GetCurTouchPos());
 
             if (Physics.Raycast(ray, out var hit))
             {
                 if (hit.collider.TryGetComponent<FieldObjectSparrow>(out var sparrow))
                 {
-                    _inputManager.UpdateCurTouchTarget(sparrow);
+                    InputManager.Instance.UpdateCurTouchTarget(sparrow);
                 }
-            }*/
+            }
         }
     }
 }
 
 public class TouchPosHandler : IInputHandler
 {
-    public void HandleInput(InputAction.CallbackContext context)
+    public void HandleInput(InputAction.CallbackContext context, InputManager inputManager)
     {
-        //_curTouchPosition = context.ReadValue<Vector2>();
+        var curTouchPosition = context.ReadValue<Vector2>();
+        inputManager.UpdateCurTouchPosition(curTouchPosition);
     }
 }
 
@@ -57,14 +59,14 @@ public class InputController : MonoBehaviour, IController
     #region 1. Fields
 
     [SerializeField] private PlayerInput _playerInput;
-
-    private readonly SerializedDictionary<EInput, InputActionReference> _inspectorInputDict = new();
+    [SerializeField] private SerializedDictionary<EInput, InputActionReference> _inspectorInputDict = new();
+    
     private readonly Dictionary<InputAction, EInput> _inputActionDict = new();
     private readonly Dictionary<EInput, IInputHandler> _handlerDict = new();
 
     private Vector2 _curTouchPosition;
 
-    private CameraManager _cameraManager;
+    private InputManager _inputManager;
 
     #endregion
 
@@ -78,13 +80,12 @@ public class InputController : MonoBehaviour, IController
 
     private void Awake()
     {
-        _cameraManager = CameraManager.Instance;
-
-        InputManager.Instance.RegisterController(this);
+        _inputManager = InputManager.Instance;
+        _inputManager.RegisterController(this);
+        
+        InitializeInputActionDictionary();
         
         _playerInput.onActionTriggered += OnHandleInput;
-
-        InitializeInputActionDictionary();
     }
 
     private void InitializeInputActionDictionary()
@@ -92,6 +93,7 @@ public class InputController : MonoBehaviour, IController
         // mapping
         foreach (var kv in _inspectorInputDict)
         {
+            Debug.Log($"{kv.Value.action} , {kv.Key}");
             _inputActionDict[kv.Value.action] = kv.Key;
         }
 
@@ -120,7 +122,7 @@ public class InputController : MonoBehaviour, IController
             var inputEnum = GetInputEnum(context);
             var handler = _handlerDict[inputEnum];
 
-            handler.HandleInput(context);
+            handler.HandleInput(context, _inputManager);
         }
     }
 
@@ -157,10 +159,7 @@ public class InputController : MonoBehaviour, IController
 
     #region 6. Methods
 
-    public void Test()
-    {
-        
-    }
+    //
 
     #endregion
 }

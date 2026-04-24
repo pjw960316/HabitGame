@@ -13,6 +13,7 @@ public class CameraController : MonoBehaviour
 
     [SerializeField] private Camera _mainCamera;
 
+    // note : 자신의 매니저를 들고 있는다.
     private CameraManager _cameraManager;
     
     private Transform _mainCameraTransform;

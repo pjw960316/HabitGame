@@ -5,6 +5,7 @@ public class CameraManager : ManagerBase<CameraManager>
 {
     #region 1. Fields
 
+    // todo : 자신의 컨트롤러를 들고 있는다.
     private CameraController _cameraController;
 
     private UIManager _uiManager;
