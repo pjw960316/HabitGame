@@ -9,47 +9,74 @@ public enum EInput
     TOUCH,
     TOUCH_POS
 }
+public interface IInputResult {}
+
+public struct MoveResult : IInputResult
+{
+    public Vector2 Direction;
+}
+
+public struct TouchResult : IInputResult
+{
+    public FieldObjectSparrow Target;
+}
+
+public struct TouchPosResult : IInputResult
+{
+    public Vector2 Position;
+}
 
 public interface IInputHandler
 {
-    public void HandleInput(InputAction.CallbackContext context, InputManager inputManager);
+    public IInputResult HandleInput(InputAction.CallbackContext context);
 }
 
 public class MoveHandler : IInputHandler
 {
-    public void HandleInput(InputAction.CallbackContext context, InputManager inputManager)
+    public IInputResult HandleInput(InputAction.CallbackContext context)
     {
-        var pathPair = context.ReadValue<Vector2>();
-
-        inputManager.UpdateMoveVector(pathPair);
+        return new MoveResult
+        {
+            Direction = context.ReadValue<Vector2>()
+        };
     }
 }
 
 public class TouchHandler : IInputHandler
 {
-    public void HandleInput(InputAction.CallbackContext context, InputManager inputManager)
+    public IInputResult HandleInput(InputAction.CallbackContext context)
     {
-        if (context.canceled)
+        if (!context.canceled)
         {
-            var ray = CameraManager.Instance.GetRay(inputManager.CurTouchPos);
+            return null;
+        }
 
-            if (Physics.Raycast(ray, out var hit))
+        var curTouchPos = context.ReadValue<Vector2>();
+        var ray = CameraManager.Instance.GetRay(curTouchPos);
+
+        if (Physics.Raycast(ray, out var hit))
+        {
+            if (hit.collider.TryGetComponent<FieldObjectSparrow>(out var sparrow))
             {
-                if (hit.collider.TryGetComponent<FieldObjectSparrow>(out var sparrow))
+                return new TouchResult
                 {
-                    inputManager.UpdateCurTouchTarget(sparrow);
-                }
+                    Target = sparrow
+                };
             }
         }
+
+        return null;
     }
 }
 
 public class TouchPosHandler : IInputHandler
 {
-    public void HandleInput(InputAction.CallbackContext context, InputManager inputManager)
+    public IInputResult HandleInput(InputAction.CallbackContext context)
     {
-        var curTouchPosition = context.ReadValue<Vector2>();
-        inputManager.UpdateCurTouchPosition(curTouchPosition);
+        return new TouchPosResult
+        {
+            Position = context.ReadValue<Vector2>()
+        };
     }
 }
 
@@ -121,7 +148,7 @@ public class InputController : MonoBehaviour, IController
             var inputEnum = GetInputEnum(context);
             var handler = _handlerDict[inputEnum];
 
-            handler.HandleInput(context, _inputManager);
+            handler.HandleInput(context);
         }
     }
 

@@ -32,7 +32,23 @@ public class InputManager : ControllerManagerBase<InputManager,InputController>
 
     #region 4. EventHandlers
 
-//
+    private void OnHandleInput(IInputResult result)
+    {
+        switch (result)
+        {
+            case MoveResult move:
+                UpdateMoveVector(move.Direction);
+                break;
+
+            case TouchResult touch:
+                UpdateCurTouchTarget(touch.Target);
+                break;
+
+            case TouchPosResult pos:
+                UpdateCurTouchPosition(pos.Position);
+                break;
+        }
+    }
 
     #endregion
 
@@ -43,6 +59,8 @@ public class InputManager : ControllerManagerBase<InputManager,InputController>
     #endregion
 
     #region 6. Methods
+    
+    
     
     public void UpdateMoveVector(Vector2 vector)
     {
