@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
@@ -32,7 +31,7 @@ public class TouchHandler : IInputHandler
     {
         if (context.canceled)
         {
-            var ray = CameraManager.Instance.GetRay(inputManager.GetCurTouchPos());
+            var ray = CameraManager.Instance.GetRay(inputManager.CurTouchPos);
 
             if (Physics.Raycast(ray, out var hit))
             {

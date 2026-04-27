@@ -6,16 +6,19 @@ public class InputManager : ControllerManagerBase<InputManager,InputController>
 {
     #region 1. Fields
 
-    private Vector2 _moveVector;
-    private readonly ReactiveProperty<FieldObjectBase> _touchedFieldObject = new();
     private InputController _inputController;
+    
+    // 상태 관리
+    private Vector2 _moveVector;
     private Vector2 _curTouchPos;
 
+    private readonly ReactiveProperty<FieldObjectBase> _touchedFieldObject = new();
     #endregion
 
     #region 2. Properties
 
     public Vector2 MoveVector => _moveVector;
+    public Vector2 CurTouchPos => _curTouchPos;
 
     public IObservable<FieldObjectBase> OnTouchedFieldObject => _touchedFieldObject;
 
@@ -57,11 +60,6 @@ public class InputManager : ControllerManagerBase<InputManager,InputController>
     public void UpdateCurTouchPosition(Vector2 vector)
     {
         _curTouchPos = vector;
-    }
-
-    public Vector2 GetCurTouchPos()
-    {
-        return _curTouchPos;
     }
 
     #endregion
