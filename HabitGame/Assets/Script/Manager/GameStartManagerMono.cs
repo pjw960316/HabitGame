@@ -6,6 +6,9 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+//note : 너의 책임은 Bootstrap이다.
+// 이 녀석이 GameManager 역할을 하면 안 된다. 
 public class GameStartManagerMono : MonoBehaviour
 {
     #region 1. Fields
@@ -58,6 +61,8 @@ public class GameStartManagerMono : MonoBehaviour
         // note : 이 시점 이후에는 싱글턴이 null이 되지 않음이 보장된다.
 
         InitializeManagers();
+
+        InjectManagers();
 
         //PrintManagers();
     }
@@ -216,6 +221,11 @@ public class GameStartManagerMono : MonoBehaviour
         {
             Debug.Log(manager);
         }
+    }
+
+    private void InjectManagers()
+    {
+        GameManager.Instance.SetManagers(_managerList);
     }
 
     #endregion

@@ -2,10 +2,11 @@ using System;
 using UniRx;
 using UnityEngine;
 
-public class InputManager : ControllerManagerBase<InputManager,InputController>
+public class InputManager : ManagerBase<InputManager>
 {
     #region 1. Fields
 
+    // refactor : 얘는 지금 InputController Awake에 의존되긴 함. 그래서 null 위험 있음.
     private InputController _inputController;
     
     // 상태 관리
@@ -60,7 +61,10 @@ public class InputManager : ControllerManagerBase<InputManager,InputController>
 
     #region 6. Methods
     
-    
+    public void RegisterController(InputController controller)
+    {
+        _inputController = controller;
+    }
     
     public void UpdateMoveVector(Vector2 vector)
     {

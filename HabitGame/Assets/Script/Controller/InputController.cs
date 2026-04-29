@@ -106,12 +106,23 @@ public class InputController : MonoBehaviour, IController
 
     private void Awake()
     {
-        _inputManager = InputManager.Instance;
-        _inputManager.RegisterController(this);
+        ConnectManagerAndController();
         
         InitializeInputActionDictionary();
         
         _playerInput.onActionTriggered += OnHandleInput;
+    }
+
+    private void ConnectManagerAndController()
+    {
+        //refactor : 이거 자체가 위험한지에 대해 고민해라.
+        // 내가 필요한 건 사실 시스템이 아니다.
+        // controller가 manager랑 연결하는 게 다야! 
+        // 물론 이거 보다 더 좋은 구조가 있겠지만 계속 삽질만 하고 진전이 없다.
+        
+        var gameManager = GameManager.Instance;
+        var targetManager = gameManager.GetManagerByType<InputManager>();
+        targetManager.RegisterController(this);
     }
 
     private void InitializeInputActionDictionary()
