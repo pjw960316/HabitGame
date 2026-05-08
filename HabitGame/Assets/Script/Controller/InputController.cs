@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
@@ -42,6 +43,10 @@ public class MoveHandler : IInputHandler
     }
 }
 
+
+//note 
+//이건 클릭을 했는지 아닌지의 여부를 판단만 한다. position이랑 관련 없다.
+//position은 매번 touchPosHandler에서 감지
 public class TouchHandler : IInputHandler
 {
     public IInputResult HandleInput(InputAction.CallbackContext context)
@@ -52,7 +57,15 @@ public class TouchHandler : IInputHandler
         }
 
         var curTouchPos = context.ReadValue<Vector2>();
+        
+        Debug.Log($"TouchPos: {curTouchPos}, Screen: {Screen.width} x {Screen.height}");
+
         var ray = CameraManager.Instance.GetRay(curTouchPos);
+
+        Debug.Log($"Ray Origin: {ray.origin}, Direction: {ray.direction}");
+        Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red, 2f);
+        
+        //var ray = CameraManager.Instance.GetRay(curTouchPos);
        
         //Fix 
         // 여기까지는 콜이 오는데 지금 ray가 참새를 못 찾음.   
@@ -76,6 +89,7 @@ public class TouchPosHandler : IInputHandler
 {
     public IInputResult HandleInput(InputAction.CallbackContext context)
     {
+        Debug.Log($"{context.ReadValue<Vector2>()}");
         return new TouchPosResult
         {
             Position = context.ReadValue<Vector2>()
@@ -161,7 +175,7 @@ public class InputController : MonoBehaviour, IController
         {
             var inputEnum = GetInputEnum(context);
             var handler = _handlerDict[inputEnum];
-
+            
             handler.HandleInput(context);
         }
     }
