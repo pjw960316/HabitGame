@@ -85,6 +85,9 @@ public class TouchHandler : IInputHandler
     }
 }
 
+// REFACTOR
+// 이건 마우스의 움직임을 매번 갱신한다. 그래서 엄청 많은 콜이 들어옴.
+// 여기서 근데 new가 많다?
 public class TouchPosHandler : IInputHandler
 {
     public IInputResult HandleInput(InputAction.CallbackContext context)
