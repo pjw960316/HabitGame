@@ -53,11 +53,14 @@ public class TouchHandler : IInputHandler
 
         var curTouchPos = context.ReadValue<Vector2>();
         var ray = CameraManager.Instance.GetRay(curTouchPos);
-
+       
+        //Fix 
+        // 여기까지는 콜이 오는데 지금 ray가 참새를 못 찾음.   
         if (Physics.Raycast(ray, out var hit))
         {
             if (hit.collider.TryGetComponent<FieldObjectSparrow>(out var sparrow))
             {
+                Debug.Log($"{sparrow}");
                 return new TouchResult
                 {
                     Target = sparrow
