@@ -43,7 +43,6 @@ public class MoveHandler : IInputHandler
     }
 }
 
-
 //note 
 //이건 클릭을 했는지 아닌지의 여부를 판단만 한다. position이랑 관련 없다.
 //position은 매번 touchPosHandler에서 감지
@@ -111,8 +110,6 @@ public class InputController : MonoBehaviour, IController
     private readonly Dictionary<EInput, IInputHandler> _handlerDict = new();
 
     private Vector2 _curTouchPosition;
-
-    private InputManager _inputManager;
 
     #endregion
 
