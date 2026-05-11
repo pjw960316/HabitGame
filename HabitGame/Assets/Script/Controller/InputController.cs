@@ -10,7 +10,9 @@ public enum EInput
     TOUCH,
     TOUCH_POS
 }
-public interface IInputResult {}
+
+// note : 분기를 이중으로 하게 하는 쓰레기 설계
+/*public interface IInputResult {}
 
 public struct MoveResult : IInputResult
 {
@@ -26,20 +28,21 @@ public struct TouchPosResult : IInputResult
 {
     public Vector2 Position;
 }
+*/
 
+// note
+// 핸들러들은 무슨 책임이 있는가? 이 녀석들은 인풋들을 각자의 방식으로 처리해야 한다.
+// 그 결과가 나올 것 이고 -> 그 결과는 모두 다른 타입 -> 또 분기? 아니 이제 니가 그냥 각자 처리해라
 public interface IInputHandler
 {
-    public IInputResult HandleInput(InputAction.CallbackContext context);
+    public void HandleInput(InputAction.CallbackContext context);
 }
 
 public class MoveHandler : IInputHandler
 {
-    public IInputResult HandleInput(InputAction.CallbackContext context)
+    public void HandleInput(InputAction.CallbackContext context)
     {
-        return new MoveResult
-        {
-            Direction = context.ReadValue<Vector2>()
-        };
+        //
     }
 }
 
@@ -48,54 +51,40 @@ public class MoveHandler : IInputHandler
 //position은 매번 touchPosHandler에서 감지
 public class TouchHandler : IInputHandler
 {
-    public IInputResult HandleInput(InputAction.CallbackContext context)
+    private readonly Action _onResult;
+
+    public TouchHandler(Action action)
+    {
+        _onResult = action;
+    }
+    
+    public void HandleInput(InputAction.CallbackContext context)
     {
         if (!context.canceled)
         {
-            return null;
+            return;
         }
 
-        var curTouchPos = context.ReadValue<Vector2>();
-        
-        Debug.Log($"TouchPos: {curTouchPos}, Screen: {Screen.width} x {Screen.height}");
-
-        var ray = CameraManager.Instance.GetRay(curTouchPos);
-
-        Debug.Log($"Ray Origin: {ray.origin}, Direction: {ray.direction}");
-        Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red, 2f);
-        
-        //var ray = CameraManager.Instance.GetRay(curTouchPos);
-       
-        //Fix 
-        // 여기까지는 콜이 오는데 지금 ray가 참새를 못 찾음.   
-        if (Physics.Raycast(ray, out var hit))
-        {
-            if (hit.collider.TryGetComponent<FieldObjectSparrow>(out var sparrow))
-            {
-                Debug.Log($"{sparrow}");
-                return new TouchResult
-                {
-                    Target = sparrow
-                };
-            }
-        }
-
-        return null;
+        _onResult.Invoke();
     }
 }
 
 // REFACTOR
-// 이건 마우스의 움직임을 매번 갱신한다. 그래서 엄청 많은 콜이 들어옴.
-// 여기서 근데 new가 많다?
+// 매 번 pos를 업데이트하는 건 콜이 많이 들어오긴 한다.
 public class TouchPosHandler : IInputHandler
 {
-    public IInputResult HandleInput(InputAction.CallbackContext context)
+    private readonly InputController _inputController;
+
+    public TouchPosHandler(InputController inputController)
     {
-        Debug.Log($"{context.ReadValue<Vector2>()}");
-        return new TouchPosResult
-        {
-            Position = context.ReadValue<Vector2>()
-        };
+        _inputController = inputController;
+    }
+    
+    public void HandleInput(InputAction.CallbackContext context)
+    {
+        var pos = context.ReadValue<Vector2>();
+
+        _inputController.UpdateCurMousePosition(pos);
     }
 }
 
@@ -105,17 +94,20 @@ public class InputController : MonoBehaviour, IController
 
     [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private SerializedDictionary<EInput, InputActionReference> _inspectorInputDict = new();
-    
+
     private readonly Dictionary<InputAction, EInput> _inputActionDict = new();
     private readonly Dictionary<EInput, IInputHandler> _handlerDict = new();
 
     private Vector2 _curTouchPosition;
 
+    public event Action<Vector2> OnTouchEvent;
+        
+
     #endregion
 
     #region 2. Properties
 
-    //
+    public Vector2 CurTouchPosition => _curTouchPosition;
 
     #endregion
 
@@ -124,9 +116,9 @@ public class InputController : MonoBehaviour, IController
     private void Awake()
     {
         ConnectManagerAndController();
-        
+
         InitializeInputActionDictionary();
-        
+
         _playerInput.onActionTriggered += OnHandleInput;
     }
 
@@ -136,7 +128,7 @@ public class InputController : MonoBehaviour, IController
         // 내가 필요한 건 사실 시스템이 아니다.
         // controller가 manager랑 연결하는 게 다야! 
         // 물론 이거 보다 더 좋은 구조가 있겠지만 계속 삽질만 하고 진전이 없다.
-        
+
         var gameManager = GameManager.Instance;
         var targetManager = gameManager.GetManagerByType<InputManager>();
         targetManager.RegisterController(this);
@@ -147,7 +139,6 @@ public class InputController : MonoBehaviour, IController
         // mapping
         foreach (var kv in _inspectorInputDict)
         {
-            Debug.Log($"{kv.Value.action} , {kv.Key}");
             _inputActionDict[kv.Value.action] = kv.Key;
         }
 
@@ -175,10 +166,25 @@ public class InputController : MonoBehaviour, IController
         {
             var inputEnum = GetInputEnum(context);
             var handler = _handlerDict[inputEnum];
-            
+
             handler.HandleInput(context);
         }
     }
+
+    private void OnTouch()
+    {
+        OnTouchEvent?.Invoke(_curTouchPosition);
+    }
+
+    #endregion
+
+    #region 5. Request Methods
+
+    // 
+
+    #endregion
+
+    #region 6. Methods
 
     private EInput GetInputEnum(InputAction.CallbackContext context)
     {
@@ -194,26 +200,19 @@ public class InputController : MonoBehaviour, IController
             case EInput.MOVE:
                 return new MoveHandler();
             case EInput.TOUCH:
-                return new TouchHandler();
+                return new TouchHandler(OnTouch);
             case EInput.TOUCH_POS:
-                return new TouchPosHandler();
+                return new TouchPosHandler(this);
         }
 
         // todo : warning
         return null;
     }
 
-    #endregion
-
-    #region 5. Request Methods
-
-    // 
-
-    #endregion
-
-    #region 6. Methods
-
-    //
+    public void UpdateCurMousePosition(Vector2 vector)
+    {
+        _curTouchPosition = vector;
+    }
 
     #endregion
 }
