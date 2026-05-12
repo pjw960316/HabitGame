@@ -51,10 +51,8 @@ public class InputManager : ManagerBase<InputManager>
             if (hit.collider.TryGetComponent<FieldObjectSparrow>(out var sparrow))
             {
                 _touchedFieldObject.Value = sparrow;
-                //Debug.Log($"{sparrow.name}");
             }
         }
-
     }
     /*private void OnHandleInput(IInputResult result)
     {

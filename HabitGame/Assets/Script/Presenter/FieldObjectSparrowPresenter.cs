@@ -48,9 +48,9 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
         _myCharacterManager.OnUpdateRoutineSuccess
             .Subscribe(OnChangeSparrowSpinState).AddTo(_disposable);
         
-        _inputManager.OnTouchedFieldObject
+        /*_inputManager.OnTouchedFieldObject
             .FirstOrDefault(target => target?.InstanceID == _fieldObjectSparrow.InstanceID)
-            .Subscribe(OnTouched).AddTo(_disposable);
+            .Subscribe(OnTouched).AddTo(_disposable);*/
     }
 
     #endregion
@@ -99,10 +99,6 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
 
     protected void OnTouched(FieldObjectBase targetSparrow)
     {
-        // todo : 
-        // 리팩토링하다 보니 Manager가 view를 들고 있음.
-        // manager가 view 말고, 매우 간소화 된 c# 데이터를 들고 있고, 접근 주체도 달라야 한다고 생각함.
-        // 그걸 해결하고 unirx로 Touch를 처리한다. 
         _fieldObjectSparrow.ChangeFieldObjectColor();
     }
 

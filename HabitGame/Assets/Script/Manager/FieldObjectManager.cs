@@ -5,37 +5,46 @@ using UniRx;
 using UnityEngine;
 using Random = System.Random;
 
-// note : 
+// Note
 // fieldObjectManager가 fieldObject보다 먼저 생성된다.
 public class FieldObjectManager : ManagerBase<FieldObjectManager>
 {
     #region 1. Fields
 
-    // note :
+    // Note
     // key = InstanceID (UnityEngine.Object)
     private readonly Dictionary<int, FieldObjectPresenterBase> _fieldObjectPresenterDict = new();
-    private readonly Subject<Unit> _onUpdateTouchedFieldObject = new();
     private readonly Random _randomMaker = new();
-
+    private InputManager _inputManager;
+    
     #endregion
 
     #region 2. Properties
-
-    public Subject<Unit> OnUpdateTouchedFieldObject => _onUpdateTouchedFieldObject;
+    //
 
     #endregion
 
     #region 3. Constructor
 
+    // TODO
+    // Manager는 어차피 계속 존재하니까 disposable이 필요한가?  
     public sealed override void Initialize()
     {
-        //
+        _inputManager = InputManager.Instance;
+
+        _inputManager.OnTouchedFieldObject
+            .Subscribe(OnSelectedFieldObject);
+        //.AddTo(_disposable);
     }
 
     #endregion
 
     #region 4. EventHandlers
 
+    private void OnSelectedFieldObject(FieldObjectBase targetFieldObject)
+    {
+        //if(targetFieldObject is FieldObjectSparrow)
+    }
     //
 
     #endregion
@@ -48,23 +57,19 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>
 
     #region 6. Methods
 
+    // note
+    // FieldObject가 생성되면 호출해서 Dictionary에 추가한다.
+    // 의존성?
     public void RegisterFieldObjectPresenter(FieldObjectPresenterBase fieldObjectPresenterBase)
     {
-        var key = fieldObjectPresenterBase.GetFieldObjectInstanceID();
+        var instanceID = fieldObjectPresenterBase.GetFieldObjectInstanceID();
         
-        if (!_fieldObjectPresenterDict.TryAdd(key, fieldObjectPresenterBase))
+        if (!_fieldObjectPresenterDict.TryAdd(instanceID, fieldObjectPresenterBase))
         {
             throw new InvalidOperationException("키가 고유인데 중복됩니다.");
         }
     }
 
-    public void PrintFieldObjectPresenterDictionary()
-    {
-        foreach (var kv in _fieldObjectPresenterDict)
-        {
-            Debug.Log($"{kv.Key} , {kv.Value}");
-        }
-    }
     
     public FieldObjectSparrow GetRandomSparrow()
     {
