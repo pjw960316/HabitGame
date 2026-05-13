@@ -146,7 +146,7 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
         ChangeAnimalSpeed(0f);
     }
 
-    public void ChangeFieldObjectColor()
+    public void ChangeFieldObjectColor(Color color)
     {
         var meshRendererCount = _meshRendererList.Count;
         
@@ -154,7 +154,7 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
         for (var idx = 0; idx < meshRendererCount; idx++)
         {
             var block = new MaterialPropertyBlock();
-            block.SetColor(URP_SHADER_COLOR, Color.yellow);
+            block.SetColor(URP_SHADER_COLOR, color);
             
             var meshRenderer = _meshRendererList[idx];
             meshRenderer.SetPropertyBlock(block);

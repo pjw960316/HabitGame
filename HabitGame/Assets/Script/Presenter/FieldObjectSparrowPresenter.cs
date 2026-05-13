@@ -97,11 +97,6 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
         ChangeToWalkStateAfterDelay(COLLIDED_ROCK_ANIMATION_CHANGE_SECOND, HALF_ROTATION);
     }
 
-    protected void OnTouched(FieldObjectBase targetSparrow)
-    {
-        _fieldObjectSparrow.ChangeFieldObjectColor();
-    }
-
     #endregion
 
     #region 5. Request Methods
@@ -115,6 +110,13 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
     public FieldObjectSparrow GetFieldObjectSparrow()
     {
         return _fieldObjectSparrow;
+    }
+
+    public void UpdateTarget(bool isTarget)
+    {
+        var color = isTarget ? Color.red : Color.white;
+        
+        _fieldObjectSparrow.ChangeFieldObjectColor(color);
     }
 
     #endregion

@@ -2,24 +2,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UniRx;
-using UnityEngine;
 using Random = System.Random;
 
 // Note
 // fieldObjectManager가 fieldObject보다 먼저 생성된다.
+// Manager들은 Unity 세계에서 View를 알기 때문에 View를 통해 Presenter를 얻어와야 한다.
 public class FieldObjectManager : ManagerBase<FieldObjectManager>
 {
     #region 1. Fields
 
     // Note
-    // key = InstanceID (UnityEngine.Object)
-    private readonly Dictionary<int, FieldObjectPresenterBase> _fieldObjectPresenterDict = new();
+    // (Key , Value)  =>  (View의 InstanceID , FieldObjectPresenterBase)
+    private readonly Dictionary<int, FieldObjectPresenterBase> _fieldObjectPresenterDict = new(); 
+    
     private readonly Random _randomMaker = new();
     private InputManager _inputManager;
-    
+
     #endregion
 
     #region 2. Properties
+
     //
 
     #endregion
@@ -43,9 +45,21 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>
 
     private void OnSelectedFieldObject(FieldObjectBase targetFieldObject)
     {
-        //if(targetFieldObject is FieldObjectSparrow)
+        if (targetFieldObject == null)
+        {
+            return;
+        }
+
+        var targetInstanceID = targetFieldObject.InstanceID;
+
+        foreach (var kv in _fieldObjectPresenterDict)
+        {
+            if (kv.Value is FieldObjectSparrowPresenter sparrowPresenter)
+            {
+                sparrowPresenter.UpdateTarget(kv.Key == targetInstanceID);
+            }
+        }
     }
-    //
 
     #endregion
 
@@ -63,18 +77,18 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>
     public void RegisterFieldObjectPresenter(FieldObjectPresenterBase fieldObjectPresenterBase)
     {
         var instanceID = fieldObjectPresenterBase.GetFieldObjectInstanceID();
-        
+
         if (!_fieldObjectPresenterDict.TryAdd(instanceID, fieldObjectPresenterBase))
         {
             throw new InvalidOperationException("키가 고유인데 중복됩니다.");
         }
     }
 
-    
+
     public FieldObjectSparrow GetRandomSparrow()
     {
         var sparrowCount = 0;
-        
+
         foreach (var kv in _fieldObjectPresenterDict)
         {
             var fieldObjectPresenter = kv.Value;
@@ -84,7 +98,7 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>
                 sparrowCount++;
             }
         }
-        
+
         if (sparrowCount == 0)
         {
             throw new ArgumentOutOfRangeException();
@@ -92,11 +106,11 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>
 
         var randValue = _randomMaker.Next(0, sparrowCount);
         var tmpValue = 0;
-        
+
         var sparrowPresenters = _fieldObjectPresenterDict
             .Select(kv => kv.Value)
             .OfType<FieldObjectSparrowPresenter>();
-        
+
         foreach (var sparrowPresenter in sparrowPresenters)
         {
             if (tmpValue == randValue)
@@ -109,29 +123,23 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>
 
         return null;
     }
-/*
-    public TFieldObject GetFieldObject<TFieldObject>(int instanceID) where TFieldObject : FieldObjectBase
+    public TFieldObjectPresenter GetFieldObjectPresenter<TFieldObjectPresenter>(int instanceID) where TFieldObjectPresenter : FieldObjectPresenterBase
     {
-        _activeFieldObjectDictionary.TryGetValue(instanceID, out var fieldObjectBase);
+        if (!_fieldObjectPresenterDict.TryGetValue(instanceID, out var presenter))
+        {
+            throw new KeyNotFoundException(
+                $"FieldObjectPresenter not found. InstanceID: {instanceID}");
+        }
 
-        return fieldObjectBase as TFieldObject;
+        if (presenter is not TFieldObjectPresenter typedPresenter)
+        {
+            throw new InvalidCastException(
+                $"Invalid presenter type. InstanceID: {instanceID}, " +
+                $"Expected: {typeof(TFieldObjectPresenter).Name}, Actual: {presenter.GetType().Name}");
+        }
+
+        return typedPresenter;
     }
-
-    // note : 테스트 용도로 제작
-    public FieldObjectSparrow GetFirstSparrow(int instanceID)
-    {
-        return _activeFieldObjectDictionary
-            .Where(element => element.Value is FieldObjectSparrow)
-            .FirstOrDefault(element => element.Key != instanceID).Value as FieldObjectSparrow;
-    }
-
-    public FieldObjectSparrow GetFirstSparrowAny()
-    {
-        return _activeFieldObjectDictionary
-            .FirstOrDefault(element => element.Value is FieldObjectSparrow).Value as FieldObjectSparrow;
-    }
-
-    */
 
     #endregion
 }
