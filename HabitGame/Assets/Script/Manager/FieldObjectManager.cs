@@ -15,6 +15,8 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>
     // key = InstanceID (UnityEngine.Object)
     private readonly Dictionary<int, FieldObjectPresenterBase> _fieldObjectPresenterDict = new();
     private readonly Random _randomMaker = new();
+
+    private PresenterManager _presenterManager;
     private InputManager _inputManager;
     
     #endregion
@@ -30,7 +32,9 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>
     // Manager는 어차피 계속 존재하니까 disposable이 필요한가?  
     public sealed override void Initialize()
     {
+        _presenterManager = PresenterManager.Instance;
         _inputManager = InputManager.Instance;
+        
 
         _inputManager.OnTouchedFieldObject
             .Subscribe(OnSelectedFieldObject);
@@ -43,9 +47,24 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>
 
     private void OnSelectedFieldObject(FieldObjectBase targetFieldObject)
     {
-        //if(targetFieldObject is FieldObjectSparrow)
+        // FIX
+        // 지금 gameLoad 씬에서도 이게 불림. 일단 막음
+        if (targetFieldObject == null)
+        {
+            return;
+        }
+
+        var sparrowPresenter =
+            _presenterManager.GetFieldObjectPresenter<FieldObjectSparrowPresenter>(targetFieldObject.InstanceID);
+        
+        sparrowPresenter.CommandChangeColor();
     }
-    //
+
+    private void UpdateTouchedTarget(FieldObjectSparrowPresenter targetSparrowPresenter)
+    {
+        
+        targetSparrowPresenter.CommandChangeColor(true);
+    }
 
     #endregion
 
