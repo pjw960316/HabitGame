@@ -10,6 +10,8 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
     private const int SPIN_SECOND = 3;
 
     private FieldObjectSparrow _fieldObjectSparrow;
+    private FieldObjectSparrowData _fieldObjectSparrowData;
+    
     private int _directionChangeIntervalSecond;
     private int _impatienceLevel;
 
@@ -38,7 +40,15 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
         base.InitializeView();
 
         _fieldObjectSparrow = _view as FieldObjectSparrow;
-        ExceptionHelper.CheckNullException(_fieldObjectSparrow, "_fieldObjectSparrow is null");
+        ExceptionHelper.CheckNullException(_fieldObjectSparrow, "_fieldObjectSparrow");
+    }
+
+    protected sealed override void InitializeModel()
+    {
+        base.InitializeModel();
+        
+        _fieldObjectSparrowData = _model as FieldObjectSparrowData;
+        ExceptionHelper.CheckNullException(_fieldObjectSparrowData, "_fieldObjectSparrowData");
     }
 
     public sealed override void BindEvent()
@@ -117,6 +127,7 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
         var color = isTarget ? Color.red : Color.white;
         
         _fieldObjectSparrow.ChangeFieldObjectColor(color);
+        _fieldObjectSparrowData.UpdateTarget(isTarget);
     }
 
     #endregion

@@ -14,12 +14,14 @@ public class FieldObjectAnimalData : IModel
     #region 2. Properties
 
     public bool CanChangeState => _canChangeState;
+
     public IObservable<EAnimalState> OnAnimalStateChanged => _animalState;
 
     #endregion
 
     #region 3. Constructor
 
+    // note : CreateInstance 때문에 public 유지해야 합니다.
     public FieldObjectAnimalData()
     {
         Initialize();
@@ -52,7 +54,7 @@ public class FieldObjectAnimalData : IModel
         {
             return;
         }
-        
+
         _animalState.Value = changedState;
     }
 
@@ -89,5 +91,5 @@ public enum EAnimalState
     EAT = 3,
     ATTACK = 4,
     SPIN = 5,
-    RUN = 6
+    //RUN = 6
 }

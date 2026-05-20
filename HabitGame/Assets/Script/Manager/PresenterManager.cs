@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 
+// NOTE
+// Factory 역할
+// Presenter를 통해 Model도 매핑하고 있다.
 public class PresenterManager : ManagerBase<PresenterManager>
 {
     #region 1. Fields
@@ -17,11 +20,19 @@ public class PresenterManager : ManagerBase<PresenterManager>
     #endregion
 
     #region 3. Constructor
-
-    // refactor 필요한 지 체크
+    
     public sealed override void Initialize()
     {
-        _fieldObjectViewModelTypeMatchDictionary[typeof(FieldObjectSparrow)] = typeof(FieldObjectAnimalData);
+        SetModelMappingDict();
+    }
+
+    // REFACTOR
+    // View는 자신의 concrete type을 넣어서 presenter를 생성시킨다.
+    // 그리고 presenter는 이 Dictionary를 참고해서 Model을 생성한다. 
+    // 근데 이러면 Generic이 나은가?
+    private void SetModelMappingDict()
+    {
+        _fieldObjectViewModelTypeMatchDictionary[typeof(FieldObjectSparrow)] = typeof(FieldObjectSparrowData);
         _fieldObjectViewModelTypeMatchDictionary[typeof(FieldObjectDeer)] = typeof(FieldObjectAnimalData);
     }
 
