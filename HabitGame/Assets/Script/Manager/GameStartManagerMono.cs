@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 
 //note : 너의 책임은 Bootstrap이다.
@@ -212,7 +211,7 @@ public class GameStartManagerMono : MonoBehaviour
         //log
         Debug.Log("Scene Change");
         
-        SceneManager.LoadScene(MAIN_SCENE_NAME);
+        SceneChangeManager.Instance.LoadScene(MAIN_SCENE_NAME);
     }
 
     private void PrintManagers()

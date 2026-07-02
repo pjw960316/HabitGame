@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
@@ -27,6 +26,6 @@ public sealed class SceneLoadButton : MonoBehaviour
 
     private void LoadScene()
     {
-        SceneManager.LoadScene(_sceneName);
+        SceneChangeManager.Instance.LoadScene(_sceneName);
     }
 }
