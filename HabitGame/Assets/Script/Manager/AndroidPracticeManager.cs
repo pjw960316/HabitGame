@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public sealed class AndroidPracticeManager : ManagerBase<AndroidPracticeManager>
@@ -17,7 +16,10 @@ public sealed class AndroidPracticeManager : ManagerBase<AndroidPracticeManager>
 
     #region 3. Constructor
 
-    //
+    public override void Initialize()
+    {
+        TestAndroid();
+    }
 
     #endregion
 
@@ -34,17 +36,17 @@ public sealed class AndroidPracticeManager : ManagerBase<AndroidPracticeManager>
         return _androidPracticeBridge.GetSnapshot();
     }
 
-    public void PrintAndroidPracticeSnapshot()
-    {
-        var snapshot = GetAndroidPracticeSnapshot();
-        Debug.Log(snapshot);
-    }
-
     #endregion
 
     #region 6. Methods
 
-    //
+    private void TestAndroid()
+    {
+        var snapshot = GetAndroidPracticeSnapshot();
+        
+        // 로그 찍어보자.
+        Debug.Log(snapshot);
+    }
 
     #endregion
 
@@ -164,7 +166,8 @@ public sealed class AndroidPracticeSnapshot
     {
         if (IsSuccess)
         {
-            return $"AndroidPracticeSnapshot | Platform : {PlatformName}, Manufacturer : {Manufacturer}, Model : {Model}, SDK : {SdkInt}, Package : {PackageName}, Activity : {ActivityName}";
+            return
+                $"AndroidPracticeSnapshot | Platform : {PlatformName}, Manufacturer : {Manufacturer}, Model : {Model}, SDK : {SdkInt}, Package : {PackageName}, Activity : {ActivityName}";
         }
 
         return $"AndroidPracticeSnapshot Failed | Error : {ErrorMessage}";
