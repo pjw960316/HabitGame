@@ -1,3 +1,4 @@
+using System; // note : System 지우지 말아야 한다.
 using UnityEngine;
 
 public sealed class AndroidPracticeManager : ManagerBase<AndroidPracticeManager>
@@ -55,14 +56,14 @@ public sealed class AndroidPracticeManager : ManagerBase<AndroidPracticeManager>
         public AndroidPracticeSnapshot GetSnapshot()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-            try
+        try
+        {
+            using (var buildClass = new AndroidJavaClass("android.os.Build"))
+            using (var versionClass = new AndroidJavaClass("android.os.Build$VERSION"))
+            using (var unityPlayerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+            using (var currentActivity = unityPlayerClass.GetStatic<AndroidJavaObject>("currentActivity"))
+            using (var activityClass = currentActivity.Call<AndroidJavaObject>("getClass"))
             {
-                using var buildClass = new AndroidJavaClass("android.os.Build");
-                using var versionClass = new AndroidJavaClass("android.os.Build$VERSION");
-                using var unityPlayerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-                using var currentActivity = unityPlayerClass.GetStatic<AndroidJavaObject>("currentActivity");
-                using var activityClass = currentActivity.Call<AndroidJavaObject>("getClass");
-
                 return new AndroidPracticeSnapshot(
                     "Android",
                     buildClass.GetStatic<string>("MANUFACTURER"),
@@ -72,10 +73,11 @@ public sealed class AndroidPracticeManager : ManagerBase<AndroidPracticeManager>
                     activityClass.Call<string>("getName"),
                     string.Empty);
             }
-            catch (Exception exception)
-            {
-                return AndroidPracticeSnapshot.CreateFailedSnapshot(exception.Message);
-            }
+        }
+        catch (Exception exception)
+        {
+            return AndroidPracticeSnapshot.CreateFailedSnapshot(exception.Message);
+        }
 #else
             return AndroidPracticeSnapshot.CreateEditorSnapshot();
 #endif
