@@ -4,7 +4,7 @@ This project is a non-commercial personal portfolio/fan project.
 
 Some 3D character assets used in this project are based on assets owned by Riot Games and were obtained through Khada/modelviewer.lol.
 
-:airplane:[Khada/modelviewer.lol](https://modelviewer.lol)
+:airplane:[Khada/modelviewer.lol](https://modelviewer.lol/about)
 
 This project was created under Riot Games’ Legal Jibber Jabber policy using assets owned by Riot Games.
 
