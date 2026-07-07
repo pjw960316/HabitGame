@@ -1,9 +1,4 @@
-# 박지원 키우기
-
-<br>
-
-## 목적
-- 내 인생에 필요한 기능을 내가 만들자.
+# HabitGame
 
 <br>
 
@@ -16,12 +11,6 @@
 - **게임 버전  :  V1.9**
 - ✈️[Download Link](https://github.com/pjw960316/HabitGame/blob/main/HabitGame_V1.9.apk)
   - View raw 클릭하면 다운로드 됩니다.
-
-<br>
-
-## 패치노트
-- V_2.0
-  - 게임명 수정 및 방향성 확립  
 
 <br>
 
