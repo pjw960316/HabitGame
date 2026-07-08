@@ -54,22 +54,31 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
 
     private void InitializeRenderers()
     {
-        var lodArr = _lodGroup.GetLODs();
-        var lodLen = lodArr.Length;
-
-        for (var idx = 0; idx < lodLen; idx++)
+        if (_lodGroup != null)
         {
-            var targetRenderer = lodArr[idx].renderers.FirstOrDefault();
+            var lodArr = _lodGroup.GetLODs();
+            var lodLen = lodArr.Length;
 
-            if (targetRenderer != null)
+            for (var idx = 0; idx < lodLen; idx++)
             {
-                _meshRendererList.Add(targetRenderer);
+                var targetRenderer = lodArr[idx].renderers.FirstOrDefault();
+
+                if (targetRenderer != null)
+                {
+                    _meshRendererList.Add(targetRenderer);
+                }
             }
         }
 
         if (_meshRendererList.Count == 0)
         {
-            ExceptionHelper.CheckNullException(_meshRendererList[0] , "list zero ");
+            _meshRendererList.AddRange(FieldObjectTransform.GetComponentsInChildren<Renderer>());
+        }
+
+        if (_meshRendererList.Count == 0)
+        {
+            ExceptionHelper.CheckNullException(null, "animal renderer list");
+            return;
         }
         
         _originColor = _meshRendererList[0].material.color;
