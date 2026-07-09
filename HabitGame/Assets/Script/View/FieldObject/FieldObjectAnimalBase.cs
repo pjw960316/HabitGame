@@ -9,21 +9,18 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
     #region 1. Fields
 
     private const string URP_SHADER_COLOR = "_BaseColor";
-
-    // 무조건 모두 있는 새키
+    
     [SerializeField] private float _animalSpeed;
+    [SerializeField] private LODGroup _lodGroup;
+    
     protected Rigidbody _animalRigidBody;
     protected Collision _currentCollision;
-
-    // 있는 놈도 있고 없는 놈도 있는 
-    [SerializeField] private LODGroup _lodGroup;
-
-    private FieldObjectAnimator _fieldObjectAnimator;
+    private FieldObjectAnimator _fieldObjectAnimator; // note : Animator를 사용하려면 해당 컴포넌트를 추가해야 한다.
    
     protected Vector3 _animalWalkMovement;
     private Color _originColor;
     
-    private List<Renderer> _meshRendererList = new();
+    private readonly List<Renderer> _meshRendererList = new();
     private readonly Subject<Collision> _onCollision = new();
 
     #endregion

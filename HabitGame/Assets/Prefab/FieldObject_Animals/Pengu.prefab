@@ -1476,7 +1476,7 @@ GameObject:
   - component: {fileID: 7735962756751135478}
   - component: {fileID: 1834036949875383530}
   - component: {fileID: 4438713734037976915}
-  - component: {fileID: 7299609826405944237}
+  - component: {fileID: 3298122039172588925}
   - component: {fileID: 7514838991988922683}
   m_Layer: 0
   m_Name: Pengu
@@ -1551,7 +1551,7 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 50, z: 0}
---- !u!114 &7299609826405944237
+--- !u!114 &3298122039172588925
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1560,11 +1560,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5402797129275515547}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 655844904bbd8eb4da8dc14ca660dd13, type: 3}
+  m_Script: {fileID: 11500000, guid: 557983c0750cdca4689add892bff4f36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animalSpeed: 0.35
-  _lodGroup: {fileID: 0}
 --- !u!114 &7514838991988922683
 MonoBehaviour:
   m_ObjectHideFlags: 0
