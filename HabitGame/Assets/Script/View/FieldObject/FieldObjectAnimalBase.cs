@@ -8,19 +8,21 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
 {
     #region 1. Fields
 
-    private const string ANIMATOR_PARAMETER = "Animal";
     private const string URP_SHADER_COLOR = "_BaseColor";
 
+    // 무조건 모두 있는 새키
     [SerializeField] private float _animalSpeed;
-    [SerializeField] private Animator _animalAnimator;
-    [SerializeField] private LODGroup _lodGroup;
-    
     protected Rigidbody _animalRigidBody;
     protected Collision _currentCollision;
+
+    // 있는 놈도 있고 없는 놈도 있는 
+    [SerializeField] private LODGroup _lodGroup;
+
+    private FieldObjectAnimator _fieldObjectAnimator;
+   
     protected Vector3 _animalWalkMovement;
     private Color _originColor;
     
-    private int _animalIAnimatorIntegerParameter;
     private List<Renderer> _meshRendererList = new();
     private readonly Subject<Collision> _onCollision = new();
 
@@ -41,7 +43,7 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
     {
         base.Initialize();
 
-        _animalIAnimatorIntegerParameter = Animator.StringToHash(ANIMATOR_PARAMETER);
+        InitializeAnimator();
 
         _animalRigidBody = FieldObjectTransform.GetComponent<Rigidbody>();
         ExceptionHelper.CheckNullException(_animalRigidBody, "_rigidBody");
@@ -50,6 +52,14 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
         DefaultAnimalSpeed = _animalSpeed;
 
         InitializeRenderers();
+    }
+
+    private void InitializeAnimator()
+    {
+        if (TryGetComponent(out _fieldObjectAnimator))
+        {
+            _fieldObjectAnimator.Initialize();
+        }
     }
 
     private void InitializeRenderers()
@@ -121,7 +131,13 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
 
     public void ChangeAnimation(int enumKey)
     {
-        _animalAnimator.SetInteger(_animalIAnimatorIntegerParameter, enumKey);
+        if (_fieldObjectAnimator == null)
+        {
+            Debug.LogWarning($"{name} has no FieldObjectAnimator. Animation change skipped.");
+            return;
+        }
+
+        _fieldObjectAnimator.ChangeAnimation(enumKey);
     }
 
     public void ChangeAnimalPath(int angle)

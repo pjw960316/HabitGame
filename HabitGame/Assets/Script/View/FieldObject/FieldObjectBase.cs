@@ -57,7 +57,6 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
     protected virtual void Initialize()
     {
         _presenterManager = PresenterManager.Instance;
-        //_fieldObjectManager = FieldObjectManager.Instance;
         
         _instanceID = GetInstanceID();
         _fieldObjectTransform = transform;
