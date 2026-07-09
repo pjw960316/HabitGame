@@ -1474,9 +1474,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7735962756751135478}
-  - component: {fileID: 7299609826405944237}
   - component: {fileID: 1834036949875383530}
   - component: {fileID: 4438713734037976915}
+  - component: {fileID: 7299609826405944237}
+  - component: {fileID: 7514838991988922683}
   m_Layer: 0
   m_Name: Pengu
   m_TagString: Untagged
@@ -1500,21 +1501,6 @@ Transform:
   - {fileID: 6396011746978496931}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7299609826405944237
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5402797129275515547}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 655844904bbd8eb4da8dc14ca660dd13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animalSpeed: 0.35
-  _animalAnimator: {fileID: 7924221923942158824}
-  _lodGroup: {fileID: 0}
 --- !u!54 &1834036949875383530
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1565,6 +1551,33 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 50, z: 0}
+--- !u!114 &7299609826405944237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5402797129275515547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 655844904bbd8eb4da8dc14ca660dd13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animalSpeed: 0.35
+  _lodGroup: {fileID: 0}
+--- !u!114 &7514838991988922683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5402797129275515547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 776b8b1c55e001444acd426a17b8e0df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 7924221923942158824}
 --- !u!1 &5608380759302801509
 GameObject:
   m_ObjectHideFlags: 0
