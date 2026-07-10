@@ -46,6 +46,10 @@ public sealed class FieldObjectPlayerPresenter : FieldObjectPresenterBase
         _inputManager.OnMoveVectorChanged
             .Subscribe(OnMoveInput)
             .AddTo(_disposable);
+
+        _fieldObjectPlayerData.OnPlayerStateChanged
+            .Subscribe(OnChangePlayerState)
+            .AddTo(_disposable);
     }
 
     #endregion
@@ -54,7 +58,20 @@ public sealed class FieldObjectPlayerPresenter : FieldObjectPresenterBase
 
     private void OnMoveInput(Vector2 moveVector)
     {
-        Debug.Log($"Player Move Input : {moveVector}");
+        var moveDirection = new Vector3(moveVector.x, 0f, moveVector.y);
+
+        if (moveDirection.sqrMagnitude > 1f)
+        {
+            moveDirection.Normalize();
+        }
+
+        _fieldObjectPlayer.ChangePlayerMoveDirection(moveDirection);
+        _fieldObjectPlayerData.ChangePlayerState(moveDirection == Vector3.zero ? EPlayerState.IDLE : EPlayerState.MOVE);
+    }
+
+    private void OnChangePlayerState(EPlayerState changedState)
+    {
+        _fieldObjectPlayer.ChangeAnimation((int)changedState);
     }
 
     #endregion
