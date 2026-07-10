@@ -32,12 +32,12 @@ public sealed class FieldObjectPlayer : FieldObjectBase
 
     protected override void InitializeEnumFieldObjectKey()
     {
-        //throw new NotImplementedException();
+        _eFieldObjectKey = EFieldObject.PLAYER;
     }
 
     protected override void CreatePresenterByManager()
     {
-        //throw new NotImplementedException();
+        _presenterManager.CreatePresenter<FieldObjectPlayerPresenter>(this);
     }
 
     private void InitializeAnimator()

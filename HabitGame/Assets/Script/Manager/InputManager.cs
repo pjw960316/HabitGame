@@ -10,7 +10,7 @@ public class InputManager : ManagerBase<InputManager>
     // 얘는 지금 InputController Awake에 의존되긴 함. 그래서 null 위험 있음.
     private InputController _inputController;
     
-    // 상태 관리ㅑㅜ
+    // 상태 관리
     private Vector2 _moveVector;
 
     private readonly ReactiveProperty<FieldObjectBase> _touchedFieldObject = new();

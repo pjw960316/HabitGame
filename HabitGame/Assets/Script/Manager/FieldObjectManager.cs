@@ -28,7 +28,7 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>
 
     #region 3. Constructor
 
-    // TODO
+    // TODOㅑ
     // Manager는 어차피 계속 존재하니까 disposable이 필요한가?  
     public sealed override void Initialize()
     {

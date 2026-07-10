@@ -99,6 +99,7 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 
 public enum EFieldObject
 {
+    PLAYER,
     SPARROW,
     LAND,
     ROCK,

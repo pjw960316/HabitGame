@@ -32,6 +32,7 @@ public class PresenterManager : ManagerBase<PresenterManager>
     // 근데 이러면 Generic이 나은가?
     private void SetModelMappingDict()
     {
+        _fieldObjectViewModelTypeMatchDictionary[typeof(FieldObjectPlayer)] = typeof(FieldObjectPlayerData);
         _fieldObjectViewModelTypeMatchDictionary[typeof(FieldObjectSparrow)] = typeof(FieldObjectSparrowData);
         _fieldObjectViewModelTypeMatchDictionary[typeof(FieldObjectDeer)] = typeof(FieldObjectAnimalData);
     }
