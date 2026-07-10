@@ -11,28 +11,8 @@ public enum EInput
     TOUCH_POS
 }
 
-// note : 분기를 이중으로 하게 하는 쓰레기 설계
-/*public interface IInputResult {}
-
-public struct MoveResult : IInputResult
-{
-    public Vector2 Direction;
-}
-
-public struct TouchResult : IInputResult
-{
-    public FieldObjectSparrow Target;
-}
-
-public struct TouchPosResult : IInputResult
-{
-    public Vector2 Position;
-}
-*/
-
-// note
-// 핸들러들은 무슨 책임이 있는가? 이 녀석들은 인풋들을 각자의 방식으로 처리해야 한다.
-// 그 결과가 나올 것 이고 -> 그 결과는 모두 다른 타입 -> 또 분기? 아니 이제 니가 그냥 각자 처리해라
+// NOTE
+// Handler 마다 다른 타입의 결과가 나오는 건 당연하다.
 public interface IInputHandler
 {
     public void HandleInput(InputAction.CallbackContext context);
@@ -40,9 +20,18 @@ public interface IInputHandler
 
 public class MoveHandler : IInputHandler
 {
+    private readonly Action<Vector2> _onResult;
+
+    public MoveHandler(Action<Vector2> action)
+    {
+        _onResult = action;
+    }
+    
     public void HandleInput(InputAction.CallbackContext context)
     {
-        //
+        var moveVector = context.ReadValue<Vector2>();
+
+        _onResult.Invoke(moveVector);
     }
 }
 
@@ -88,6 +77,10 @@ public class TouchPosHandler : IInputHandler
     }
 }
 
+// Note
+// 책임은 단순하다.
+// 1. 유니티의 인풋만을 분기해서 데이터로 가공한다.  ->  인터페이스를 이용해서 분기했다.
+// 2. 가공된 데이터를 InputManager에게 넘겨준다.
 public class InputController : MonoBehaviour, IController
 {
     #region 1. Fields
@@ -100,6 +93,7 @@ public class InputController : MonoBehaviour, IController
 
     private Vector2 _curTouchPosition;
 
+    public event Action<Vector2> OnMoveEvent;
     public event Action<Vector2> OnTouchEvent;
         
 
@@ -154,13 +148,15 @@ public class InputController : MonoBehaviour, IController
 
     #region 4. EventHandlers
 
+    // NOTE
+    // 분기 지점
+    // 분기를 인터페이스를 활용한다.
     public void OnHandleInput(InputAction.CallbackContext context)
     {
         var contextState = context.phase;
 
         if (contextState == InputActionPhase.Started)
         {
-            //
         }
         else if (contextState == InputActionPhase.Performed || contextState == InputActionPhase.Canceled)
         {
@@ -174,6 +170,11 @@ public class InputController : MonoBehaviour, IController
     private void OnTouch()
     {
         OnTouchEvent?.Invoke(_curTouchPosition);
+    }
+
+    private void OnMove(Vector2 moveVector)
+    {
+        OnMoveEvent?.Invoke(moveVector);
     }
 
     #endregion
@@ -195,10 +196,10 @@ public class InputController : MonoBehaviour, IController
 
     private IInputHandler GetHandler(EInput eInput)
     {
-        switch (eInput)
+            switch (eInput)
         {
             case EInput.MOVE:
-                return new MoveHandler();
+                return new MoveHandler(OnMove);
             case EInput.TOUCH:
                 return new TouchHandler(OnTouch);
             case EInput.TOUCH_POS:

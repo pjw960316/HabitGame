@@ -2,6 +2,10 @@ using System;
 using UniRx;
 using UnityEngine;
 
+// NOTE
+// InputManager의 책임은 매우 간단하다.
+// InputController를 통해 다양한 Unity Input Context를 다양한 C# 타입으로 전달받는다. -> Action들
+// Action을 통해 받아온 값이 변경되면 ReactiveProperty로 외부 MVP에 변경을 전달한다.
 public class InputManager : ManagerBase<InputManager>
 {
     #region 1. Fields
@@ -9,18 +13,19 @@ public class InputManager : ManagerBase<InputManager>
     // REFACTOR
     // 얘는 지금 InputController Awake에 의존되긴 함. 그래서 null 위험 있음.
     private InputController _inputController;
-    
-    // 상태 관리
-    private Vector2 _moveVector;
 
-    private readonly ReactiveProperty<FieldObjectBase> _touchedFieldObject = new();
+    // 상태 관리
+
+    private readonly ReactiveProperty<Vector2> _moveVectorProperty = new();
+    private readonly ReactiveProperty<FieldObjectBase> _touchedFieldObjectProperty = new();
+
     #endregion
 
     #region 2. Properties
 
-    public Vector2 MoveVector => _moveVector;
-    
-    public IObservable<FieldObjectBase> OnTouchedFieldObject => _touchedFieldObject;
+    public IObservable<Vector2> OnMoveVectorChanged => _moveVectorProperty;
+
+    public IObservable<FieldObjectBase> OnTouchedFieldObject => _touchedFieldObjectProperty;
 
     #endregion
 
@@ -35,42 +40,9 @@ public class InputManager : ManagerBase<InputManager>
 
     private void BindInputControllerEvent()
     {
-        _inputController.OnTouchEvent += OnTouchScreen;
+        _inputController.OnMoveEvent += UpdateMoveVector;
+        _inputController.OnTouchEvent += UpdateTouchedTarget;
     }
-
-    #endregion
-
-    #region 4. EventHandlers
-
-    private void OnTouchScreen(Vector2 curTouchPos)
-    {
-        var ray = CameraManager.Instance.GetRay(curTouchPos);
-
-        if (Physics.Raycast(ray, out var hit))
-        {
-            if (hit.collider.TryGetComponent<FieldObjectSparrow>(out var sparrow))
-            {
-                _touchedFieldObject.Value = sparrow;
-            }
-        }
-    }
-    /*private void OnHandleInput(IInputResult result)
-    {
-        switch (result)
-        {
-            case MoveResult move:
-                UpdateMoveVector(move.Direction);
-                break;
-
-            case TouchResult touch:
-                UpdateCurTouchTarget(touch.Target);
-                break;
-
-            case TouchPosResult pos:
-                UpdateCurTouchPosition(pos.Position);
-                break;
-        }
-    }*/
 
     #endregion
 
@@ -81,15 +53,24 @@ public class InputManager : ManagerBase<InputManager>
     #endregion
 
     #region 6. Methods
-    
-    
 
-    
-    public void UpdateMoveVector(Vector2 vector)
+    private void UpdateTouchedTarget(Vector2 curTouchPos)
     {
-        _moveVector = vector;
+        var ray = CameraManager.Instance.GetRay(curTouchPos);
+
+        if (Physics.Raycast(ray, out var hit))
+        {
+            if (hit.collider.TryGetComponent<FieldObjectSparrow>(out var sparrow))
+            {
+                _touchedFieldObjectProperty.Value = sparrow;
+            }
+        }
     }
 
+    public void UpdateMoveVector(Vector2 vector)
+    {
+        _moveVectorProperty.Value = vector;
+    }
 
     #endregion
 }

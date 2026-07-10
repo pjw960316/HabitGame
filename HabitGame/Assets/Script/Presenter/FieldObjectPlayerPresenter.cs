@@ -1,3 +1,4 @@
+using UniRx;
 using UnityEngine;
 
 public sealed class FieldObjectPlayerPresenter : FieldObjectPresenterBase
@@ -7,8 +8,6 @@ public sealed class FieldObjectPlayerPresenter : FieldObjectPresenterBase
     private FieldObjectPlayer _fieldObjectPlayer;
     private FieldObjectPlayerData _fieldObjectPlayerData;
 
-    private InputManager _inputManager;
-    
     #endregion
 
     #region 2. Properties
@@ -22,13 +21,6 @@ public sealed class FieldObjectPlayerPresenter : FieldObjectPresenterBase
     public override void SetView()
     {
         // note : 나중에 필요하면.
-    }
-
-    public override void Initialize(IView view)
-    {
-        base.Initialize(view);
-
-        _inputManager = InputManager.Instance;
     }
 
     protected override void InitializeView()
@@ -50,13 +42,20 @@ public sealed class FieldObjectPlayerPresenter : FieldObjectPresenterBase
     public override void BindEvent()
     {
         base.BindEvent();
+
+        _inputManager.OnMoveVectorChanged
+            .Subscribe(OnMoveInput)
+            .AddTo(_disposable);
     }
 
     #endregion
 
     #region 4. EventHandlers
 
-    //
+    private void OnMoveInput(Vector2 moveVector)
+    {
+        Debug.Log($"Player Move Input : {moveVector}");
+    }
 
     #endregion
 
