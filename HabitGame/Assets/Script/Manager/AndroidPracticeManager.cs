@@ -1,4 +1,6 @@
-using System; // note : System 지우지 말아야 한다.
+// NOTE
+// System 지우지 말아야 한다.
+using System;
 using UnityEngine;
 
 public sealed class AndroidPracticeManager : ManagerBase<AndroidPracticeManager>

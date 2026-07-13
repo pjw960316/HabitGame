@@ -2,7 +2,7 @@ using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
 
-// Note
+// NOTE
 // Popup을 열기 위함
 [CreateAssetMenu(fileName = "PopupData", menuName = "ScriptableObjects/PopupData")]
 public class PopupData : ScriptableObject, IModel

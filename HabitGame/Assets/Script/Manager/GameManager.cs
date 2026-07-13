@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-//note : 책임
+// NOTE
+// 책임
 // Manager 들 관리
 public class GameManager : ManagerBase<GameManager>
 {

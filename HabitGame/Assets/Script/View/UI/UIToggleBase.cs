@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// Note
+// NOTE
 // Toggle, Button 같은 친구들은 일단 Presenter를 만들지 않는다.
 // 자신을 들고 있는 popup의 presenter를 이용한다.
 public class UIToggleBase : MonoBehaviour, IView

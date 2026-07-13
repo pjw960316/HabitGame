@@ -32,7 +32,8 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
 
     public override void SetView()
     {
-        // note : 나중에 필요하면.
+        // NOTE
+        // 나중에 필요하면.
     }
 
     protected sealed override void InitializeView()

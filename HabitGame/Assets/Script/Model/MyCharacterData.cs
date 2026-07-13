@@ -19,8 +19,12 @@ public class MyCharacterData : IModel
 
     private int _name;
     private int _age;
-    private int _monthlyRoutineSuccessMoney; // Note : 한 달 동안 루틴을 성공해서 번 총 금액 -> 다음 달 나에게 주는 선물의 총액
-    private int _moneyPerRoutineSuccess; // Note : 루틴 1개 success 당 얻는 돈
+    // NOTE
+    // 한 달 동안 루틴을 성공해서 번 총 금액 -> 다음 달 나에게 주는 선물의 총액
+private int _monthlyRoutineSuccessMoney;
+    // NOTE
+    // 루틴 1개 success 당 얻는 돈
+private int _moneyPerRoutineSuccess;
     public List<RoutineRecordData> RoutineRecordList = new();
 
     [XmlIgnore] private Dictionary<string, List<bool>> _routineRecordDictionary = new();
@@ -34,7 +38,7 @@ public class MyCharacterData : IModel
     public int MonthlyRoutineSuccessMoney { get; set; }
     public int MoneyPerRoutineSuccess { get; set; }
 
-    // note
+    // NOTE
     // _routineRecordDictionary가 비어 있어도 예외 X
     [XmlIgnore]
     public ImmutableSortedDictionary<string, ImmutableList<bool>> RoutineRecordDictionary
@@ -60,7 +64,7 @@ public class MyCharacterData : IModel
 
     #region 4. Methods
 
-    // note
+    // NOTE
     // XML에서 Load한 List<RoutineRecordData>을
     // Dictionary로 가공
     public void InitializeRoutineRecordDictionary()
@@ -89,7 +93,7 @@ public class MyCharacterData : IModel
 
         if (_routineRecordDictionary.TryGetValue(key, out var todayRoutineRecordList) == false)
         {
-            // note
+            // NOTE
             // 없으면 default 생성
             Debug.LogWarning($"Key가 없어서 \nkey가 {key}인 default routineRecord를 \nDictionary에 추가했다.");
 
@@ -97,7 +101,7 @@ public class MyCharacterData : IModel
             _routineRecordDictionary.Add(key, todayRoutineRecordList);
         }
 
-        // note
+        // NOTE
         // View에서 성공한 Index를 받아왔는데,
         // 기존의 todayRoutineRecordList가 false면 이번 이벤트에서 유저가 체크한 것이므로 갱신.
         var reward = 0;

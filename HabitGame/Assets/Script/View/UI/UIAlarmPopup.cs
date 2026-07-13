@@ -41,7 +41,8 @@ public class UIAlarmPopup : UIPopupBase
         _ePopupKey = EPopupKey.AlarmPopup;
     }
 
-    // note : popup이 widget의 initialize 제어권을 가져, 시점을 조절한다. (awake는 시점을 알 수 없으니)
+    // NOTE
+    // popup이 widget의 initialize 제어권을 가져, 시점을 조절한다. (awake는 시점을 알 수 없으니)
     private void InitializeWidgets()
     {
           foreach (var widget in AlarmAudioClipButtons)

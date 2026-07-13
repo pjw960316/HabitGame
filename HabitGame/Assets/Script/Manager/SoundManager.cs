@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Note : 책임 감소
+// NOTE
+// 책임 감소
 // 처음 개발할 때는 SoundManager가 모든 SoundData를 관리하도록 설계를 했지만
 // 이제는 SoundManager는 Presenter로 부터 AudioClip을 받고 재생하는 기능만 책임진다.
 

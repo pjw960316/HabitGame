@@ -4,7 +4,7 @@ using UnityEngine;
 using Random = System.Random;
 
 
-// note
+// NOTE
 // 모든 동물은 걷고, 랜덤으로 방향을 돌린다.
 public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
 {
@@ -45,7 +45,8 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
 
         _currentAnimalState = _animalData.GetAnimalState();
 
-        // note : 이 값이 낮으면 성격이 급하다 -> 방향 전환을 자주한다.
+        // NOTE
+        // 이 값이 낮으면 성격이 급하다 -> 방향 전환을 자주한다.
         _impatienceLevel =
             _randomMaker.Next(DIRECTION_CHANGE_INTERVAL_SECOND_MAX / 2, DIRECTION_CHANGE_INTERVAL_SECOND_MAX);
     }
@@ -97,7 +98,8 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
 
     #region 4-1. EventHandlers - Normal
 
-    // note : AnimalData에서 state를 바꾸면 ReactiveProperty로 인해 콜이 된다.
+    // NOTE
+    // AnimalData에서 state를 바꾸면 ReactiveProperty로 인해 콜이 된다.
     public void OnChangeAnimalState(EAnimalState changedState)
     {
         _currentAnimalState = changedState;

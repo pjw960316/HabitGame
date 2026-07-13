@@ -70,7 +70,7 @@ public class FieldObjectLand : FieldObjectBase
         var list = new List<Transform>();
         for (var i = 0; i < _rockBordersCount; i++)
         {
-            // note
+            // NOTE
             // high cost
             list.Add(Instantiate(_rockPrefab, _environmentsBaseTransform).transform);
         }
@@ -82,7 +82,7 @@ public class FieldObjectLand : FieldObjectBase
         var offset = 0;
         var idx = 0;
 
-        // note
+        // NOTE
         // 0 = 아래 / 1 = 위 / 2 = 왼쪽 / 3 = 오른쪽
         for (var i = 0; i < SQUARE_SIDE_COUNT; i++)
         {

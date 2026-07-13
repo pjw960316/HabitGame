@@ -173,7 +173,8 @@ public class UIRoutineRecordPopup : UIPopupBase
         return GetNestedWidget(true);
     }
 
-    // Note : GetTopWidget , GetBottomWidget Nested Method
+    // NOTE
+    // GetTopWidget , GetBottomWidget Nested Method
     private UIRoutineRecordWidget GetNestedWidget(bool isBottom)
     {
         var currentY = _widgetList[0].GetAnchoredPositionY();
@@ -229,7 +230,8 @@ public class UIRoutineRecordPopup : UIPopupBase
         _scrollRect.verticalNormalizedPosition = 1f;
     }
 
-    // note : Contents의 Height는 Presenter로 부터 데이터의 개수에 맞게 세팅
+    // NOTE
+    // Contents의 Height는 Presenter로 부터 데이터의 개수에 맞게 세팅
     public void SetContentsHeight(int finalCount)
     {
         _contentsRectTransform.sizeDelta =

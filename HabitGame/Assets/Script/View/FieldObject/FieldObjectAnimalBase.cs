@@ -15,7 +15,9 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
     
     protected Rigidbody _animalRigidBody;
     protected Collision _currentCollision;
-    private FieldObjectAnimator _fieldObjectAnimator; // note : Animator를 사용하려면 해당 컴포넌트를 추가해야 한다.
+    // NOTE
+    // Animator를 사용하려면 해당 컴포넌트를 추가해야 한다.
+private FieldObjectAnimator _fieldObjectAnimator;
    
     protected Vector3 _animalWalkMovement;
     private Color _originColor;
@@ -29,7 +31,8 @@ public abstract class FieldObjectAnimalBase : FieldObjectBase
 
     public IObservable<Collision> OnCollision => _onCollision;
 
-    // note : 절대 변경하지 마시오. readonly 문법이 불가능.
+    // NOTE
+    // 절대 변경하지 마시오. readonly 문법이 불가능.
     public float DefaultAnimalSpeed { get; private set; }
 
     #endregion

@@ -49,7 +49,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
         if (!immutableRoutineRecordDictionary.TryGetValue(key, out var immutableTodayRecordList))
         {
-            // note
+            // NOTE
             // 첫 루틴 기록이므로 아직 기록이 없으므로
             // null return은 의도된 것.
 
@@ -68,7 +68,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         return successfulRoutineIndex;
     }
 
-    // note
+    // NOTE
     // 최신 날짜가 맨 앞에
     [NotNull]
     public ImmutableSortedDictionary<string, ImmutableList<bool>> GetRoutineRecordDictionary()

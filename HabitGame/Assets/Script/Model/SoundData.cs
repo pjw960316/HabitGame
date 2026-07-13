@@ -1,7 +1,8 @@
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
-// note : 게임 전체에서 사용되는 Sound
+// NOTE
+// 게임 전체에서 사용되는 Sound
 [CreateAssetMenu(fileName = "SoundData", menuName = "ScriptableObjects/SoundData", order = 1)]
 public class SoundData : ScriptableObject, IModel
 {

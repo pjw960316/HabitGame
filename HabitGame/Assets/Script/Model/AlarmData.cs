@@ -11,7 +11,7 @@ public class AlarmData : ScriptableObject, IModel
 
     private const string BaseDirectoryName = "Music";
 
-    // note
+    // NOTE
     // AudioClip의 메모리 적재를 GameStartManagerMono로 옮긴다.
     // 그러기 위해 Path가 필요하다.
     // Path를 추출하기 위한 용도고, 실제로 메모리에 적재되지 않는다.
@@ -81,7 +81,8 @@ public class AlarmData : ScriptableObject, IModel
 
     #region 6. Methods
 
-    // note : setter
+    // NOTE
+    // setter
 
     public void SetSleepingAudioClipDictionary(EAlarmButtonType eAlarmButtonType, AudioClip memoryLoadedAudioClip)
     {

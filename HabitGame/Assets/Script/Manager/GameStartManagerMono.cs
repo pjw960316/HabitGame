@@ -6,7 +6,8 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 
-//note : 너의 책임은 Bootstrap이다.
+// NOTE
+// 너의 책임은 Bootstrap이다.
 // 이 녀석이 GameManager 역할을 하면 안 된다. 
 public class GameStartManagerMono : MonoBehaviour
 {
@@ -57,7 +58,8 @@ public class GameStartManagerMono : MonoBehaviour
 
         CreateManagers();
         
-        // note : 이 시점 이후에는 싱글턴이 null이 되지 않음이 보장된다.
+        // NOTE
+        // 이 시점 이후에는 싱글턴이 null이 되지 않음이 보장된다.
 
         InitializeManagers();
 
@@ -79,7 +81,8 @@ public class GameStartManagerMono : MonoBehaviour
             throw new NullReferenceException("_cSharpAssembly is null");
         }
 
-        // note : ManagerBase<T>를 제외해야 한다. -> !type.IsAbstract
+        // NOTE
+        // ManagerBase<T>를 제외해야 한다. -> !type.IsAbstract
         _managerTypeList = _cSharpAssembly.GetTypes()
             .Where(type => typeof(IManager).IsAssignableFrom(type) && type.IsClass && !type.IsAbstract)
             .ToList();
@@ -204,7 +207,8 @@ public class GameStartManagerMono : MonoBehaviour
     {
         DontDestroyOnLoad(this);
         
-        // note : ShowGameLoadSceneBackgroundAsync -> 비동기로 돌고 끝나면 메모리에서 내려간다.
+        // NOTE
+        // ShowGameLoadSceneBackgroundAsync -> 비동기로 돌고 끝나면 메모리에서 내려간다.
     }
     private void ChangeScene()
     {

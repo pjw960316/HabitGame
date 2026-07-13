@@ -4,7 +4,7 @@ using System.IO;
 using System.Xml.Serialization;
 using UnityEngine;
 
-// Note
+// NOTE
 // 책임
 // 1. 모든 XML 데이터를 Deserialize 할 책임
 // 2. Deserialize 된 XML Data Instance를 각각의 Manager에게 전달.

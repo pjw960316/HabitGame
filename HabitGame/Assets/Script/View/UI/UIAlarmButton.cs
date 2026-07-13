@@ -2,7 +2,8 @@ using System;
 using UniRx;
 using UnityEngine;
 
-// note : AlarmButton = AudioClipButton + TimeButton
+// NOTE
+// AlarmButton = AudioClipButton + TimeButton
 public class UIAlarmButton : UIButtonBase
 {
     #region 1. Fields

@@ -61,7 +61,7 @@ public class UIRoutineRecordWidget : UIWidgetBase
 
     #region 6. Methods
 
-    // note
+    // NOTE
     // Auto-Texting 되는 것 존재.
     public void UpdateData(KeyValuePair<string, ImmutableList<bool>> routineRecordElement)
     {

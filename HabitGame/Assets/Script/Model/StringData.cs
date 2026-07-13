@@ -80,7 +80,7 @@ public interface IEnumKey
 {
 }
 
-// note
+// NOTE
 // 아래부터 추가하세요
 public enum EStringKey
 {
@@ -102,7 +102,7 @@ public enum EStringKey
     EAlarmTimerPopupTitle,
 }
 
-// note
+// NOTE
 // 아래부터 추가하세요
 public enum EToastStringKey
 {

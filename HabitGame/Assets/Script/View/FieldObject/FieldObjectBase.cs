@@ -61,7 +61,8 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
         _instanceID = GetInstanceID();
         _fieldObjectTransform = transform;
 
-        // note : 반드시 EFieldObjectKey가 선행 세팅 되어야 한다.
+        // NOTE
+        // 반드시 EFieldObjectKey가 선행 세팅 되어야 한다.
         //_fieldObjectManager.RegisterFieldObjectInActiveDictionary(this);
     }
 
@@ -76,7 +77,8 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 
     #region 4. EventHandlers
 
-    // note : virtual로 변경하지 마세요.
+    // NOTE
+    // virtual로 변경하지 마세요.
     private void OnDestroy()
     {
         _onDestroyFieldObject.OnNext(default);

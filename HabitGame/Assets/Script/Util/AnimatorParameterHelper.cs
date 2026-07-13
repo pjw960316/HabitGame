@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// note
+// NOTE
 // legacy code 
 // Parameter가 늘어나면 모를까 일단 필요 없다.
 /*public static class AnimatorParameterHelper

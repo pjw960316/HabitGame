@@ -30,7 +30,7 @@ public class UIImageBase : MonoBehaviour, IView
 
     public void Awake()
     {
-        // Note
+        // NOTE
         // Overriding
         // Script가 UIButtonBase가 붙으면 Base의 OnAwake()가 호출되고
         // Script가 UIOpenPopupButtonBase가 붙으면 Derived의 OnAwake()가 호출되기 바람.
@@ -41,7 +41,7 @@ public class UIImageBase : MonoBehaviour, IView
     {
         Initialize();
 
-        // Note
+        // NOTE
         // Shadowing
         // Script가 UIButtonBase가 붙으면 Base의 BindEvent()가 호출되고
         // Script가 UIOpenPopupButtonBase가 붙어도 Derived의 BindEvent()가 호출되기 바람.
@@ -52,7 +52,7 @@ public class UIImageBase : MonoBehaviour, IView
 
     #region 4. Methods
 
-    // Note
+    // NOTE
     // Virtual로 변경하지 마세요.
     // 모든 상속 구조에서 Binding은 독립적으로 각각 실행되어야 합니다.
     private void BindEvent()

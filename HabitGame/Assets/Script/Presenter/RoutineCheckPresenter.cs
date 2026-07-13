@@ -35,7 +35,8 @@ public class RoutineCheckPresenter : UIPresenterBase
 
     protected sealed override void InitializeModel()
     {
-        // note : model does not need
+        // NOTE
+        // model does not need
     }
 
     public sealed override void SetView()
@@ -63,7 +64,7 @@ public class RoutineCheckPresenter : UIPresenterBase
     {
         var todaySuccessfulRoutineIndex = RequestGetTodaySuccessfulRoutineIndex(dateTime);
 
-        // note
+        // NOTE
         // null이면 해당 루틴이 없는 것 이므로
         // Toggle을 그냥 냅두면 된다.
         if (todaySuccessfulRoutineIndex == null)
@@ -80,7 +81,8 @@ public class RoutineCheckPresenter : UIPresenterBase
 
     private async UniTaskVoid RequestUpdateRoutineRecordAsync(List<int> todaySuccessfulRoutineIndex, DateTime dateTime)
     {
-        // note : 서버 시간 딜레이 이후에 꺼지므로, 그 때 접근 못하도록 (cancellation Token 대신)
+        // NOTE
+        // 서버 시간 딜레이 이후에 꺼지므로, 그 때 접근 못하도록 (cancellation Token 대신)
         _uiRoutineCheckPopup.BlockConfirmButton();
 
         var serverResult = await _serverManager.RequestServerValidation();

@@ -4,14 +4,14 @@ using System.Linq;
 using UniRx;
 using Random = System.Random;
 
-// Note
+// NOTE
 // fieldObjectManager가 fieldObject보다 먼저 생성된다.
 // Manager들은 Unity 세계에서 View를 알기 때문에 View를 통해 Presenter를 얻어와야 한다.
 public class FieldObjectManager : ManagerBase<FieldObjectManager>
 {
     #region 1. Fields
 
-    // Note
+    // NOTE
     // (Key , Value)  =>  (View의 InstanceID , FieldObjectPresenterBase)
     private readonly Dictionary<int, FieldObjectPresenterBase> _fieldObjectPresenterDict = new(); 
     
@@ -71,7 +71,7 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>
 
     #region 6. Methods
 
-    // note
+    // NOTE
     // FieldObject가 생성되면 호출해서 Dictionary에 추가한다.
     // 의존성?
     public void RegisterFieldObjectPresenter(FieldObjectPresenterBase fieldObjectPresenterBase)

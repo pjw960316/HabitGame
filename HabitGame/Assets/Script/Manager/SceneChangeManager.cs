@@ -4,7 +4,8 @@ public sealed class SceneChangeManager : ManagerBase<SceneChangeManager>
 {
     #region 1. Fields
 
-    //NOTE : 아직 VAli 필요 없음
+    // NOTE
+    // 아직 VAli 필요 없음
     //private readonly SceneNameValidator _sceneNameValidator = new();
     private readonly SceneLoader _sceneLoader = new();
 

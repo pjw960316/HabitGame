@@ -25,7 +25,8 @@ public abstract class UIPresenterBase : PresenterBase
         ExceptionHelper.CheckNullException(_popupBase, "_popupBase is null");
     }
 
-    // note : model은 공용 계층이 일단을 필요없어서 여기서 override 하지 않는다.
+    // NOTE
+    // model은 공용 계층이 일단을 필요없어서 여기서 override 하지 않는다.
 
     #endregion
 
@@ -46,7 +47,7 @@ public abstract class UIPresenterBase : PresenterBase
 
     #region 6. Methods
 
-    // note
+    // NOTE
     // UI는 Popup 정리 + Presenter 정리
     protected void Close()
     {

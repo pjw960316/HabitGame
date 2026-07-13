@@ -20,7 +20,8 @@ public sealed class FieldObjectPlayerPresenter : FieldObjectPresenterBase
 
     public override void SetView()
     {
-        // note : 나중에 필요하면.
+        // NOTE
+        // 나중에 필요하면.
     }
 
     protected override void InitializeView()

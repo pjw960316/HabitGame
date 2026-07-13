@@ -53,7 +53,8 @@ public class PresenterManager : ManagerBase<PresenterManager>
 
     #region 6. Methods
 
-    // note : Factory Pattern
+    // NOTE
+    // Factory Pattern
     public void CreatePresenter<TPresenter>(IView view) where TPresenter : PresenterBase, new()
     {
         var presenter = new TPresenter();

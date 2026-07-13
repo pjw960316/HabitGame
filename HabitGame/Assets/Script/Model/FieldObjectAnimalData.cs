@@ -21,7 +21,8 @@ public class FieldObjectAnimalData : IModel
 
     #region 3. Constructor
 
-    // note : CreateInstance 때문에 public 유지해야 합니다.
+    // NOTE
+    // CreateInstance 때문에 public 유지해야 합니다.
     public FieldObjectAnimalData()
     {
         Initialize();
@@ -81,7 +82,7 @@ public class FieldObjectAnimalData : IModel
     #endregion
 }
 
-// note
+// NOTE
 // Animator의 condition과 다르지 않도록 주의
 public enum EAnimalState
 {

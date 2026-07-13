@@ -2,7 +2,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-// note : Button은 Widget이므로 MVP 대신, 오직 View에서 모두 처리해도 무방하다고 생각한다.
+// NOTE
+// Button은 Widget이므로 MVP 대신, 오직 View에서 모두 처리해도 무방하다고 생각한다.
 public class UIButtonBase : MonoBehaviour, IView
 {
     #region 1. Fields
@@ -35,7 +36,8 @@ public class UIButtonBase : MonoBehaviour, IView
         BindEvent();
     }
 
-    // note : public으로 해서, popup에서 제어해야 시점을 명확히 시킨다.
+    // NOTE
+    // public으로 해서, popup에서 제어해야 시점을 명확히 시킨다.
     public virtual void Initialize()
     {
         _uiManager = UIManager.Instance;

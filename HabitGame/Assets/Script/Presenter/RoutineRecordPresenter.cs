@@ -38,7 +38,8 @@ public class RoutineRecordPresenter : UIPresenterBase
 
     protected sealed override void InitializeModel()
     {
-        // note : Manager Class를 Model로 여겼다.
+        // NOTE
+        // Manager Class를 Model로 여겼다.
         _routineRecordDictionary = _myCharacterManager.GetRoutineRecordDictionary();
     }
 

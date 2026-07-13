@@ -29,7 +29,8 @@ public class FieldObjectDeerPresenter : FieldObjectAnimalPresenterBase
 
     public sealed override void SetView()
     {
-        // note : 나중에 필요하면.
+        // NOTE
+        // 나중에 필요하면.
     }
 
     public sealed override void BindEvent()
