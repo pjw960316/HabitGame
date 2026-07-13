@@ -3,7 +3,7 @@ using UniRx;
 using UnityEngine;
 using Observable = UniRx.Observable;
 
-public class CameraController : MonoBehaviour
+public class CameraController : ControllerBase
 {
     #region 1. Fields
 
@@ -35,12 +35,7 @@ public class CameraController : MonoBehaviour
 
     #region 3. Constructor
 
-    private void Awake()
-    {
-        Initialize();
-    }
-
-    private void Initialize()
+    protected override void Initialize()
     {
         // todo : 
         // controller가 manager를 들고 있지 않는 구조가 좋긴한데.
