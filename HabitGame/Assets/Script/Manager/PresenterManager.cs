@@ -35,6 +35,7 @@ public class PresenterManager : ManagerBase<PresenterManager>
         _fieldObjectViewModelTypeMatchDictionary[typeof(FieldObjectPlayer)] = typeof(FieldObjectPlayerData);
         _fieldObjectViewModelTypeMatchDictionary[typeof(FieldObjectSparrow)] = typeof(FieldObjectSparrowData);
         _fieldObjectViewModelTypeMatchDictionary[typeof(FieldObjectDeer)] = typeof(FieldObjectAnimalData);
+        _fieldObjectViewModelTypeMatchDictionary[typeof(FieldObjectLand)] = typeof(FieldObjectLandData);
     }
 
     #endregion

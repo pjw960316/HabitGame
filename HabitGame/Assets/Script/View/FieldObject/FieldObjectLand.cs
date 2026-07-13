@@ -14,12 +14,15 @@ public class FieldObjectLand : FieldObjectBase
 
     #region 1. Fields
 
-    private const int BORDER_SIDE_COUNT = 4; // NOTE : 맵 경계는 사각형
+    // NOTE
+    // 맵 데이터 필드 3개
+    private const int BORDER_SIDE_COUNT = 4;
+    [SerializeField] private int _horizontalRockCount;
+    [SerializeField] private int _verticalRockCount;
     
     [SerializeField] private GameObject _rockPrefab;
     [SerializeField] private Transform _environmentsBaseTransform;
-    [SerializeField] private int _horizontalRockCount;
-    [SerializeField] private int _verticalRockCount;
+    
     
     private int _rockBordersCount;
 
@@ -67,6 +70,7 @@ public class FieldObjectLand : FieldObjectBase
 
     // NOTE
     // 일단은 풀링을 고려하지 않음.
+    // Presenter가 해야 하냐에 대한 답은 아직 모호하지만 이건 View에 있어도 무방하다고 판단하다.
     private void CreateFieldObjectEnvironments()
     {
         var list = new List<Transform>();
