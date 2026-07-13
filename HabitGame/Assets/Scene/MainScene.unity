@@ -1387,6 +1387,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -3602175305585561922, guid: 3f9b178ccd3b86f4ebbfc1f5a2815e56, type: 3}
+      propertyPath: _verticalRockCount
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: -3602175305585561922, guid: 3f9b178ccd3b86f4ebbfc1f5a2815e56, type: 3}
+      propertyPath: _horizontalRockCount
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: -3602175305585561922, guid: 3f9b178ccd3b86f4ebbfc1f5a2815e56, type: 3}
       propertyPath: _environmentsBaseTransform
       value: 
       objectReference: {fileID: 246553140}

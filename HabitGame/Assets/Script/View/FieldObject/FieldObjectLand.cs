@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FieldObjectLand : FieldObjectBase
 {
-    public enum EPath
+    private enum EPath
     {
         Top,
         Bottom,
@@ -14,12 +14,12 @@ public class FieldObjectLand : FieldObjectBase
 
     #region 1. Fields
 
-    private const int SQUARE_SIDE_COUNT = 4;
-    private const int HORIZONTAL_COUNT = 8; // 가로는 고정 -> 카메라 각도
+    private const int BORDER_SIDE_COUNT = 4; // NOTE : 맵 경계는 사각형
     
     [SerializeField] private GameObject _rockPrefab;
     [SerializeField] private Transform _environmentsBaseTransform;
-    [SerializeField] private int _verticalCount;
+    [SerializeField] private int _horizontalRockCount;
+    [SerializeField] private int _verticalRockCount;
     
     private int _rockBordersCount;
 
@@ -52,7 +52,7 @@ public class FieldObjectLand : FieldObjectBase
     {
         base.Initialize();
 
-        _rockBordersCount = HORIZONTAL_COUNT * 2 + _verticalCount * 2;
+        _rockBordersCount = _horizontalRockCount * 2 + _verticalRockCount * 2;
     }
 
     protected override void InitializeEnumFieldObjectKey()
@@ -65,6 +65,8 @@ public class FieldObjectLand : FieldObjectBase
         base.BindEvent();
     }
 
+    // NOTE
+    // 일단은 풀링을 고려하지 않음.
     private void CreateFieldObjectEnvironments()
     {
         var list = new List<Transform>();
@@ -84,9 +86,9 @@ public class FieldObjectLand : FieldObjectBase
 
         // NOTE
         // 0 = 아래 / 1 = 위 / 2 = 왼쪽 / 3 = 오른쪽
-        for (var i = 0; i < SQUARE_SIDE_COUNT; i++)
+        for (var i = 0; i < BORDER_SIDE_COUNT; i++)
         {
-            var count = i < 2 ? HORIZONTAL_COUNT : _verticalCount;
+            var count = i < 2 ? _horizontalRockCount : _verticalRockCount;
             for (var j = 0; j < count; j++)
             {
                 list[idx].position = GetPosition(_createOrder[i], offset, environment_X_Length, environment_Z_Length) +
@@ -121,9 +123,9 @@ public class FieldObjectLand : FieldObjectBase
         {
             EPath.Bottom => new Vector3(environment_X_Length * offset, 0, 0),
             EPath.Top => new Vector3(environment_X_Length * offset, 0,
-                environment_X_Length * _verticalCount),
+                environment_X_Length * _verticalRockCount),
             EPath.Left => new Vector3(0, 0, environment_Z_Length * offset),
-            EPath.Right => new Vector3(environment_Z_Length * HORIZONTAL_COUNT, 0,
+            EPath.Right => new Vector3(environment_Z_Length * _horizontalRockCount, 0,
                 environment_Z_Length * offset),
             _ => throw new NullReferenceException()
         };
