@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UniRx;
+using UnityEngine;
 using Random = System.Random;
 
 // NOTE
@@ -123,6 +124,22 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>
 
         return null;
     }
+
+    public Transform GetPlayerTransform()
+    {
+        var playerPresenter = _fieldObjectPresenterDict
+            .Select(kv => kv.Value)
+            .OfType<FieldObjectPlayerPresenter>()
+            .FirstOrDefault();
+
+        if (playerPresenter == null)
+        {
+            throw new InvalidOperationException("PlayerPresenter is not registered.");
+        }
+
+        return playerPresenter.GetFieldObjectTransform();
+    }
+
     public TFieldObjectPresenter GetFieldObjectPresenter<TFieldObjectPresenter>(int instanceID) where TFieldObjectPresenter : FieldObjectPresenterBase
     {
         if (!_fieldObjectPresenterDict.TryGetValue(instanceID, out var presenter))

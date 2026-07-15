@@ -1,5 +1,6 @@
 using System;
 using UniRx;
+using UnityEngine;
 
 public abstract class FieldObjectPresenterBase : PresenterBase
 {
@@ -81,6 +82,11 @@ public abstract class FieldObjectPresenterBase : PresenterBase
     public int GetFieldObjectInstanceID()
     {
         return _fieldObjectBase.InstanceID;
+    }
+
+    public Transform GetFieldObjectTransform()
+    {
+        return _fieldObjectBase.transform;
     }
 
     #endregion
