@@ -6,7 +6,7 @@ using UnityEngine;
 // InputManager의 책임은 매우 간단하다.
 // InputController를 통해 다양한 Unity Input Context를 다양한 C# 타입으로 전달받는다. -> Action들
 // Action을 통해 받아온 값이 변경되면 ReactiveProperty로 외부 MVP에 변경을 전달한다.
-public class InputManager : ManagerBase<InputManager>
+public class InputManager : ManagerBase<InputManager>, IHasController<InputController>
 {
     #region 1. Fields
 
@@ -30,20 +30,13 @@ public class InputManager : ManagerBase<InputManager>
     #endregion
 
     #region 3. Constructor
+    
+    //
 
-    public void RegisterController(InputController controller)
-    {
-        _inputController = controller;
+    #endregion
 
-        BindInputControllerEvent();
-    }
-
-    private void BindInputControllerEvent()
-    {
-        _inputController.OnMoveEvent += UpdateMoveVector;
-        _inputController.OnTouchEvent += UpdateTouchedTarget;
-    }
-
+    #region 4. EventHandlers
+    //
     #endregion
 
     #region 5. Request Methods
@@ -54,6 +47,22 @@ public class InputManager : ManagerBase<InputManager>
 
     #region 6. Methods
 
+    public void RegisterController(InputController inputController)
+    {
+        if (inputController == null)
+        {
+            Debug.LogError("inputController is not set.");
+            return;
+        }
+        
+        _inputController = inputController;
+
+        // NOTE
+        // 바인딩의 실행 순서가 중요하므로 이곳에 적는다.
+        _inputController.OnMoveEvent += UpdateMoveVector;
+        _inputController.OnTouchEvent += UpdateTouchedTarget;
+    }
+    
     private void UpdateTouchedTarget(Vector2 curTouchPos)
     {
         var ray = CameraManager.Instance.GetRay(curTouchPos);

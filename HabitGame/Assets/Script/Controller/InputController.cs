@@ -81,7 +81,7 @@ public class TouchPosHandler : IInputHandler
 // 책임은 단순하다.
 // 1. 유니티의 인풋만을 분기해서 데이터로 가공한다.  ->  인터페이스를 이용해서 분기했다.
 // 2. 가공된 데이터를 InputManager에게 넘겨준다.
-public class InputController : MonoBehaviour, IController
+public class InputController : ControllerBase
 {
     #region 1. Fields
 
@@ -107,35 +107,23 @@ public class InputController : MonoBehaviour, IController
 
     #region 3. Constructor
 
-    private void Awake()
+    protected override void Initialize()
     {
-        ConnectManagerAndController();
-
+        RequestConnectManager<InputManager, InputController>(this);
+        
         InitializeInputActionDictionary();
 
         _playerInput.onActionTriggered += OnHandleInput;
     }
 
-    private void ConnectManagerAndController()
-    {
-        //refactor : 이거 자체가 위험한지에 대해 고민해라.
-        // 내가 필요한 건 사실 시스템이 아니다.
-        // controller가 manager랑 연결하는 게 다야! 
-        // 물론 이거 보다 더 좋은 구조가 있겠지만 계속 삽질만 하고 진전이 없다.
-
-        var gameManager = GameManager.Instance;
-        var targetManager = gameManager.GetManagerByType<InputManager>();
-        targetManager.RegisterController(this);
-    }
-
     private void InitializeInputActionDictionary()
     {
-        // mapping
         foreach (var kv in _inspectorInputDict)
         {
             _inputActionDict[kv.Value.action] = kv.Key;
         }
 
+        // NOTE
         // strategy pattern mapping
         foreach (var kv in _inputActionDict)
         {

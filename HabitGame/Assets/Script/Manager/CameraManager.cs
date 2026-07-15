@@ -18,7 +18,7 @@ public class CameraManager : ManagerBase<CameraManager>, IHasController<CameraCo
     //
     #endregion
 
-    #region 3. Constructor
+    #region 3. Initialization
 
     public sealed override void Initialize()
     {
@@ -44,6 +44,10 @@ public class CameraManager : ManagerBase<CameraManager>, IHasController<CameraCo
             }).AddTo(_followSparrowCameraMoveDisposable);
     }
 
+    #endregion
+
+    #region 4. Controller Registration
+
     // NOTE
     // Controller가 생길 때 이벤트로 콜이 들어온다.
     // 그러므로 Controller가 생성 될 때 초기화를 하니 좋은 설계라고 생각한다.
@@ -60,11 +64,11 @@ public class CameraManager : ManagerBase<CameraManager>, IHasController<CameraCo
 
     #endregion
 
-    #region 4. EventHandlers
+    #region 5. EventHandlers
     //
     #endregion
 
-    #region 5. Request Methods
+    #region 6. Request Methods
 
     private void RequestFollowSparrow()
     {
@@ -81,7 +85,7 @@ public class CameraManager : ManagerBase<CameraManager>, IHasController<CameraCo
 
     #endregion
 
-    #region 6. Methods
+    #region 7. Methods
 
     public Ray GetRay(Vector2 pos)
     {
