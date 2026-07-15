@@ -3,7 +3,7 @@ using UniRx;
 using UnityEngine;
 using Observable = UniRx.Observable;
 
-public class CameraController : MonoBehaviour
+public class CameraController : ControllerBase
 {
     #region 1. Fields
 
@@ -13,10 +13,6 @@ public class CameraController : MonoBehaviour
 
     [SerializeField] private Camera _mainCamera;
 
-    // NOTE
-    // 자신의 매니저를 들고 있는다.
-    private CameraManager _cameraManager;
-    
     private Transform _mainCameraTransform;
     private IDisposable _followFieldObjectObservable;
 
@@ -35,26 +31,10 @@ public class CameraController : MonoBehaviour
 
     #region 3. Constructor
 
-    private void Awake()
+    protected override void Initialize()
     {
-        Initialize();
-    }
-
-    private void Initialize()
-    {
-        // todo : 
-        // controller가 manager를 들고 있지 않는 구조가 좋긴한데.
-        // 일단 하고, 필요시에 rx로 
-        _cameraManager = CameraManager.Instance;
+        RequestConnectManager<CameraManager, CameraController>(this);
         
-        if (_cameraManager == null)
-        {
-            Debug.LogError("카메라 매니저가 null 입니다.");
-
-            return;
-        }
-        
-        _cameraManager.SetCameraController(this);
         _mainCameraTransform = _mainCamera.transform;
 
         InitializeCameraFOV();
