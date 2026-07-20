@@ -66,8 +66,15 @@ public sealed class FieldObjectPlayerPresenter : FieldObjectPresenterBase
             moveDirection.Normalize();
         }
 
+        Debug.Log($"{moveVector}");
+        
         _fieldObjectPlayer.ChangePlayerMoveDirection(moveDirection);
         _fieldObjectPlayerData.ChangePlayerState(moveDirection == Vector3.zero ? EPlayerState.IDLE : EPlayerState.MOVE);
+
+        if (moveDirection != Vector3.zero)
+        {
+            _cameraManager.RequestFollowPlayer(_fieldObjectPlayer.FieldObjectTransform);
+        }
     }
 
     private void OnChangePlayerState(EPlayerState changedState)

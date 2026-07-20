@@ -80,7 +80,23 @@ public class CameraManager : ManagerBase<CameraManager>, IHasController<CameraCo
 
         var randomSparrow = _fieldObjectManager.GetRandomSparrow();
 
-        _cameraController.StartFollowFieldObject(randomSparrow.transform);
+        if (randomSparrow == null)
+        {
+            return;
+        }
+        
+        _cameraController.FollowTargetFieldObject(randomSparrow.FieldObjectTransform);
+    }
+    
+    public void RequestFollowPlayer(Transform playerTransform)
+    {
+        if (_cameraController == null)
+        {
+            Debug.LogError("CameraController is not registered.");
+            return;
+        }
+        
+        _cameraController.FollowTargetFieldObject(playerTransform);
     }
 
     #endregion

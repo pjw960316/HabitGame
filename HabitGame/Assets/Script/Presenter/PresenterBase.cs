@@ -14,6 +14,7 @@ public abstract class PresenterBase : IPresenter
     protected PresenterManager _presenterManager;
     protected MockServerManager _serverManager;
     protected FieldObjectManager _fieldObjectManager;
+    protected CameraManager _cameraManager;
 
     protected IView _view;
     protected IModel _model;
@@ -42,6 +43,7 @@ public abstract class PresenterBase : IPresenter
         _serverManager = MockServerManager.Instance;
         _inputManager = InputManager.Instance;
         _fieldObjectManager = FieldObjectManager.Instance;
+        _cameraManager = CameraManager.Instance;
         
         _view = view;
         

@@ -77,7 +77,7 @@ public class CameraController : ControllerBase
 
     #region 6. Methods
 
-    public void StartFollowFieldObject(Transform fieldObjectTransform)
+    public void FollowTargetFieldObject(Transform fieldObjectTransform)
     {
         _mainCamera.fieldOfView = FOLLOWING_CAMERA_FOV;
 

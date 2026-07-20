@@ -10,9 +10,10 @@ public sealed class FieldObjectPlayer : FieldObjectBase
     
     private Rigidbody _playerRigidBody;
     private Collision _currentCollision;
+    
     // NOTE
     // Animator를 사용하려면 해당 컴포넌트를 추가해야 한다.
-private FieldObjectAnimator _fieldObjectAnimator;
+    private FieldObjectAnimator _fieldObjectAnimator;
     private Vector3 _playerMoveDirection;
 
     #endregion

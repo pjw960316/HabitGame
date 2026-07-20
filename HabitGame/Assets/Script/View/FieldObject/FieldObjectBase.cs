@@ -25,7 +25,7 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 
     public Subject<Unit> OnDestroyFieldObject => _onDestroyFieldObject;
 
-    protected Transform FieldObjectTransform => _fieldObjectTransform;
+    public Transform FieldObjectTransform => _fieldObjectTransform;
 
     #endregion
 
