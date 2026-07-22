@@ -85,7 +85,7 @@ public class CameraManager : ManagerBase<CameraManager>, IHasController<CameraCo
             return;
         }
         
-        _cameraController.FollowTargetFieldObject(randomSparrow.FieldObjectTransform);
+        _cameraController.FollowTargetFromBehind(randomSparrow.FieldObjectTransform);
     }
     
     public void RequestFollowPlayer(Transform playerTransform)
@@ -96,7 +96,7 @@ public class CameraManager : ManagerBase<CameraManager>, IHasController<CameraCo
             return;
         }
         
-        _cameraController.FollowTargetFieldObject(playerTransform);
+        _cameraController.FollowTargetFromAbove(playerTransform);
     }
 
     #endregion

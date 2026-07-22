@@ -14,14 +14,16 @@ public class CameraController : ControllerBase
     [SerializeField] private Camera _mainCamera;
 
     private Transform _mainCameraTransform;
-    private IDisposable _followFieldObjectObservable;
+    private IDisposable _followTargetObservable;
 
     private Vector3 _initializedMainCameraPosition;
     private Quaternion _initializedMainCameraRotation;
     private float _initializedMainCameraFOV;
 
-    private readonly Vector3 FOLLOWING_CAMERA_ROTATE_ADJUST_VECTOR = new(0, -0.7f, -2);
-    private readonly Vector3 FOLLOWING_CAMERA_POSITION_ADJUST_VECTOR = new(0, 1, -1);
+    private readonly Vector3 FOLLOWING_FROM_BEHIND_CAMERA_ROTATE_ADJUST_VECTOR = new(0, -0.7f, -2);
+    private readonly Vector3 FOLLOWING_FROM_BEHIND_CAMERA_POSITION_ADJUST_VECTOR = new(0, 1, -1);
+    private readonly Vector3 FOLLOWING_FROM_ABOVE_CAMERA_ROTATE_ADJUST_VECTOR = Vector3.zero;
+    private readonly Vector3 FOLLOWING_FROM_ABOVE_CAMERA_POSITION_ADJUST_VECTOR = new(0, 5, -3);
 
     #endregion
 
@@ -77,30 +79,45 @@ public class CameraController : ControllerBase
 
     #region 6. Methods
 
-    public void FollowTargetFieldObject(Transform fieldObjectTransform)
+    public void FollowTargetFromBehind(Transform targetTransform)
     {
+        FollowTarget(targetTransform, FOLLOWING_FROM_BEHIND_CAMERA_ROTATE_ADJUST_VECTOR, FOLLOWING_FROM_BEHIND_CAMERA_POSITION_ADJUST_VECTOR);
+    }
+
+    public void FollowTargetFromAbove(Transform targetTransform)
+    {
+        FollowTarget(targetTransform, FOLLOWING_FROM_ABOVE_CAMERA_ROTATE_ADJUST_VECTOR, FOLLOWING_FROM_ABOVE_CAMERA_POSITION_ADJUST_VECTOR);
+    }
+
+    private void FollowTarget(Transform targetTransform, Vector3 rotateAdjustVector, Vector3 positionAdjustVector)
+    {
+        if (targetTransform == null)
+        {
+            Debug.LogError("Target Transform is not set.");
+            return;
+        }
+
         _mainCamera.fieldOfView = FOLLOWING_CAMERA_FOV;
 
-        _followFieldObjectObservable?.Dispose();
-        _followFieldObjectObservable = Observable
+        _followTargetObservable?.Dispose();
+        _followTargetObservable = Observable
             .Interval(TimeSpan.FromMilliseconds(FOLLOWING_CAMERA_UPDATE_MILLISECONDS))
             .Subscribe(_ =>
             {
-                if (_mainCameraTransform == null)
+                if (_mainCameraTransform == null || targetTransform == null)
                 {
                     return;
                 }
 
-                var direction = fieldObjectTransform.position - _mainCameraTransform.position -
-                                FOLLOWING_CAMERA_ROTATE_ADJUST_VECTOR;
+                var direction = targetTransform.position - _mainCameraTransform.position - rotateAdjustVector;
                 _mainCameraTransform.rotation = Quaternion.LookRotation(direction.normalized);
-                _mainCameraTransform.position = fieldObjectTransform.position + FOLLOWING_CAMERA_POSITION_ADJUST_VECTOR;
+                _mainCameraTransform.position = targetTransform.position + positionAdjustVector;
             });
     }
     
     public void ReturnToDefaultCameraSetting()
     {
-        _followFieldObjectObservable?.Dispose();
+        _followTargetObservable?.Dispose();
         
         _mainCameraTransform.position = _initializedMainCameraPosition;
         _mainCameraTransform.rotation = _initializedMainCameraRotation;
