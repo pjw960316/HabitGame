@@ -95,8 +95,10 @@ public class CameraManager : ManagerBase<CameraManager>, IHasController<CameraCo
             Debug.LogError("CameraController is not registered.");
             return;
         }
-        
-        _cameraController.FollowTargetFromAbove(playerTransform);
+
+        _cameraController.IsFollowingTarget = true;
+        _cameraController.TargetTransform = playerTransform;
+        //_cameraController.FollowTargetFromAbove(playerTransform);
     }
 
     #endregion

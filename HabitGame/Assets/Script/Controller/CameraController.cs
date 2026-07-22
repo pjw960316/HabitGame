@@ -22,9 +22,12 @@ public class CameraController : ControllerBase
 
     private readonly Vector3 FOLLOWING_FROM_BEHIND_CAMERA_ROTATE_ADJUST_VECTOR = new(0, -0.7f, -2);
     private readonly Vector3 FOLLOWING_FROM_BEHIND_CAMERA_POSITION_ADJUST_VECTOR = new(0, 1, -1);
+    
     private readonly Vector3 FOLLOWING_FROM_ABOVE_CAMERA_ROTATE_ADJUST_VECTOR = Vector3.zero;
     private readonly Vector3 FOLLOWING_FROM_ABOVE_CAMERA_POSITION_ADJUST_VECTOR = new(0, 5, -3);
 
+    public bool IsFollowingTarget;
+    public Transform TargetTransform;
     #endregion
 
     #region 2. Properties
@@ -67,7 +70,28 @@ public class CameraController : ControllerBase
 
     #region 4. EventHandlers
 
-    //
+    private void LateUpdate()
+    {
+        if (IsFollowingTarget)
+        {
+            if (TargetTransform == null)
+            {
+                Debug.LogError("Target Transform is not set.");
+                return;
+            }
+
+            _mainCamera.fieldOfView = FOLLOWING_CAMERA_FOV;
+            if (_mainCameraTransform == null || TargetTransform == null)
+            {
+                return;
+            }
+
+            var direction = TargetTransform.position - _mainCameraTransform.position - FOLLOWING_FROM_ABOVE_CAMERA_ROTATE_ADJUST_VECTOR;
+            _mainCameraTransform.rotation = Quaternion.LookRotation(direction.normalized);
+            _mainCameraTransform.position = TargetTransform.position + FOLLOWING_FROM_ABOVE_CAMERA_POSITION_ADJUST_VECTOR;
+            
+        }
+    }
 
     #endregion
 
