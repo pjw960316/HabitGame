@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 걸음 수 데이터를 읽기 위해 앱이 요청할 수 있는 Health Connect 권한 -->
+    <uses-permission android:name="android.permission.health.READ_STEPS" />
+
+    <!-- Android 13 이하에서 Health Connect 제공 앱의 설치 여부 확인 -->
+    <queries>
+        <package android:name="com.google.android.apps.healthdata" />
+    </queries>
+
+</manifest>

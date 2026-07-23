@@ -1,0 +1,24 @@
+apply plugin: 'com.android.library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Google이 제공하는 Health Connect Android 클라이언트 라이브러리
+    implementation 'androidx.health.connect:connect-client:1.1.0'
+}
+
+android {
+    namespace "com.habitgame.healthconnect"
+    compileSdk getProperty("unity.compileSdkVersion") as int
+    buildToolsVersion = getProperty("unity.buildToolsVersion")
+
+    compileOptions {
+        sourceCompatibility JavaVersion.valueOf(getProperty("unity.javaCompatabilityVersion"))
+        targetCompatibility JavaVersion.valueOf(getProperty("unity.javaCompatabilityVersion"))
+    }
+
+    defaultConfig {
+        minSdk getProperty("unity.minSdkVersion") as int
+        targetSdk getProperty("unity.targetSdkVersion") as int
+    }
+}
