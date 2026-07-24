@@ -1863,6 +1863,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mainCamera: {fileID: 747050443}
+  _followCamFov: 86
+  _followCamPositionOffset: {x: 0, y: 1, z: -1}
+  _followCamLookOffset: {x: 0, y: 0.7, z: 2}
+  _skyCamFov: 98
+  _skyCamPositionOffset: {x: 0, y: 5, z: -10}
+  _skyCamLookOffset: {x: 0, y: 0, z: 0}
 --- !u!1001 &801136395
 PrefabInstance:
   m_ObjectHideFlags: 0

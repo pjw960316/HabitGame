@@ -39,7 +39,7 @@ public class CameraManager : ManagerBase<CameraManager>, IHasController<CameraCo
                 // 바인드 시점에는 일단 _cameraController가 Null임.
                 if(_cameraController != null)
                 {
-                    _cameraController.ReturnToDefaultCameraSetting();
+                    _cameraController.ReturnToSkyCam();
                 }
             }).AddTo(_followSparrowCameraMoveDisposable);
     }
@@ -82,10 +82,11 @@ public class CameraManager : ManagerBase<CameraManager>, IHasController<CameraCo
 
         if (randomSparrow == null)
         {
+            Debug.LogError("randomSparrow is not Selected.");
             return;
         }
         
-        _cameraController.FollowTargetFromBehind(randomSparrow.FieldObjectTransform);
+        _cameraController.FollowTargetWithCloseUpCam(randomSparrow.FieldObjectTransform);
     }
     
     public void RequestFollowPlayer(Transform playerTransform)
@@ -96,9 +97,7 @@ public class CameraManager : ManagerBase<CameraManager>, IHasController<CameraCo
             return;
         }
 
-        _cameraController.IsFollowingTarget = true;
-        _cameraController.TargetTransform = playerTransform;
-        //_cameraController.FollowTargetFromAbove(playerTransform);
+        _cameraController.FollowTargetWithSkyCam(playerTransform);
     }
 
     #endregion
