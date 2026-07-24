@@ -74,7 +74,6 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>
 
     // NOTE
     // FieldObject가 생성되면 호출해서 Dictionary에 추가한다.
-    // 의존성?
     public void RegisterFieldObjectPresenter(FieldObjectPresenterBase fieldObjectPresenterBase)
     {
         var instanceID = fieldObjectPresenterBase.GetFieldObjectInstanceID();
@@ -88,6 +87,8 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>
 
     public FieldObjectSparrow GetRandomSparrow()
     {
+        const int EXPECTED_SPARROW_COUNT = 8;
+
         var sparrowCount = 0;
 
         foreach (var kv in _fieldObjectPresenterDict)
@@ -102,11 +103,39 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>
 
         if (sparrowCount == 0)
         {
+            Debug.LogError(
+                $"[GetRandomSparrow][FAIL] No SparrowPresenter is registered. " +
+                $"ExpectedSparrowCount: {EXPECTED_SPARROW_COUNT}, " +
+                $"RegisteredPresenterCount: {_fieldObjectPresenterDict.Count}");
+
             throw new ArgumentOutOfRangeException();
         }
 
         var randValue = _randomMaker.Next(0, sparrowCount);
         var tmpValue = 0;
+
+        var isExpectedSparrowCount = sparrowCount == EXPECTED_SPARROW_COUNT;
+        var isRandomValueInRange = randValue >= 0 && randValue < sparrowCount;
+
+        if (isExpectedSparrowCount && isRandomValueInRange)
+        {
+            Debug.Log(
+                $"[GetRandomSparrow][PASS] SparrowCount: {sparrowCount}, " +
+                $"ValidRandomRange: [0, {sparrowCount}), RandomValue: {randValue}");
+        }
+        else
+        {
+            var registeredSparrowInstanceIDs = _fieldObjectPresenterDict
+                .Where(kv => kv.Value is FieldObjectSparrowPresenter)
+                .Select(kv => kv.Key);
+
+            Debug.LogError(
+                $"[GetRandomSparrow][FAIL] ExpectedSparrowCount: {EXPECTED_SPARROW_COUNT}, " +
+                $"ActualSparrowCount: {sparrowCount}, " +
+                $"ValidRandomRange: [0, {sparrowCount}), RandomValue: {randValue}, " +
+                $"RegisteredPresenterCount: {_fieldObjectPresenterDict.Count}, " +
+                $"SparrowInstanceIDs: [{string.Join(", ", registeredSparrowInstanceIDs)}]");
+        }
 
         var sparrowPresenters = _fieldObjectPresenterDict
             .Select(kv => kv.Value)
