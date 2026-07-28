@@ -87,7 +87,7 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>
 
     public FieldObjectSparrow GetRandomSparrow()
     {
-        const int EXPECTED_SPARROW_COUNT = 8;
+        const int EXPECTED_SPARROW_COUNT = 9;
 
         var sparrowCount = 0;
 

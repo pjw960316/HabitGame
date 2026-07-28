@@ -52,6 +52,22 @@ public abstract class FieldObjectPresenterBase : PresenterBase
 
     private void OnOnDestroyFieldObject()
     {
+        if (this is FieldObjectSparrowPresenter)
+        {
+            var gameObject = _fieldObjectBase.gameObject;
+            var scene = gameObject.scene;
+
+            Debug.Log(
+                $"[SparrowPresenter][DESTROY] " +
+                $"ViewName: {_fieldObjectBase.name}, " +
+                $"ViewInstanceID: {_fieldObjectBase.InstanceID}, " +
+                $"GameObjectInstanceID: {gameObject.GetInstanceID()}, " +
+                $"PresenterHash: {GetHashCode()}, " +
+                $"SceneName: {scene.name}, SceneHandle: {scene.handle}, " +
+                $"Frame: {Time.frameCount}",
+                _fieldObjectBase);
+        }
+
         TerminateModel();
 
         TerminatePresenter();
@@ -74,9 +90,24 @@ public abstract class FieldObjectPresenterBase : PresenterBase
     
     private void RegisterAtFieldObjectManager()
     {
+        if (this is FieldObjectSparrowPresenter)
+        {
+            var gameObject = _fieldObjectBase.gameObject;
+            var scene = gameObject.scene;
+
+            Debug.Log(
+                $"[SparrowPresenter][REGISTER] " +
+                $"ViewName: {_fieldObjectBase.name}, " +
+                $"ViewInstanceID: {_fieldObjectBase.InstanceID}, " +
+                $"GameObjectInstanceID: {gameObject.GetInstanceID()}, " +
+                $"PresenterHash: {GetHashCode()}, " +
+                $"SceneName: {scene.name}, SceneHandle: {scene.handle}, " +
+                $"Frame: {Time.frameCount}\n" +
+                $"CallStack:\n{Environment.StackTrace}",
+                _fieldObjectBase);
+        }
+
         _fieldObjectManager.RegisterFieldObjectPresenter(this);
-        
-        //_fieldObjectManager.PrintFieldObjectPresenterDictionary();
     }
 
     public int GetFieldObjectInstanceID()
