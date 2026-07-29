@@ -134,7 +134,7 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
     {
         var serializer = new XmlSerializer(typeof(MyCharacterData));
         
-        // TODO
+        // TEST
         // 테스트 상태의 path다.
         var path = _xmlFileDataList[0].AbsolutePath;
 

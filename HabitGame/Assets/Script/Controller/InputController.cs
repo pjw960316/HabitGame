@@ -36,8 +36,8 @@ public class MoveHandler : IInputHandler
 }
 
 // NOTE
-//이건 클릭을 했는지 아닌지의 여부를 판단만 한다. position이랑 관련 없다.
-//position은 매번 touchPosHandler에서 감지
+// 이건 클릭을 했는지 아닌지의 여부를 판단만 한다. position이랑 관련 없다.
+// position은 매번 touchPosHandler에서 감지
 public class TouchHandler : IInputHandler
 {
     private readonly Action _onResult;
@@ -195,7 +195,7 @@ public class InputController : ControllerBase
         }
 
         // TODO
-        // warning
+        // null 리턴 주의
         return null;
     }
 

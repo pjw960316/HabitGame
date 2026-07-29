@@ -32,7 +32,8 @@ public abstract class ControllerBase : MonoBehaviour, IController
 
     #region 5. Request Methods
 
-    // NOTE : 하위 타입에서 항상 호출시키세요.
+    // WARNING
+    // 하위 타입에서 항상 호출시키세요.
     // ControllerBase를 비제네릭 클래스로 유지하고 싶다.
     // 그러므로, 해당 메서드를 하위 타입에서 강제 할 수 없다.
     protected void RequestConnectManager<TManager, TController>(TController controller)

@@ -85,7 +85,7 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>
     }
 
 
-    // WARNING 
+    // WARNING
     // Loading Scene이 켜지면 Sparrow가 2번 등록되고 있긴함.
     public FieldObjectSparrow GetRandomSparrow()
     {
