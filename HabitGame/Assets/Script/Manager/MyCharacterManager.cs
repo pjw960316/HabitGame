@@ -82,7 +82,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
         _onUpdateRoutineSuccess.OnNext(default);
 
-        // refactor
+        // TODO
         // 이걸 매번 할 필요는 없지?
         // 게임 종료시에만?
         RequestSynchronizeDictionaryAndList();

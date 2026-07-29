@@ -133,7 +133,10 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
     public void SerializeXmlData<TModel>(TModel model) where TModel : IModel
     {
         var serializer = new XmlSerializer(typeof(MyCharacterData));
-        var path = _xmlFileDataList[0].AbsolutePath; //test
+        
+        // TODO
+        // 테스트 상태의 path다.
+        var path = _xmlFileDataList[0].AbsolutePath;
 
         using var writer = new StreamWriter(path);
 

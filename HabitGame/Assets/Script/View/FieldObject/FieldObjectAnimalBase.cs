@@ -175,7 +175,8 @@ private FieldObjectAnimator _fieldObjectAnimator;
     {
         var meshRendererCount = _meshRendererList.Count;
         
-        // todo : broadcast unirx로 수정.
+        // TODO
+        // broadcast unirx로 수정.
         for (var idx = 0; idx < meshRendererCount; idx++)
         {
             var block = new MaterialPropertyBlock();

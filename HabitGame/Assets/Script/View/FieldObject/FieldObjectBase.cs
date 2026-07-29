@@ -19,7 +19,7 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 
     public int InstanceID => _instanceID; 
     
-    // todo : 
+    // TODO
     // 얘는 model이 관리하는 게 맞는 듯.
     public EFieldObject EFieldObjectKey => _eFieldObjectKey;
 
@@ -33,7 +33,7 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
 
     private void Awake()
     {
-        // todo : 
+        // TODO
         // 이거 model에서 하는 게 맞나?
         InitializeEnumFieldObjectKey();
         
@@ -53,7 +53,8 @@ public abstract class FieldObjectBase : MonoBehaviour, IView
     {
     }
 
-    // todo : 수정
+    // TODO
+    // 수정
     protected virtual void Initialize()
     {
         _presenterManager = PresenterManager.Instance;

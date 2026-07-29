@@ -120,7 +120,7 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
 
     protected void OnCollision(Collision collision)
     {
-        // todo : 
+        // TODO
         // OnCollision이 핸드폰 터치 이벤트를 어떻게 처리하는 게 좋을까?
         // 아예 막고 InputManager에게 모든 책임을?
         var fieldObjectBase = collision.gameObject.GetComponentInParent<FieldObjectBase>();

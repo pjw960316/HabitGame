@@ -26,7 +26,7 @@ public class PresenterManager : ManagerBase<PresenterManager>
         SetModelMappingDict();
     }
 
-    // REFACTOR
+    // TODO
     // View는 자신의 concrete type을 넣어서 presenter를 생성시킨다.
     // 그리고 presenter는 이 Dictionary를 참고해서 Model을 생성한다. 
     // 근데 이러면 Generic이 나은가?

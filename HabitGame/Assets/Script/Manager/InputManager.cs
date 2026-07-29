@@ -10,7 +10,7 @@ public class InputManager : ManagerBase<InputManager>, IHasController<InputContr
 {
     #region 1. Fields
 
-    // REFACTOR
+    // TODO
     // 얘는 지금 InputController Awake에 의존되긴 함. 그래서 null 위험 있음.
     private InputController _inputController;
 

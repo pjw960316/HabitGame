@@ -58,7 +58,7 @@ public class TouchHandler : IInputHandler
     }
 }
 
-// REFACTOR
+// TODO
 // 매 번 pos를 업데이트하는 건 콜이 많이 들어오긴 한다.
 public class TouchPosHandler : IInputHandler
 {
@@ -194,7 +194,8 @@ public class InputController : ControllerBase
                 return new TouchPosHandler(this);
         }
 
-        // todo : warning
+        // TODO
+        // warning
         return null;
     }
 
