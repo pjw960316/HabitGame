@@ -124,7 +124,7 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
         // OnCollision이 핸드폰 터치 이벤트를 어떻게 처리하는 게 좋을까?
         // 아예 막고 InputManager에게 모든 책임을?
         var fieldObjectBase = collision.gameObject.GetComponentInParent<FieldObjectBase>();
-        ExceptionHelper.CheckNullException(fieldObjectBase, "fieldObjectBase script X");
+        ExceptionHelper.CheckNullException(fieldObjectBase, "충돌한 필드 객체에 FieldObjectBase 스크립트가 없습니다.");
 
         if (fieldObjectBase.EFieldObjectKey == EFieldObject.LAND)
         {
