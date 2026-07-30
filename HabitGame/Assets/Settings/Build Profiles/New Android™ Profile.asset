@@ -165,7 +165,7 @@ MonoBehaviour:
     - line: '|   loadStoreDebugModeEnabled: 0'
     - line: '|   visionOSBundleVersion: 1.0'
     - line: '|   tvOSBundleVersion: 1.0'
-    - line: '|   bundleVersion: 2.0.0'
+    - line: '|   bundleVersion: 2.0.2'
     - line: '|   preloadedAssets:'
     - line: '|   - {instanceID: 0}'
     - line: '|   - {fileID: -944628639613478452, guid: e0968cf3f7424d5428decad2822c1747,
@@ -201,7 +201,7 @@ MonoBehaviour:
     - line: '|     tvOS: 0'
     - line: '|   overrideDefaultApplicationIdentifier: 1'
     - line: '|   AndroidBundleVersionCode: 1'
-    - line: '|   AndroidMinSdkVersion: 23'
+    - line: '|   AndroidMinSdkVersion: 28'
     - line: '|   AndroidTargetSdkVersion: 0'
     - line: '|   AndroidPreferredInstallLocation: 1'
     - line: '|   aotOptions: '
@@ -283,7 +283,7 @@ MonoBehaviour:
     - line: '|   clonedFromGUID: 3c72c65a16f0acb438eed22b8b16c24a'
     - line: '|   templatePackageId: com.unity.template.urp-blank@17.0.11'
     - line: '|   templateDefaultScene: Assets/Scenes/SampleScene.unity'
-    - line: '|   useCustomMainManifest: 1'
+    - line: '|   useCustomMainManifest: 0'
     - line: '|   useCustomLauncherManifest: 0'
     - line: '|   useCustomMainGradleTemplate: 0'
     - line: '|   useCustomLauncherGradleManifest: 0'
@@ -323,7 +323,7 @@ MonoBehaviour:
     - line: '|   - m_BuildTarget: '
     - line: '|     m_Icons:'
     - line: '|     - serializedVersion: 2'
-    - line: '|       m_Icon: {fileID: 2800000, guid: 9e6cf1fba341de540be1776d7bfd870c,
+    - line: '|       m_Icon: {fileID: 2800000, guid: 94fa459cc26ea6c4fbf1a08a1c70756a,
         type: 3}'
     - line: '|       m_Width: 128'
     - line: '|       m_Height: 128'
