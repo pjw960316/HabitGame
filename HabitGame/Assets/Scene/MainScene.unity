@@ -1863,6 +1863,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mainCamera: {fileID: 747050443}
+  _isDefaultSkyCamTestMode: 0
+  _defaultSkyCamFov: 62
+  _defaultSkyCamPositionOffset: {x: 5.19, y: 4.5, z: -7.5}
+  _defaultSkyCamLookOffset: {x: 4.99, y: 2.41, z: 0.12}
   _closeUpFollowCamFov: 86
   _closeUpFollowCamPositionOffset: {x: 0, y: 1, z: -1}
   _closeUpFollowCamLookOffset: {x: 0, y: 0.7, z: 2}
@@ -5270,6 +5274,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3298122039172588925, guid: bfa41ae94a1860c42b8207c29b381735, type: 3}
+      propertyPath: _playerSpeed
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5402797129275515547, guid: bfa41ae94a1860c42b8207c29b381735, type: 3}
       propertyPath: m_Name
       value: Pengu

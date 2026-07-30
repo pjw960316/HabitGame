@@ -11,6 +11,12 @@ public class CameraController : ControllerBase
     // TODO
     // 여러 모드가 존재하면 Enum을 고려한다.
 
+    [Header("Default Sky Cam")]
+    [SerializeField] private bool _isDefaultSkyCamTestMode;
+    [SerializeField, Range(1f, 179f)] private float _defaultSkyCamFov;
+    [SerializeField] private Vector3 _defaultSkyCamPositionOffset;
+    [SerializeField] private Vector3 _defaultSkyCamLookOffset;
+
     [Header("Close-Up Follow Cam")]
     [SerializeField, Range(1f, 179f)] private float _closeUpFollowCamFov;
     [SerializeField] private Vector3 _closeUpFollowCamPositionOffset;
@@ -29,6 +35,7 @@ public class CameraController : ControllerBase
 
     private Vector3 _initializedMainCameraPosition;
     private Quaternion _initializedMainCameraRotation;
+    private float _initializedMainCameraFov;
 
     #endregion
 
@@ -44,13 +51,25 @@ public class CameraController : ControllerBase
         
         _mainCameraTransform = _mainCamera.transform;
 
-        InitializeSkyCamFOV();
-        CacheInitializedCameraData();
+        InitializeDefaultCameraView();
     }
 
-    private void InitializeSkyCamFOV()
+    private void InitializeDefaultCameraView()
     {
-        _mainCamera.fieldOfView = GetAdjustedCameraFOV(_playerFollowSkyCamFov);
+        _mainCamera.fieldOfView = GetAdjustedCameraFOV(_defaultSkyCamFov);
+        _mainCameraTransform.position = _defaultSkyCamPositionOffset;
+
+        var defaultLookDirection = _defaultSkyCamLookOffset - _defaultSkyCamPositionOffset;
+        if (defaultLookDirection != Vector3.zero)
+        {
+            _mainCameraTransform.rotation = Quaternion.LookRotation(defaultLookDirection);
+        }
+        
+        // NOTE
+        // 초기 상태 캐싱
+        _initializedMainCameraPosition = _mainCameraTransform.position;
+        _initializedMainCameraRotation = _mainCameraTransform.rotation;
+        _initializedMainCameraFov = _mainCamera.fieldOfView;
     }
 
     private float GetAdjustedCameraFOV(float originFOVDegree)
@@ -63,18 +82,28 @@ public class CameraController : ControllerBase
         return 2f * Mathf.Atan(originTanFOV * aspectRatio) * Mathf.Rad2Deg;
     }
 
-    private void CacheInitializedCameraData()
-    {
-        _initializedMainCameraPosition = _mainCameraTransform.position;
-        _initializedMainCameraRotation = _mainCameraTransform.rotation;
-    }
-
     #endregion
 
     #region 4. EventHandlers
 
     private void LateUpdate()
     {
+        // TEST
+        // Inspector에서 각도 조절할 때 키면 된다.
+        if (_isDefaultSkyCamTestMode)
+        {
+            _mainCamera.fieldOfView = GetAdjustedCameraFOV(_defaultSkyCamFov);
+            _mainCameraTransform.position = _defaultSkyCamPositionOffset;
+
+            var defaultLookDirection = _defaultSkyCamLookOffset - _mainCameraTransform.position;
+            if (defaultLookDirection != Vector3.zero)
+            {
+                _mainCameraTransform.rotation = Quaternion.LookRotation(defaultLookDirection);
+            }
+
+            return;
+        }
+
         if (_targetTransform == null)
         {
             return;
@@ -143,13 +172,13 @@ public class CameraController : ControllerBase
         _mainCamera.fieldOfView = GetAdjustedCameraFOV(cameraFOV);
     }
     
-    public void ReturnToSkyCam()
+    public void ReturnToDefaultCam()
     {
         _targetTransform = null;
         
         _mainCameraTransform.position = _initializedMainCameraPosition;
         _mainCameraTransform.rotation = _initializedMainCameraRotation;
-        _mainCamera.fieldOfView = GetAdjustedCameraFOV(_playerFollowSkyCamFov);
+        _mainCamera.fieldOfView = _initializedMainCameraFov;
     }
 
     public Ray GetRay(Vector2 pos)

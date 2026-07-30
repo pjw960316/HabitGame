@@ -39,7 +39,7 @@ public class CameraManager : ManagerBase<CameraManager>, IHasController<CameraCo
                 // 바인드 시점에는 일단 _cameraController가 Null임.
                 if(_cameraController != null)
                 {
-                    _cameraController.ReturnToSkyCam();
+                    _cameraController.ReturnToDefaultCam();
                 }
             }).AddTo(_followSparrowCameraMoveDisposable);
     }
