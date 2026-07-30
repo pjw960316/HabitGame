@@ -8,15 +8,18 @@ public class CameraController : ControllerBase
 
     [SerializeField] private Camera _mainCamera;
 
-    [Header("Follow Cam")] 
-    [SerializeField, Range(1f, 179f)] private float _followCamFov;
-    [SerializeField] private Vector3 _followCamPositionOffset;
-    [SerializeField] private Vector3 _followCamLookOffset;
+    // TODO
+    // 여러 모드가 존재하면 Enum을 고려한다.
 
-    [Header("Sky Cam")] 
-    [SerializeField, Range(1f, 179f)] private float _skyCamFov;
-    [SerializeField] private Vector3 _skyCamPositionOffset;
-    [SerializeField] private Vector3 _skyCamLookOffset;
+    [Header("Close-Up Follow Cam")]
+    [SerializeField, Range(1f, 179f)] private float _closeUpFollowCamFov;
+    [SerializeField] private Vector3 _closeUpFollowCamPositionOffset;
+    [SerializeField] private Vector3 _closeUpFollowCamLookOffset;
+
+    [Header("Player Follow Sky Cam")]
+    [SerializeField, Range(1f, 179f)] private float _playerFollowSkyCamFov;
+    [SerializeField] private Vector3 _playerFollowSkyCamPositionOffset;
+    [SerializeField] private Vector3 _playerFollowSkyCamLookOffset;
 
     private Transform _mainCameraTransform;
     private Transform _targetTransform;
@@ -47,7 +50,7 @@ public class CameraController : ControllerBase
 
     private void InitializeSkyCamFOV()
     {
-        _mainCamera.fieldOfView = GetAdjustedCameraFOV(_skyCamFov);
+        _mainCamera.fieldOfView = GetAdjustedCameraFOV(_playerFollowSkyCamFov);
     }
 
     private float GetAdjustedCameraFOV(float originFOVDegree)
@@ -106,20 +109,20 @@ public class CameraController : ControllerBase
         
         FollowTarget(
             targetTransform,
-            _followCamFov,
-            _followCamPositionOffset,
-            _followCamLookOffset);
+            _closeUpFollowCamFov,
+            _closeUpFollowCamPositionOffset,
+            _closeUpFollowCamLookOffset);
     }
 
-    public void FollowTargetWithSkyCam(Transform targetTransform)
+    public void FollowPlayerWithSkyCam(Transform playerTransform)
     {
-        Debug.Log($"SkyCam + {targetTransform.name}");
+        Debug.Log($"SkyCam + {playerTransform.name}");
         
         FollowTarget(
-            targetTransform,
-            _skyCamFov,
-            _skyCamPositionOffset,
-            _skyCamLookOffset);
+            playerTransform,
+            _playerFollowSkyCamFov,
+            _playerFollowSkyCamPositionOffset,
+            _playerFollowSkyCamLookOffset);
     }
 
     private void FollowTarget(
@@ -146,7 +149,7 @@ public class CameraController : ControllerBase
         
         _mainCameraTransform.position = _initializedMainCameraPosition;
         _mainCameraTransform.rotation = _initializedMainCameraRotation;
-        _mainCamera.fieldOfView = GetAdjustedCameraFOV(_skyCamFov);
+        _mainCamera.fieldOfView = GetAdjustedCameraFOV(_playerFollowSkyCamFov);
     }
 
     public Ray GetRay(Vector2 pos)

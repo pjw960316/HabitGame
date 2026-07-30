@@ -97,7 +97,7 @@ public class CameraManager : ManagerBase<CameraManager>, IHasController<CameraCo
             return;
         }
 
-        _cameraController.FollowTargetWithSkyCam(playerTransform);
+        _cameraController.FollowPlayerWithSkyCam(playerTransform);
     }
 
     #endregion
