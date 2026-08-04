@@ -59,8 +59,6 @@ public sealed class FieldObjectAnimalSpawner : MonoBehaviour
     private SpawnPositionProvider _spawnPositionProvider;
     [SerializeField, Range(0, 50)] private int _spawnPositionCount = 50;
     [SerializeField] private SerializedDictionary<EFieldObject, FieldObjectAnimalBase> _animalPrefabDict = new();
-    [SerializeField] private Transform _animalsBaseTransform;
-    
 
     #endregion
 
@@ -107,7 +105,7 @@ public sealed class FieldObjectAnimalSpawner : MonoBehaviour
                 continue;
             }
 
-            Instantiate(_animalPrefabDict[EFieldObject.SPARROW], position, Quaternion.Euler(rotation), _animalsBaseTransform);
+            Instantiate(_animalPrefabDict[EFieldObject.SPARROW], position, Quaternion.Euler(rotation));
         }
     }
 
