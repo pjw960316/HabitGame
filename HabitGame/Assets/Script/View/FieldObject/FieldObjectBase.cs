@@ -111,5 +111,6 @@ public enum EFieldObject
     FLOWER,
     GRASS,
     TREE,
-    DEER
+    DEER,
+    ENEMY,
 }
