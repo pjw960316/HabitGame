@@ -4464,7 +4464,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1833214993}
-  - component: {fileID: 1833214992}
+  - component: {fileID: 1833214994}
   m_Layer: 0
   m_Name: FieldObjectAnimalSpawner
   m_TagString: Untagged
@@ -4472,29 +4472,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1833214992
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1833214991}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ba2f1465fd246ee8d117ec5bcef9139, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animalPrefabDict:
-    _serializedList:
-    - Key: 1
-      Value: {fileID: 93164181833780763, guid: ad4137f595ec8e2449cacca9df7d3735, type: 3}
-    - Key: 10
-      Value: {fileID: -3603006369905708969, guid: cefda5744f2acb54d8f08973a10bee1e, type: 3}
-    - Key: 9
-      Value: {fileID: 2895370853508335671, guid: 252ba5fa5d8167e42af72cf97baa830e, type: 3}
-  _animalsBaseTransform: {fileID: 0}
-  _spawnPositionProvider:
-    _spawnPointList: []
 --- !u!4 &1833214993
 Transform:
   m_ObjectHideFlags: 0
@@ -4510,6 +4487,35 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1833214994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1833214991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ba2f1465fd246ee8d117ec5bcef9139, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spawnAnimalsCount: 0
+  _animalPrefabDict:
+    _serializedList:
+    - Key: 1
+      Value: {fileID: 93164181833780763, guid: ad4137f595ec8e2449cacca9df7d3735, type: 3}
+    - Key: 9
+      Value: {fileID: 2895370853508335671, guid: 252ba5fa5d8167e42af72cf97baa830e, type: 3}
+    - Key: 10
+      Value: {fileID: -3603006369905708969, guid: cefda5744f2acb54d8f08973a10bee1e, type: 3}
+  _animalSpawnWeightDict:
+    _serializedList:
+    - Key: 1
+      Value: 7
+    - Key: 9
+      Value: 2
+    - Key: 10
+      Value: 1
 --- !u!1001 &1877582704
 PrefabInstance:
   m_ObjectHideFlags: 0

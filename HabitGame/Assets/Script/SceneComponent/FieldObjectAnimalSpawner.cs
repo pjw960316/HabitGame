@@ -1,7 +1,11 @@
+using System;
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
+// NOTE
+// 책임_1 몇 마리를 맵에 스폰 시킬 건지
+// 책임_2 맵의 동물들의 비율을 어떻게 만들 건지
 public sealed class FieldObjectAnimalSpawner : MonoBehaviour
 {
     private sealed class SpawnPositionProvider
@@ -57,8 +61,12 @@ public sealed class FieldObjectAnimalSpawner : MonoBehaviour
     #region 1. Fields
 
     private SpawnPositionProvider _spawnPositionProvider;
-    [SerializeField, Range(0, 50)] private int _spawnPositionCount = 50;
+
+    [SerializeField] [Tooltip("실제 스폰 개수를 계산하기 위한 입력값입니다.")]
+    private int _spawnAnimalsCount;
+
     [SerializeField] private SerializedDictionary<EFieldObject, FieldObjectAnimalBase> _animalPrefabDict = new();
+    [SerializeField] private SerializedDictionary<EFieldObject, int> _animalSpawnWeightDict = new();
 
     #endregion
 
@@ -72,7 +80,8 @@ public sealed class FieldObjectAnimalSpawner : MonoBehaviour
 
     private void Start()
     {
-        _spawnPositionProvider = new SpawnPositionProvider(_spawnPositionCount);
+        _spawnPositionProvider = new SpawnPositionProvider(_spawnAnimalsCount);
+        
         SpawnAnimals();
     }
 
@@ -92,20 +101,97 @@ public sealed class FieldObjectAnimalSpawner : MonoBehaviour
 
     #region 6. Methods
 
+    // NOTE
+    // 가중치를 통해 동물별로 스폰 개수를 구현
+    private Dictionary<EFieldObject, int> CalculateSpawnCountsByWeight(int totalSpawnCount)
+    {
+        if (totalSpawnCount < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(totalSpawnCount), totalSpawnCount,
+                "Total spawn count cannot be negative.");
+        }
+
+        if (_animalSpawnWeightDict == null || _animalSpawnWeightDict.Count == 0)
+        {
+            throw new InvalidOperationException("Animal spawn settings are not configured.");
+        }
+
+        long totalWeight = 0;
+
+        foreach (var animalSpawnWeightPair in _animalSpawnWeightDict)
+        {
+            if (animalSpawnWeightPair.Value <= 0)
+            {
+                throw new InvalidOperationException(
+                    $"Animal spawn weight must be greater than zero. Key: {animalSpawnWeightPair.Key}");
+            }
+
+            totalWeight += animalSpawnWeightPair.Value;
+        }
+
+        var spawnCountDict = new Dictionary<EFieldObject, int>(_animalSpawnWeightDict.Count);
+        var remainderList = new List<(EFieldObject Key, double Remainder)>(_animalSpawnWeightDict.Count);
+        var allocatedSpawnCount = 0;
+
+        foreach (var animalSpawnWeightPair in _animalSpawnWeightDict)
+        {
+            var exactSpawnCount =
+                (double)totalSpawnCount * animalSpawnWeightPair.Value / totalWeight;
+            var spawnCount = (int)Math.Floor(exactSpawnCount);
+
+            spawnCountDict.Add(animalSpawnWeightPair.Key, spawnCount);
+            remainderList.Add((animalSpawnWeightPair.Key, exactSpawnCount - spawnCount));
+            allocatedSpawnCount += spawnCount;
+        }
+
+        remainderList.Sort((left, right) =>
+        {
+            var remainderComparison = right.Remainder.CompareTo(left.Remainder);
+            return remainderComparison != 0
+                ? remainderComparison
+                : left.Key.CompareTo(right.Key);
+        });
+
+        var remainingSpawnCount = totalSpawnCount - allocatedSpawnCount;
+
+        for (var idx = 0; idx < remainingSpawnCount; idx++)
+        {
+            var fieldObjectKey = remainderList[idx].Key;
+            spawnCountDict[fieldObjectKey]++;
+        }
+
+        return spawnCountDict;
+    }
+
     // Note
     // Pooling 고려 없음.  ->  로딩 씬에서 해결
     private void SpawnAnimals()
     {
-        for (var idx = 0; idx < _spawnPositionProvider.SpawnPositionCount; idx++)
-        {
-            if (!_spawnPositionProvider.TryGetSpawnPositionAndRotation(
-                    idx, out var position, out var rotation))
-            {
-                Debug.LogWarning($"Spawn position or rotation at index {idx} is not set.", this);
-                continue;
-            }
+        var spawnCountDict = CalculateSpawnCountsByWeight(_spawnAnimalsCount);
+        var spawnPositionIndex = 0;
 
-            Instantiate(_animalPrefabDict[EFieldObject.SPARROW], position, Quaternion.Euler(rotation));
+        foreach (var pair in spawnCountDict)
+        {
+            var eFieldObject = pair.Key;
+            var spawnCount = pair.Value;
+            var animalPrefab = _animalPrefabDict[eFieldObject];
+
+            for (var count = 0; count < spawnCount; count++)
+            {
+                var currentSpawnPositionIndex = spawnPositionIndex;
+                spawnPositionIndex++;
+
+                if (!_spawnPositionProvider.TryGetSpawnPositionAndRotation(
+                        currentSpawnPositionIndex, out var position, out var rotation))
+                {
+                    Debug.LogWarning(
+                        $"Spawn position or rotation at index {currentSpawnPositionIndex} is not set.",
+                        this);
+                    continue;
+                }
+
+                Instantiate(animalPrefab, position, Quaternion.Euler(rotation));
+            }
         }
     }
 
