@@ -82,7 +82,7 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
         }
     }
     
-    public T GetDeserializedXmlData<T>() where T : IModel
+    public T GetDeserializedXmlData<T>() 
     {
         foreach (var deserializedXml in _deserializedXmlList)
         {
@@ -130,7 +130,7 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
         return text;
     }
 
-    public void SerializeXmlData<TModel>(TModel model) where TModel : IModel
+    public void SerializeXmlData<TModel>(TModel model)
     {
         var serializer = new XmlSerializer(typeof(MyCharacterData));
         

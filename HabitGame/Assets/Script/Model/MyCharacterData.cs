@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 using UnityEngine;
 
 [XmlRoot]
-public class MyCharacterData : IModel
+public class MyCharacterData
 {
     public class RoutineRecordData
     {
@@ -21,10 +21,10 @@ public class MyCharacterData : IModel
     private int _age;
     // NOTE
     // 한 달 동안 루틴을 성공해서 번 총 금액 -> 다음 달 나에게 주는 선물의 총액
-private int _monthlyRoutineSuccessMoney;
+    private int _monthlyRoutineSuccessMoney;
     // NOTE
     // 루틴 1개 success 당 얻는 돈
-private int _moneyPerRoutineSuccess;
+    private int _moneyPerRoutineSuccess;
     public List<RoutineRecordData> RoutineRecordList = new();
 
     [XmlIgnore] private Dictionary<string, List<bool>> _routineRecordDictionary = new();
@@ -143,6 +143,4 @@ private int _moneyPerRoutineSuccess;
     // default
 
     #endregion
-    
-    public void Terminate(){}
 }
