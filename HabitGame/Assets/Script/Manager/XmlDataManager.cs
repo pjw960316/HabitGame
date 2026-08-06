@@ -5,7 +5,6 @@ using System.Xml.Serialization;
 using UnityEngine;
 
 // NOTE
-// 책임
 // 1. 모든 XML 데이터를 Deserialize 할 책임
 // 2. Deserialize 된 XML Data Instance를 각각의 Manager에게 전달.
 // 3. Serialize를 통해 XML Data를 업데이트
@@ -14,13 +13,13 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
     public class XmlFileData
     {
         public Type DataType;
-        public string RelativePath;
-        public string AbsolutePath;
+        public string ResourcesRelativePath;
+        public string PersistentFilePath;
     }
 
     #region 1. Fields
 
-    private List<IModel> _deserializedXmlList;
+    private List<object> _deserializedXmlList;
     private List<XmlFileData> _xmlFileDataList;
 
     #endregion
@@ -35,7 +34,7 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
 
     public sealed override void PreInitialize()
     {
-        _deserializedXmlList = new List<IModel>();
+        _deserializedXmlList = new List<object>();
         _xmlFileDataList = new List<XmlFileData>();
     }
 
@@ -60,14 +59,18 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
         _xmlFileDataList.Add(new XmlFileData
         {
             DataType = typeof(MyCharacterData),
-            RelativePath = "MyCharacterData",
-            AbsolutePath = Application.persistentDataPath + "/MyCharacterData.xml"
+            ResourcesRelativePath = "XML/MyCharacterData",
+
+            // WARNING
+            // 최초 한 번은 Resources에 접근해서 파일을 읽어야
+            // Application.persistentDataPath (플랫폼 상관 없는 주소) -> 에서 복사된 파일로 읽는다.
+            PersistentFilePath = Application.persistentDataPath + "/MyCharacterData.xml"
         });
         
         foreach (var xmlFileData in _xmlFileDataList)
         {
             //log
-            Debug.Log($"Absolute Path : {xmlFileData.AbsolutePath}");
+            Debug.Log($"Persistent File Path : {xmlFileData.PersistentFilePath}");
 
             var xmlType = xmlFileData.DataType;
             var text = GetXmlText(xmlFileData);
@@ -75,10 +78,8 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
             var xmlSerializer = new XmlSerializer(xmlType);
             using var stringReader = new StringReader(text);
             ExceptionHelper.CheckNullException(stringReader, "stringReader");
-
-            var model = xmlSerializer.Deserialize(stringReader) as IModel;
-
-            _deserializedXmlList.Add(model);
+            
+            _deserializedXmlList.Add(xmlSerializer.Deserialize(stringReader));
         }
     }
     
@@ -102,24 +103,24 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
     
     private string GetXmlText(XmlFileData xmlFileData)
     {
-        var xmlRelativePath = xmlFileData.RelativePath;
-        var xmlAbsolutePath = xmlFileData.AbsolutePath;
+        var resourcesRelativePath = xmlFileData.ResourcesRelativePath;
+        var persistentFilePath = xmlFileData.PersistentFilePath;
         var text = "";
 
-        if (!File.Exists(xmlAbsolutePath))
+        if (!File.Exists(persistentFilePath))
         {
-            text = Resources.Load<TextAsset>(xmlRelativePath).text;
+            text = Resources.Load<TextAsset>(resourcesRelativePath).text;
 
             if (text == null)
             {
                 throw new FileLoadException("Resources 폴더에 해당 파일이 없다.");
             }
 
-            File.WriteAllText(xmlAbsolutePath, text);
+            File.WriteAllText(persistentFilePath, text);
         }
         else
         {
-            text = File.ReadAllText(xmlAbsolutePath);
+            text = File.ReadAllText(persistentFilePath);
 
             if (text == null)
             {
@@ -136,7 +137,7 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
         
         // TEST
         // 테스트 상태의 path다.
-        var path = _xmlFileDataList[0].AbsolutePath;
+        var path = _xmlFileDataList[0].PersistentFilePath;
 
         using var writer = new StreamWriter(path);
 
