@@ -62,7 +62,7 @@ public sealed class FieldObjectAnimalSpawner : MonoBehaviour
 
     private SpawnPositionProvider _spawnPositionProvider;
 
-    [SerializeField] [Tooltip("실제 스폰 개수를 계산하기 위한 입력값입니다.")]
+    [SerializeField] [Tooltip("초기에 스폰되는 모든 동물의 개수")]
     private int _spawnAnimalsCount;
 
     [SerializeField] private SerializedDictionary<EFieldObject, FieldObjectAnimalBase> _animalPrefabDict = new();
@@ -187,7 +187,9 @@ public sealed class FieldObjectAnimalSpawner : MonoBehaviour
                     Debug.LogWarning(
                         $"Spawn position or rotation at index {currentSpawnPositionIndex} is not set.",
                         this);
-                    continue;
+                    {
+                        continue;
+                    }
                 }
 
                 Instantiate(animalPrefab, position, Quaternion.Euler(rotation));
