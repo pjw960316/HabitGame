@@ -4,13 +4,18 @@ using System.Collections.Immutable;
 using JetBrains.Annotations;
 using UniRx;
 
-// NOTE
+// NOTE : 추상화
 // 게임 전체 (씬 무관)에서 MVP 객체들로 인해 플레이어 데이터의 변경을 관리한다.
+// Event Call을 하나의 단위로 생각하고 -> MyCharacterData와 관련 XML을 모두 갱신한다.
 // 1. MyCharacterData 만 갱신 -> 영구적이지 못하나 게임 진행 도중에는 빠르고 간편
 // 2. Xml 전체 갱신 -> 영구 데이터를 갱신 그러나 Disk I/O 발생
 
-// NOTE : 시나리오 요약
-// 게임 로드시에 전체 XML을 읽어서 My
+public interface IUpdateAndSaveData
+{
+    public void UpdateMyCharacterData();
+    public void SaveMyCharacterDataXML();
+}
+
 public class MyCharacterManager : ManagerBase<MyCharacterManager>
 {
     #region 1. Fields
@@ -46,8 +51,50 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
     #endregion
     
-    #region 5. Methods
+    // NOTE
+    // Field & UI를 통해 플레이어 데이터의 변화가 생긴다.
+    // 그들의 presenter는 Manager에게 이를 알린다. -> 그러므로 public으로 열어둔다.
+    #region 5-1. public Update Methods for MVP Objects
 
+    public void UpdateRoutineRecord(List<int> todaySuccessfulRoutineIndexByView, DateTime dateTime)
+    {
+        UpdateRoutineRecordDictionary(todaySuccessfulRoutineIndexByView, dateTime);
+
+        _onUpdateRoutineSuccess.OnNext(default);
+
+        // TODO
+        // 이걸 매번 할 필요는 없지?
+        // 게임 종료시에만?
+        SynchronizeDictionaryAndList();
+        UpdateXmlData();
+    }
+
+    public void UpdateSiestaRecord(TimeSpan siestaTime)
+    {
+        
+    }
+    #endregion
+    
+    // NOTE
+    // public Update Methods for MVP Objects을 통해 데이터를 받으면
+    // 언제나 MyCharacterData 와 XML을 갱신해준다. 
+    #region 5-2. private Methods for Update
+
+    private void UpdateData()
+    {
+        UpdateMyCharacterData();
+        SaveMyCharacterDataXML();
+    }
+    private void UpdateMyCharacterData()
+    {
+        
+    }
+
+    private void SaveMyCharacterDataXML()
+    {
+        
+    }
+    #endregion
     public sealed override void SetModel()
     {
         _myCharacterData = XmlDataManager.Instance.GetDeserializedXmlData<MyCharacterData>();
@@ -89,23 +136,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         return _myCharacterData.RoutineRecordDictionary;
     }
 
-    public void UpdateRoutineRecord(List<int> todaySuccessfulRoutineIndexByView, DateTime dateTime)
-    {
-        UpdateRoutineRecordDictionary(todaySuccessfulRoutineIndexByView, dateTime);
-
-        _onUpdateRoutineSuccess.OnNext(default);
-
-        // TODO
-        // 이걸 매번 할 필요는 없지?
-        // 게임 종료시에만?
-        SynchronizeDictionaryAndList();
-        UpdateXmlData();
-    }
-
-    public void UpdateSiestaRecord(TimeSpan siestaTime)
-    {
-        
-    }
+    
 
     public int GetMonthlyRoutineSuccessMoney()
     {
