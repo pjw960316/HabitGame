@@ -73,13 +73,18 @@ public class AlarmTimerPresenter : UIPresenterBase
 
     #region 4. EventHandlers
 
+    // NOTE
+    // 알람을 중지하면 낮잠을 잔 거로 인식
     private void OnStopAlarmSystem()
     {
         _soundManager.StopPlayMusic();
         _soundManager.PlayBackgroundMusic();
 
+        _myCharacterManager.UpdateSiestaRecord(_elapsedTime);
+        
         _alarmData.RestoreAudioClipAndPlayTimeToDefault();
-
+        _elapsedTime = TimeSpan.Zero;
+        
         Close();
     }
 

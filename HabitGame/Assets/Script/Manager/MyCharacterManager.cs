@@ -4,6 +4,13 @@ using System.Collections.Immutable;
 using JetBrains.Annotations;
 using UniRx;
 
+// NOTE
+// 게임 전체 (씬 무관)에서 MVP 객체들로 인해 플레이어 데이터의 변경을 관리한다.
+// 1. MyCharacterData 만 갱신 -> 영구적이지 못하나 게임 진행 도중에는 빠르고 간편
+// 2. Xml 전체 갱신 -> 영구 데이터를 갱신 그러나 Disk I/O 발생
+
+// NOTE : 시나리오 요약
+// 게임 로드시에 전체 XML을 읽어서 My
 public class MyCharacterManager : ManagerBase<MyCharacterManager>
 {
     #region 1. Fields
@@ -32,8 +39,14 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
     }
 
     #endregion
+    
+    #region 4. EventHandlers
 
-    #region 4. Methods
+    // default
+
+    #endregion
+    
+    #region 5. Methods
 
     public sealed override void SetModel()
     {
@@ -89,6 +102,11 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         UpdateXmlData();
     }
 
+    public void UpdateSiestaRecord(TimeSpan siestaTime)
+    {
+        
+    }
+
     public int GetMonthlyRoutineSuccessMoney()
     {
         return _myCharacterData.MonthlyRoutineSuccessMoney;
@@ -119,12 +137,6 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
     {
         _myCharacterData.SynchronizeDictionaryAndList();
     }
-
-    #endregion
-
-    #region 5. EventHandlers
-
-    // default
 
     #endregion
 }
