@@ -37,13 +37,10 @@ public class FieldObjectDeer : FieldObjectAnimalBase
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
     // 
 
-    #endregion
-
-    #region 6. Methods
 
     protected sealed override void CreatePresenterByManager()
     {

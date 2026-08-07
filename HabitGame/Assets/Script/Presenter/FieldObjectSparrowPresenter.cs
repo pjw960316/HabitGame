@@ -110,13 +110,10 @@ public class FieldObjectSparrowPresenter : FieldObjectAnimalPresenterBase
 
     #endregion
 
-    #region 5. Request Methods
+    #region 4. Methods
 
     // 
 
-    #endregion
-
-    #region 6. Methods
 
     public FieldObjectSparrow GetFieldObjectSparrow()
     {

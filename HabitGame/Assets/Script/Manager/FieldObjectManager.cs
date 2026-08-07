@@ -64,13 +64,10 @@ public class FieldObjectManager : ManagerBase<FieldObjectManager>
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
     // 
 
-    #endregion
-
-    #region 6. Methods
 
     // NOTE
     // FieldObject가 생성되면 호출해서 Dictionary에 추가한다.

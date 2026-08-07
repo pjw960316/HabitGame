@@ -76,13 +76,10 @@ public sealed class FieldObjectPlayer : FieldObjectBase
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
     // 
 
-    #endregion
-
-    #region 6. Methods
 
     public void ChangePlayerMoveDirection(Vector3 direction)
     {

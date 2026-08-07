@@ -30,13 +30,10 @@ public class MainMusicController : SoundControllerBase
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
     // 
 
-    #endregion
-
-    #region 6. Methods
 
     // 
 

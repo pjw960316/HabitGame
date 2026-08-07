@@ -45,12 +45,12 @@ public class AlarmPresenter : UIPresenterBase
     {
         foreach (var alarmAudioClipButton in _alarmPopup.AlarmAudioClipButtons)
         {
-            alarmAudioClipButton.OnButtonClicked.Subscribe(RequestUpdateLatestSleepingAudioClip).AddTo(_disposable);
+            alarmAudioClipButton.OnButtonClicked.Subscribe(UpdateLatestSleepingAudioClip).AddTo(_disposable);
         }
 
         foreach (var alarmTimeButton in _alarmPopup.AlarmTimeButtons)
         {
-            alarmTimeButton.OnButtonClicked.Subscribe(RequestUpdateLatestSleepingAudioPlayTime).AddTo(_disposable);
+            alarmTimeButton.OnButtonClicked.Subscribe(UpdateLatestSleepingAudioPlayTime).AddTo(_disposable);
         }
 
         _alarmPopup.OnConfirmed.Subscribe(_ => OnStartAlarmSystem()).AddTo(_disposable);
@@ -69,36 +69,36 @@ public class AlarmPresenter : UIPresenterBase
             return;
         }
 
-        RequestPlaySleepingMusic();
+        PlaySleepingMusic();
 
-        RequestOpenAlarmTimerPopup();
+        OpenAlarmTimerPopup();
 
         Close();
     }
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
-    private void RequestOpenAlarmTimerPopup()
+    private void OpenAlarmTimerPopup()
     {
         var popupTargetTransform = _uiManager.MainCanvasTransform;
 
         _uiManager.OpenPopupByStringKey(EPopupKey.AlarmTimerPopup, popupTargetTransform);
     }
 
-    private void RequestPlaySleepingMusic()
+    private void PlaySleepingMusic()
     {
         _soundManager.SetAudioSourceLoopOn();
         _soundManager.PlayMusic(_alarmData.LatestSleepingAudioClip);
     }
 
-    private void RequestUpdateLatestSleepingAudioClip(EAlarmButtonType eAlarmAudioClip)
+    private void UpdateLatestSleepingAudioClip(EAlarmButtonType eAlarmAudioClip)
     {
         _alarmData.SetLatestSleepingAudioClip(eAlarmAudioClip);
     }
 
-    private void RequestUpdateLatestSleepingAudioPlayTime(EAlarmButtonType eAlarmTime)
+    private void UpdateLatestSleepingAudioPlayTime(EAlarmButtonType eAlarmTime)
     {
         _alarmData.SetLatestSleepingAudioPlayTime(eAlarmTime);
     }
@@ -112,12 +112,6 @@ public class AlarmPresenter : UIPresenterBase
 
         return true;
     }
-
-    #endregion
-
-    #region 6. Methods
-
-    //
 
     #endregion
 }

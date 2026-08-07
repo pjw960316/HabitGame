@@ -55,13 +55,10 @@ public class UIAlarmTimerPopup : UIPopupBase
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
     // 
 
-    #endregion
-
-    #region 6. Methods
 
     public void SetAlarmHeaderText(string text)
     {

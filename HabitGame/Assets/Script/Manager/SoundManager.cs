@@ -52,7 +52,7 @@ public class SoundManager : ManagerBase<SoundManager>
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
     //
 

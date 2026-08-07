@@ -29,7 +29,7 @@ public sealed class SceneChangeManager : ManagerBase<SceneChangeManager>
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
     public void LoadScene(string sceneName)
     {
@@ -37,9 +37,6 @@ public sealed class SceneChangeManager : ManagerBase<SceneChangeManager>
         _sceneLoader.Load(sceneName);
     }
 
-    #endregion
-
-    #region 6. Methods
 
     //
 

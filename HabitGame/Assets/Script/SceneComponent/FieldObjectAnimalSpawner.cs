@@ -93,13 +93,10 @@ public sealed class FieldObjectAnimalSpawner : MonoBehaviour
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
     //
 
-    #endregion
-
-    #region 6. Methods
 
     // NOTE
     // 가중치를 통해 동물별로 스폰 개수를 구현

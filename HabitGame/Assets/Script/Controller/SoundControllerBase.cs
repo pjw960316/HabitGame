@@ -38,13 +38,10 @@ public abstract class SoundControllerBase : MonoBehaviour
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
     // 
 
-    #endregion
-
-    #region 6. Methods
 
     public void UpdateAudioClipAndPlay(AudioClip audioClip)
     {

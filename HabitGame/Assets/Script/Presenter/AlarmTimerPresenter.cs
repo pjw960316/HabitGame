@@ -61,11 +61,11 @@ public class AlarmTimerPresenter : UIPresenterBase
         _alarmTimerPopup.OnQuitAlarm.Subscribe(_ => OnStopAlarmSystem()).AddTo(_disposable);
 
         Observable.Timer(TimeSpan.FromMinutes(_latestSleepingAudioPlayTime))
-            .Subscribe(_ => RequestPlayAlarm())
+            .Subscribe(_ => PlayAlarm())
             .AddTo(_disposable);
 
         Observable.Interval(TimeSpan.FromSeconds(1))
-            .Subscribe(_ => RequestUpdateAlarmTimerPopupTime())
+            .Subscribe(_ => UpdateAlarmTimerPopupTime())
             .AddTo(_disposable);
     }
 
@@ -85,9 +85,9 @@ public class AlarmTimerPresenter : UIPresenterBase
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
-    private void RequestUpdateAlarmTimerPopupTime()
+    private void UpdateAlarmTimerPopupTime()
     {
         _elapsedTime += TimeSpan.FromSeconds(1);
         var elapsedTimeString = $"{_elapsedTime.Hours:D2}:{_elapsedTime.Minutes:D2}:{_elapsedTime.Seconds:D2}";
@@ -95,17 +95,11 @@ public class AlarmTimerPresenter : UIPresenterBase
         _alarmTimerPopup.UpdateAlarmTimerText(elapsedTimeString);
     }
 
-    private void RequestPlayAlarm()
+    private void PlayAlarm()
     {
         _soundManager.SetAudioSourceLoopOn();
         _soundManager.PlayMusic(_alarmLoudAudioClip);
     }
-
-    #endregion
-
-    #region 6. Methods
-
-    //
 
     #endregion
 }

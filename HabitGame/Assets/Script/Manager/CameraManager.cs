@@ -29,7 +29,7 @@ public class CameraManager : ManagerBase<CameraManager>, IHasController<CameraCo
     public sealed override void BindEvent()
     {
         _uiManager.OnOpenPopup
-            .Subscribe(_ => { RequestFollowSparrow(); })
+            .Subscribe(_ => { FollowSparrow(); })
             .AddTo(_followSparrowCameraMoveDisposable);
 
         _uiManager.OnClosePopup
@@ -68,9 +68,9 @@ public class CameraManager : ManagerBase<CameraManager>, IHasController<CameraCo
     //
     #endregion
 
-    #region 6. Request Methods
+    #region 6. Methods
 
-    private void RequestFollowSparrow()
+    private void FollowSparrow()
     {
         if (_cameraController == null)
         {
@@ -89,7 +89,7 @@ public class CameraManager : ManagerBase<CameraManager>, IHasController<CameraCo
         _cameraController.FollowTargetWithCloseUpCam(randomSparrow.FieldObjectTransform);
     }
     
-    public void RequestFollowPlayer(Transform playerTransform)
+    public void FollowPlayer(Transform playerTransform)
     {
         if (_cameraController == null)
         {
@@ -99,10 +99,6 @@ public class CameraManager : ManagerBase<CameraManager>, IHasController<CameraCo
 
         _cameraController.FollowPlayerWithSkyCam(playerTransform);
     }
-
-    #endregion
-
-    #region 7. Methods
 
     public Ray GetRay(Vector2 pos)
     {

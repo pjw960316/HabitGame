@@ -60,7 +60,7 @@ public abstract class UIPopupBase : MonoBehaviour, IView
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
     //
 

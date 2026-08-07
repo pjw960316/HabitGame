@@ -28,7 +28,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         _xmlDataManager = XmlDataManager.Instance;
         ExceptionHelper.CheckNullException(_xmlDataManager, "_xmlDataSerializeManager");
 
-        RequestInitializeRoutineRecordDictionary();
+        InitializeRoutineRecordDictionary();
     }
 
     #endregion
@@ -78,15 +78,15 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
     public void UpdateRoutineRecord(List<int> todaySuccessfulRoutineIndexByView, DateTime dateTime)
     {
-        RequestUpdateRoutineRecordDictionary(todaySuccessfulRoutineIndexByView, dateTime);
+        UpdateRoutineRecordDictionary(todaySuccessfulRoutineIndexByView, dateTime);
 
         _onUpdateRoutineSuccess.OnNext(default);
 
         // TODO
         // 이걸 매번 할 필요는 없지?
         // 게임 종료시에만?
-        RequestSynchronizeDictionaryAndList();
-        RequestUpdateXmlData();
+        SynchronizeDictionaryAndList();
+        UpdateXmlData();
     }
 
     public int GetMonthlyRoutineSuccessMoney()
@@ -99,33 +99,30 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         return _myCharacterData.MoneyPerRoutineSuccess;
     }
 
-    #endregion
 
-    #region 5. Request Methods
-
-    private void RequestUpdateXmlData()
+    private void UpdateXmlData()
     {
         _xmlDataManager.SerializeXmlData<MyCharacterData>(_myCharacterData);
     }
 
-    private void RequestInitializeRoutineRecordDictionary()
+    private void InitializeRoutineRecordDictionary()
     {
         _myCharacterData.InitializeRoutineRecordDictionary();
     }
 
-    private void RequestUpdateRoutineRecordDictionary(List<int> todaySuccessfulRoutineIndexByView, DateTime dateTime)
+    private void UpdateRoutineRecordDictionary(List<int> todaySuccessfulRoutineIndexByView, DateTime dateTime)
     {
         _myCharacterData.UpdateRoutineRecordDictionary(todaySuccessfulRoutineIndexByView, dateTime);
     }
 
-    private void RequestSynchronizeDictionaryAndList()
+    private void SynchronizeDictionaryAndList()
     {
         _myCharacterData.SynchronizeDictionaryAndList();
     }
 
     #endregion
 
-    #region 6. EventHandlers
+    #region 5. EventHandlers
 
     // default
 

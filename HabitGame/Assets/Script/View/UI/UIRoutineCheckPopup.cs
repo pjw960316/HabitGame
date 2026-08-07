@@ -54,22 +54,16 @@ public class UIRoutineCheckPopup : UIPopupBase
     #endregion
 
 
-    #region 4. EventHandlers
+    #region 5. EventHandlers
 
     private void OnClickConfirmButton()
     {
         _onConfirmed.OnNext(default);
     }
 
-    #endregion
-
-    #region 5. Request Methods
 
     // 
 
-    #endregion
-
-    #region 6. Methods
 
     public void UpdateDateText(DateTime dateTime)
     {

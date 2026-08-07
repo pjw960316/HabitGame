@@ -75,13 +75,10 @@ public abstract class FieldObjectPresenterBase : PresenterBase
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
     // 
 
-    #endregion
-
-    #region 6. Methods
 
     private void TerminateModel()
     {

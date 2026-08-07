@@ -64,13 +64,10 @@ public class UIButtonBase : MonoBehaviour, IView
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
     //
 
-    #endregion
-
-    #region 6. Methods
 
     protected void UpdateButtonColor(Color color)
     {

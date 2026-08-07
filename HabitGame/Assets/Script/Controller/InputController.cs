@@ -109,7 +109,7 @@ public class InputController : ControllerBase
 
     protected override void Initialize()
     {
-        RequestConnectManager<InputManager, InputController>(this);
+        ConnectManager<InputManager, InputController>(this);
         
         InitializeInputActionDictionary();
 
@@ -167,13 +167,10 @@ public class InputController : ControllerBase
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
     // 
 
-    #endregion
-
-    #region 6. Methods
 
     private EInput GetInputEnum(InputAction.CallbackContext context)
     {

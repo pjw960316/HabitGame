@@ -62,7 +62,7 @@ public class RoutineCheckPresenter : UIPresenterBase
 
     private void SetRoutineCheckToggleWidget(DateTime dateTime)
     {
-        var todaySuccessfulRoutineIndex = RequestGetTodaySuccessfulRoutineIndex(dateTime);
+        var todaySuccessfulRoutineIndex = GetTodaySuccessfulRoutineIndex(dateTime);
 
         // NOTE
         // null이면 해당 루틴이 없는 것 이므로
@@ -75,11 +75,8 @@ public class RoutineCheckPresenter : UIPresenterBase
         _uiRoutineCheckPopup.SetToggle(todaySuccessfulRoutineIndex);
     }
 
-    #endregion
 
-    #region 5. Request Methods
-
-    private async UniTaskVoid RequestUpdateRoutineRecordAsync(List<int> todaySuccessfulRoutineIndex, DateTime dateTime)
+    private async UniTaskVoid UpdateRoutineRecordAsync(List<int> todaySuccessfulRoutineIndex, DateTime dateTime)
     {
         // NOTE
         // 서버 시간 딜레이 이후에 꺼지므로, 그 때 접근 못하도록 (cancellation Token 대신)
@@ -93,7 +90,7 @@ public class RoutineCheckPresenter : UIPresenterBase
 
             Close();
 
-            RequestShowToast();
+            ShowToast();
         }
         else
         {
@@ -102,12 +99,12 @@ public class RoutineCheckPresenter : UIPresenterBase
     }
 
     [CanBeNull]
-    private List<int> RequestGetTodaySuccessfulRoutineIndex(DateTime dateTime)
+    private List<int> GetTodaySuccessfulRoutineIndex(DateTime dateTime)
     {
         return _myCharacterManager.GetTodaySuccessfulRoutineIndex(dateTime);
     }
 
-    private void RequestShowToast()
+    private void ShowToast()
     {
         _uiToastManager.ShowToast(EToastStringKey.ERoutineCheckConfirm,
             _myCharacterManager.GetMonthlyRoutineSuccessMoney().ToString("N0"));
@@ -115,7 +112,7 @@ public class RoutineCheckPresenter : UIPresenterBase
 
     #endregion
 
-    #region 6. EventHandlers
+    #region 5. EventHandlers
 
     private void HandleToggleEvent()
     {
@@ -134,7 +131,7 @@ public class RoutineCheckPresenter : UIPresenterBase
             }
         }
 
-        RequestUpdateRoutineRecordAsync(todaySuccessfulRoutineIndex, DateTime.Now).Forget();
+        UpdateRoutineRecordAsync(todaySuccessfulRoutineIndex, DateTime.Now).Forget();
     }
 
     #endregion

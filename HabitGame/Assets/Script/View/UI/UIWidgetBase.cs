@@ -32,15 +32,12 @@ public class UIWidgetBase : MonoBehaviour, IView
 
     // default
 
-    #endregion
-
-    #region 5. Request Methods
 
     // default
 
     #endregion
 
-    #region 6. EventHandlers
+    #region 5. EventHandlers
 
     // default
 

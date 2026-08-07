@@ -47,7 +47,7 @@ public class CameraController : ControllerBase
 
     protected override void Initialize()
     {
-        RequestConnectManager<CameraManager, CameraController>(this);
+        ConnectManager<CameraManager, CameraController>(this);
         
         _mainCameraTransform = _mainCamera.transform;
 
@@ -124,13 +124,10 @@ public class CameraController : ControllerBase
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
     // 
 
-    #endregion
-
-    #region 6. Methods
 
     public void FollowTargetWithCloseUpCam(Transform targetTransform)
     {

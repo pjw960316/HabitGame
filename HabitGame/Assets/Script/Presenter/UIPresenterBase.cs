@@ -36,16 +36,12 @@ public abstract class UIPresenterBase : PresenterBase
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
-    private void RequestUpdateLivedPopup(EPopupKey ePopupKey)
+    private void UpdateLivedPopup(EPopupKey ePopupKey)
     {
         _uiManager.RemoveOpenedPopup(ePopupKey);
     }
-
-    #endregion
-
-    #region 6. Methods
 
     // NOTE
     // UI는 Popup 정리 + Presenter 정리
@@ -55,7 +51,7 @@ public abstract class UIPresenterBase : PresenterBase
 
         _popupBase.ClosePopup();
 
-        RequestUpdateLivedPopup(popupKey);
+        UpdateLivedPopup(popupKey);
 
         TerminatePresenter();
     }

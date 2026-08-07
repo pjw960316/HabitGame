@@ -57,13 +57,10 @@ public class UIManager : ManagerBase<UIManager>
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
     //
 
-    #endregion
-
-    #region 6. Methods
 
     public void OpenPopupByStringKey(EPopupKey popupKey, Transform transform)
     {

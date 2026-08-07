@@ -113,13 +113,7 @@ public class FieldObjectLand : FieldObjectBase
 
     #endregion
 
-    #region 5. Request Methods
-
-    // 
-
-    #endregion
-
-    #region 6. Methods
+    #region 5. Methods
 
     private Vector3 GetPosition(EPath path, int offset, float environment_X_Length, float environment_Z_Length)
     {

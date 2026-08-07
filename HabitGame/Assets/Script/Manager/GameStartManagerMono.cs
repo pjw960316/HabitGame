@@ -194,14 +194,7 @@ public class GameStartManagerMono : MonoBehaviour
 
     #endregion
 
-    #region 5. Request Methods
-
-    // 
-
-    #endregion
-
-
-    #region 6. Methods
+    #region 5. Methods
 
     private void DoNotDestroyUntilLoadBackgroundComplete()
     {
@@ -233,7 +226,7 @@ public class GameStartManagerMono : MonoBehaviour
 
     #endregion
 
-    #region 7. Async Methods
+    #region 6. Async Methods
 
     private async UniTaskVoid PreLoadAudioDataAsync()
     {

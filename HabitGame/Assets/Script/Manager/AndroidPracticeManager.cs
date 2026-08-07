@@ -32,16 +32,13 @@ public sealed class AndroidPracticeManager : ManagerBase<AndroidPracticeManager>
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
     public AndroidPracticeSnapshot GetAndroidPracticeSnapshot()
     {
         return _androidPracticeBridge.GetSnapshot();
     }
 
-    #endregion
-
-    #region 6. Methods
 
     private void TestAndroid()
     {
@@ -134,9 +131,6 @@ public sealed class AndroidPracticeSnapshot
 
     //
 
-    #endregion
-
-    #region 5. Request Methods
 
     public static AndroidPracticeSnapshot CreateEditorSnapshot()
     {
@@ -162,9 +156,6 @@ public sealed class AndroidPracticeSnapshot
             errorMessage);
     }
 
-    #endregion
-
-    #region 6. Methods
 
     public override string ToString()
     {

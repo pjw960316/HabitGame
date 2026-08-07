@@ -95,7 +95,7 @@ public class UIAlarmPopup : UIPopupBase
             widget.OnButtonClicked
                 .Subscribe(_ =>
                 {
-                    RequestUpdateButtonColor(widget.AlarmButtonType);
+                    UpdateButtonColor(widget.AlarmButtonType);
                 })
                 .AddTo(_disposables);
         }
@@ -108,9 +108,9 @@ public class UIAlarmPopup : UIPopupBase
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
-    private void RequestUpdateButtonColor(EAlarmButtonType eAlarmButtonType)
+    private void UpdateButtonColor(EAlarmButtonType eAlarmButtonType)
     {
         switch (eAlarmButtonType)
         {
@@ -141,12 +141,6 @@ public class UIAlarmPopup : UIPopupBase
             }
         }
     }
-
-    #endregion
-
-    #region 6. Methods
-
-    //
 
     #endregion
 }

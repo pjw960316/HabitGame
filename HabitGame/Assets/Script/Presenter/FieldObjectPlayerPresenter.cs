@@ -73,7 +73,7 @@ public sealed class FieldObjectPlayerPresenter : FieldObjectPresenterBase
 
         if (moveDirection != Vector3.zero)
         {
-            _cameraManager.RequestFollowPlayer(_fieldObjectPlayer.FieldObjectTransform);
+            _cameraManager.FollowPlayer(_fieldObjectPlayer.FieldObjectTransform);
         }
     }
 
@@ -84,13 +84,10 @@ public sealed class FieldObjectPlayerPresenter : FieldObjectPresenterBase
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
     //
 
-    #endregion
-
-    #region 6. Methods
 
     //
 

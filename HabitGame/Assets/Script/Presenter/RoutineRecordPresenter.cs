@@ -75,13 +75,10 @@ public class RoutineRecordPresenter : UIPresenterBase
 
     #endregion
 
-    #region 5. Request Methods
+    #region 5. Methods
 
     //
 
-    #endregion
-
-    #region 6. Methods
 
     private void UpdateWidget(ScrollData scrollData)
     {

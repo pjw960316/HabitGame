@@ -16,14 +16,11 @@ public sealed class ControllerConnectionManager : ManagerBase<ControllerConnecti
     #endregion
 
     #region 4. EventHandlers
-    //ㅊㅁ
-    #endregion
-
-    #region 5. Request Methods
     //
     #endregion
 
-    #region 6. Methods
+    #region 5. Methods
+    //
 
     public void ConnectManager<TManager, TController>(TController controller)
         where TManager : class, IManager, IHasController<TController>

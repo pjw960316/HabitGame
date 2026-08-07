@@ -180,13 +180,10 @@ public abstract class FieldObjectAnimalPresenterBase : FieldObjectPresenterBase
 
     #endregion
 
-    #region 5. Request Methods
+    #region 4. Methods
 
     // 
 
-    #endregion
-
-    #region 6. Methods
 
     protected void ChangeToWalkStateAfterDelay(float delaySeconds, int sparrowRotationDegree)
     {
