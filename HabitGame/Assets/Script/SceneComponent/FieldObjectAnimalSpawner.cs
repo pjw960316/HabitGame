@@ -10,7 +10,7 @@ public sealed class FieldObjectAnimalSpawner : MonoBehaviour
 {
     private sealed class SpawnPositionProvider
     {
-        // TEST
+        // TODO
         // 아직 Manager로 부터 받지 않음.
         private const int TEST_SPAWN_DATA_COUNT = 50;
         private const float TEST_POSITION_Y = 0.5f;
