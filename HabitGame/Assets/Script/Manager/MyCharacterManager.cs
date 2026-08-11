@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using JetBrains.Annotations;
 using UniRx;
+using UnityEngine;
 
 // NOTE : 추상화
 // 게임 전체 (씬 무관)에서 MVP 객체들로 인해 플레이어 데이터의 변경을 관리한다.
@@ -12,7 +13,7 @@ using UniRx;
 
 public interface IUpdateAndSaveData
 {
-    public void UpdateMyCharacterData();
+    public void UpdateMyCharacterData(MyCharacterData myCharacterData);
     public void SaveMyCharacterDataXML();
 }
 
@@ -44,59 +45,42 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
     }
 
     #endregion
-    
+
     #region 4. EventHandlers
 
     // default
 
     #endregion
-    
+
     // NOTE
     // Field & UI를 통해 플레이어 데이터의 변화가 생긴다.
     // 그들의 presenter는 Manager에게 이를 알린다. -> 그러므로 public으로 열어둔다.
+
     #region 5-1. public Update Methods for MVP Objects
 
+    // TODO 
+    // Siesta 처럼 수정
     public void UpdateRoutineRecord(List<int> todaySuccessfulRoutineIndexByView, DateTime dateTime)
     {
         UpdateRoutineRecordDictionary(todaySuccessfulRoutineIndexByView, dateTime);
 
         _onUpdateRoutineSuccess.OnNext(default);
-
-        // TODO
-        // 이걸 매번 할 필요는 없지?
-        // 게임 종료시에만?
         SynchronizeDictionaryAndList();
         UpdateXmlData();
     }
 
     public void UpdateSiestaRecord(TimeSpan siestaTime)
     {
+        var siestaHandler = new SiestaHandler(siestaTime);
         
-    }
-    #endregion
-    
-    // NOTE
-    // public Update Methods for MVP Objects을 통해 데이터를 받으면
-    // 언제나 MyCharacterData 와 XML을 갱신해준다. 
-    #region 5-2. private Methods for Update
-
-    private void UpdateData()
-    {
-        UpdateMyCharacterData();
-        SaveMyCharacterDataXML();
-    }
-    private void UpdateMyCharacterData()
-    {
-        
+        siestaHandler.UpdateMyCharacterData(_myCharacterData);
+        siestaHandler.SaveMyCharacterDataXML();
     }
 
-    private void SaveMyCharacterDataXML()
-    {
-        
-    }
     #endregion
-    
-    #region 5-3. Methods
+
+    #region 5-2. Methods
+
     public sealed override void SetModel()
     {
         _myCharacterData = XmlDataManager.Instance.GetDeserializedXmlData<MyCharacterData>();
@@ -138,7 +122,6 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         return _myCharacterData.RoutineRecordDictionary;
     }
 
-    
 
     public int GetMonthlyRoutineSuccessMoney()
     {
@@ -172,4 +155,24 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
     }
 
     #endregion
+
+    private sealed class SiestaHandler : IUpdateAndSaveData
+    {
+        private readonly TimeSpan _siestaTime;
+
+        public SiestaHandler(TimeSpan siestaTime)
+        {
+            _siestaTime = siestaTime;
+        }
+
+        public void UpdateMyCharacterData(MyCharacterData myCharacterData)
+        {
+            Debug.Log($"Updating MyCharacterData with {_siestaTime}");
+            myCharacterData.UpdateSiestaTime(_siestaTime);
+        }
+
+        public void SaveMyCharacterDataXML()
+        {
+        }
+    }
 }

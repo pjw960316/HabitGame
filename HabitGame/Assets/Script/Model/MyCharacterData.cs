@@ -29,6 +29,8 @@ public class MyCharacterData
 
     [XmlIgnore] private Dictionary<string, List<bool>> _routineRecordDictionary = new();
 
+    private TimeSpan _curSiestaTime;
+
     #endregion
 
     #region 2. Properties
@@ -134,6 +136,11 @@ public class MyCharacterData
     private void UpdateMonthlyRoutineSuccessMoney(int reward)
     {
         MonthlyRoutineSuccessMoney += reward;
+    }
+
+    public void UpdateSiestaTime(TimeSpan timeSpan)
+    {
+        _curSiestaTime = timeSpan;
     }
 
     #endregion
