@@ -1,2 +1,8 @@
-HabitGame/ProjectSettings/EditorSettings.asset
+# Rider / JetBrains IDE settings
+.idea/
+
+# Unity Burst debug information
 *_BurstDebugInformation_DoNotShip/
+
+# Local Unity editor settings
+HabitGame/ProjectSettings/EditorSettings.asset
