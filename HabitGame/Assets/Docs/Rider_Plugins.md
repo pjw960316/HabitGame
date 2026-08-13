@@ -4,7 +4,7 @@
 - 확인 날짜: 2026-08-13
 - 번들 플러그인 (bundled_plugins.txt) : 140개
 - 사용자 플러그인 경로에서 확인된 항목: 5개
-- 비활성화된 플러그인 (disabled_plugins.txt) : 27개
+- 비활성화된 플러그인 (disabled_plugins.txt) : 24개
 
 > 비활성화는 플러그인을 삭제한 것이 아니다. 필요해지면 Rider 설정에서 다시 활성화할 수 있다.
 
@@ -84,14 +84,9 @@
 - `org.jetbrains.plugins.vue`
 - `tslint`
 
-### 사용하지 않는 언어 팩과 호환 키맵
+### 사용하지 않는 언어 팩
 
 - `com.intellij.ko` - Korean Language Pack
-- `com.intellij.plugins.resharperkeymap` - ReSharper 키맵
-- `com.intellij.plugins.visualassistkeymap` - Visual Assist 키맵
-- `com.intellij.plugins.visualstudio2022keymap` - Visual Studio 2022 키맵
-- `com.intellij.plugins.visualstudiokeymap` - Visual Studio 키맵
-- `com.intellij.plugins.vscodekeymap` - Visual Studio Code 키맵
 
 <br>
 
