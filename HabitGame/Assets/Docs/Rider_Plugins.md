@@ -6,6 +6,8 @@
 - 사용자 플러그인 경로에서 확인된 항목: 5개
 - 비활성화된 플러그인 (disabled_plugins.txt) : 없음
 
+<br>
+
 # :fire: 필수 plugin -> 삭제하면 Rider가 켜지지 않는다.
 
 | 플러그인 | Plugin ID | 이유 |
