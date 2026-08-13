@@ -4,7 +4,9 @@
 - 확인 날짜: 2026-08-13
 - 번들 플러그인 (bundled_plugins.txt) : 140개
 - 사용자 플러그인 경로에서 확인된 항목: 5개
-- 비활성화된 플러그인 (disabled_plugins.txt) : 없음
+- 비활성화된 플러그인 (disabled_plugins.txt) : 27개
+
+> 비활성화는 플러그인을 삭제한 것이 아니다. 필요해지면 Rider 설정에서 다시 활성화할 수 있다.
 
 <br>
 
@@ -36,25 +38,66 @@
 
 # :fire: unity & C# 관련 plugin
 
-| 플러그인 | Plugin ID |
-|---|---|
-| Unity Support | `com.intellij.resharper.unity` |
-| Unity Debugger Texture Visualizer | `com.jetbrains.rider.plugins.unity.debugger.textureVisualizer` |
-| dotCover | `com.jetbrains.dotCover` |
-| dotTrace / dotMemory | `com.jetbrains.dotTrace.dotMemory` |
-| Dynamic Program Analysis | `com.jetbrains.dpa` |
-| Entity Framework Core | `me.seclerp.rider.plugins.efcore` |
-| .NET Aspire | `me.rafaelldi.aspire` |
-| dotnet watch | `com.jetbrains.rider.plugins.dotnetwatch` |
-| NuGet Package Manager Console | `com.jetbrains.rider.plugins.pmc` |
-| Razor Support | `com.jetbrains.rider.razor` |
-| XAML Previewer | `com.jetbrains.xaml.previewer` |
-| SQL Project Support | `com.jetbrains.sqlproj` |
-| .NET Diagrams | `com.jetbrains.rider.diagram` |
+- 중요도 기준: `⭐⭐⭐` Unity/C# 개발 핵심, `⭐⭐` 분석·디버깅에 유용, `⭐` 현재 프로젝트에서는 선택 사항
+
+| 플러그인 | Plugin ID | 설명 | 중요도 |
+|---|---|---|:---:|
+| Unity Support | `com.intellij.resharper.unity` | Unity 프로젝트 인식, 코드 분석, 에디터 연동 및 디버깅 지원 | ⭐⭐⭐ |
+| Unity Debugger Texture Visualizer | `com.jetbrains.rider.plugins.unity.debugger.textureVisualizer` | 디버깅 중 Unity 텍스처 내용을 시각적으로 확인 | ⭐⭐ |
+| dotCover | `com.jetbrains.dotCover` | .NET 테스트의 코드 커버리지 측정 | ⭐⭐ |
+| dotTrace / dotMemory | `com.jetbrains.dotTrace.dotMemory` | CPU 성능과 메모리 사용량 프로파일링 | ⭐⭐ |
+| Dynamic Program Analysis | `com.jetbrains.dpa` | 실행 중인 .NET 프로그램의 성능과 메모리 문제 탐지 | ⭐⭐ |
+| Entity Framework Core | `me.seclerp.rider.plugins.efcore` | EF Core 마이그레이션과 데이터베이스 작업 지원 | ⭐ |
+| .NET Aspire | `me.rafaelldi.aspire` | .NET Aspire 분산 애플리케이션 개발 지원 | ⭐ |
+| dotnet watch | `com.jetbrains.rider.plugins.dotnetwatch` | .NET 애플리케이션 변경 감지 및 자동 재실행 | ⭐ |
+| NuGet Package Manager Console | `com.jetbrains.rider.plugins.pmc` | NuGet 명령을 콘솔에서 실행 | ⭐ |
+| Razor Support | `com.jetbrains.rider.razor` | ASP.NET Razor 파일 편집과 코드 분석 | ⭐ |
+| XAML Previewer | `com.jetbrains.xaml.previewer` | XAML UI 미리보기 | ⭐ |
+| SQL Project Support | `com.jetbrains.sqlproj` | SQL 프로젝트 파일과 빌드 작업 지원 | ⭐ |
+| .NET Diagrams | `com.jetbrains.rider.diagram` | .NET 타입과 의존 관계를 다이어그램으로 확인 | ⭐⭐ |
+
+<br>
+
+# :fire: 비활성화한 plugin
+
+### 현재 Unity/C# 프로젝트에서 사용하지 않는 웹 개발 도구
+
+- `AngularJS`
+- `Karma`
+- `W3Validators`
+- `com.deadlock.scsyntax`
+- `com.dmarcotte.handlebars`
+- `com.intellij.plugins.webcomponents`
+- `com.intellij.react`
+- `com.intellij.stylelint`
+- `com.intellij.tailwindcss`
+- `com.jetbrains.plugins.jade`
+- `intellij.javascript.eslint`
+- `intellij.nextjs`
+- `intellij.prettierJS`
+- `intellij.vitejs`
+- `intellij.webpack`
+- `jshint`
+- `org.intellij.plugins.postcss`
+- `org.jetbrains.plugins.less`
+- `org.jetbrains.plugins.sass`
+- `org.jetbrains.plugins.vue`
+- `tslint`
+
+### 사용하지 않는 언어 팩과 호환 키맵
+
+- `com.intellij.ko` - Korean Language Pack
+- `com.intellij.plugins.resharperkeymap` - ReSharper 키맵
+- `com.intellij.plugins.visualassistkeymap` - Visual Assist 키맵
+- `com.intellij.plugins.visualstudio2022keymap` - Visual Studio 2022 키맵
+- `com.intellij.plugins.visualstudiokeymap` - Visual Studio 키맵
+- `com.intellij.plugins.vscodekeymap` - Visual Studio Code 키맵
 
 <br>
 
 # :fire: 그 외 plugin
+
+> 아래는 Rider에 포함된 플러그인 목록이며, `비활성화한 plugin`에 기록된 항목도 포함한다.
 
 ### 미분류
 
