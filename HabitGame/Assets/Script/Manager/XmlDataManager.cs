@@ -4,15 +4,20 @@ using System.IO;
 using System.Xml.Serialization;
 using UnityEngine;
 
-// NOTE
-// 1. 모든 XML 데이터를 Deserialize 할 책임
-// 2. Deserialize 된 XML Data Instance를 각각의 Manager에게 전달.
+// NOTE : 책임
+// 1. Resources에 존재하는 XML 파일들의 데이터들을 Deserialize 할 책임
+// 2. Deserialize 성공한 데이터를 클래스 메모리에 로드
 // 3. Serialize를 통해 XML Data를 업데이트
 public class XmlDataManager : ManagerBase<XmlDataManager>
 {
+    // NOTE : XML 파일과 해당 DTO는 일대일 대응 
     public class XmlFileData
     {
         public Type DataType;
+        
+        // WARNING : 두 가지 주소
+        // 최초 한 번은 ResourcesRelativePath(=Resources 폴더 기반) 접근해서 파일을 읽는다.
+        // Application.persistentDataPath(=플랫폼 상관 없는 주소) -> 에서 복사된 파일로 읽는다.
         public string ResourcesRelativePath;
         public string PersistentFilePath;
     }
@@ -26,7 +31,7 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
 
     #region 2. Properties
 
-    // default
+    // 
 
     #endregion
 
@@ -47,32 +52,21 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
     #endregion
 
     #region 5. Methods
-
-    // 
-
-
     public void RegisterDeserializedXmlData()
     {
         _xmlFileDataList.Add(new XmlFileData
         {
             DataType = typeof(MyCharacterData),
             ResourcesRelativePath = "XML/MyCharacterData",
-
-            // WARNING
-            // 최초 한 번은 Resources에 접근해서 파일을 읽어야
-            // Application.persistentDataPath (플랫폼 상관 없는 주소) -> 에서 복사된 파일로 읽는다.
             PersistentFilePath = Application.persistentDataPath + "/MyCharacterData.xml"
         });
         
         foreach (var xmlFileData in _xmlFileDataList)
         {
-            //log
-            Debug.Log($"Persistent File Path : {xmlFileData.PersistentFilePath}");
-
             var xmlType = xmlFileData.DataType;
             var text = GetXmlText(xmlFileData);
-
             var xmlSerializer = new XmlSerializer(xmlType);
+            
             using var stringReader = new StringReader(text);
             ExceptionHelper.CheckNullException(stringReader, "stringReader");
             
@@ -130,15 +124,26 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
 
     public void SerializeXmlData<TModel>(TModel model)
     {
-        var serializer = new XmlSerializer(typeof(MyCharacterData));
-        
-        // TEST
-        // 테스트 상태의 path다.
-        var path = _xmlFileDataList[0].PersistentFilePath;
+        var xmlFileData = GetXmlFileData(typeof(TModel));
+        var serializer = new XmlSerializer(typeof(TModel));
+        var path = xmlFileData.PersistentFilePath;
 
         using var writer = new StreamWriter(path);
 
         serializer.Serialize(writer, model);
+    }
+
+    private XmlFileData GetXmlFileData(Type dataType)
+    {
+        foreach (var xmlFileData in _xmlFileDataList)
+        {
+            if (xmlFileData.DataType == dataType)
+            {
+                return xmlFileData;
+            }
+        }
+
+        throw new InvalidOperationException($"등록되지 않은 XML 데이터 타입입니다. Type : {dataType.Name}");
     }
 
     #endregion
