@@ -13,8 +13,6 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
     // NOTE : XML 파일과 해당 DTO는 일대일 대응 
     public class XmlFileData
     {
-        public Type DataType;
-        
         // WARNING : 두 가지 주소
         // 최초 한 번은 ResourcesRelativePath(=Resources 폴더 기반) 접근해서 파일을 읽는다.
         // Application.persistentDataPath(=플랫폼 상관 없는 주소) -> 에서 복사된 파일로 읽는다.
@@ -24,8 +22,8 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
 
     #region 1. Fields
 
-    private List<object> _deserializedXmlList;
-    private List<XmlFileData> _xmlFileDataList;
+    private Dictionary<Type, object> _deserializedXmlDictionary;
+    private Dictionary<Type, XmlFileData> _xmlFileDataDictionary;
 
     #endregion
 
@@ -39,8 +37,8 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
 
     public sealed override void PreInitialize()
     {
-        _deserializedXmlList = new List<object>();
-        _xmlFileDataList = new List<XmlFileData>();
+        _deserializedXmlDictionary = new Dictionary<Type, object>();
+        _xmlFileDataDictionary = new Dictionary<Type, XmlFileData>();
     }
 
     #endregion
@@ -54,34 +52,31 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
     #region 5. Methods
     public void RegisterDeserializedXmlData()
     {
-        _xmlFileDataList.Add(new XmlFileData
+        _xmlFileDataDictionary.Add(typeof(MyCharacterData), new XmlFileData
         {
-            DataType = typeof(MyCharacterData),
             ResourcesRelativePath = "XML/MyCharacterData",
             PersistentFilePath = Application.persistentDataPath + "/MyCharacterData.xml"
         });
         
-        foreach (var xmlFileData in _xmlFileDataList)
+        foreach (var xmlFileDataPair in _xmlFileDataDictionary)
         {
-            var xmlType = xmlFileData.DataType;
+            var xmlType = xmlFileDataPair.Key;
+            var xmlFileData = xmlFileDataPair.Value;
             var text = GetXmlText(xmlFileData);
             var xmlSerializer = new XmlSerializer(xmlType);
             
             using var stringReader = new StringReader(text);
             ExceptionHelper.CheckNullException(stringReader, "stringReader");
             
-            _deserializedXmlList.Add(xmlSerializer.Deserialize(stringReader));
+            _deserializedXmlDictionary.Add(xmlType, xmlSerializer.Deserialize(stringReader));
         }
     }
     
     public T GetDeserializedXmlData<T>() 
     {
-        foreach (var deserializedXml in _deserializedXmlList)
+        if (_deserializedXmlDictionary.TryGetValue(typeof(T), out var deserializedXml) && deserializedXml is T targetDeserializedXml)
         {
-            if (deserializedXml is T targetDeserializedXml)
-            {
-                return targetDeserializedXml;
-            }
+            return targetDeserializedXml;
         }
 
         throw new NullReferenceException("GetDeserializedXml Fail");
@@ -89,7 +84,7 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
 
     public int GetDeserializedXmlListCount()
     {
-        return _xmlFileDataList.Count;
+        return _xmlFileDataDictionary.Count;
     }
     
     private string GetXmlText(XmlFileData xmlFileData)
@@ -122,25 +117,22 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
         return text;
     }
 
-    public void SerializeXmlData<TModel>(TModel model)
+    public void SerializeXmlData<T>(T dataType)
     {
-        var xmlFileData = GetXmlFileData(typeof(TModel));
-        var serializer = new XmlSerializer(typeof(TModel));
+        var xmlFileData = GetXmlFileData(typeof(T));
+        var serializer = new XmlSerializer(typeof(T));
         var path = xmlFileData.PersistentFilePath;
 
         using var writer = new StreamWriter(path);
 
-        serializer.Serialize(writer, model);
+        serializer.Serialize(writer, dataType);
     }
 
     private XmlFileData GetXmlFileData(Type dataType)
     {
-        foreach (var xmlFileData in _xmlFileDataList)
+        if (_xmlFileDataDictionary.TryGetValue(dataType, out var xmlFileData))
         {
-            if (xmlFileData.DataType == dataType)
-            {
-                return xmlFileData;
-            }
+            return xmlFileData;
         }
 
         throw new InvalidOperationException($"등록되지 않은 XML 데이터 타입입니다. Type : {dataType.Name}");

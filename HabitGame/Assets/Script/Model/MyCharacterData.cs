@@ -10,6 +10,7 @@ public class MyCharacterData
 {
     public class RoutineRecordData
     {
+        // NOTE : 날짜
         public string Key;
 
         [XmlArrayItem("boolean")] public List<bool> RoutineCheckList = new();
@@ -19,17 +20,13 @@ public class MyCharacterData
 
     private int _name;
     private int _age;
-    // NOTE
-    // 한 달 동안 루틴을 성공해서 번 총 금액 -> 다음 달 나에게 주는 선물의 총액
     private int _monthlyRoutineSuccessMoney;
-    // NOTE
-    // 루틴 1개 success 당 얻는 돈
     private int _moneyPerRoutineSuccess;
+    private TimeSpan _curSiestaTime;
+
     public List<RoutineRecordData> RoutineRecordList = new();
 
     [XmlIgnore] private Dictionary<string, List<bool>> _routineRecordDictionary = new();
-
-    private TimeSpan _curSiestaTime;
 
     #endregion
 
@@ -40,8 +37,6 @@ public class MyCharacterData
     public int MonthlyRoutineSuccessMoney { get; set; }
     public int MoneyPerRoutineSuccess { get; set; }
 
-    // NOTE
-    // _routineRecordDictionary가 비어 있어도 예외 X
     [XmlIgnore]
     public ImmutableSortedDictionary<string, ImmutableList<bool>> RoutineRecordDictionary
     {
@@ -59,12 +54,14 @@ public class MyCharacterData
     #endregion
 
     #region 3. Constructor
-
-    // default
-
+    // 
     #endregion
 
-    #region 4. Methods
+    #region 4. EventHandlers
+    // 
+    #endregion
+    
+    #region 5. Methods
 
     // NOTE
     // XML에서 Load한 List<RoutineRecordData>을
@@ -72,7 +69,7 @@ public class MyCharacterData
     public void InitializeRoutineRecordDictionary()
     {
         var routineRecordList = RoutineRecordList.OrderByDescending(x => x.Key);
-        
+
         foreach (var routineRecordData in routineRecordList)
         {
             var key = routineRecordData.Key;
@@ -80,10 +77,7 @@ public class MyCharacterData
 
             //shallow copy
             var list = new List<bool>();
-            foreach (var routineCheck in routineCheckList)
-            {
-                list.Add(routineCheck);
-            }
+            foreach (var routineCheck in routineCheckList) list.Add(routineCheck);
 
             _routineRecordDictionary[key] = list;
         }
@@ -93,7 +87,7 @@ public class MyCharacterData
     {
         var key = dateTime.ToString("yyyyMMdd");
 
-        if (_routineRecordDictionary.TryGetValue(key, out var todayRoutineRecordList) == false)
+        if (!_routineRecordDictionary.TryGetValue(key, out var todayRoutineRecordList))
         {
             // NOTE
             // 없으면 default 생성
@@ -108,13 +102,11 @@ public class MyCharacterData
         // 기존의 todayRoutineRecordList가 false면 이번 이벤트에서 유저가 체크한 것이므로 갱신.
         var reward = 0;
         foreach (var index in todaySuccessfulRoutineIndexByView)
-        {
-            if (todayRoutineRecordList[index] == false)
+            if (!todayRoutineRecordList[index])
             {
                 todayRoutineRecordList[index] = true;
                 reward += MoneyPerRoutineSuccess;
             }
-        }
 
         UpdateMonthlyRoutineSuccessMoney(reward);
     }
@@ -124,13 +116,11 @@ public class MyCharacterData
         RoutineRecordList.Clear();
 
         foreach (var kvp in _routineRecordDictionary)
-        {
             RoutineRecordList.Add(new RoutineRecordData
             {
                 Key = kvp.Key,
                 RoutineCheckList = new List<bool>(kvp.Value)
             });
-        }
     }
 
     private void UpdateMonthlyRoutineSuccessMoney(int reward)
@@ -142,12 +132,6 @@ public class MyCharacterData
     {
         _curSiestaTime = timeSpan;
     }
-
-    #endregion
-
-    #region 5. EventHandlers
-
-    // default
 
     #endregion
 }
