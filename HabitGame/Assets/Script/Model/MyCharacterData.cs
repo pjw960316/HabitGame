@@ -10,11 +10,16 @@ public class MyCharacterData
 {
     public class RoutineRecordData
     {
-        // NOTE : 날짜
-        public string Key;
-
-        [XmlArrayItem("boolean")] public List<bool> RoutineCheckList = new();
+        public string Date;
+        [XmlArrayItem("boolean")]
+        public List<bool> RoutineCheckList = new();
     }
+
+    // public class SiestaTimeRecordData
+    // {
+    //     public string Date;
+    //     public int TotalSiestaMinutes;
+    // }
 
     #region 1. Fields
 
@@ -25,8 +30,7 @@ public class MyCharacterData
     private TimeSpan _curSiestaTime;
 
     public List<RoutineRecordData> RoutineRecordList = new();
-
-    [XmlIgnore] private Dictionary<string, List<bool>> _routineRecordDictionary = new();
+    private Dictionary<string, List<bool>> _routineRecordDictionary = new();
 
     #endregion
 
@@ -63,16 +67,14 @@ public class MyCharacterData
     
     #region 5. Methods
 
-    // NOTE
-    // XML에서 Load한 List<RoutineRecordData>을
-    // Dictionary로 가공
     public void InitializeRoutineRecordDictionary()
     {
-        var routineRecordList = RoutineRecordList.OrderByDescending(x => x.Key);
+        var routineRecordList = RoutineRecordList
+            .OrderByDescending(x => x.Date);
 
         foreach (var routineRecordData in routineRecordList)
         {
-            var key = routineRecordData.Key;
+            var key = routineRecordData.Date;
             var routineCheckList = routineRecordData.RoutineCheckList;
 
             //shallow copy
@@ -118,7 +120,7 @@ public class MyCharacterData
         foreach (var kvp in _routineRecordDictionary)
             RoutineRecordList.Add(new RoutineRecordData
             {
-                Key = kvp.Key,
+                Date = kvp.Key,
                 RoutineCheckList = new List<bool>(kvp.Value)
             });
     }

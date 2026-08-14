@@ -2,7 +2,7 @@
 <MyCharacterData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <RoutineRecordList>
         <RoutineRecordData>
-            <Key>20250901</Key>
+            <Date>20250901</Date>
             <RoutineCheckList>
                 <boolean>true</boolean>
                 <boolean>true</boolean>
@@ -11,7 +11,7 @@
             </RoutineCheckList>
         </RoutineRecordData>
         <RoutineRecordData>
-            <Key>20250828</Key>
+            <Date>20250828</Date>
             <RoutineCheckList>
                 <boolean>true</boolean>
                 <boolean>false</boolean>
@@ -20,7 +20,7 @@
             </RoutineCheckList>
         </RoutineRecordData>
         <RoutineRecordData>
-            <Key>20250827</Key>
+            <Date>20250827</Date>
             <RoutineCheckList>
                 <boolean>true</boolean>
                 <boolean>false</boolean>
@@ -29,7 +29,7 @@
             </RoutineCheckList>
         </RoutineRecordData>
         <RoutineRecordData>
-            <Key>20250822</Key>
+            <Date>20250822</Date>
             <RoutineCheckList>
                 <boolean>true</boolean>
                 <boolean>true</boolean>
@@ -38,7 +38,7 @@
             </RoutineCheckList>
         </RoutineRecordData>
         <RoutineRecordData>
-            <Key>20250820</Key>
+            <Date>20250820</Date>
             <RoutineCheckList>
                 <boolean>false</boolean>
                 <boolean>false</boolean>
@@ -47,7 +47,7 @@
             </RoutineCheckList>
         </RoutineRecordData>
         <RoutineRecordData>
-            <Key>20250818</Key>
+            <Date>20250818</Date>
             <RoutineCheckList>
                 <boolean>true</boolean>
                 <boolean>true</boolean>
@@ -56,7 +56,7 @@
             </RoutineCheckList>
         </RoutineRecordData>
         <RoutineRecordData>
-            <Key>20250806</Key>
+            <Date>20250806</Date>
             <RoutineCheckList>
                 <boolean>false</boolean>
                 <boolean>true</boolean>
@@ -65,7 +65,7 @@
             </RoutineCheckList>
         </RoutineRecordData>
         <RoutineRecordData>
-            <Key>20250805</Key>
+            <Date>20250805</Date>
             <RoutineCheckList>
                 <boolean>true</boolean>
                 <boolean>true</boolean>
@@ -74,7 +74,7 @@
             </RoutineCheckList>
         </RoutineRecordData>
         <RoutineRecordData>
-            <Key>20250804</Key>
+            <Date>20250804</Date>
             <RoutineCheckList>
                 <boolean>false</boolean>
                 <boolean>true</boolean>
@@ -83,7 +83,7 @@
             </RoutineCheckList>
         </RoutineRecordData>
         <RoutineRecordData>
-            <Key>20250802</Key>
+            <Date>20250802</Date>
             <RoutineCheckList>
                 <boolean>true</boolean>
                 <boolean>false</boolean>
@@ -92,7 +92,7 @@
             </RoutineCheckList>
         </RoutineRecordData>
         <RoutineRecordData>
-            <Key>20250801</Key>
+            <Date>20250801</Date>
             <RoutineCheckList>
                 <boolean>false</boolean>
                 <boolean>true</boolean>
