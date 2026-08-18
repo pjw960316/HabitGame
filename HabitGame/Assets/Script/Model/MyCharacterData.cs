@@ -11,8 +11,7 @@ public class MyCharacterData
     public class RoutineRecordData
     {
         public string Date;
-        [XmlArrayItem("boolean")]
-        public List<bool> RoutineCheckList = new();
+        [XmlArrayItem("boolean")] public List<bool> RoutineCheckList = new();
     }
 
     public class SiestaTimeRecordData
@@ -27,12 +26,12 @@ public class MyCharacterData
     private int _age;
     private int _monthlyRoutineSuccessMoney;
     private int _moneyPerRoutineSuccess;
-    private TimeSpan _curSiestaTime;
 
     public List<RoutineRecordData> RoutineRecordList = new();
     public List<SiestaTimeRecordData> SiestaTimeRecordList = new();
-    
+
     private Dictionary<string, List<bool>> _routineRecordDictionary = new();
+    private Dictionary<string, int> _siestaTimeRecordDictionary = new();
 
     #endregion
 
@@ -60,16 +59,16 @@ public class MyCharacterData
     #endregion
 
     #region 3. Constructor
-    // 
-    #endregion
 
-    #region 4. EventHandlers
-    // 
-    #endregion
-    
-    #region 5. Methods
+    // NOTE
+    // MyCharacterManager에게 SetData 당한 이후에 호출된다.
+    public void Initialize()
+    {
+        InitializeRoutineRecordDictionary();
+        InitializeSiestaTimeRecordDictionary();
+    }
 
-    public void InitializeRoutineRecordDictionary()
+    private void InitializeRoutineRecordDictionary()
     {
         var routineRecordList = RoutineRecordList
             .OrderByDescending(x => x.Date);
@@ -78,14 +77,34 @@ public class MyCharacterData
         {
             var key = routineRecordData.Date;
             var routineCheckList = routineRecordData.RoutineCheckList;
-
-            //shallow copy
             var list = new List<bool>();
-            foreach (var routineCheck in routineCheckList) list.Add(routineCheck);
+            
+            foreach (var routineCheck in routineCheckList)
+            {
+                list.Add(routineCheck);
+            }
 
             _routineRecordDictionary[key] = list;
         }
     }
+
+    private void InitializeSiestaTimeRecordDictionary()
+    {
+        foreach (var siestaTimeRecordData in SiestaTimeRecordList)
+        {
+            _siestaTimeRecordDictionary[siestaTimeRecordData.Date] = siestaTimeRecordData.TotalSiestaMinutes;
+        }
+    }
+
+    #endregion
+
+    #region 4. EventHandlers
+
+    // 
+
+    #endregion
+
+    #region 5. Methods
 
     public void UpdateRoutineRecordDictionary(List<int> todaySuccessfulRoutineIndexByView, DateTime dateTime)
     {
@@ -132,14 +151,50 @@ public class MyCharacterData
         MonthlyRoutineSuccessMoney += reward;
     }
 
-    public void UpdateSiestaTime(TimeSpan timeSpan)
+    // WARNING
+    // 잊지 말고 List도 갱신시켜야 합니다.
+    public void UpdateSiestaTime(TimeSpan curSiestaTime)
     {
-        _curSiestaTime = timeSpan;
+        var totalSiestaMinutes = (int)curSiestaTime.TotalMinutes;
+        if (totalSiestaMinutes == 0)
+        {
+            totalSiestaMinutes = 1;
+        }
+        
+        var key = DateTime.Now.ToString("yyyyMMdd");
+        if (_siestaTimeRecordDictionary.TryGetValue(key, out var prevSiestaMinutes))
+        {
+            totalSiestaMinutes += prevSiestaMinutes;
+        }
+        
+        SiestaTimeRecordList.RemoveAll(siestaTimeRecord => siestaTimeRecord.Date == key);
+        SiestaTimeRecordList.Add(new SiestaTimeRecordData
+        {
+            Date = key,
+            TotalSiestaMinutes = totalSiestaMinutes
+        });
+
+        _siestaTimeRecordDictionary[key] = totalSiestaMinutes;
     }
 
-    private void TestSiestaTime()
+    // TEST
+    public void TestTodaySiestaTime()
     {
-        Debug.Log(SiestaTimeRecordList[0]);
+        if (SiestaTimeRecordList.Count != _siestaTimeRecordDictionary.Count)
+        {
+            Debug.LogError($"낮잠 기록 개수가 다릅니다. List: {SiestaTimeRecordList.Count}, Dictionary: {_siestaTimeRecordDictionary.Count}");
+        }
+        else
+        {
+            Debug.Log($"낮잠 기록 개수가 같습니다. Count: {SiestaTimeRecordList.Count}");
+        }
+
+        Debug.Log($"낮잠 기록 Dictionary 개수: {_siestaTimeRecordDictionary.Count}");
+
+        foreach (var siestaTimeRecord in _siestaTimeRecordDictionary)
+        {
+            Debug.Log($"낮잠 기록 Key: {siestaTimeRecord.Key}, Value: {siestaTimeRecord.Value}분");
+        }
     }
 
     #endregion

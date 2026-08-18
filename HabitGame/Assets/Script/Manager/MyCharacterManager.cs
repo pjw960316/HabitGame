@@ -40,8 +40,6 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
     {
         _xmlDataManager = XmlDataManager.Instance;
         ExceptionHelper.CheckNullException(_xmlDataManager, "_xmlDataSerializeManager");
-
-        InitializeRoutineRecordDictionary();
     }
 
     #endregion
@@ -74,7 +72,9 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         var siestaHandler = new SiestaHandler(siestaTime);
         
         siestaHandler.UpdateMyCharacterData(_myCharacterData);
-        siestaHandler.SaveMyCharacterDataXML();
+        UpdateXmlData();
+        
+        //siestaHandler.SaveMyCharacterDataXML();
     }
 
     #endregion
@@ -83,7 +83,13 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
     public sealed override void SetData()
     {
+        // NOTE : 이 시점에 XML -> C# Class로 Deserialize가 완료된다.
         _myCharacterData = XmlDataManager.Instance.GetDeserializedXmlData<MyCharacterData>();
+
+        // NOTE : 초기화 해준다.
+        _myCharacterData.Initialize();
+        
+        _myCharacterData.TestTodaySiestaTime();
         
         ExceptionHelper.CheckNullException(_myCharacterData, "_myCharacterData in MyCharacterManager");
     }
@@ -140,11 +146,6 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         _xmlDataManager.SerializeXmlData<MyCharacterData>(_myCharacterData);
     }
 
-    private void InitializeRoutineRecordDictionary()
-    {
-        _myCharacterData.InitializeRoutineRecordDictionary();
-    }
-
     private void UpdateRoutineRecordDictionary(List<int> todaySuccessfulRoutineIndexByView, DateTime dateTime)
     {
         _myCharacterData.UpdateRoutineRecordDictionary(todaySuccessfulRoutineIndexByView, dateTime);
@@ -168,12 +169,15 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
         public void UpdateMyCharacterData(MyCharacterData myCharacterData)
         {
-            Debug.Log($"Updating MyCharacterData with {_siestaTime}");
             myCharacterData.UpdateSiestaTime(_siestaTime);
         }
 
+        // TODO
+        // 이게 필요할까? 그냥 통합 업데이트가 맞는가?
+        // C# -> XML
         public void SaveMyCharacterDataXML()
         {
+            
         }
     }
 }

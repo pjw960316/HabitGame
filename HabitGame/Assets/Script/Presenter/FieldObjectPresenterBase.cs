@@ -57,15 +57,15 @@ public abstract class FieldObjectPresenterBase : PresenterBase
             var gameObject = _fieldObjectBase.gameObject;
             var scene = gameObject.scene;
 
-            Debug.Log(
-                $"[SparrowPresenter][DESTROY] " +
-                $"ViewName: {_fieldObjectBase.name}, " +
-                $"ViewInstanceID: {_fieldObjectBase.InstanceID}, " +
-                $"GameObjectInstanceID: {gameObject.GetInstanceID()}, " +
-                $"PresenterHash: {GetHashCode()}, " +
-                $"SceneName: {scene.name}, SceneHandle: {scene.handle}, " +
-                $"Frame: {Time.frameCount}",
-                _fieldObjectBase);
+            // Debug.Log(
+            //     $"[SparrowPresenter][DESTROY] " +
+            //     $"ViewName: {_fieldObjectBase.name}, " +
+            //     $"ViewInstanceID: {_fieldObjectBase.InstanceID}, " +
+            //     $"GameObjectInstanceID: {gameObject.GetInstanceID()}, " +
+            //     $"PresenterHash: {GetHashCode()}, " +
+            //     $"SceneName: {scene.name}, SceneHandle: {scene.handle}, " +
+            //     $"Frame: {Time.frameCount}",
+            //     _fieldObjectBase);
         }
 
         TerminateModel();
