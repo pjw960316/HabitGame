@@ -1,10 +1,10 @@
 # :fire: Rider 2026.2 설치 플러그인 목록
 
 - 확인 경로: `C:\Users\pjw96\AppData\Roaming\JetBrains\Rider2026.2`
-- 확인 날짜: 2026-08-13
+- 확인 날짜: 2026-08-18
 - 번들 플러그인 (bundled_plugins.txt) : 140개
 - 사용자 플러그인 경로에서 확인된 항목: 5개
-- 비활성화된 플러그인 (disabled_plugins.txt) : 24개
+- 비활성화된 플러그인 (disabled_plugins.txt) : 65개
 
 > 비활성화는 플러그인을 삭제한 것이 아니다. 필요해지면 Rider 설정에서 다시 활성화할 수 있다.
 
@@ -60,33 +60,73 @@
 
 # :fire: 비활성화한 plugin
 
-### 현재 Unity/C# 프로젝트에서 사용하지 않는 웹 개발 도구
+### 현재 비활성화된 플러그인
 
 - `AngularJS`
-- `Karma`
-- `W3Validators`
 - `com.deadlock.scsyntax`
 - `com.dmarcotte.handlebars`
+- `com.intellij.database`
+- `com.intellij.dev`
+- `com.intellij.ja`
+- `com.intellij.ko`
+- `com.intellij.kubernetes`
+- `com.intellij.microservices.ui`
+- `com.intellij.plugins.watcher`
 - `com.intellij.plugins.webcomponents`
+- `com.intellij.properties`
 - `com.intellij.react`
+- `com.intellij.rider.godot`
+- `com.intellij.rider.godot.community`
+- `com.intellij.rider.godot.gdscript`
 - `com.intellij.stylelint`
+- `com.intellij.swagger`
 - `com.intellij.tailwindcss`
+- `com.intellij.zh`
+- `com.jetbrains.gateway`
+- `com.jetbrains.plugins.ini4idea`
 - `com.jetbrains.plugins.jade`
+- `com.jetbrains.plugins.rider.privateFeedAuth`
+- `com.jetbrains.plugins.webDeployment`
+- `com.jetbrains.remoteDevServer`
+- `com.jetbrains.restClient`
+- `com.jetbrains.rider.diagram`
+- `com.jetbrains.rider.fsharp`
+- `com.jetbrains.rider.plugins.noesis`
+- `com.jetbrains.rider.plugins.verse`
+- `com.jetbrains.rider.publish.webDeploy`
+- `com.jetbrains.sqlproj`
+- `com.jetbrains.station`
+- `Docker`
+- `HtmlTools`
+- `idea.plugin.protoeditor`
+- `intellij.git.commit.modal`
 - `intellij.javascript.eslint`
 - `intellij.nextjs`
 - `intellij.prettierJS`
 - `intellij.vitejs`
 - `intellij.webpack`
+- `JavaScript`
+- `JavaScriptDebugger`
 - `jshint`
+- `JSIntentionPowerPack`
+- `Karma`
+- `me.rafaelldi.aspire`
+- `me.seclerp.rider.plugins.efcore`
+- `NodeJS`
 - `org.intellij.plugins.postcss`
+- `org.jetbrains.plugins.docker.gateway`
 - `org.jetbrains.plugins.less`
+- `org.jetbrains.plugins.node-remote-interpreter`
+- `org.jetbrains.plugins.remote-run`
 - `org.jetbrains.plugins.sass`
+- `org.jetbrains.plugins.vagrant`
 - `org.jetbrains.plugins.vue`
+- `PerforceDirectPlugin`
+- `Refactor-X`
 - `tslint`
-
-### 사용하지 않는 언어 팩
-
-- `com.intellij.ko` - Korean Language Pack
+- `unreal-link`
+- `W3Validators`
+- `XPathView`
 
 <br>
 
