@@ -151,7 +151,7 @@ public class GameStartManagerMono : MonoBehaviour
     {
         foreach (var manager in _managerList)
         {
-            manager.SetModel();
+            manager.SetData();
         }
     }
 
