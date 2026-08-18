@@ -41,6 +41,7 @@ public class MyCharacterData
     public int Age { get; set; }
     public int MonthlyRoutineSuccessMoney { get; set; }
     public int MoneyPerRoutineSuccess { get; set; }
+    public int MoneyPerSiestaMinute { get; set; }
 
     [XmlIgnore]
     public ImmutableSortedDictionary<string, ImmutableList<bool>> RoutineRecordDictionary

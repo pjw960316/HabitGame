@@ -111,4 +111,5 @@
     <Age>29</Age>
     <MonthlyRoutineSuccessMoney>7000</MonthlyRoutineSuccessMoney>
     <MoneyPerRoutineSuccess>500</MoneyPerRoutineSuccess>
+    <MoneyPerSiestaMinute>100</MoneyPerSiestaMinute>
 </MyCharacterData>

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using JetBrains.Annotations;
 using UniRx;
-using UnityEngine;
 
 // NOTE : 추상화
 // 게임 전체 (씬 무관)에서 MVP 객체들로 인해 플레이어 데이터의 변경을 관리한다.
@@ -138,6 +137,11 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
     public int GetMoneyPerRoutineSuccess()
     {
         return _myCharacterData.MoneyPerRoutineSuccess;
+    }
+
+    public int GetMoneyPerSiestaMinute()
+    {
+        return _myCharacterData.MoneyPerSiestaMinute;
     }
 
 
