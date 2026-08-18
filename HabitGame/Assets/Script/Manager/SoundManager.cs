@@ -26,7 +26,7 @@ public class SoundManager : ManagerBase<SoundManager>
 
     #region 3. Constructor
 
-    public sealed override void SetModel()
+    public sealed override void SetData()
     {
         _soundData = ScriptableObjectManager.Instance.GetScriptableObject<SoundData>();
         ExceptionHelper.CheckNullException(_soundData, "SoundData");

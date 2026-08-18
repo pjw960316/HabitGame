@@ -52,7 +52,7 @@ public abstract class ManagerBase<T> : IManager
     }
 
 
-    public virtual void SetModel()
+    public virtual void SetData()
     {
     }
 

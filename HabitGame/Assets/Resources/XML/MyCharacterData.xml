@@ -101,6 +101,12 @@
             </RoutineCheckList>
         </RoutineRecordData>
     </RoutineRecordList>
+    <SiestaTimeRecordList>
+        <SiestaTimeRecordData>
+            <Date>20260818</Date>
+            <TotalSiestaMinutes>10</TotalSiestaMinutes>
+        </SiestaTimeRecordData>
+    </SiestaTimeRecordList>
     <Name>ParkJiWon</Name>
     <Age>29</Age>
     <MonthlyRoutineSuccessMoney>7000</MonthlyRoutineSuccessMoney>

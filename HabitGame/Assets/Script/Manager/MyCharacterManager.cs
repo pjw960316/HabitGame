@@ -81,9 +81,10 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
     #region 5-2. Methods
 
-    public sealed override void SetModel()
+    public sealed override void SetData()
     {
         _myCharacterData = XmlDataManager.Instance.GetDeserializedXmlData<MyCharacterData>();
+        
         ExceptionHelper.CheckNullException(_myCharacterData, "_myCharacterData in MyCharacterManager");
     }
 

@@ -34,7 +34,7 @@ public class UIManager : ManagerBase<UIManager>
 
     #region 3. Constructor
 
-    public sealed override void SetModel()
+    public sealed override void SetData()
     {
         _popupData = ScriptableObjectManager.Instance.GetScriptableObject<PopupData>();
         ExceptionHelper.CheckNullException(_popupData, "_popupData");

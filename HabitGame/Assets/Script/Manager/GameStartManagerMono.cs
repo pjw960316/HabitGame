@@ -171,7 +171,6 @@ public class GameStartManagerMono : MonoBehaviour
         
         ScriptableObjectManager.Instance.RegisterAllScriptableObjects(scriptableObjectList);
 
-        //Log
         Debug.Log($"{scriptableObjectCount}개의 ScriptableObject가 Model로 _modelList에 추가되었습니다.");
     }
 
@@ -182,7 +181,6 @@ public class GameStartManagerMono : MonoBehaviour
 
         xmlDataManager.RegisterDeserializedXmlData();
 
-        //Log
         Debug.Log($"{xmlDataManager.GetDeserializedXmlListCount()}개의 xml이 Model로 _modelList에 추가되었습니다.");
     }
 

@@ -72,6 +72,8 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
         }
     }
     
+    // NOTE
+    // 다른 매니저에서 XML 데이터에서 알맞은 타입의 데이터를 로드하도록 제공한다.
     public T GetDeserializedXmlData<T>() 
     {
         if (_deserializedXmlDictionary.TryGetValue(typeof(T), out var deserializedXml) && deserializedXml is T targetDeserializedXml)

@@ -15,11 +15,11 @@ public class MyCharacterData
         public List<bool> RoutineCheckList = new();
     }
 
-    // public class SiestaTimeRecordData
-    // {
-    //     public string Date;
-    //     public int TotalSiestaMinutes;
-    // }
+    public class SiestaTimeRecordData
+    {
+        public string Date;
+        public int TotalSiestaMinutes;
+    }
 
     #region 1. Fields
 
@@ -30,6 +30,8 @@ public class MyCharacterData
     private TimeSpan _curSiestaTime;
 
     public List<RoutineRecordData> RoutineRecordList = new();
+    public List<SiestaTimeRecordData> SiestaTimeRecordList = new();
+    
     private Dictionary<string, List<bool>> _routineRecordDictionary = new();
 
     #endregion
@@ -133,6 +135,11 @@ public class MyCharacterData
     public void UpdateSiestaTime(TimeSpan timeSpan)
     {
         _curSiestaTime = timeSpan;
+    }
+
+    private void TestSiestaTime()
+    {
+        Debug.Log(SiestaTimeRecordList[0]);
     }
 
     #endregion

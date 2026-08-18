@@ -28,7 +28,7 @@ public class StringManager : ManagerBase<StringManager>
 
     #region 3. Constructor
 
-    public sealed override void SetModel()
+    public sealed override void SetData()
     {
         _stringData = ScriptableObjectManager.Instance.GetScriptableObject<StringData>();
         ExceptionHelper.CheckNullException(_stringData, "_stringData");
