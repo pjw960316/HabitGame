@@ -38,7 +38,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
     public sealed override void Initialize()
     {
         _xmlDataManager = XmlDataManager.Instance;
-        ExceptionHelper.CheckNullException(_xmlDataManager, "_xmlDataSerializeManager");
+        ExceptionHelper.CheckNullException(_xmlDataManager, "_xmlDataManager");
     }
 
     #endregion
