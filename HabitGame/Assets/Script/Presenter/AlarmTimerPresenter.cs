@@ -81,6 +81,7 @@ public class AlarmTimerPresenter : UIPresenterBase
         _soundManager.PlayBackgroundMusic();
 
         _myCharacterManager.UpdateSiestaRecord(_elapsedTime);
+        _myCharacterManager.LogSiestaTimeRecordList();
         
         _alarmData.RestoreAudioClipAndPlayTimeToDefault();
         _elapsedTime = TimeSpan.Zero;

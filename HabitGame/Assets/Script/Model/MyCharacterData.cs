@@ -26,6 +26,7 @@ public class MyCharacterData
     private int _age;
     private int _monthlyRoutineSuccessMoney;
     private int _moneyPerRoutineSuccess;
+    private int _moneyPerSiestaMinute;
 
     public List<RoutineRecordData> RoutineRecordList = new();
     public List<SiestaTimeRecordData> SiestaTimeRecordList = new();
@@ -41,7 +42,11 @@ public class MyCharacterData
     public int Age { get; set; }
     public int MonthlyRoutineSuccessMoney { get; set; }
     public int MoneyPerRoutineSuccess { get; set; }
-    public int MoneyPerSiestaMinute { get; set; }
+    public int MoneyPerSiestaMinute
+    {
+        get => _moneyPerSiestaMinute;
+        set => _moneyPerSiestaMinute = value;
+    }
 
     [XmlIgnore]
     public ImmutableSortedDictionary<string, ImmutableList<bool>> RoutineRecordDictionary
@@ -178,23 +183,11 @@ public class MyCharacterData
         _siestaTimeRecordDictionary[key] = totalSiestaMinutes;
     }
 
-    // TEST
-    public void TestTodaySiestaTime()
+    public void LogSiestaTimeRecordList()
     {
-        if (SiestaTimeRecordList.Count != _siestaTimeRecordDictionary.Count)
+        foreach (var siestaTimeRecord in SiestaTimeRecordList)
         {
-            Debug.LogError($"낮잠 기록 개수가 다릅니다. List: {SiestaTimeRecordList.Count}, Dictionary: {_siestaTimeRecordDictionary.Count}");
-        }
-        else
-        {
-            Debug.Log($"낮잠 기록 개수가 같습니다. Count: {SiestaTimeRecordList.Count}");
-        }
-
-        Debug.Log($"낮잠 기록 Dictionary 개수: {_siestaTimeRecordDictionary.Count}");
-
-        foreach (var siestaTimeRecord in _siestaTimeRecordDictionary)
-        {
-            Debug.Log($"낮잠 기록 Key: {siestaTimeRecord.Key}, Value: {siestaTimeRecord.Value}분");
+            Debug.Log($"낮잠 기록 날짜: {siestaTimeRecord.Date}, 낮잠 시간: {siestaTimeRecord.TotalSiestaMinutes}분");
         }
     }
 

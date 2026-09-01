@@ -88,8 +88,6 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         // NOTE : 초기화 해준다.
         _myCharacterData.Initialize();
         
-        _myCharacterData.TestTodaySiestaTime();
-        
         ExceptionHelper.CheckNullException(_myCharacterData, "_myCharacterData in MyCharacterManager");
     }
 
@@ -142,6 +140,11 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
     public int GetMoneyPerSiestaMinute()
     {
         return _myCharacterData.MoneyPerSiestaMinute;
+    }
+
+    public void LogSiestaTimeRecordList()
+    {
+        _myCharacterData.LogSiestaTimeRecordList();
     }
 
 
