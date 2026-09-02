@@ -1,9 +1,9 @@
 # :fire: Rider 2026.2 설치 플러그인 목록
 
 - 확인 경로: `C:\Users\pjw96\AppData\Roaming\JetBrains\Rider2026.2`
-- 확인 날짜: 2026-08-18
-- 번들 플러그인 (bundled_plugins.txt) : 140개
-- 사용자 플러그인 경로에서 확인된 항목: 5개
+- 확인 날짜: 2026-09-02
+- 번들 플러그인 (bundled_plugins.txt) : 75개
+- 사용자 플러그인 경로에서 확인된 항목: 4개
 - 비활성화된 플러그인 (disabled_plugins.txt) : 65개
 
 > 비활성화는 플러그인을 삭제한 것이 아니다. 필요해지면 Rider 설정에서 다시 활성화할 수 있다.
@@ -28,7 +28,6 @@
 
 | 플러그인 | Plugin ID | 버전 | 용도 |
 |---|---|---:|---|
-| Gerry Themes | `com.jetbrains.gerryPurpleTheme` | 2026.1.0806 | 에디터 테마 |
 | Gradle | `com.intellij.gradle` | 262.8665.369 | Gradle 빌드 도구 지원 |
 | JetBrains AI Assistant | `com.intellij.ml.llm` | 262.8665.411 | AI 코딩 보조 |
 | CognitiveComplexity | `cognitivecomplexity-rider` | 2026.2.0 | C# 코드의 인지 복잡도 분석 |
