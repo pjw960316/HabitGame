@@ -179,6 +179,19 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
             myCharacterData.UpdateSiestaTime(_siestaTime);
         }
 
+        public int GetTodaySiestaMoney(MyCharacterData myCharacterData)
+        {
+            var key = DateTime.Now.ToString("yyyyMMdd");
+            var siestaTimeRecordDictionary = myCharacterData.SiestaTimeRecordDictionary;
+
+            if (!siestaTimeRecordDictionary.TryGetValue(key, out var totalSiestaMinutes))
+            {
+                return 0;
+            }
+
+            return totalSiestaMinutes * myCharacterData.MoneyPerSiestaMinute;
+        }
+
         // TODO
         // 이게 필요할까? 그냥 통합 업데이트가 맞는가?
         // C# -> XML

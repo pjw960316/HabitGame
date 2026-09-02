@@ -62,6 +62,10 @@ public class MyCharacterData
         }
     }
 
+    [XmlIgnore]
+    public ImmutableDictionary<string, int> SiestaTimeRecordDictionary =>
+        _siestaTimeRecordDictionary.ToImmutableDictionary();
+
     #endregion
 
     #region 3. Constructor
