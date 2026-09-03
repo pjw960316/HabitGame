@@ -4,6 +4,8 @@ using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
+// NOTE
+// 버튼 아닌 위젯은 이미지 베이스라고 구현했다.
 public class UIImageBase : MonoBehaviour, IView
 {
     #region 1. Fields
@@ -11,6 +13,10 @@ public class UIImageBase : MonoBehaviour, IView
     [SerializeField] private TextMeshProUGUI _imageText;
     [SerializeField] private EStringKey _imageTextKey;
     [SerializeField] protected Image _image;
+
+    // NOTE
+    // true면 EStringKey를 이용해 고정 문구를 자동 설정하고,
+    // false면 날짜, 금액, 포인트처럼 실행 중 결정되는 값을 SetText()로 설정한다.
     [SerializeField] private bool _isAutoSetText;
 
     protected UIManager _uiManager;
