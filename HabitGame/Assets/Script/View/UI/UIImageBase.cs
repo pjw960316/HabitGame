@@ -1,12 +1,16 @@
-using System;
 using TMPro;
-using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
 // NOTE
-// 버튼 아닌 위젯은 이미지 베이스라고 구현했다.
-public class UIImageBase : MonoBehaviour, IView
+/*
+ 1. 역할
+ 이미지 + 텍스트 or 이미지 단독의 위젯에 붙여서 사용한다.
+
+ 2. 기본 이미지
+ 가장 기본이미지라면 상속받지 않고, 이걸 바로 쓰도록 하자 -> abstract 사용 X
+*/
+public class UIImageBase : UIWidgetBase
 {
     #region 1. Fields
 
@@ -19,11 +23,6 @@ public class UIImageBase : MonoBehaviour, IView
     // false면 날짜, 금액, 포인트처럼 실행 중 결정되는 값을 SetText()로 설정한다.
     [SerializeField] private bool _isAutoSetText;
 
-    protected UIManager _uiManager;
-
-    protected readonly Subject<EPopupKey> _onClickButton = new();
-    public IObservable<EPopupKey> OnClickButton => _onClickButton;
-
     #endregion
 
     #region 2. Properties
@@ -34,47 +33,30 @@ public class UIImageBase : MonoBehaviour, IView
 
     #region 3. Constructor
 
-    public void Awake()
+    protected override void OnAwake()
     {
-        // NOTE
-        // Overriding
-        // Script가 UIButtonBase가 붙으면 Base의 OnAwake()가 호출되고
-        // Script가 UIOpenPopupButtonBase가 붙으면 Derived의 OnAwake()가 호출되기 바람.
-        OnAwake();
-    }
+        base.OnAwake();
 
-    protected virtual void OnAwake()
-    {
         Initialize();
 
-        // NOTE
-        // Shadowing
-        // Script가 UIButtonBase가 붙으면 Base의 BindEvent()가 호출되고
-        // Script가 UIOpenPopupButtonBase가 붙어도 Derived의 BindEvent()가 호출되기 바람.
         BindEvent();
-    }
-
-    #endregion
-
-    #region 4. Methods
-
-    // NOTE
-    // Virtual로 변경하지 마세요.
-    // 모든 상속 구조에서 Binding은 독립적으로 각각 실행되어야 합니다.
-    private void BindEvent()
-    {
     }
 
     private void Initialize()
     {
-        _uiManager = UIManager.Instance;
-        
         if (_isAutoSetText)
         {
             SetAutoText();
         }
     }
 
+    private void BindEvent()
+    {
+    }
+
+    #endregion
+
+    #region 4. Methods
 
     private void SetAutoText()
     {

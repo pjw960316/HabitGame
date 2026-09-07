@@ -29,9 +29,19 @@ public abstract class UIWidgetBase : MonoBehaviour, IView
         OnAwake();
     }
 
-    public virtual void OnAwake()
+    protected virtual void OnAwake()
     {
-        //
+        Initialize();
+
+        BindEvent();
+    }
+
+    private void Initialize()
+    {
+    }
+
+    private void BindEvent()
+    {
     }
 
     #endregion

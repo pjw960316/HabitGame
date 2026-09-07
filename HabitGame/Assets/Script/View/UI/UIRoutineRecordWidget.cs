@@ -32,7 +32,7 @@ public class UIRoutineRecordWidget : UIWidgetBase
 
     #region 3. Constructor
 
-    public sealed override void OnAwake()
+    protected sealed override void OnAwake()
     {
         base.OnAwake();
 
