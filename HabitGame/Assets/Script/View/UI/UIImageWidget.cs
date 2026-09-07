@@ -7,8 +7,8 @@ using UnityEngine.UI;
  1. 역할
  이미지 + 텍스트 or 이미지 단독의 위젯에 붙여서 사용한다.
 
- 2. 기본 이미지
- 가장 기본이미지라면 상속받지 않고, 이걸 바로 쓰도록 하자 -> abstract 사용 X
+ 2. 책임
+ 자신의 상위 Popup으로부터 필요한 데이터를 전달받으면 그걸 UI에서 변경하는 책임만 존재한다.
 */
 public class UIImageWidget : UIWidgetBase
 {
