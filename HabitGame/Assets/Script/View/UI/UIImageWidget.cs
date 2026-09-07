@@ -10,24 +10,25 @@ using UnityEngine.UI;
  2. 기본 이미지
  가장 기본이미지라면 상속받지 않고, 이걸 바로 쓰도록 하자 -> abstract 사용 X
 */
-public class UIImageBase : UIWidgetBase
+public class UIImageWidget : UIWidgetBase
 {
     #region 1. Fields
 
+    [SerializeField] protected Image _image;
     [SerializeField] private TextMeshProUGUI _imageText;
     [SerializeField] private EStringKey _imageTextKey;
-    [SerializeField] protected Image _image;
+    
 
     // NOTE
-    // true면 EStringKey를 이용해 고정 문구를 자동 설정하고,
-    // false면 날짜, 금액, 포인트처럼 실행 중 결정되는 값을 SetText()로 설정한다.
+    // T -> 고정 문구 (EStringKey 기반)
+    // F -> 런타임에 변경되는 문구
     [SerializeField] private bool _isAutoSetText;
 
     #endregion
 
     #region 2. Properties
 
-    public Image Image => _image;
+    //
 
     #endregion
 

@@ -6,9 +6,9 @@ public class UIRoutineRecordWidget : UIWidgetBase
 {
     #region 1. Fields
 
-    [SerializeField] private UIImageBase _dateWidget;
-    [SerializeField] private List<UIImageBase> _routineRecordWidget;
-    [SerializeField] private UIImageBase _routineRecordMoneyWidget;
+    [SerializeField] private UIImageWidget _dateWidget;
+    [SerializeField] private List<UIImageWidget> _routineRecordWidget;
+    [SerializeField] private UIImageWidget _routineRecordMoneyWidget;
     [SerializeField] private Color _successColor;
     [SerializeField] private Color _failColor;
     [SerializeField] private RectTransform _rectTransform;

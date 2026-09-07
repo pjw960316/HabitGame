@@ -6,8 +6,8 @@ public class UIAlarmTimerPopup : UIPopupBase
 {
     #region 1. Fields
 
-    [SerializeField] private UIImageBase _titleWidget;
-    [SerializeField] private UIImageBase _alarmTimerWidget;
+    [SerializeField] private UIImageWidget _titleWidget;
+    [SerializeField] private UIImageWidget _alarmTimerWidget;
     [SerializeField] private UIButtonBase _quitAlarmButton;
 
     private readonly Subject<Unit> _onQuitAlarm = new();
