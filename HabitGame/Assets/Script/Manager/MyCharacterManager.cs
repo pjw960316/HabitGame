@@ -12,7 +12,7 @@ using UniRx;
 
 public interface IUpdateAndSaveData
 {
-    public void UpdateMyCharacterData(MyCharacterData myCharacterData);
+    public void UpdateMyCharacterData();
     public void SaveMyCharacterDataXML();
 }
 
@@ -24,12 +24,14 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
     private XmlDataManager _xmlDataManager;
 
     private readonly Subject<Unit> _onUpdateRoutineSuccess = new();
+    private readonly Subject<int> _onUpdateSiestaRecord = new();
 
     #endregion
 
     #region 2. Properties
 
     public Subject<Unit> OnUpdateRoutineSuccess => _onUpdateRoutineSuccess;
+    public IObservable<int> OnUpdateSiestaRecord => _onUpdateSiestaRecord;
 
     #endregion
 
@@ -68,10 +70,12 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
     public void UpdateSiestaRecord(TimeSpan siestaTime)
     {
-        var siestaHandler = new SiestaHandler(siestaTime);
+        var siestaHandler = new SiestaHandler(siestaTime, _myCharacterData);
         
-        siestaHandler.UpdateMyCharacterData(_myCharacterData);
+        siestaHandler.UpdateMyCharacterData();
         UpdateXmlData();
+
+        _onUpdateSiestaRecord.OnNext(siestaHandler.GetMonthlySiestaMoney());
         
         //siestaHandler.SaveMyCharacterDataXML();
     }
@@ -168,28 +172,47 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
     private sealed class SiestaHandler : IUpdateAndSaveData
     {
         private readonly TimeSpan _siestaTime;
+        private readonly MyCharacterData _myCharacterData;
 
-        public SiestaHandler(TimeSpan siestaTime)
+        public SiestaHandler(TimeSpan siestaTime, MyCharacterData myCharacterData = null)
         {
             _siestaTime = siestaTime;
+            _myCharacterData = myCharacterData;
         }
 
-        public void UpdateMyCharacterData(MyCharacterData myCharacterData)
+        public void UpdateMyCharacterData()
         {
-            myCharacterData.UpdateSiestaTime(_siestaTime);
+            _myCharacterData.UpdateSiestaTime(_siestaTime);
         }
 
-        public int GetTodaySiestaMoney(MyCharacterData myCharacterData)
+        public int GetMonthlySiestaMoney()
+        {
+            var currentYearMonth = DateTime.Now.ToString("yyyyMM");
+            var siestaTimeRecordDictionary = _myCharacterData.SiestaTimeRecordDictionary;
+            var totalSiestaMinutes = 0;
+
+            foreach (var siestaTimeRecord in siestaTimeRecordDictionary)
+            {
+                if (siestaTimeRecord.Key.StartsWith(currentYearMonth, StringComparison.Ordinal))
+                {
+                    totalSiestaMinutes += siestaTimeRecord.Value;
+                }
+            }
+
+            return totalSiestaMinutes * _myCharacterData.MoneyPerSiestaMinute;
+        }
+
+        public int GetTodaySiestaMoney()
         {
             var key = DateTime.Now.ToString("yyyyMMdd");
-            var siestaTimeRecordDictionary = myCharacterData.SiestaTimeRecordDictionary;
+            var siestaTimeRecordDictionary = _myCharacterData.SiestaTimeRecordDictionary;
 
             if (!siestaTimeRecordDictionary.TryGetValue(key, out var totalSiestaMinutes))
             {
                 return 0;
             }
 
-            return totalSiestaMinutes * myCharacterData.MoneyPerSiestaMinute;
+            return totalSiestaMinutes * _myCharacterData.MoneyPerSiestaMinute;
         }
 
         // TODO
