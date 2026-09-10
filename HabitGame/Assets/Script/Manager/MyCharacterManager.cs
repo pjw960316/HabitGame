@@ -12,7 +12,7 @@ using UniRx;
 
 public interface IUpdateAndSaveData
 {
-    public void UpdateMyCharacterData();
+    public void UpdateMyCharacterData(TimeSpan siestaTime);
     public void SaveMyCharacterDataXML();
 }
 
@@ -22,6 +22,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
     private MyCharacterData _myCharacterData;
     private XmlDataManager _xmlDataManager;
+    private SiestaHandler _siestaHandler;
 
     private readonly Subject<Unit> _onUpdateRoutineSuccess = new();
     private readonly Subject<int> _onUpdateSiestaRecord = new();
@@ -70,14 +71,12 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
     public void UpdateSiestaRecord(TimeSpan siestaTime)
     {
-        var siestaHandler = new SiestaHandler(siestaTime, _myCharacterData);
-        
-        siestaHandler.UpdateMyCharacterData();
+        _siestaHandler.UpdateMyCharacterData(siestaTime);
         UpdateXmlData();
 
-        _onUpdateSiestaRecord.OnNext(siestaHandler.GetMonthlySiestaMoney());
+        _onUpdateSiestaRecord.OnNext(_siestaHandler.GetMonthlySiestaMoney());
         
-        //siestaHandler.SaveMyCharacterDataXML();
+        //_siestaHandler.SaveMyCharacterDataXML();
     }
 
     #endregion
@@ -92,7 +91,18 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         // NOTE : 초기화 해준다.
         _myCharacterData.Initialize();
         
+        InitializeHandlers();
+        
         ExceptionHelper.CheckNullException(_myCharacterData, "_myCharacterData in MyCharacterManager");
+    }
+    
+    // WARNING
+    // 일단 호출 시점 고민 안하고 만들긴 했다.
+    // handler initialize 타이밍
+
+    private void InitializeHandlers()
+    {
+        _siestaHandler = new SiestaHandler(_myCharacterData);
     }
 
     [CanBeNull]
@@ -141,9 +151,9 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         return _myCharacterData.MoneyPerRoutineSuccess;
     }
 
-    public int GetMoneyPerSiestaMinute()
+    public int GetMonthlySiestaMoney()
     {
-        return _myCharacterData.MoneyPerSiestaMinute;
+        return _siestaHandler.GetMonthlySiestaMoney();
     }
 
     public void LogSiestaTimeRecordList()
@@ -171,18 +181,16 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
     private sealed class SiestaHandler : IUpdateAndSaveData
     {
-        private readonly TimeSpan _siestaTime;
         private readonly MyCharacterData _myCharacterData;
 
-        public SiestaHandler(TimeSpan siestaTime, MyCharacterData myCharacterData = null)
+        public SiestaHandler(MyCharacterData myCharacterData)
         {
-            _siestaTime = siestaTime;
             _myCharacterData = myCharacterData;
         }
 
-        public void UpdateMyCharacterData()
+        public void UpdateMyCharacterData(TimeSpan siestaTime)
         {
-            _myCharacterData.UpdateSiestaTime(_siestaTime);
+            _myCharacterData.UpdateSiestaTime(siestaTime);
         }
 
         public int GetMonthlySiestaMoney()

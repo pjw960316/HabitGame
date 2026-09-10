@@ -51,6 +51,8 @@ public abstract class PresenterBase : IPresenter
         InitializeModel();
     }
 
+    // NOTE
+    // View 하단의 Widget들 세팅하는 코드도 여기에 구현한다.
     public abstract void SetView();
 
     public abstract void BindEvent();

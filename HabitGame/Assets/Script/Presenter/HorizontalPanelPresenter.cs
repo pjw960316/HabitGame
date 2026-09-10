@@ -26,7 +26,6 @@ public class HorizontalPanelPresenter : PresenterBase
     {
         _uiHorizontalPanel = _view as UIHorizontalPanel;
         ExceptionHelper.CheckNullException(_uiHorizontalPanel, "_uiHorizontalPanel");
-        
     }
 
     protected sealed override void InitializeModel()
@@ -37,6 +36,7 @@ public class HorizontalPanelPresenter : PresenterBase
 
     public sealed override void SetView()
     {
+        _uiHorizontalPanel.UpdatePoint(_myCharacterManager.GetMonthlySiestaMoney());
     }
 
     public sealed override void BindEvent()
