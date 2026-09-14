@@ -235,6 +235,7 @@ public class GameStartManagerMono : MonoBehaviour
         }
 
         alarmData.Initialize();
+        
         var sleepingAudioClipPathDictionary = alarmData.SleepingAudioClipPathDictionary;
 
         foreach (var element in sleepingAudioClipPathDictionary)

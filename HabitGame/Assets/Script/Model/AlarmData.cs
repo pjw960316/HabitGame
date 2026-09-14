@@ -52,6 +52,12 @@ public class AlarmData : ScriptableObject, IModel
     {
         foreach (var audioClip in _sleepingAudioClipDictionary)
         {
+            if (audioClip.Value == null)
+            {
+                Debug.LogWarning($"{audioClip.Key}의 AudioClip이 없거나 파괴되어 경로 생성을 건너뜁니다.");
+                continue;
+            }
+
             var audioClipName = audioClip.Value.name;
             var path = $"{BaseDirectoryName}/{audioClipName}";
 
