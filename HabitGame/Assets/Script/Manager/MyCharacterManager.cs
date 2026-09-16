@@ -156,6 +156,11 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         return _siestaHandler.GetMonthlySiestaMoney();
     }
 
+    public int GetTodaySiestaMoney()
+    {
+        return _siestaHandler.GetTodaySiestaMoney();
+    }
+
     public void LogSiestaTimeRecordList()
     {
         _myCharacterData.LogSiestaTimeRecordList();

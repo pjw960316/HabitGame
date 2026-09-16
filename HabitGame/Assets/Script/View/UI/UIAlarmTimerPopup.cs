@@ -49,8 +49,9 @@ public class UIAlarmTimerPopup : UIPopupBase
     private void OnClickQuitAlarmButton()
     {
         _onQuitAlarm.OnNext(default);
-        
-        _uiToastManager.ShowToast(EToastStringKey.EAlarmQuit);
+
+        _uiToastManager.ShowToast(EToastStringKey.EAlarmQuit, DateTime.Now.ToString("MM월 dd일"),
+            MyCharacterManager.Instance.GetTodaySiestaMoney().ToString("N0"));
     }
 
     #endregion

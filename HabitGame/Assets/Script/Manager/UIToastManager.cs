@@ -41,6 +41,7 @@ public class UIToastManager : ManagerBase<UIToastManager>
     public void ShowToast(EToastStringKey eToastStringKey, params object[] args)
     {
         UpdateToastText(eToastStringKey, args);
+        
         PresentToast();
     }
 
