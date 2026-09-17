@@ -74,8 +74,20 @@ public class MyCharacterData
     // MyCharacterManager에게 SetData 당한 이후에 호출된다.
     public void Initialize()
     {
+        InitializeSiestaReward();
         InitializeRoutineRecordDictionary();
         InitializeSiestaTimeRecordDictionary();
+    }
+
+    // TODO
+    // 이거 제대로 수정
+    private void InitializeSiestaReward()
+    {
+        // 구형 저장 XML에 분당 보상이 없거나 0이면 현재 기본 XML의 보상으로 보정한다.
+        if (MoneyPerSiestaMinute <= 0)
+        {
+            MoneyPerSiestaMinute = 100;
+        }
     }
 
     private void InitializeRoutineRecordDictionary()
