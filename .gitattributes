@@ -1,8 +1,7 @@
-*.apk filter=lfs diff=lfs merge=lfs -text
-
+# 기본: 텍스트 파일 자동 판별
 * text=auto
 
-# 프로젝트의 텍스트 파일 줄바꿈을 LF로 통일
+# 지정한 텍스트 파일은 작업 폴더에서도 LF 사용
 *.cs text eol=lf
 *.json text eol=lf
 *.xml text eol=lf
@@ -10,4 +9,8 @@
 *.shader text eol=lf
 *.asmdef text eol=lf
 
+# Windows 배치 파일은 CRLF 사용
 *.bat text eol=crlf
+
+# APK는 Git LFS로 관리하고 줄바꿈 변환 제외
+*.apk filter=lfs diff=lfs merge=lfs -text
