@@ -22,11 +22,12 @@ public class MyCharacterData
 
     #region 1. Fields
 
+    public const int MONEY_PER_ROUTINE_SUCCESS = 500;
+    public const int MONEY_PER_SIESTA_MINUTE = 10;
+
     private int _name;
     private int _age;
     private int _monthlyRoutineSuccessMoney;
-    private int _moneyPerRoutineSuccess;
-    private int _moneyPerSiestaMinute;
 
     public List<RoutineRecordData> RoutineRecordList = new();
     public List<SiestaTimeRecordData> SiestaTimeRecordList = new();
@@ -41,12 +42,6 @@ public class MyCharacterData
     public string Name { get; set; }
     public int Age { get; set; }
     public int MonthlyRoutineSuccessMoney { get; set; }
-    public int MoneyPerRoutineSuccess { get; set; }
-    public int MoneyPerSiestaMinute
-    {
-        get => _moneyPerSiestaMinute;
-        set => _moneyPerSiestaMinute = value;
-    }
 
     [XmlIgnore]
     public ImmutableSortedDictionary<string, ImmutableList<bool>> RoutineRecordDictionary
@@ -74,26 +69,12 @@ public class MyCharacterData
     // MyCharacterManager에게 SetData 당한 이후에 호출된다.
     public void Initialize()
     {
-        InitializeSiestaReward();
         InitializeRoutineRecordDictionary();
         InitializeSiestaTimeRecordDictionary();
     }
 
     // TODO
-    // 이거 제대로 수정
-    // Resources의 MyCharacterData.xml은 최초 생성용 기본 데이터이고,
-    // persistentDataPath의 MyCharacterData.xml은 실행 중 변경되는 사용자 저장 데이터다.
-    // 저장 XML이 이미 존재하면 Resources의 최신 기본값이 자동으로 반영되지 않는다.
-    // 필드 추가나 기본값 변경에 대응할 데이터 버전 및 마이그레이션 시스템이 필요하다.
-    // 로컬과 서버 중 어디에서 데이터를 관리할지도 포함해 저장 시스템을 다시 설계한다.
-    private void InitializeSiestaReward()
-    {
-        // 구형 저장 XML에 분당 보상이 없거나 0이면 현재 기본 XML의 보상으로 보정한다.
-        if (MoneyPerSiestaMinute <= 0)
-        {
-            MoneyPerSiestaMinute = 100;
-        }
-    }
+    // 사용자 저장 XML의 필드 추가나 변경에 대응할 데이터 버전 및 마이그레이션 시스템이 필요하다.
 
     private void InitializeRoutineRecordDictionary()
     {
@@ -180,7 +161,7 @@ public class MyCharacterData
             if (!todayRoutineRecordList[index])
             {
                 todayRoutineRecordList[index] = true;
-                reward += MoneyPerRoutineSuccess;
+                reward += MONEY_PER_ROUTINE_SUCCESS;
             }
 
         UpdateMonthlyRoutineSuccessMoney(reward);

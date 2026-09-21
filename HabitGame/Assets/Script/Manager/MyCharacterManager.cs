@@ -148,7 +148,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
     public int GetMoneyPerRoutineSuccess()
     {
-        return _myCharacterData.MoneyPerRoutineSuccess;
+        return MyCharacterData.MONEY_PER_ROUTINE_SUCCESS;
     }
 
     public int GetMonthlySiestaMoney()
@@ -212,7 +212,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
                 }
             }
 
-            return totalSiestaMinutes * _myCharacterData.MoneyPerSiestaMinute;
+            return totalSiestaMinutes * MyCharacterData.MONEY_PER_SIESTA_MINUTE;
         }
 
         public int GetTodaySiestaMoney()
@@ -225,7 +225,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
                 return 0;
             }
 
-            return totalSiestaMinutes * _myCharacterData.MoneyPerSiestaMinute;
+            return totalSiestaMinutes * MyCharacterData.MONEY_PER_SIESTA_MINUTE;
         }
 
         // TODO
