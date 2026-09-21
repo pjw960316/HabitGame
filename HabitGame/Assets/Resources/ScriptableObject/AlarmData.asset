@@ -19,7 +19,7 @@ MonoBehaviour:
     - Key: 1
       Value: {fileID: 8300000, guid: 613bf0d1d29be574a9701e6d11350171, type: 3}
     - Key: 2
-      Value: {fileID: 8300000, guid: 7f9e5bf74a55c0f48acf6478f5ad426f, type: 3}
+      Value: {fileID: 8300000, guid: 01c5fe56a5731fe48ac8b34f9f40fa8c, type: 3}
   _sleepingAudioPlayTimeDictionary:
     _serializedList:
     - Key: 4
