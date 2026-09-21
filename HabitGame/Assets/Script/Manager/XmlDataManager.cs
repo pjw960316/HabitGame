@@ -95,6 +95,9 @@ public class XmlDataManager : ManagerBase<XmlDataManager>
         var persistentFilePath = xmlFileData.PersistentFilePath;
         var text = "";
 
+        // WARNING
+        // Persistent 경로에 XML이 존재하면
+        // Resources XML을 수정해도 해당 변경 내용은 자동으로 반영되지 않는다.
         if (!File.Exists(persistentFilePath))
         {
             text = Resources.Load<TextAsset>(resourcesRelativePath).text;
