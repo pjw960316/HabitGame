@@ -10,7 +10,9 @@ public class UIHorizontalPanel : MonoBehaviour, IView
 
     private PresenterManager _presenterManager;
 
-    [SerializeField] private UIImageWidget _pointWidget;
+    [SerializeField] private UIImageWidget _siestaPointWidget;
+    [SerializeField] private UIImageWidget _waterPointWidget;
+    [SerializeField] private UIImageWidget _monthlyHarvestMoneyWidget;
 
     private readonly Subject<Unit> _onDestroyPanel = new();
 
@@ -51,9 +53,9 @@ public class UIHorizontalPanel : MonoBehaviour, IView
 
     #region 5. Methods
 
-    public void UpdatePoint(int point)
+    public void UpdateSiestaPoint(int point)
     {
-        _pointWidget.SetText(point.ToString("N0"));
+        _siestaPointWidget.SetText(point.ToString("N0"));
     }
 
     private void CreatePresenterByManager()

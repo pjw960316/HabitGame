@@ -36,7 +36,7 @@ public class HorizontalPanelPresenter : PresenterBase
 
     public sealed override void SetView()
     {
-        _uiHorizontalPanel.UpdatePoint(_myCharacterManager.GetMonthlySiestaMoney());
+        _uiHorizontalPanel.UpdateSiestaPoint(_myCharacterManager.GetMonthlySiestaMoney());
     }
 
     public sealed override void BindEvent()
@@ -54,9 +54,9 @@ public class HorizontalPanelPresenter : PresenterBase
 
     #region 4. EventHandlers
 
-    private void OnUpdateSiestaRecord(int todaySiestaMoney)
+    private void OnUpdateSiestaRecord(int monthlySiestaMoney)
     {
-        _uiHorizontalPanel.UpdatePoint(todaySiestaMoney);
+        _uiHorizontalPanel.UpdateSiestaPoint(monthlySiestaMoney);
     }
 
    /* private void OnDestroyPanel()
