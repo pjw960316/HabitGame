@@ -23,7 +23,8 @@ public class MyCharacterData
     #region 1. Fields
 
     public const int MONEY_PER_ROUTINE_SUCCESS = 500;
-    public const int MONEY_PER_SIESTA_MINUTE = 10;
+    public const int MONEY_PER_SIESTA_MINUTE = 50;
+    public const int MONEY_PER_EVENING_DRINK_WATER = 500;
 
     private int _name;
     private int _age;
