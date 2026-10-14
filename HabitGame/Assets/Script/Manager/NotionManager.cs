@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -6,11 +7,16 @@ using UnityEngine.Networking;
 public sealed class NotionManager : ManagerBase<NotionManager>
 {
     #region 1. Fields
-
     //
 
     #endregion
 
+    #region 1-1. Notion API
+    
+    private const string NOTION_CURRENT_USER_URL = "https://api.notion.com/v1/users/me";
+    
+    #endregion
+    
     #region 2. Properties
 
     //
@@ -21,7 +27,7 @@ public sealed class NotionManager : ManagerBase<NotionManager>
 
     public override void Initialize()
     {
-        PracticeNotion();
+        RequestNotionUserAsync().Forget();
     }
 
     #endregion
@@ -34,37 +40,26 @@ public sealed class NotionManager : ManagerBase<NotionManager>
 
     #region 5. Methods
 
-    private void PracticeNotion()
+    private async UniTask<string> RequestNotionUserAsync()
     {
-        // 이곳에서 자유롭게 연습한다.
-    }
+        var notionToken = Environment.GetEnvironmentVariable("NotionToken", EnvironmentVariableTarget.User);
 
-    public async UniTask<string> RequestNotionUserAsync(string patFilePath)
-    {
-        if (!File.Exists(patFilePath))
+        if (notionToken == null)
         {
-            Debug.LogError($"[Notion] PAT 파일을 찾을 수 없습니다: {patFilePath}");
+            Debug.LogError("[Notion] PAT이 시스템 환경 변수에서 존재하지 않습니다.");
             return string.Empty;
         }
 
-        var pat = File.ReadAllText(patFilePath).Trim();
-
-        if (string.IsNullOrWhiteSpace(pat))
-        {
-            Debug.LogError("[Notion] PAT 파일이 비어 있습니다.");
-            return string.Empty;
-        }
-
-        using (var request = UnityWebRequest.Get("https://api.notion.com/v1/users/me"))
+        using (var request = UnityWebRequest.Get(NOTION_CURRENT_USER_URL))
         {
             request.timeout = 30;
-            request.SetRequestHeader("Authorization", $"Bearer {pat}");
+            
+            request.SetRequestHeader("Authorization", $"Bearer {notionToken}");
             request.SetRequestHeader("Notion-Version", "2026-03-11");
             request.SetRequestHeader("Accept", "application/json");
 
             var operation = request.SendWebRequest();
 
-            // HTTP 오류도 응답 내용을 확인할 수 있도록 완료 후 직접 결과를 확인한다.
             await UniTask.WaitUntil(() => operation.isDone, cancellationToken: Application.exitCancellationToken);
 
             var responseJson = request.downloadHandler.text;
