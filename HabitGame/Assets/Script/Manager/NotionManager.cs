@@ -1,9 +1,8 @@
 using System;
-using System.IO;
-using System.Runtime.Serialization.Json;
 using System.Text;
-using System.Xml;
 using Cysharp.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -95,13 +94,21 @@ public sealed class NotionManager : ManagerBase<NotionManager>
 
     private async UniTask<string> RequestNotionPage(string requestJson)
     {
-        using (var request = new UnityWebRequest(NOTION_SEARCH_URL, "POST"))
+        using (var request = UnityWebRequest.Post(
+                   NOTION_SEARCH_URL,
+                   requestJson,
+                   "application/json"))
         {
             request.timeout = 30;
-            
-            request.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(requestJson));
-            request.downloadHandler = new DownloadHandlerBuffer();
 
+            // var byteData = Encoding.UTF8.GetBytes(requestJson);
+            // request.uploadHandler = new UploadHandlerRaw(byteData);
+            // request.downloadHandler = new DownloadHandlerBuffer();
+            //
+            // Debug.Log($"Original JSON: {requestJson}");
+            // Debug.Log($"Upload Bytes: {byteData.Length}");
+            // Debug.Log($"Upload JSON: {Encoding.UTF8.GetString(request.uploadHandler.data)}");
+            
             request.SetRequestHeader("Authorization", $"Bearer {_notionToken}");
             request.SetRequestHeader("Notion-Version", "2026-03-11");
             request.SetRequestHeader("Content-Type", "application/json");
@@ -117,7 +124,8 @@ public sealed class NotionManager : ManagerBase<NotionManager>
         }
     }
 
-    // 테스트 로그에서 JSON의 계층을 읽기 쉽게 들여쓴다.
+    // TEST
+    // 정상적으로 쿼리 찾아지는 지 확인
     private string FormatJsonForLog(string json)
     {
         if (string.IsNullOrWhiteSpace(json))
@@ -127,21 +135,54 @@ public sealed class NotionManager : ManagerBase<NotionManager>
 
         try
         {
-            using (var stream = new MemoryStream())
-            using (var reader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(json), XmlDictionaryReaderQuotas.Max))
-            using (var writer = JsonReaderWriterFactory.CreateJsonWriter(stream, Encoding.UTF8, false, true, "  "))
-            {
-                writer.WriteNode(reader, true);
-                writer.Flush();
+            var response = JObject.Parse(json);
 
-                return Encoding.UTF8.GetString(stream.ToArray());
+            if (!(response["results"] is JArray results))
+            {
+                return json;
             }
+
+            var summary = new StringBuilder();
+            summary.AppendLine($"검색 결과: {results.Count}개 (이번 응답 기준)");
+
+            for (var index = 0; index < results.Count; index++)
+            {
+                var page = results[index];
+                summary.AppendLine($"{index + 1}. 이름: {GetNotionPageTitle(page)} | ID: {page["id"]?.Value<string>()}");
+            }
+
+            return summary.ToString();
         }
-        catch (XmlException)
+        catch (JsonReaderException)
         {
             // JSON이 아닌 응답도 원문을 로그로 확인할 수 있게 한다.
             return json;
         }
+    }
+
+    private string GetNotionPageTitle(JToken page)
+    {
+        if (page["properties"] is JObject properties)
+        {
+            foreach (var property in properties.Properties())
+            {
+                if (property.Value["type"]?.Value<string>() != "title" || !(property.Value["title"] is JArray titleParts))
+                {
+                    continue;
+                }
+
+                var title = new StringBuilder();
+
+                foreach (var part in titleParts)
+                {
+                    title.Append(part["plain_text"]?.Value<string>() ?? part["text"]?["content"]?.Value<string>());
+                }
+
+                return title.Length > 0 ? title.ToString() : "(제목 없음)";
+            }
+        }
+
+        return "(제목 없음)";
     }
 
     #endregion
