@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Xml;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -109,9 +111,36 @@ public sealed class NotionManager : ManagerBase<NotionManager>
             await UniTask.WaitUntil(() => operation.isDone, cancellationToken: Application.exitCancellationToken);
 
             var responseJson = request.downloadHandler.text;
-            Debug.Log($"[Notion Page] HTTP {request.responseCode}\n{responseJson}");
+            Debug.Log($"[Notion Page] HTTP {request.responseCode}\n{FormatJsonForLog(responseJson)}");
 
             return responseJson;
+        }
+    }
+
+    // 테스트 로그에서 JSON의 계층을 읽기 쉽게 들여쓴다.
+    private string FormatJsonForLog(string json)
+    {
+        if (string.IsNullOrWhiteSpace(json))
+        {
+            return json;
+        }
+
+        try
+        {
+            using (var stream = new MemoryStream())
+            using (var reader = JsonReaderWriterFactory.CreateJsonReader(Encoding.UTF8.GetBytes(json), XmlDictionaryReaderQuotas.Max))
+            using (var writer = JsonReaderWriterFactory.CreateJsonWriter(stream, Encoding.UTF8, false, true, "  "))
+            {
+                writer.WriteNode(reader, true);
+                writer.Flush();
+
+                return Encoding.UTF8.GetString(stream.ToArray());
+            }
+        }
+        catch (XmlException)
+        {
+            // JSON이 아닌 응답도 원문을 로그로 확인할 수 있게 한다.
+            return json;
         }
     }
 
