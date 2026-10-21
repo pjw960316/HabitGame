@@ -4,6 +4,12 @@ using System;
 using Unity.Notifications.Android;
 using UnityEngine;
 
+// TODO: Android 연동 시스템 설계 방향. 실제 책임 분리는 다음 작업에서 진행한다.
+// 1. AndroidManager: 게임의 Android 기능 요청을 받고 담당 객체에 위임하는 진입점이다.
+// 2. 연결 담당: 현재 Activity와 Java 클래스에 접근하는 공통 준비를 맡는다.
+// 3. 호출 담당: 준비된 참조로 Android 플러그인의 static 메서드를 호출하고 결과를 반환한다.
+// 여기서 연결은 Unity C#에서 Android 객체와 클래스에 접근할 수 있도록 준비하는 것을 뜻한다.
+// 다음 구현에서 연결/호출 담당의 이름과 Java 참조의 소유 및 해제 시점을 결정한다.
 public sealed class AndroidPracticeManager : ManagerBase<AndroidPracticeManager>
 {
     #region 1. Fields
