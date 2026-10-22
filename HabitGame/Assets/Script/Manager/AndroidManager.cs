@@ -1,8 +1,9 @@
+using System;
+using UnityEngine;
 
 // NOTE : 책임 (회사)
-// 기능별 클래스가 전달한 Java 호출 정보를 받아 직원에게 실행을 맡기는 공통 진입점이다.
-// Android 호출 준비 -> Java 메서드 호출 -> 결과 및 예외 전달의 흐름을 조율한다.
-// 기능별 요청 구성과 반환값의 의미 해석, 비동기 작업의 완료 판단은 요청자가 담당한다.
+// 1. 외부의 클래스들이 Android(Java)에 접근 할 수 있게 public으로 열어둔 클래스. 소통은 이 녀석과
+// 2. Java method 호출을 위한 정보를 외부 클래스로 부터 받아야 할 책임이 있다. 이걸 JavaMethodHandler에게 전달한다.
 public sealed class AndroidManager : ManagerBase<AndroidManager>
 {
     #region 1. Fields
@@ -20,7 +21,7 @@ public sealed class AndroidManager : ManagerBase<AndroidManager>
 
     #region 3. Constructor
 
-    // TODO : 직원의 초기화와 Android 참조의 해제 시점은 실제 호출 흐름을 구현할 때 정한다.
+    // TODO : Activity 참조의 초기화와 해제 시점은 실제 Context 전달 흐름을 구현할 때 정한다.
 
     #endregion
 
@@ -32,15 +33,39 @@ public sealed class AndroidManager : ManagerBase<AndroidManager>
 
     #region 5. Methods
 
-    // TODO : 요청자가 전달할 호출 정보의 형식과 공통 호출 메서드는 다음 단계에서 구현한다.
+    // NOTE : Java 클래스 참조는 호출 범위에서 해제하고, 전달받은 인자는 호출자가 관리한다.
+    public void CallStatic(string javaClassName, string methodName, params object[] args)
+    {
+        using (var javaClass = _androidContextHandler.CreateJavaClass(javaClassName))
+        {
+            _javaMethodHandler.CallStatic(javaClass, methodName, args);
+        }
+    }
+
+    public T CallStatic<T>(string javaClassName, string methodName, params object[] args)
+    {
+        using (var javaClass = _androidContextHandler.CreateJavaClass(javaClassName))
+        {
+            return _javaMethodHandler.CallStatic<T>(javaClass, methodName, args);
+        }
+    }
 
     #endregion
 
     // NOTE : 책임 (직원 1)
-    // Android에서 Java 메서드를 호출할 수 있는 환경인지 확인한다.
-    // 호출에 필요한 Activity와 Java 클래스 참조의 확보 및 수명 관리를 담당한다.
+    // TODO : 이 녀석의 책임이 아직 애매함. 지금 이 녀석은 일단 자바 클래스 네임 예외처리 정도거든.
     private sealed class AndroidContextHandler
     {
+        // TODO : 디바이스 확인의 필요 범위와 비동기 처리 여부는 실제 호출 흐름을 정할 때 판단한다.
+
+        public AndroidJavaClass CreateJavaClass(string javaClassName)
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            return new AndroidJavaClass(javaClassName);
+#else
+            throw new PlatformNotSupportedException("Java static 메서드 호출은 Android 기기에서만 지원합니다.");
+#endif
+        }
     }
 
     // NOTE : 책임 (직원 2)
@@ -48,5 +73,14 @@ public sealed class AndroidManager : ManagerBase<AndroidManager>
     // 호출의 반환값과 예외를 AndroidManager에 전달한다.
     private sealed class JavaMethodHandler
     {
+        public void CallStatic(AndroidJavaClass javaClass, string methodName, params object[] args)
+        {
+            javaClass.CallStatic(methodName, args);
+        }
+
+        public T CallStatic<T>(AndroidJavaClass javaClass, string methodName, params object[] args)
+        {
+            return javaClass.CallStatic<T>(methodName, args);
+        }
     }
 }
