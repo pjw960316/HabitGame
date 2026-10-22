@@ -21,7 +21,7 @@ public sealed class AndroidManager : ManagerBase<AndroidManager>
 
     #region 3. Constructor
 
-    // TODO : Activity 참조의 초기화와 해제 시점은 실제 Context 전달 흐름을 구현할 때 정한다.
+    // NOTE : Android 참조는 초기화 시 보관하지 않고 호출할 때 확보한다.
 
     #endregion
 
@@ -32,6 +32,12 @@ public sealed class AndroidManager : ManagerBase<AndroidManager>
     #endregion
 
     #region 5. Methods
+
+    // NOTE : 반환된 Activity 래퍼는 호출자가 사용 후 해제한다.
+    public AndroidJavaObject GetCurrentActivity()
+    {
+        return _androidContextHandler.GetCurrentActivity();
+    }
 
     // NOTE : Java 클래스 참조는 호출 범위에서 해제하고, 전달받은 인자는 호출자가 관리한다.
     public void CallJavaMethod(string javaClassName, string methodName, params object[] args)
@@ -53,10 +59,19 @@ public sealed class AndroidManager : ManagerBase<AndroidManager>
     #endregion
 
     // NOTE : 책임 (직원 1)
-    // TODO : 이 녀석의 책임이 아직 애매함. 지금 이 녀석은 일단 자바 클래스 네임 예외처리 정도거든.
+    // Java 클래스 참조와 현재 Activity 참조를 확보한다.
+    // TODO : 그 외 Android 호출 준비 책임은 실제 사용처를 보며 정한다.
     private sealed class AndroidContextHandler
     {
         // TODO : 디바이스 확인의 필요 범위와 비동기 처리 여부는 실제 호출 흐름을 정할 때 판단한다.
+
+        public AndroidJavaObject GetCurrentActivity()
+        {
+            using (var unityPlayer = CreateJavaClass("com.unity3d.player.UnityPlayer"))
+            {
+                return unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+            }
+        }
 
         public AndroidJavaClass CreateJavaClass(string javaClassName)
         {

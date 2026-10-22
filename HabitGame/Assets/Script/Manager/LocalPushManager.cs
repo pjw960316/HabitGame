@@ -1,5 +1,6 @@
 using System;
 using Unity.Notifications.Android;
+using UnityEngine;
 
 public sealed class LocalPushManager : ManagerBase<LocalPushManager>
 {
@@ -16,6 +17,10 @@ public sealed class LocalPushManager : ManagerBase<LocalPushManager>
     private const int WATER_NOTIFICATION_HOUR = 21;
     private const string WATER_NOTIFICATION_TITLE = "물 마시자";
     private const string WATER_NOTIFICATION_TEXT = "물 500mL 마시자 \n그래야 야식 생각이 나지 않는다.";
+
+    // NOTE : 물 알림의 Java 호출 정보
+    private const string WATER_NOTIFICATION_CLASS_NAME = "com.habitgame.notificationpractice.WaterNotificationReceiver";
+    private const string ADD_CONFIRM_BUTTON_METHOD_NAME = "addConfirmButton";
     
     private AndroidNotification _waterNotification;
 
@@ -68,8 +73,21 @@ public sealed class LocalPushManager : ManagerBase<LocalPushManager>
     
     private void ScheduleNotifications()
     {
-        AndroidNotificationCenter.SendNotificationWithExplicitID(
-            _waterNotification, CHANNEL_ID, WATER_NOTIFICATION_ID);
+        ScheduleWaterNotification();
+    }
+
+    private void ScheduleWaterNotification()
+    {
+        using (var context = AndroidManager.Instance.GetCurrentActivity())
+        {
+            using (var builder = AndroidNotificationCenter.CreateNotificationBuilder(WATER_NOTIFICATION_ID, _waterNotification, CHANNEL_ID))
+            {
+                object[] args = { context, builder, WATER_NOTIFICATION_ID };
+                AndroidManager.Instance.CallJavaMethod(WATER_NOTIFICATION_CLASS_NAME, ADD_CONFIRM_BUTTON_METHOD_NAME, args);
+
+                AndroidNotificationCenter.SendNotification(builder);
+            }
+        }
     }
     
     private DateTime GetWaterNotificationTime()
