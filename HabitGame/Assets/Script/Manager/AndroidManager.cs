@@ -34,19 +34,19 @@ public sealed class AndroidManager : ManagerBase<AndroidManager>
     #region 5. Methods
 
     // NOTE : Java 클래스 참조는 호출 범위에서 해제하고, 전달받은 인자는 호출자가 관리한다.
-    public void CallStatic(string javaClassName, string methodName, params object[] args)
+    public void CallJavaMethod(string javaClassName, string methodName, params object[] args)
     {
         using (var javaClass = _androidContextHandler.CreateJavaClass(javaClassName))
         {
-            _javaMethodHandler.CallStatic(javaClass, methodName, args);
+            _javaMethodHandler.CallJavaMethod(javaClass, methodName, args);
         }
     }
 
-    public T CallStatic<T>(string javaClassName, string methodName, params object[] args)
+    public T CallJavaMethod<T>(string javaClassName, string methodName, params object[] args)
     {
         using (var javaClass = _androidContextHandler.CreateJavaClass(javaClassName))
         {
-            return _javaMethodHandler.CallStatic<T>(javaClass, methodName, args);
+            return _javaMethodHandler.CallJavaMethod<T>(javaClass, methodName, args);
         }
     }
 
@@ -73,12 +73,12 @@ public sealed class AndroidManager : ManagerBase<AndroidManager>
     // 호출의 반환값과 예외를 AndroidManager에 전달한다.
     private sealed class JavaMethodHandler
     {
-        public void CallStatic(AndroidJavaClass javaClass, string methodName, params object[] args)
+        public void CallJavaMethod(AndroidJavaClass javaClass, string methodName, params object[] args)
         {
             javaClass.CallStatic(methodName, args);
         }
 
-        public T CallStatic<T>(AndroidJavaClass javaClass, string methodName, params object[] args)
+        public T CallJavaMethod<T>(AndroidJavaClass javaClass, string methodName, params object[] args)
         {
             return javaClass.CallStatic<T>(methodName, args);
         }
