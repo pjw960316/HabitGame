@@ -10,7 +10,7 @@ using UnityEngine;
 // 3. 호출 담당: 준비된 참조로 Android 플러그인의 static 메서드를 호출하고 결과를 반환한다.
 // 여기서 연결은 Unity C#에서 Android 객체와 클래스에 접근할 수 있도록 준비하는 것을 뜻한다.
 // 다음 구현에서 연결/호출 담당의 이름과 Java 참조의 소유 및 해제 시점을 결정한다.
-public sealed class AndroidPracticeManager : ManagerBase<AndroidPracticeManager>
+public sealed class AndroidManager : ManagerBase<AndroidManager>
 {
     #region 1. Fields
 
