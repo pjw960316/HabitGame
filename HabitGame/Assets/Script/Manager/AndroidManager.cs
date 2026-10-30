@@ -98,4 +98,19 @@ public sealed class AndroidManager : ManagerBase<AndroidManager>
             return javaClass.CallStatic<T>(methodName, args);
         }
     }
+
+    // NOTE
+    // 앱 전용 SharedPreferences에서 long 값을 읽는다. 키가 없으면 0을 반환한다.
+    public long ReadSharedPreferenceLong(string preferencesName, string key)
+    {
+        const int MODE_PRIVATE = 0;
+
+        using (var context = GetCurrentActivity())
+        {
+            using (var preferences = context.Call<AndroidJavaObject>("getSharedPreferences", preferencesName, MODE_PRIVATE))
+            {
+                return preferences.Call<long>("getLong", key, 0L);
+            }
+        }
+    }
 }
