@@ -4,12 +4,14 @@ using UnityEngine;
 // NOTE : 책임 (회사)
 // 1. 외부의 클래스들이 Android(Java)에 접근 할 수 있게 public으로 열어둔 클래스. 소통은 이 녀석과
 // 2. Java method 호출을 위한 정보를 외부 클래스로 부터 받아야 할 책임이 있다. 이걸 JavaMethodHandler에게 전달한다.
+// 3. SharedPreferences 조회 요청을 받아 필요한 참조와 조회 정보를 SharedPreferencesHandler에게 전달한다.
 public sealed class AndroidManager : ManagerBase<AndroidManager>
 {
     #region 1. Fields
 
     private readonly AndroidContextHandler _androidContextHandler = new();
     private readonly JavaMethodHandler _javaMethodHandler = new();
+    private readonly SharedPreferencesHandler _sharedPreferencesHandler = new();
 
     #endregion
 
@@ -56,6 +58,14 @@ public sealed class AndroidManager : ManagerBase<AndroidManager>
         }
     }
 
+    public T ReadSharedPreference<T>(string preferencesName, string key, T defaultValue = default)
+    {
+        using (var context = GetCurrentActivity())
+        {
+            return _sharedPreferencesHandler.Read<T>(context, preferencesName, key, defaultValue);
+        }
+    }
+
     #endregion
 
     // NOTE : 책임 (직원 1)
@@ -99,18 +109,55 @@ public sealed class AndroidManager : ManagerBase<AndroidManager>
         }
     }
 
-    // NOTE
-    // 앱 전용 SharedPreferences에서 long 값을 읽는다. 키가 없으면 0을 반환한다.
-    public long ReadSharedPreferenceLong(string preferencesName, string key)
+    // NOTE : 책임 (직원 3)
+    // SharedPreferences 저장소 접근과 값 조회를 담당한다.
+    // 저장소 이름과 키가 있으면 값을 얻어올 수 있다.
+    private sealed class SharedPreferencesHandler
     {
-        const int MODE_PRIVATE = 0;
-
-        using (var context = GetCurrentActivity())
+        public T Read<T>(AndroidJavaObject context, string preferencesName, string key, T defaultValue)
         {
+            const int MODE_PRIVATE = 0;
+            var methodName = GetReadMethodName<T>();
+
             using (var preferences = context.Call<AndroidJavaObject>("getSharedPreferences", preferencesName, MODE_PRIVATE))
             {
-                return preferences.Call<long>("getLong", key, 0L);
+                return preferences.Call<T>(methodName, key, defaultValue);
             }
+        }
+
+        // WARNING
+        // Generic을 사용하기 위해 MethodName(java)으로 접근한다.
+        // 현실적인 방식이다. 이게
+        private string GetReadMethodName<T>()
+        {
+            var valueType = typeof(T);
+
+            if (valueType == typeof(bool))
+            {
+                return "getBoolean";
+            }
+
+            if (valueType == typeof(int))
+            {
+                return "getInt";
+            }
+
+            if (valueType == typeof(long))
+            {
+                return "getLong";
+            }
+
+            if (valueType == typeof(float))
+            {
+                return "getFloat";
+            }
+
+            if (valueType == typeof(string))
+            {
+                return "getString";
+            }
+
+            throw new NotSupportedException($"SharedPreferences 조회에서 지원하지 않는 타입입니다: {valueType.FullName}");
         }
     }
 }
