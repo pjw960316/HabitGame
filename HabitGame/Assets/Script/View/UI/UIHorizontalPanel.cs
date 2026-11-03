@@ -58,6 +58,11 @@ public class UIHorizontalPanel : MonoBehaviour, IView
         _siestaPointWidget.SetText(point.ToString("N0"));
     }
 
+    public void UpdateWaterPoint(int point)
+    {
+        _waterPointWidget.SetText(point.ToString("N0"));
+    }
+
     private void CreatePresenterByManager()
     {
         _presenterManager.CreatePresenter<HorizontalPanelPresenter>(this);
