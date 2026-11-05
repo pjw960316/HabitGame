@@ -25,6 +25,7 @@ public class HorizontalPanelPresenter : PresenterBase
     protected sealed override void InitializeView()
     {
         _uiHorizontalPanel = _view as UIHorizontalPanel;
+        
         ExceptionHelper.CheckNullException(_uiHorizontalPanel, "_uiHorizontalPanel");
     }
 
@@ -73,6 +74,7 @@ public class HorizontalPanelPresenter : PresenterBase
     private void UpdateWaterPoint()
     {
     }
+    
     private long RequestLatestWaterDrinkingDate()
     {
         const string PREFERENCES_NAME = "habit_water_practice";
