@@ -79,8 +79,8 @@ public class HorizontalPanelPresenter : PresenterBase
             return;
         }
 
-        // WARNING
-        // 이런 접근 안 됨.
+        // NOTE
+        // Const니까 이렇게 접근 허용
         _uiHorizontalPanel.UpdateWaterPoint(MyCharacterData.MONEY_PER_EVENING_DRINK_WATER);
     }
     
