@@ -5,6 +5,7 @@ using UnityEngine;
 // 1. 외부의 클래스들이 Android(Java)에 접근 할 수 있게 public으로 열어둔 클래스. 소통은 이 녀석과
 // 2. Java method 호출을 위한 정보를 외부 클래스로 부터 받아야 할 책임이 있다. 이걸 JavaMethodHandler에게 전달한다.
 // 3. SharedPreferences 조회 요청을 받아 필요한 참조와 조회 정보를 SharedPreferencesHandler에게 전달한다.
+// 4. 제공 단계에서 JAVA Class Name과 JAVA Method Name은 Android Manager만 알아야 한다. 
 public sealed class AndroidManager : ManagerBase<AndroidManager>
 {
     #region 1. Fields
@@ -42,6 +43,7 @@ public sealed class AndroidManager : ManagerBase<AndroidManager>
     }
 
     // NOTE : Java 클래스 참조는 호출 범위에서 해제하고, 전달받은 인자는 호출자가 관리한다.
+    // TODO : 이거 private 되어야 함
     public void CallJavaMethod(string javaClassName, string methodName, params object[] args)
     {
         using (var javaClass = _androidContextHandler.CreateJavaClass(javaClassName))
@@ -64,6 +66,20 @@ public sealed class AndroidManager : ManagerBase<AndroidManager>
         {
             return _sharedPreferencesHandler.Read<T>(context, preferencesName, key, defaultValue);
         }
+    }
+    #endregion
+    
+    #region 6. 외부에서 호출하는 JAVA Methods
+    public long GetLatestWaterDrinkingDate()
+    {
+#if UNITY_ANDROID && !UNITY_EDITOR
+        const string PREFERENCES_NAME = "habit_water_practice";
+        const string CONFIRMED_AT_KEY = "last_confirmed_at";
+
+        return ReadSharedPreference<long>(PREFERENCES_NAME, CONFIRMED_AT_KEY, 0L);
+#else
+        return 0L;
+#endif
     }
 
     #endregion

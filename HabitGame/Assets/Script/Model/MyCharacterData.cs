@@ -43,6 +43,8 @@ public class MyCharacterData
     public string Name { get; set; }
     public int Age { get; set; }
     public int MonthlyRoutineSuccessMoney { get; set; }
+    [XmlIgnore]
+    public int LatestWaterDrinkingDateFromAndroid { get; private set; }
 
     [XmlIgnore]
     public ImmutableSortedDictionary<string, ImmutableList<bool>> RoutineRecordDictionary
@@ -139,6 +141,11 @@ public class MyCharacterData
     #endregion
 
     #region 5. Methods
+
+    public void UpdateLatestWaterDrinkingDateFromAndroid(int latestWaterDrinkingDateFromAndroid)
+    {
+        LatestWaterDrinkingDateFromAndroid = latestWaterDrinkingDateFromAndroid;
+    }
 
     public void UpdateRoutineRecordDictionary(List<int> todaySuccessfulRoutineIndexByView, DateTime dateTime)
     {

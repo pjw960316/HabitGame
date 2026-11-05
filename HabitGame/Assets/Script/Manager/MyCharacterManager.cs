@@ -23,6 +23,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
     private MyCharacterData _myCharacterData;
     private XmlDataManager _xmlDataManager;
     private SiestaHandler _siestaHandler;
+    private DrinkingWaterHandler _drinkingWaterHandler;
 
     private readonly Subject<Unit> _onUpdateRoutineSuccess = new();
     private readonly Subject<int> _onUpdateSiestaRecord = new();
@@ -87,22 +88,20 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
     {
         // NOTE : 이 시점에 XML -> C# Class로 Deserialize가 완료된다.
         _myCharacterData = XmlDataManager.Instance.GetDeserializedXmlData<MyCharacterData>();
-
-        // NOTE : 초기화 해준다.
+        ExceptionHelper.CheckNullException(_myCharacterData, "_myCharacterData in MyCharacterManager");
+        
         _myCharacterData.Initialize();
         
         InitializeHandlers();
-        
-        ExceptionHelper.CheckNullException(_myCharacterData, "_myCharacterData in MyCharacterManager");
     }
     
     // WARNING
     // 일단 호출 시점 고민 안하고 만들긴 했다.
     // handler initialize 타이밍
-
     private void InitializeHandlers()
     {
         _siestaHandler = new SiestaHandler(_myCharacterData);
+        _drinkingWaterHandler = new DrinkingWaterHandler(_myCharacterData);
     }
 
     [CanBeNull]
@@ -161,6 +160,11 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         return _siestaHandler.GetTodaySiestaMoney();
     }
 
+    public int GetLatestWaterDrinkingDateFromAndroid()
+    {
+        return _drinkingWaterHandler.GetLatestWaterDrinkingDateFromAndroid();
+    }
+
     public void LogSiestaTimeRecordList()
     {
         _myCharacterData.LogSiestaTimeRecordList();
@@ -183,6 +187,44 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
     }
 
     #endregion
+
+    private sealed class DrinkingWaterHandler
+    {
+        private readonly MyCharacterData _myCharacterData;
+
+        public DrinkingWaterHandler(MyCharacterData myCharacterData)
+        {
+            _myCharacterData = myCharacterData;
+            
+            UpdateLatestWaterDrinkingDate();
+        }
+
+        public int GetLatestWaterDrinkingDateFromAndroid()
+        {
+            return _myCharacterData.LatestWaterDrinkingDateFromAndroid;
+        }
+
+        private void UpdateLatestWaterDrinkingDate()
+        {
+            var latestWaterDrinkingTimestamp = AndroidManager.Instance.GetLatestWaterDrinkingDate();
+            var latestWaterDrinkingDateFromAndroid = ConvertToWaterDrinkingDate(latestWaterDrinkingTimestamp);
+            
+            _myCharacterData.UpdateLatestWaterDrinkingDateFromAndroid(latestWaterDrinkingDateFromAndroid);
+        }
+
+        // WARNING
+        // 이게 한 번만 호출되도록 설계
+        private int ConvertToWaterDrinkingDate(long unixTimeMilliseconds)
+        {
+            if (unixTimeMilliseconds <= 0L)
+            {
+                return 0;
+            }
+
+            var localDate = DateTimeOffset.FromUnixTimeMilliseconds(unixTimeMilliseconds).LocalDateTime;
+            return localDate.Year * 10000 + localDate.Month * 100 + localDate.Day;
+        }
+    }
 
     private sealed class SiestaHandler : IUpdateAndSaveData
     {
