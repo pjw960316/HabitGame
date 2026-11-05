@@ -44,7 +44,10 @@ public class MyCharacterData
     public int Age { get; set; }
     public int MonthlyRoutineSuccessMoney { get; set; }
     [XmlIgnore]
-    public int LatestWaterDrinkingDateFromAndroid { get; private set; }
+    public DateTime LatestWaterDrinkingDateFromAndroid { get; private set; }
+
+    [XmlElement(DataType = "date")]
+    public DateTime LatestWaterPointRewardDate { get; set; }
 
     [XmlIgnore]
     public ImmutableSortedDictionary<string, ImmutableList<bool>> RoutineRecordDictionary
@@ -142,7 +145,7 @@ public class MyCharacterData
 
     #region 5. Methods
 
-    public void UpdateLatestWaterDrinkingDateFromAndroid(int latestWaterDrinkingDateFromAndroid)
+    public void UpdateLatestWaterDrinkingDateFromAndroid(DateTime latestWaterDrinkingDateFromAndroid)
     {
         LatestWaterDrinkingDateFromAndroid = latestWaterDrinkingDateFromAndroid;
     }

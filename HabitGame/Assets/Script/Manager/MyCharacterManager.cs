@@ -160,7 +160,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         return _siestaHandler.GetTodaySiestaMoney();
     }
 
-    public int GetLatestWaterDrinkingDateFromAndroid()
+    public DateTime GetLatestWaterDrinkingDateFromAndroid()
     {
         return _drinkingWaterHandler.GetLatestWaterDrinkingDateFromAndroid();
     }
@@ -199,7 +199,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
             UpdateLatestWaterDrinkingDate();
         }
 
-        public int GetLatestWaterDrinkingDateFromAndroid()
+        public DateTime GetLatestWaterDrinkingDateFromAndroid()
         {
             return _myCharacterData.LatestWaterDrinkingDateFromAndroid;
         }
@@ -214,15 +214,14 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
         // WARNING
         // 이게 한 번만 호출되도록 설계
-        private int ConvertToWaterDrinkingDate(long unixTimeMilliseconds)
+        private DateTime ConvertToWaterDrinkingDate(long unixTimeMilliseconds)
         {
             if (unixTimeMilliseconds <= 0L)
             {
-                return 0;
+                return DateTime.MinValue;
             }
 
-            var localDate = DateTimeOffset.FromUnixTimeMilliseconds(unixTimeMilliseconds).LocalDateTime;
-            return localDate.Year * 10000 + localDate.Month * 100 + localDate.Day;
+            return DateTimeOffset.FromUnixTimeMilliseconds(unixTimeMilliseconds).LocalDateTime.Date;
         }
     }
 
