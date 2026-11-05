@@ -38,6 +38,8 @@ public class HorizontalPanelPresenter : PresenterBase
     public sealed override void SetView()
     {
         _uiHorizontalPanel.UpdateSiestaPoint(_myCharacterManager.GetMonthlySiestaMoney());
+        
+        UpdateWaterPoint();
     }
 
     public sealed override void BindEvent()
@@ -70,9 +72,16 @@ public class HorizontalPanelPresenter : PresenterBase
 
     #region 5. Methods
 
-    //test 
     private void UpdateWaterPoint()
     {
+        if (!_myCharacterManager.TryUpdateDrinkingWaterPoint())
+        {
+            return;
+        }
+
+        // WARNING
+        // 이런 접근 안 됨.
+        _uiHorizontalPanel.UpdateWaterPoint(MyCharacterData.MONEY_PER_EVENING_DRINK_WATER);
     }
     
     private long RequestLatestWaterDrinkingDate()

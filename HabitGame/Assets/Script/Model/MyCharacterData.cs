@@ -22,6 +22,9 @@ public class MyCharacterData
 
     #region 1. Fields
 
+    // TODO
+    // 이들에 대한 규칙을 내가 정립을 안했음
+    // 접근 방식 
     public const int MONEY_PER_ROUTINE_SUCCESS = 500;
     public const int MONEY_PER_SIESTA_MINUTE = 50;
     public const int MONEY_PER_EVENING_DRINK_WATER = 500;
@@ -43,9 +46,12 @@ public class MyCharacterData
     public string Name { get; set; }
     public int Age { get; set; }
     public int MonthlyRoutineSuccessMoney { get; set; }
+    
+    // NOTE : 앱 푸쉬에서 물 마심을 누른 날짜
     [XmlIgnore]
     public DateTime LatestWaterDrinkingDateFromAndroid { get; private set; }
 
+    // NOTE : 가장 최근에 물 마심으로 포인트를 올린 날짜
     [XmlElement(DataType = "date")]
     public DateTime LatestWaterPointRewardDate { get; set; }
 
@@ -148,6 +154,11 @@ public class MyCharacterData
     public void UpdateLatestWaterDrinkingDateFromAndroid(DateTime latestWaterDrinkingDateFromAndroid)
     {
         LatestWaterDrinkingDateFromAndroid = latestWaterDrinkingDateFromAndroid;
+    }
+
+    public void SynchronizeWaterDrinkingDates()
+    {
+        LatestWaterPointRewardDate = LatestWaterDrinkingDateFromAndroid;
     }
 
     public void UpdateRoutineRecordDictionary(List<int> todaySuccessfulRoutineIndexByView, DateTime dateTime)

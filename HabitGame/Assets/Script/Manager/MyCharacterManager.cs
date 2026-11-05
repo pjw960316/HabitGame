@@ -70,6 +70,18 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         UpdateXmlData();
     }
 
+    public bool TryUpdateDrinkingWaterPoint()
+    {
+        if (!_drinkingWaterHandler.TryUpdateDrinkingWaterPoint())
+        {
+            return false;
+        }
+
+        UpdateXmlData();
+        
+        return true;
+    }
+
     public void UpdateSiestaRecord(TimeSpan siestaTime)
     {
         _siestaHandler.UpdateMyCharacterData(siestaTime);
@@ -165,6 +177,11 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         return _drinkingWaterHandler.GetLatestWaterDrinkingDateFromAndroid();
     }
 
+    public int GetMoneyPerEveningDrinkWater()
+    {
+        return _drinkingWaterHandler.GetMoneyPerEveningDrinkWater();
+    }
+
     public void LogSiestaTimeRecordList()
     {
         _myCharacterData.LogSiestaTimeRecordList();
@@ -202,6 +219,29 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         public DateTime GetLatestWaterDrinkingDateFromAndroid()
         {
             return _myCharacterData.LatestWaterDrinkingDateFromAndroid;
+        }
+
+        public int GetMoneyPerEveningDrinkWater()
+        {
+            return MyCharacterData.MONEY_PER_EVENING_DRINK_WATER;
+        }
+
+        public bool TryUpdateDrinkingWaterPoint()
+        {
+            var latestWaterDrinkingDate = _myCharacterData.LatestWaterDrinkingDateFromAndroid.Date;
+            var latestRewardDate = _myCharacterData.LatestWaterPointRewardDate.Date;
+
+            // NOTE
+            // 물 마시고 앱 푸쉬를 누른 날은 20261025이고 
+            // 가장 최근에 보상을 받은 날도 20261025면 포인트를 지급하지 않는다.
+            if (latestWaterDrinkingDate == latestRewardDate)
+            {
+                return false;
+            }
+
+            _myCharacterData.SynchronizeWaterDrinkingDates();
+            
+            return true;
         }
 
         private void UpdateLatestWaterDrinkingDate()
