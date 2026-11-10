@@ -4,6 +4,9 @@ using System.IO;
 using System.Xml.Serialization;
 using UnityEngine;
 
+// TODO
+// Serialize 전문 class, Deserialize 전문 class로 쪼개는 게?
+
 // NOTE : 책임
 // 1. Resources에 존재하는 XML 파일들의 데이터들을 Deserialize 할 책임
 // 2. Deserialize 성공한 데이터를 클래스 메모리에 로드
