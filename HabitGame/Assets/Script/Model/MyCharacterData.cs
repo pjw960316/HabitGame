@@ -32,12 +32,12 @@ public class MyCharacterData
     private int _name;
     private int _age;
     private int _monthlyRoutineSuccessMoney;
+    
+    private Dictionary<string, List<bool>> _routineRecordDictionary = new();
+    private Dictionary<string, int> _siestaTimeRecordDictionary = new();
 
     public List<RoutineRecordData> RoutineRecordList = new();
     public List<SiestaTimeRecordData> SiestaTimeRecordList = new();
-
-    private Dictionary<string, List<bool>> _routineRecordDictionary = new();
-    private Dictionary<string, int> _siestaTimeRecordDictionary = new();
 
     #endregion
 
@@ -46,14 +46,12 @@ public class MyCharacterData
     public string Name { get; set; }
     public int Age { get; set; }
     public int MonthlyRoutineSuccessMoney { get; set; }
-    
+
     // NOTE : 앱 푸쉬에서 물 마심을 누른 날짜
-    [XmlIgnore]
-    public DateTime LatestWaterDrinkingDateFromAndroid { get; private set; }
+    [XmlIgnore] public DateTime LatestWaterDrinkingDateFromAndroid { get; private set; }
 
     // NOTE : 가장 최근에 물 마심으로 포인트를 올린 날짜
-    [XmlElement(DataType = "date")]
-    public DateTime LatestWaterPointRewardDate { get; set; }
+    [XmlElement(DataType = "date")] public DateTime LatestWaterPointRewardDate { get; set; }
 
     [XmlIgnore]
     public ImmutableSortedDictionary<string, ImmutableList<bool>> RoutineRecordDictionary
@@ -103,7 +101,7 @@ public class MyCharacterData
 
             var routineCheckList = routineRecordData.RoutineCheckList;
             var list = new List<bool>();
-            
+
             foreach (var routineCheck in routineCheckList)
             {
                 list.Add(routineCheck);
@@ -134,7 +132,8 @@ public class MyCharacterData
     {
         if (string.IsNullOrWhiteSpace(date))
         {
-            Debug.LogWarning($"{recordType}의 Date가 비어 있어 기록을 건너뜁니다. 저장 XML의 <Date> 태그를 확인하세요. 구형 <Key> 데이터는 자동 복구되지 않습니다.");
+            Debug.LogWarning(
+                $"{recordType}의 Date가 비어 있어 기록을 건너뜁니다. 저장 XML의 <Date> 태그를 확인하세요. 구형 <Key> 데이터는 자동 복구되지 않습니다.");
             return false;
         }
 
@@ -215,13 +214,13 @@ public class MyCharacterData
         {
             totalSiestaMinutes = 1;
         }
-        
+
         var key = DateTime.Now.ToString("yyyyMMdd");
         if (_siestaTimeRecordDictionary.TryGetValue(key, out var prevSiestaMinutes))
         {
             totalSiestaMinutes += prevSiestaMinutes;
         }
-        
+
         SiestaTimeRecordList.RemoveAll(siestaTimeRecord => siestaTimeRecord.Date == key);
         SiestaTimeRecordList.Add(new SiestaTimeRecordData
         {
