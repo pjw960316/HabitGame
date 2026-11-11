@@ -1,9 +1,12 @@
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Xml.Serialization;
-using UnityEngine;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Text;
 
 [XmlRoot]
 public class MyCharacterData
@@ -35,6 +38,7 @@ public class MyCharacterData
     
     private Dictionary<string, List<bool>> _routineRecordDictionary = new();
     private Dictionary<string, int> _siestaTimeRecordDictionary = new();
+    private Dictionary<string, int> _monthlyWaterPointRecordDictionary = new();
 
     public List<RoutineRecordData> RoutineRecordList = new();
     public List<SiestaTimeRecordData> SiestaTimeRecordList = new();
@@ -47,11 +51,12 @@ public class MyCharacterData
     public int Age { get; set; }
     public int MonthlyRoutineSuccessMoney { get; set; }
 
-    // NOTE : 앱 푸쉬에서 물 마심을 누른 날짜
-    [XmlIgnore] public DateTime LatestWaterDrinkingDateFromAndroid { get; private set; }
-
-    // NOTE : 가장 최근에 물 마심으로 포인트를 올린 날짜
-    [XmlElement(DataType = "date")] public DateTime LatestWaterPointRewardDate { get; set; }
+    
+    [XmlIgnore]  // NOTE : 앱 푸쉬에서 물 마심을 누른 날짜
+    public DateTime LatestWaterDrinkingDateFromAndroid { get; private set; }
+    
+    [XmlElement(DataType = "date")]  // NOTE : 가장 최근에 물 마심으로 포인트를 올린 날짜
+    public DateTime LatestWaterPointRewardDate { get; set; }
 
     [XmlIgnore]
     public ImmutableSortedDictionary<string, ImmutableList<bool>> RoutineRecordDictionary
