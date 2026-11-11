@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Xml.Serialization;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Text;
 
 [XmlRoot]
 public class MyCharacterData
