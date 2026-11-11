@@ -20,6 +20,12 @@ public class MyCharacterData
         public int TotalSiestaMinutes;
     }
 
+    public class MonthlyWaterPointRecordData
+    {
+        public string YearMonth;
+        public int RewardCount;
+    }
+
     #region 1. Fields
 
     // TODO
@@ -35,10 +41,10 @@ public class MyCharacterData
     
     private Dictionary<string, List<bool>> _routineRecordDictionary = new();
     private Dictionary<string, int> _siestaTimeRecordDictionary = new();
-    private Dictionary<string, int> _monthlyWaterPointRecordDictionary = new();
 
     public List<RoutineRecordData> RoutineRecordList = new();
     public List<SiestaTimeRecordData> SiestaTimeRecordList = new();
+    public List<MonthlyWaterPointRecordData> MonthlyWaterPointRecordList = new();
 
     #endregion
 
@@ -72,6 +78,10 @@ public class MyCharacterData
     [XmlIgnore]
     public ImmutableDictionary<string, int> SiestaTimeRecordDictionary =>
         _siestaTimeRecordDictionary.ToImmutableDictionary();
+
+    [XmlIgnore]
+    public ImmutableDictionary<string, int> MonthlyWaterPointRecordDictionary =>
+        MonthlyWaterPointRecordList.ToImmutableDictionary(record => record.YearMonth, record => record.RewardCount);
 
     #endregion
 
