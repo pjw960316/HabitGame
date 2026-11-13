@@ -74,11 +74,12 @@ public class HorizontalPanelPresenter : PresenterBase
 
     private void UpdateWaterPoint()
     {
+        var moneyPerWaterDrinking = _myCharacterManager.GetMoneyPerWaterDrinking();
         var monthlyRewardCount = _myCharacterManager.GetMonthlyWaterPointRewardCount();
 
-        // NOTE
-        // Const니까 이렇게 접근 허용
-        _uiHorizontalPanel.UpdateWaterPoint(monthlyRewardCount * MyCharacterData.MONEY_PER_EVENING_DRINK_WATER);
+        var monthlyWaterPoint = moneyPerWaterDrinking * monthlyRewardCount;
+
+        _uiHorizontalPanel.UpdateWaterPoint(monthlyWaterPoint);
     }
     
     private long RequestLatestWaterDrinkingDate()

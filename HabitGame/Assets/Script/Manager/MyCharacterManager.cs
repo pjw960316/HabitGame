@@ -160,9 +160,9 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         return _siestaHandler.GetTodaySiestaMoney();
     }
 
-    public int GetMoneyPerEveningDrinkWater()
+    public int GetMoneyPerWaterDrinking()
     {
-        return MyCharacterData.MONEY_PER_EVENING_DRINK_WATER;
+        return MyCharacterData.MONEY_PER_WATER_DRINKING;
     }
 
     public int GetMonthlyWaterPointRewardCount()

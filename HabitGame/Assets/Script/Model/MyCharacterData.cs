@@ -27,7 +27,7 @@ public class MyCharacterData
     // 접근 방식 
     public const int MONEY_PER_ROUTINE_SUCCESS = 500;
     public const int MONEY_PER_SIESTA_MINUTE = 50;
-    public const int MONEY_PER_EVENING_DRINK_WATER = 500;
+    public const int MONEY_PER_WATER_DRINKING = 500;
 
     private int _name;
     private int _age;
