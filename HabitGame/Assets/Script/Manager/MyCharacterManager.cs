@@ -160,11 +160,6 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         return _siestaHandler.GetTodaySiestaMoney();
     }
 
-    public DateTime GetLatestWaterDrinkingDateFromAndroid()
-    {
-        return _drinkingWaterHandler.GetLatestWaterDrinkingDateFromAndroid();
-    }
-
     public int GetMoneyPerEveningDrinkWater()
     {
         return _drinkingWaterHandler.GetMoneyPerEveningDrinkWater();
@@ -211,10 +206,6 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
             UpdateDrinkingWaterPoint();
         }
 
-        public DateTime GetLatestWaterDrinkingDateFromAndroid()
-        {
-            return _myCharacterData.LatestWaterDrinkingDateFromAndroid;
-        }
 
         public int GetMoneyPerEveningDrinkWater()
         {
