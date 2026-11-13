@@ -267,6 +267,9 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
             // NOTE
             // Deserialize 이 후 최신화가 된다.
+            
+            // WARNING : 일단 여기서 Serialize()까지 해버리자.  ->  반드시 변경해야 함. 아직 내가 정책을 만들지 않아서 그럼.
+            MyCharacterManager.Instance.UpdateXmlData();
         }
     }
 
