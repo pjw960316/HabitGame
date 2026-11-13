@@ -162,7 +162,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
     public int GetMoneyPerEveningDrinkWater()
     {
-        return _drinkingWaterHandler.GetMoneyPerEveningDrinkWater();
+        return MyCharacterData.MONEY_PER_EVENING_DRINK_WATER;
     }
 
     public int GetMonthlyWaterPointRewardCount()
@@ -204,12 +204,6 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
             UpdateLatestWaterDrinkingDate();
 
             UpdateDrinkingWaterPoint();
-        }
-
-
-        public int GetMoneyPerEveningDrinkWater()
-        {
-            return MyCharacterData.MONEY_PER_EVENING_DRINK_WATER;
         }
 
         public int GetMonthlyWaterPointRewardCount()
