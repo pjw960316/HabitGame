@@ -213,6 +213,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
             if (!monthlyWaterPointRecordDictionary.TryGetValue(currentYearMonth, out var rewardCount))
             {
+                // WARNING : 없어도 계산을 위해 0을 리턴해줘야 한다!
                 return 0;
             }
 
