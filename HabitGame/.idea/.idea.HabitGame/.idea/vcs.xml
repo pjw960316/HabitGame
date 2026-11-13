@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AgentCommitMessageProject"><![CDATA[{
+  "mode": "CUSTOM",
+  "instruction": "[핵심]\n- 반드시 한글로 작성한다.\n- 제목은 짧고 직관적으로 작성한다.\n- 본문은 변경 내용을 Bullet Type(-)으로 작성한다.\n- 커밋 메시지 전체에서 키워드는 단 1개만 사용한다.\n\n[6개 키워드]\n- feat. 게임 기능이나 사용자에게 보이는 결과가 추가된 경우\n- fix. 기존 기능의 버그를 수정한 경우\n- refactor. 기능 변화 없이 내부 구현만 개선한 경우\n- docs. .md, .txt 등의 문서 파일만 변경한 경우\n- chore. 테스트, 주석, 코드 스타일, 설정 및 그 외 작업\n- patch. 패치 버전을 만들 때 사용한다. (사용자가 직접 요청을 한다.) 이 경우, 이전의 patch. commit 부터 최신 commit 까지의 변경 사항을 직관적으로 모두 적는다.\n\n[분류 기준]\n- 아래 기준을 위에서부터 순서대로 판단한다.\n- 새로운 게임 동작이나 UI 표시가 하나라도 추가되면 반드시 feat.을 사용한다.\n- 기존 기능의 잘못된 동작을 수정했다면 fix.를 사용한다.\n- 모든 변경 전후의 게임 동작이 완전히 같을 때만 refactor.를 사용한다.\n- 코드 변경량이 대부분 구조 개선이어도 새로운 동작이 하나라도 있으면 refactor.를 사용하지 않는다.\n- 문서 파일만 변경했다면 docs.를 사용한다.\n- 나머지는 chore.를 사용한다."
+}]]></component>
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
   </component>
