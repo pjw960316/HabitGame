@@ -39,10 +39,15 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
     #region 3. Constructor
 
-    public sealed override void Initialize()
+    public sealed override void PreInitialize()
     {
         _xmlDataManager = XmlDataManager.Instance;
         ExceptionHelper.CheckNullException(_xmlDataManager, "_xmlDataManager");
+    }
+
+    public sealed override void Initialize()
+    {
+        //
     }
 
     #endregion
