@@ -20,12 +20,6 @@ public class MyCharacterData
         public int TotalSiestaMinutes;
     }
 
-    public class MonthlyWaterPointRecordData
-    {
-        public string YearMonth;
-        public int RewardCount;
-    }
-
     #region 1. Fields
 
     // TODO
@@ -44,7 +38,7 @@ public class MyCharacterData
 
     public List<RoutineRecordData> RoutineRecordList = new();
     public List<SiestaTimeRecordData> SiestaTimeRecordList = new();
-    public List<MonthlyWaterPointRecordData> MonthlyWaterPointRecordList = new();
+    public List<(string YearMonth, int RewardCount)> MonthlyWaterPointRecordList = new();
 
     #endregion
 
