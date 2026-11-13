@@ -166,6 +166,22 @@ public class MyCharacterData
         LatestWaterPointRewardDate = LatestWaterDrinkingDateFromAndroid;
     }
 
+    public void IncrementMonthlyWaterPointRewardCount(DateTime waterDrinkingDate)
+    {
+        var yearMonth = waterDrinkingDate.ToString("yyyyMM");
+        var recordIndex = MonthlyWaterPointRecordList.FindIndex(record => record.YearMonth == yearMonth);
+
+        if (recordIndex < 0)
+        {
+            MonthlyWaterPointRecordList.Add((yearMonth, 1));
+            return;
+        }
+
+        var monthlyWaterPointRecord = MonthlyWaterPointRecordList[recordIndex];
+        monthlyWaterPointRecord.RewardCount++;
+        MonthlyWaterPointRecordList[recordIndex] = monthlyWaterPointRecord;
+    }
+
     public void UpdateRoutineRecordDictionary(List<int> todaySuccessfulRoutineIndexByView, DateTime dateTime)
     {
         var key = dateTime.ToString("yyyyMMdd");

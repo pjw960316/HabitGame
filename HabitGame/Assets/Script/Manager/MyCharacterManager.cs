@@ -70,18 +70,6 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         UpdateXmlData();
     }
 
-    public bool TryUpdateDrinkingWaterPoint()
-    {
-        if (!_drinkingWaterHandler.TryUpdateDrinkingWaterPoint())
-        {
-            return false;
-        }
-
-        UpdateXmlData();
-        
-        return true;
-    }
-
     public void UpdateSiestaRecord(TimeSpan siestaTime)
     {
         _siestaHandler.UpdateMyCharacterData(siestaTime);
@@ -182,6 +170,11 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         return _drinkingWaterHandler.GetMoneyPerEveningDrinkWater();
     }
 
+    public int GetMonthlyWaterPointRewardCount()
+    {
+        return _drinkingWaterHandler.GetMonthlyWaterPointRewardCount();
+    }
+
     public void LogSiestaTimeRecordList()
     {
         _myCharacterData.LogSiestaTimeRecordList();
@@ -214,6 +207,8 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
             _myCharacterData = myCharacterData;
             
             UpdateLatestWaterDrinkingDate();
+
+            UpdateDrinkingWaterPoint();
         }
 
         public DateTime GetLatestWaterDrinkingDateFromAndroid()
@@ -226,24 +221,43 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
             return MyCharacterData.MONEY_PER_EVENING_DRINK_WATER;
         }
 
-        public bool TryUpdateDrinkingWaterPoint()
+        public int GetMonthlyWaterPointRewardCount()
+        {
+            var currentYearMonth = DateTime.Now.ToString("yyyyMM");
+            var monthlyWaterPointRecordDictionary = _myCharacterData.MonthlyWaterPointRecordDictionary;
+
+            if (!monthlyWaterPointRecordDictionary.TryGetValue(currentYearMonth, out var rewardCount))
+            {
+                return 0;
+            }
+
+            return rewardCount;
+        }
+
+        private void UpdateDrinkingWaterPoint()
         {
             var latestWaterDrinkingDate = _myCharacterData.LatestWaterDrinkingDateFromAndroid.Date;
             var latestRewardDate = _myCharacterData.LatestWaterPointRewardDate.Date;
+
+            if (latestWaterDrinkingDate == DateTime.MinValue)
+            {
+                return;
+            }
 
             // NOTE
             // 물 마시고 앱 푸쉬를 누른 날은 20261025이고 
             // 가장 최근에 보상을 받은 날도 20261025면 포인트를 지급하지 않는다.
             if (latestWaterDrinkingDate == latestRewardDate)
             {
-                return false;
+                return;
             }
 
+            _myCharacterData.IncrementMonthlyWaterPointRewardCount(latestWaterDrinkingDate);
             _myCharacterData.SynchronizeWaterDrinkingDates();
-            
-            return true;
         }
 
+        // NOTE
+        // 안드로이드로 부터 받은 최신 물 섭취 날짜를 Data에 갱신
         private void UpdateLatestWaterDrinkingDate()
         {
             var latestWaterDrinkingTimestamp = AndroidManager.Instance.GetLatestWaterDrinkingDate();
