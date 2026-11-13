@@ -223,7 +223,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
         public int GetMonthlyWaterPointRewardCount()
         {
-            var currentYearMonth = DateTime.Now.ToString("yyyyMM");
+            var currentYearMonth = DateTimeHelper.ToYearMonth(DateTime.Now);
             var monthlyWaterPointRecordDictionary = _myCharacterData.MonthlyWaterPointRecordDictionary;
 
             if (!monthlyWaterPointRecordDictionary.TryGetValue(currentYearMonth, out var rewardCount))
@@ -232,28 +232,6 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
             }
 
             return rewardCount;
-        }
-
-        private void UpdateDrinkingWaterPoint()
-        {
-            var latestWaterDrinkingDate = _myCharacterData.LatestWaterDrinkingDateFromAndroid.Date;
-            var latestRewardDate = _myCharacterData.LatestWaterPointRewardDate.Date;
-
-            if (latestWaterDrinkingDate == DateTime.MinValue)
-            {
-                return;
-            }
-
-            // NOTE
-            // 물 마시고 앱 푸쉬를 누른 날은 20261025이고 
-            // 가장 최근에 보상을 받은 날도 20261025면 포인트를 지급하지 않는다.
-            if (latestWaterDrinkingDate == latestRewardDate)
-            {
-                return;
-            }
-
-            _myCharacterData.IncrementMonthlyWaterPointRewardCount(latestWaterDrinkingDate);
-            _myCharacterData.SynchronizeWaterDrinkingDates();
         }
 
         // NOTE
@@ -276,6 +254,33 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
             }
 
             return DateTimeOffset.FromUnixTimeMilliseconds(unixTimeMilliseconds).LocalDateTime.Date;
+        }
+        
+        private void UpdateDrinkingWaterPoint()
+        {
+            var latestWaterDrinkingDate = _myCharacterData.LatestWaterDrinkingDateFromAndroid.Date;
+            var latestRewardDate = _myCharacterData.LatestWaterPointRewardDate.Date;
+
+            if (latestWaterDrinkingDate == DateTime.MinValue)
+            {
+                return;
+            }
+
+            // NOTE
+            // 물 마시고 앱 푸쉬를 누른 날은 20261025이고 
+            // 가장 최근에 보상을 받은 날도 20261025면 포인트를 지급하지 않는다.
+            if (latestWaterDrinkingDate == latestRewardDate)
+            {
+                return;
+            }
+
+            // NOTE
+            // 월별 물 마신 자료구조 갱신 -> 그리고 물 마신 날짜 2개 동기화
+            _myCharacterData.IncrementMonthlyWaterPointRewardCount(latestWaterDrinkingDate);
+            _myCharacterData.SynchronizeWaterDrinkingDates();
+
+            // NOTE
+            // Deserialize 이 후 최신화가 된다.
         }
     }
 

@@ -38,7 +38,7 @@ public class MyCharacterData
 
     public List<RoutineRecordData> RoutineRecordList = new();
     public List<SiestaTimeRecordData> SiestaTimeRecordList = new();
-    public List<(string YearMonth, int RewardCount)> MonthlyWaterPointRecordList = new();
+    public List<(int YearMonth, int RewardCount)> MonthlyWaterPointRecordList = new();
 
     #endregion
 
@@ -74,7 +74,7 @@ public class MyCharacterData
         _siestaTimeRecordDictionary.ToImmutableDictionary();
 
     [XmlIgnore]
-    public ImmutableDictionary<string, int> MonthlyWaterPointRecordDictionary =>
+    public ImmutableDictionary<int, int> MonthlyWaterPointRecordDictionary =>
         MonthlyWaterPointRecordList.ToImmutableDictionary(record => record.YearMonth, record => record.RewardCount);
 
     #endregion
@@ -168,7 +168,7 @@ public class MyCharacterData
 
     public void IncrementMonthlyWaterPointRewardCount(DateTime waterDrinkingDate)
     {
-        var yearMonth = waterDrinkingDate.ToString("yyyyMM");
+        var yearMonth = DateTimeHelper.ToYearMonth(waterDrinkingDate);
         var recordIndex = MonthlyWaterPointRecordList.FindIndex(record => record.YearMonth == yearMonth);
 
         if (recordIndex < 0)
