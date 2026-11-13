@@ -31,6 +31,9 @@ public sealed class NotionManager : ManagerBase<NotionManager>
 
     public override void Initialize()
     {
+        // test : 일단 잠시 기능 없애기 -> 아직 미완성
+        return;
+        
         InitializeNotionToken();
         
         RequestNotionUserAsync().Forget();
@@ -48,6 +51,8 @@ public sealed class NotionManager : ManagerBase<NotionManager>
         
         if(_notionToken == null)
         {
+            return;
+            
             throw new NullReferenceException("NotionToken is null");
         }
     }
