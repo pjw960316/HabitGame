@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 // NOTE : 책임 (회사)
@@ -140,8 +141,41 @@ public sealed class AndroidManager : ManagerBase<AndroidManager>
 
             using (var preferences = context.Call<AndroidJavaObject>("getSharedPreferences", preferencesName, MODE_PRIVATE))
             {
-                return preferences.Call<T>(methodName, key, defaultValue);
+                if (typeof(T) == typeof(HashSet<string>))
+                {
+                    using (var javaSet = preferences.Call<AndroidJavaObject>(methodName, key, null))
+                    {
+                        if (javaSet == null)
+                        {
+                            return defaultValue;
+                        }
+
+                        return (T)(object)ConvertToStringHashSet(javaSet);
+                    }
+                }
+                else
+                {
+                    return preferences.Call<T>(methodName, key, defaultValue);
+                }
             }
+        }
+
+        private HashSet<string> ConvertToStringHashSet(AndroidJavaObject javaSet)
+        {
+            var result = new HashSet<string>();
+
+            using (var iterator = javaSet.Call<AndroidJavaObject>("iterator"))
+            {
+                while (iterator.Call<bool>("hasNext"))
+                {
+                    using (var javaString = iterator.Call<AndroidJavaObject>("next"))
+                    {
+                        result.Add(javaString?.Call<string>("toString"));
+                    }
+                }
+            }
+
+            return result;
         }
 
         // WARNING
@@ -174,6 +208,11 @@ public sealed class AndroidManager : ManagerBase<AndroidManager>
             if (valueType == typeof(string))
             {
                 return "getString";
+            }
+
+            if (valueType == typeof(HashSet<string>))
+            {
+                return "getStringSet";
             }
 
             throw new NotSupportedException($"SharedPreferences 조회에서 지원하지 않는 타입입니다: {valueType.FullName}");
