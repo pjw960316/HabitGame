@@ -52,7 +52,7 @@ public sealed class LocalPushManager : ManagerBase<LocalPushManager>
 
     private void InitializeNotificationChannel()
     {
-        var channel = new AndroidNotificationChannel(CHANNEL_ID, CHANNEL_NAME, CHANNEL_DESCRIPTION, Importance.Low);
+        var channel = new AndroidNotificationChannel(CHANNEL_ID, CHANNEL_NAME, CHANNEL_DESCRIPTION, Importance.Default);
 
         AndroidNotificationCenter.RegisterNotificationChannel(channel);
     }
