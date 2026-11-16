@@ -79,7 +79,7 @@ public sealed class AndroidManager : ManagerBase<AndroidManager>
         const string PREFERENCES_NAME = "habit_water_practice";
         const string CONFIRMED_AT_KEY = "last_confirmed_at";
 
-        return ReadSharedPreference<long>(PREFERENCES_NAME, CONFIRMED_AT_KEY, 0L);
+        return GetSharedPreferenceValue<long>(PREFERENCES_NAME, CONFIRMED_AT_KEY, 0L);
 #else
         return 0L;
 #endif
