@@ -82,13 +82,15 @@ public class HorizontalPanelPresenter : PresenterBase
         _uiHorizontalPanel.UpdateWaterPoint(monthlyWaterPoint);
     }
     
-    private long RequestLatestWaterDrinkingDate()
+    // TODO
+    // 없애야 함
+    /*private long RequestLatestWaterDrinkingDate()
     {
         const string PREFERENCES_NAME = "habit_water_practice";
         const string CONFIRMED_AT_KEY = "last_confirmed_at";
 
         return _androidManager.ReadSharedPreference<long>(PREFERENCES_NAME, CONFIRMED_AT_KEY, 0L);
-    }
+    }*/
 
     #endregion
 }

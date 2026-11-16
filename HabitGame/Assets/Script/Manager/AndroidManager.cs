@@ -60,7 +60,10 @@ public sealed class AndroidManager : ManagerBase<AndroidManager>
         }
     }
 
-    public T ReadSharedPreference<T>(string preferencesName, string key, T defaultValue = default)
+    // NOTE
+    // SharedPreference 라는 Android 전용 가방에서
+    // 타입과 key를 인자로 넣어서 원하는 타입의 데이터를 가져온다.
+    public T GetSharedPreferenceValue<T>(string preferencesName, string key, T defaultValue = default)
     {
         using (var context = GetCurrentActivity())
         {
