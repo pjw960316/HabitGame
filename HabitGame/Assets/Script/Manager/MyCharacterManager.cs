@@ -202,30 +202,87 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
     private sealed class DrinkingWaterHandler
     {
         private readonly MyCharacterData _myCharacterData;
-        private HashSet<string> _confirmedWaterDrinkingDates;
+        private readonly AndroidManager _androidManager;
 
         public DrinkingWaterHandler(MyCharacterData myCharacterData)
         {
             _myCharacterData = myCharacterData;
-            
-            // TODO 
-            // 1. 두개의 data를 get한다. 이 데이터를 지역변수로 설정해서 out을 쓸지 아예 handler의 멤버로 할진 모르겠다. 
-            // mychacraterData로 부터 LatestWaterPointRewardDate 이걸 가져온다.
-            // AndroidManager를 통해 HashSet을 가져온다.
-            // 두 타입은 20261021 형식이면 좋겠다. -> 이게 없다면 DateTimeHelper에 구현하고 이용한다.
-            
-            // TODO
-            // 2. HashSet 중에서 LatestWaterPointRewardDate 이거보다 나중인 애들 개수 샌다.
-            // 그 개수는 저장한다. 멤버 변ㅅ로
-            
-            // TODO
-            // 3. 이제 저장했으므로 MyCharcaterData의 LatestWaterPointRewardDate를
-            // HashSet에서 가장 최근 날짜로 업데이트 한다.
-            
-            
-            UpdateWaterDrinkingDatesFromAndroid();
+            ExceptionHelper.CheckNullException(_myCharacterData, "_myCharacterData");
 
-            UpdateDrinkingWaterPoint();
+            _androidManager = AndroidManager.Instance;
+            ExceptionHelper.CheckNullException(_androidManager, "_androidManager");
+            
+            // NOTE
+            // 1. 계산에 필요한 두 변수 초기화
+            InitializeDates(out var latestRewardDate, out var androidConfirmedHashSet);
+            
+            // NOTE
+            // 2. 미지급 포인트 횟수 계산
+            var pendingRewardCount = CountPendingRewards(latestRewardDate, androidConfirmedHashSet);
+            
+            // NOTE
+            // 3. 데이터에 최신 포인트 지급일 업데이트
+            UpdateDrinkingWaterPoint(latestRewardDate, androidConfirmedHashSet);
+        }
+
+        private void InitializeDates(out DateTime latestRewardDate, out HashSet<string> confirmedDates)
+        {
+            latestRewardDate = _myCharacterData.LatestWaterPointRewardDate;
+            confirmedDates = _androidManager.GetConfirmedWaterDrinkingDates();
+        }
+
+        // NOTE
+        // 안드로이드로 부터 받은 최신 물 섭취 날짜를 Data에 갱신
+        // private void UpdateWaterDrinkingDatesFromAndroid(HashSet<string> androidConfirmedHashSet)
+        // {
+        //     var latestWaterDrinkingTimestamp = _androidManager.GetLatestWaterDrinkingDate();
+        //     var latestWaterDrinkingDateFromAndroid = DateTimeHelper.ConvertToDateTime(latestWaterDrinkingTimestamp);
+        //
+        //     if (androidConfirmedHashSet.Count == 0 && latestWaterDrinkingDateFromAndroid != DateTime.MinValue)
+        //     {
+        //         androidConfirmedHashSet.Add(DateTimeHelper.ToDateKey(latestWaterDrinkingDateFromAndroid));
+        //     }
+        //
+        //     _myCharacterData.UpdateLatestWaterDrinkingDateFromAndroid(latestWaterDrinkingDateFromAndroid);
+        // }
+
+        private int CountPendingRewards(DateTime latestRewardDate, HashSet<string> androidConfirmedHashSet)
+        {
+            var latestRewardDateNumber = DateTimeHelper.ToDateNumber(latestRewardDate);
+            var count = 0;
+
+            foreach (var confirmedDate in androidConfirmedHashSet)
+            {
+                if (DateTime.TryParseExact(confirmedDate, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date) &&
+                    DateTimeHelper.ToDateNumber(date) > latestRewardDateNumber)
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+        
+        private void UpdateDrinkingWaterPoint(DateTime latestRewardDate, HashSet<string> androidConfirmedHashSet)
+        {
+            var newestConfirmedDate = latestRewardDate.Date;
+
+            // NOTE
+            // 물 마시고 앱 푸쉬를 누른 날은 20261025이고 
+            // 가장 최근에 보상을 받은 날도 20261025면 포인트를 지급하지 않는다.
+            foreach (var confirmedDate in androidConfirmedHashSet)
+            {
+                if (DateTime.TryParseExact(confirmedDate, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date) &&
+                    date > newestConfirmedDate)
+                {
+                    newestConfirmedDate = date;
+                }
+            }
+
+            if (newestConfirmedDate > latestRewardDate.Date)
+            {
+                _myCharacterData.LatestWaterPointRewardDate = newestConfirmedDate;
+            }
         }
 
         public int GetMonthlyWaterPointRewardCount()
@@ -240,66 +297,6 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
             }
 
             return rewardCount;
-        }
-
-        // NOTE
-        // 안드로이드로 부터 받은 최신 물 섭취 날짜를 Data에 갱신
-        private void UpdateWaterDrinkingDatesFromAndroid()
-        {
-            var androidManager = AndroidManager.Instance;
-            _confirmedWaterDrinkingDates = androidManager.GetConfirmedWaterDrinkingDates();
-
-            var latestWaterDrinkingTimestamp = androidManager.GetLatestWaterDrinkingDate();
-            var latestWaterDrinkingDateFromAndroid = ConvertToWaterDrinkingDate(latestWaterDrinkingTimestamp);
-
-            if (_confirmedWaterDrinkingDates.Count == 0 && latestWaterDrinkingDateFromAndroid != DateTime.MinValue)
-            {
-                _confirmedWaterDrinkingDates.Add(latestWaterDrinkingDateFromAndroid.ToString("yyyyMMdd", CultureInfo.InvariantCulture));
-            }
-
-            _myCharacterData.UpdateLatestWaterDrinkingDateFromAndroid(latestWaterDrinkingDateFromAndroid);
-        }
-
-        // WARNING
-        // 이게 한 번만 호출되도록 설계
-        private DateTime ConvertToWaterDrinkingDate(long unixTimeMilliseconds)
-        {
-            if (unixTimeMilliseconds <= 0L)
-            {
-                return DateTime.MinValue;
-            }
-
-            return DateTimeOffset.FromUnixTimeMilliseconds(unixTimeMilliseconds).LocalDateTime.Date;
-        }
-        
-        private void UpdateDrinkingWaterPoint()
-        {
-            var latestWaterDrinkingDate = _myCharacterData.LatestWaterDrinkingDateFromAndroid.Date;
-            var latestRewardDate = _myCharacterData.LatestWaterPointRewardDate.Date;
-
-            if (latestWaterDrinkingDate == DateTime.MinValue)
-            {
-                return;
-            }
-
-            // NOTE
-            // 물 마시고 앱 푸쉬를 누른 날은 20261025이고 
-            // 가장 최근에 보상을 받은 날도 20261025면 포인트를 지급하지 않는다.
-            if (latestWaterDrinkingDate == latestRewardDate)
-            {
-                return;
-            }
-
-            // NOTE
-            // 월별 물 마신 자료구조 갱신 -> 그리고 물 마신 날짜 2개 동기화
-            _myCharacterData.IncrementMonthlyWaterPointRewardCount(latestWaterDrinkingDate);
-            _myCharacterData.SynchronizeWaterDrinkingDates();
-
-            // NOTE
-            // Deserialize 이 후 최신화가 된다.
-            
-            // WARNING : 일단 여기서 Serialize()까지 해버리자.  ->  반드시 변경해야 함. 아직 내가 정책을 만들지 않아서 그럼.
-            MyCharacterManager.Instance.UpdateXmlData();
         }
     }
 

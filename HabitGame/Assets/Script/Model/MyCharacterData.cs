@@ -73,6 +73,9 @@ public class MyCharacterData
     public ImmutableDictionary<string, int> SiestaTimeRecordDictionary =>
         _siestaTimeRecordDictionary.ToImmutableDictionary();
 
+    // TODO
+    // 지금 이 자료구조를 굳이 저장하지 않으려 한다.
+    // 왜냐면 아직 만들지도 않은 걸 확장 설계할 필요가 없거든
     [XmlIgnore]
     public ImmutableDictionary<int, int> MonthlyWaterPointRecordDictionary =>
         MonthlyWaterPointRecordList.ToImmutableDictionary(record => record.YearMonth, record => record.RewardCount);

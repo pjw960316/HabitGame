@@ -12,4 +12,19 @@ public static class DateTimeHelper
     {
         return date.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
     }
+
+    public static int ToDateNumber(DateTime date)
+    {
+        return ToYearMonth(date) * 100 + date.Day;
+    }
+
+    public static DateTime ConvertToDateTime(long unixTimeMilliseconds)
+    {
+        if (unixTimeMilliseconds <= 0L)
+        {
+            return DateTime.MinValue;
+        }
+
+        return DateTimeOffset.FromUnixTimeMilliseconds(unixTimeMilliseconds).LocalDateTime.Date;
+    }
 }
