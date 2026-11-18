@@ -267,9 +267,6 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         {
             var newestConfirmedDate = latestRewardDate.Date;
 
-            // NOTE
-            // 물 마시고 앱 푸쉬를 누른 날은 20261025이고 
-            // 가장 최근에 보상을 받은 날도 20261025면 포인트를 지급하지 않는다.
             foreach (var confirmedDate in androidConfirmedHashSet)
             {
                 if (DateTime.TryParseExact(confirmedDate, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date) &&
