@@ -208,6 +208,19 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         {
             _myCharacterData = myCharacterData;
             
+            // TODO 
+            // 1. 두개의 data를 get한다. 이 데이터를 지역변수로 설정해서 out을 쓸지 아예 handler의 멤버로 할진 모르겠다. 
+            // mychacraterData로 부터 LatestWaterPointRewardDate 이걸 가져온다.
+            // AndroidManager를 통해 HashSet을 가져온다.
+            // 두 타입은 20261021 형식이면 좋겠다. -> 이게 없다면 DateTimeHelper에 구현하고 이용한다.
+            
+            // TODO
+            // 2. HashSet 중에서 LatestWaterPointRewardDate 이거보다 나중인 애들 개수 샌다.
+            // 그 개수는 저장한다. 멤버 변ㅅ로
+            
+            // TODO
+            // 3. 이제 저장했으므로 MyCharcaterData의 LatestWaterPointRewardDate를
+            // HashSet에서 가장 최근 날짜로 업데이트 한다.
             
             
             UpdateWaterDrinkingDatesFromAndroid();
