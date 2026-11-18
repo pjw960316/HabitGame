@@ -11,6 +11,8 @@ public sealed class AndroidManager : ManagerBase<AndroidManager>
 {
     #region 1. Fields
 
+    private const string WATER_PREFERENCES_NAME = "habit_water_practice";
+
     private readonly AndroidContextHandler _androidContextHandler = new();
     private readonly JavaMethodHandler _javaMethodHandler = new();
     private readonly SharedPreferencesHandler _sharedPreferencesHandler = new();
@@ -77,12 +79,22 @@ public sealed class AndroidManager : ManagerBase<AndroidManager>
     public long GetLatestWaterDrinkingDate()
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
-        const string PREFERENCES_NAME = "habit_water_practice";
         const string CONFIRMED_AT_KEY = "last_confirmed_at";
 
-        return GetSharedPreferenceValue<long>(PREFERENCES_NAME, CONFIRMED_AT_KEY, 0L);
+        return GetSharedPreferenceValue<long>(WATER_PREFERENCES_NAME, CONFIRMED_AT_KEY, 0L);
 #else
         return 0L;
+#endif
+    }
+
+    public HashSet<string> GetConfirmedWaterDrinkingDates()
+    {
+#if UNITY_ANDROID && !UNITY_EDITOR
+        const string CONFIRMED_DATES_KEY = "confirmed_dates";
+
+        return GetSharedPreferenceValue<HashSet<string>>(WATER_PREFERENCES_NAME, CONFIRMED_DATES_KEY) ?? new HashSet<string>();
+#else
+        return new HashSet<string>();
 #endif
     }
 

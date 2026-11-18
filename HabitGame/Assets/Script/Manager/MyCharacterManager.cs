@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Globalization;
 using JetBrains.Annotations;
 using UniRx;
 
@@ -201,12 +202,15 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
     private sealed class DrinkingWaterHandler
     {
         private readonly MyCharacterData _myCharacterData;
+        private HashSet<string> _confirmedWaterDrinkingDates;
 
         public DrinkingWaterHandler(MyCharacterData myCharacterData)
         {
             _myCharacterData = myCharacterData;
             
-            UpdateLatestWaterDrinkingDate();
+            
+            
+            UpdateWaterDrinkingDatesFromAndroid();
 
             UpdateDrinkingWaterPoint();
         }
@@ -227,11 +231,19 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
         // NOTE
         // 안드로이드로 부터 받은 최신 물 섭취 날짜를 Data에 갱신
-        private void UpdateLatestWaterDrinkingDate()
+        private void UpdateWaterDrinkingDatesFromAndroid()
         {
-            var latestWaterDrinkingTimestamp = AndroidManager.Instance.GetLatestWaterDrinkingDate();
+            var androidManager = AndroidManager.Instance;
+            _confirmedWaterDrinkingDates = androidManager.GetConfirmedWaterDrinkingDates();
+
+            var latestWaterDrinkingTimestamp = androidManager.GetLatestWaterDrinkingDate();
             var latestWaterDrinkingDateFromAndroid = ConvertToWaterDrinkingDate(latestWaterDrinkingTimestamp);
-            
+
+            if (_confirmedWaterDrinkingDates.Count == 0 && latestWaterDrinkingDateFromAndroid != DateTime.MinValue)
+            {
+                _confirmedWaterDrinkingDates.Add(latestWaterDrinkingDateFromAndroid.ToString("yyyyMMdd", CultureInfo.InvariantCulture));
+            }
+
             _myCharacterData.UpdateLatestWaterDrinkingDateFromAndroid(latestWaterDrinkingDateFromAndroid);
         }
 
