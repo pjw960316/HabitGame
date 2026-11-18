@@ -64,8 +64,16 @@ public sealed class LocalPushManager : ManagerBase<LocalPushManager>
     
     private void InitializeDrinkWaterNotification()
     {
-        _waterNotification = new AndroidNotification(WATER_NOTIFICATION_TITLE, WATER_NOTIFICATION_TEXT,
-            GetWaterNotificationTime(), TimeSpan.FromDays(1));
+#if ANDROID_TEST_MODE
+        // NOTE : 1분마다 앱 푸쉬 발송
+        var fireTime = DateTime.Now.AddSeconds(10);
+        var repeatInterval = TimeSpan.FromMinutes(1);
+#else
+        var fireTime = GetWaterNotificationTime();
+        var repeatInterval = TimeSpan.FromDays(1);
+#endif
+
+        _waterNotification = new AndroidNotification(WATER_NOTIFICATION_TITLE, WATER_NOTIFICATION_TEXT, fireTime, repeatInterval);
     }
     #endregion
 
