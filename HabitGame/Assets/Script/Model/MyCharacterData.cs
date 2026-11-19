@@ -49,13 +49,12 @@ public class MyCharacterData
     public int Age { get; set; }
     public int MonthlyRoutineSuccessMoney { get; set; }
 
+    // NOTE
+    // 지금까지 모은 총 포인트를 카카오뱅크로 입금한 날
+    // 이게 set 되면 zero가 되어야 한다.
+    [XmlElement(DataType = "date")]
+    public DateTime LatestWithdrawnPointDate { get; set; }
     
-    [XmlIgnore]  // NOTE : 앱 푸쉬에서 물 마심을 누른 날짜
-    public DateTime LastWaterCheckDate { get; private set; }
-    
-    [XmlElement("LatestWaterPointRewardDate", DataType = "date")]  // NOTE : 가장 최근에 물 마심으로 포인트를 올린 날짜
-    public DateTime LastWaterPointDate { get; set; }
-
     [XmlIgnore]
     public ImmutableSortedDictionary<string, ImmutableList<bool>> RoutineRecordDictionary
     {
@@ -73,14 +72,7 @@ public class MyCharacterData
     [XmlIgnore]
     public ImmutableDictionary<string, int> SiestaTimeRecordDictionary =>
         _siestaTimeRecordDictionary.ToImmutableDictionary();
-
-    // TODO
-    // 지금 이 자료구조를 굳이 저장하지 않으려 한다.
-    // 왜냐면 아직 만들지도 않은 걸 확장 설계할 필요가 없거든
-    [XmlIgnore]
-    public ImmutableDictionary<int, int> WaterCheckCountsByMonth =>
-        MonthlyWaterCheckCounts.ToImmutableDictionary(record => record.YearMonth, record => record.CheckCount);
-
+    
     #endregion
 
     #region 3. Constructor

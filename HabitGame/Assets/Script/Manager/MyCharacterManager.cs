@@ -230,21 +230,6 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
             confirmedDates = _androidManager.GetConfirmedWaterDrinkingDates();
         }
 
-        // NOTE
-        // 안드로이드로 부터 받은 최신 물 섭취 날짜를 Data에 갱신
-        // private void UpdateWaterDrinkingDatesFromAndroid(HashSet<string> androidConfirmedHashSet)
-        // {
-        //     var latestWaterDrinkingTimestamp = _androidManager.GetLatestWaterDrinkingDate();
-        //     var latestWaterDrinkingDateFromAndroid = DateTimeHelper.ConvertToDateTime(latestWaterDrinkingTimestamp);
-        //
-        //     if (androidConfirmedHashSet.Count == 0 && latestWaterDrinkingDateFromAndroid != DateTime.MinValue)
-        //     {
-        //         androidConfirmedHashSet.Add(DateTimeHelper.ToDateKey(latestWaterDrinkingDateFromAndroid));
-        //     }
-        //
-        //     _myCharacterData.UpdateLatestWaterDrinkingDateFromAndroid(latestWaterDrinkingDateFromAndroid);
-        // }
-
         private int CountPendingChecks(DateTime lastPointDate, HashSet<string> confirmedDates)
         {
             var lastPointDateNumber = DateTimeHelper.ToDateNumber(lastPointDate);
