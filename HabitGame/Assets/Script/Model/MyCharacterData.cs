@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Globalization;
 using System.Linq;
 using System.Xml.Serialization;
 
@@ -35,6 +36,7 @@ public class MyCharacterData
     
     private Dictionary<string, List<bool>> _routineRecordDictionary = new();
     private Dictionary<string, int> _siestaTimeRecordDictionary = new();
+    private HashSet<int> _confirmedWaterDates;
 
     public List<RoutineRecordData> RoutineRecordList = new();
     public List<SiestaTimeRecordData> SiestaTimeRecordList = new();
@@ -151,6 +153,18 @@ public class MyCharacterData
     #endregion
 
     #region 5. Methods
+
+    public void InitializeWaterCheckDates(HashSet<string> confirmedDates)
+    {
+        _confirmedWaterDates = new HashSet<int>();
+        foreach (var confirmedDate in confirmedDates)
+        {
+            if (DateTime.TryParseExact(confirmedDate, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
+            {
+                _confirmedWaterDates.Add(DateTimeHelper.ToDateNumber(date));
+            }
+        }
+    }
 
     public void SetLastWaterCheckDate(DateTime date)
     {

@@ -215,6 +215,8 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
             
             // NOTE
             // 1. MyCharacterData에게 confirmedDates를 주고 그걸 기반으로 메모리에 초기화 시키도록
+            var confirmedDates = _androidManager.GetConfirmedWaterDrinkingDates();
+            _myCharacterData.InitializeWaterCheckDates(confirmedDates);
             
             // NOTE
             // 2. 미지급 포인트 횟수 계산
