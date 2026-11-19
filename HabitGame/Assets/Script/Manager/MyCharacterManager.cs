@@ -211,24 +211,20 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
             _androidManager = AndroidManager.Instance;
             ExceptionHelper.CheckNullException(_androidManager, "_androidManager");
             
+            var latestWithdrawnPointDate = _myCharacterData.LatestWithdrawnPointDate;
+            
             // NOTE
-            // 1. 계산에 필요한 두 변수 초기화
-            ReadDates(out var lastPointDate, out var confirmedDates);
+            // 1. MyCharacterData에게 confirmedDates를 주고 그걸 기반으로 메모리에 초기화 시키도록
             
             // NOTE
             // 2. 미지급 포인트 횟수 계산
-            var pendingCheckCount = CountPendingChecks(lastPointDate, confirmedDates);
+            var pendingCheckCount = CountPendingChecks(latestWithdrawnPointDate, confirmedDates);
             
             // NOTE
             // 3. 데이터에 최신 포인트 지급일 업데이트
             UpdateLastPointDate(lastPointDate, confirmedDates);
         }
-
-        private void ReadDates(out DateTime lastPointDate, out HashSet<string> confirmedDates)
-        {
-            lastPointDate = _myCharacterData.LastWaterPointDate;
-            confirmedDates = _androidManager.GetConfirmedWaterDrinkingDates();
-        }
+        
 
         private int CountPendingChecks(DateTime lastPointDate, HashSet<string> confirmedDates)
         {
