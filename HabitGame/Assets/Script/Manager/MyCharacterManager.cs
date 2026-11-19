@@ -171,9 +171,9 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         return MyCharacterData.WATER_POINTS_PER_DAY;
     }
 
-    public int GetMonthlyWaterCheckCount()
+    public int GetWaterCheckCount()
     {
-        return _waterPointHandler.GetMonthlyCheckCount();
+        return _waterPointHandler.CheckCount;
     }
 
     public void LogSiestaTimeRecordList()
@@ -203,6 +203,8 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         private readonly MyCharacterData _myCharacterData;
         private readonly AndroidManager _androidManager;
 
+        public readonly int CheckCount;
+
         public WaterPointHandler(MyCharacterData myCharacterData)
         {
             _myCharacterData = myCharacterData;
@@ -211,32 +213,25 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
             _androidManager = AndroidManager.Instance;
             ExceptionHelper.CheckNullException(_androidManager, "_androidManager");
             
-            var latestWithdrawnPointDate = _myCharacterData.LatestWithdrawnPointDate;
-            
             // NOTE
             // 1. MyCharacterData에게 confirmedDates를 주고 그걸 기반으로 메모리에 초기화 시키도록
             var confirmedDates = _androidManager.GetConfirmedWaterDrinkingDates();
             _myCharacterData.InitializeWaterCheckDates(confirmedDates);
             
             // NOTE
-            // 2. 미지급 포인트 횟수 계산
-            var pendingCheckCount = CountPendingChecks(latestWithdrawnPointDate, confirmedDates);
-            
-            // NOTE
-            // 3. 데이터에 최신 포인트 지급일 업데이트
-            UpdateLastPointDate(lastPointDate, confirmedDates);
+            // 2. 초기화 시점 이후의 앱 푸시 횟수
+            CheckCount = CountChecksSinceReset();
         }
         
 
-        private int CountPendingChecks(DateTime lastPointDate, HashSet<string> confirmedDates)
+        private int CountChecksSinceReset()
         {
-            var lastPointDateNumber = DateTimeHelper.ToDateNumber(lastPointDate);
+            var latestWithdrawnDate = DateTimeHelper.ToDateNumber(_myCharacterData.LatestWithdrawnPointDate);
             var count = 0;
 
-            foreach (var confirmedDate in confirmedDates)
+            foreach (var confirmedDate in _myCharacterData.ConfirmedWaterDates)
             {
-                if (DateTime.TryParseExact(confirmedDate, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date) &&
-                    DateTimeHelper.ToDateNumber(date) > lastPointDateNumber)
+                if (confirmedDate > latestWithdrawnDate)
                 {
                     count++;
                 }
@@ -245,38 +240,45 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
             return count;
         }
         
-        private void UpdateLastPointDate(DateTime lastPointDate, HashSet<string> confirmedDates)
-        {
-            var latestCheckDate = lastPointDate.Date;
+        // TODO
+        // 내가 출금 버튼 눌렀을 때 데이터 업데이트 하는 거 필요함.
 
-            foreach (var confirmedDate in confirmedDates)
-            {
-                if (DateTime.TryParseExact(confirmedDate, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date) &&
-                    date > latestCheckDate)
-                {
-                    latestCheckDate = date;
-                }
-            }
+        // TODO
+        // 필요 없는 기능
+        // private void UpdateLastPointDate(DateTime lastPointDate, HashSet<string> confirmedDates)
+        // {
+        //     var latestCheckDate = lastPointDate.Date;
+        //
+        //     foreach (var confirmedDate in confirmedDates)
+        //     {
+        //         if (DateTime.TryParseExact(confirmedDate, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date) &&
+        //             date > latestCheckDate)
+        //         {
+        //             latestCheckDate = date;
+        //         }
+        //     }
+        //
+        //     if (latestCheckDate > lastPointDate.Date)
+        //     {
+        //         _myCharacterData.LastWaterPointDate = latestCheckDate;
+        //     }
+        // }
 
-            if (latestCheckDate > lastPointDate.Date)
-            {
-                _myCharacterData.LastWaterPointDate = latestCheckDate;
-            }
-        }
-
-        public int GetMonthlyCheckCount()
-        {
-            var yearMonth = DateTimeHelper.ToYearMonth(DateTime.Now);
-            var checkCounts = _myCharacterData.WaterCheckCountsByMonth;
-
-            if (!checkCounts.TryGetValue(yearMonth, out var checkCount))
-            {
-                // WARNING : 없어도 계산을 위해 0을 리턴해줘야 한다!
-                return 0;
-            }
-
-            return checkCount;
-        }
+        // TODO
+        // 필요 없는 기능
+        // public int GetMonthlyCheckCount()
+        // {
+        //     var yearMonth = DateTimeHelper.ToYearMonth(DateTime.Now);
+        //     var checkCounts = _myCharacterData.WaterCheckCountsByMonth;
+        //
+        //     if (!checkCounts.TryGetValue(yearMonth, out var checkCount))
+        //     {
+        //         // WARNING : 없어도 계산을 위해 0을 리턴해줘야 한다!
+        //         return 0;
+        //     }
+        //
+        //     return checkCount;
+        // }
     }
 
     private sealed class SiestaHandler : IUpdateAndSaveData

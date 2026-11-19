@@ -40,8 +40,6 @@ public class MyCharacterData
 
     public List<RoutineRecordData> RoutineRecordList = new();
     public List<SiestaTimeRecordData> SiestaTimeRecordList = new();
-    [XmlArray("MonthlyWaterPointRecordList")]
-    public List<(int YearMonth, int CheckCount)> MonthlyWaterCheckCounts = new();
 
     #endregion
 
@@ -74,6 +72,10 @@ public class MyCharacterData
     [XmlIgnore]
     public ImmutableDictionary<string, int> SiestaTimeRecordDictionary =>
         _siestaTimeRecordDictionary.ToImmutableDictionary();
+
+    [XmlIgnore]
+    public ImmutableHashSet<int> ConfirmedWaterDates =>
+        _confirmedWaterDates?.ToImmutableHashSet() ?? ImmutableHashSet<int>.Empty;
     
     #endregion
 
@@ -164,32 +166,6 @@ public class MyCharacterData
                 _confirmedWaterDates.Add(DateTimeHelper.ToDateNumber(date));
             }
         }
-    }
-
-    public void SetLastWaterCheckDate(DateTime date)
-    {
-        LastWaterCheckDate = date;
-    }
-
-    public void SyncWaterPointDate()
-    {
-        LastWaterPointDate = LastWaterCheckDate;
-    }
-
-    public void IncrementWaterCheckCount(DateTime checkDate)
-    {
-        var yearMonth = DateTimeHelper.ToYearMonth(checkDate);
-        var recordIndex = MonthlyWaterCheckCounts.FindIndex(record => record.YearMonth == yearMonth);
-
-        if (recordIndex < 0)
-        {
-            MonthlyWaterCheckCounts.Add((yearMonth, 1));
-            return;
-        }
-
-        var monthRecord = MonthlyWaterCheckCounts[recordIndex];
-        monthRecord.CheckCount++;
-        MonthlyWaterCheckCounts[recordIndex] = monthRecord;
     }
 
     public void UpdateRoutineRecordDictionary(List<int> todaySuccessfulRoutineIndexByView, DateTime dateTime)

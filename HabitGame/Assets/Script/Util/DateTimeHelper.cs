@@ -13,6 +13,8 @@ public static class DateTimeHelper
         return date.ToString("yyyyMMdd", CultureInfo.InvariantCulture);
     }
 
+    // NOTE
+    // ex : 20261027
     public static int ToDateNumber(DateTime date)
     {
         return ToYearMonth(date) * 100 + date.Day;

@@ -74,11 +74,12 @@ public class HorizontalPanelPresenter : PresenterBase
 
     private void UpdateWaterPoint()
     {
-        var waterPointsPerDay = _myCharacterManager.GetWaterPointsPerDay();
-        var monthlyWaterCheckCount = _myCharacterManager.GetMonthlyWaterCheckCount();
-        var monthlyWaterPoint = waterPointsPerDay * monthlyWaterCheckCount;
+        var pointsPerDay = _myCharacterManager.GetWaterPointsPerDay();
+        var checkCount = _myCharacterManager.GetWaterCheckCount();
+        
+        var points = pointsPerDay * checkCount;
 
-        _uiHorizontalPanel.UpdateWaterPoint(monthlyWaterPoint);
+        _uiHorizontalPanel.UpdateWaterPoint(points);
     }
 
     #endregion
