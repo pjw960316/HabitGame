@@ -21,11 +21,11 @@ public class HorizontalPanelPresenter : PresenterBase
     {
         base.Initialize(view);
     }
-    
+
     protected sealed override void InitializeView()
     {
         _uiHorizontalPanel = _view as UIHorizontalPanel;
-        
+
         ExceptionHelper.CheckNullException(_uiHorizontalPanel, "_uiHorizontalPanel");
     }
 
@@ -38,7 +38,7 @@ public class HorizontalPanelPresenter : PresenterBase
     public sealed override void SetView()
     {
         _uiHorizontalPanel.UpdateSiestaPoint(_myCharacterManager.GetMonthlySiestaMoney());
-        
+
         UpdateWaterPoint();
     }
 
@@ -47,7 +47,7 @@ public class HorizontalPanelPresenter : PresenterBase
         _myCharacterManager.OnUpdateSiestaRecord
             .Subscribe(OnUpdateSiestaRecord)
             .AddTo(_disposable);
-        
+
         // TODO 
         // Terminate는 내 시스템에서 다시 구성
         //_uiHorizontalPanel.OnDestroyPanel.Subscribe(_ => OnDestroyPanel()).AddTo(_disposable);
@@ -62,11 +62,11 @@ public class HorizontalPanelPresenter : PresenterBase
         _uiHorizontalPanel.UpdateSiestaPoint(monthlySiestaMoney);
     }
 
-   /* private void OnDestroyPanel()
-    {
-        _model?.Terminate();
-        TerminatePresenter();
-    }*/
+    /* private void OnDestroyPanel()
+     {
+         _model?.Terminate();
+         TerminatePresenter();
+     }*/
 
     #endregion
 
@@ -74,23 +74,12 @@ public class HorizontalPanelPresenter : PresenterBase
 
     private void UpdateWaterPoint()
     {
-        var moneyPerWaterDrinking = _myCharacterManager.GetMoneyPerWaterDrinking();
-        var monthlyRewardCount = _myCharacterManager.GetMonthlyWaterPointRewardCount();
-
-        var monthlyWaterPoint = moneyPerWaterDrinking * monthlyRewardCount;
+        var waterPointsPerDay = _myCharacterManager.GetWaterPointsPerDay();
+        var monthlyWaterCheckCount = _myCharacterManager.GetMonthlyWaterCheckCount();
+        var monthlyWaterPoint = waterPointsPerDay * monthlyWaterCheckCount;
 
         _uiHorizontalPanel.UpdateWaterPoint(monthlyWaterPoint);
     }
-    
-    // TODO
-    // 없애야 함
-    /*private long RequestLatestWaterDrinkingDate()
-    {
-        const string PREFERENCES_NAME = "habit_water_practice";
-        const string CONFIRMED_AT_KEY = "last_confirmed_at";
-
-        return _androidManager.ReadSharedPreference<long>(PREFERENCES_NAME, CONFIRMED_AT_KEY, 0L);
-    }*/
 
     #endregion
 }

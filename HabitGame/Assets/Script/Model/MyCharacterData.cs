@@ -27,7 +27,7 @@ public class MyCharacterData
     // 접근 방식 
     public const int MONEY_PER_ROUTINE_SUCCESS = 500;
     public const int MONEY_PER_SIESTA_MINUTE = 50;
-    public const int MONEY_PER_WATER_DRINKING = 500;
+    public const int WATER_POINTS_PER_DAY = 500;
 
     private int _name;
     private int _age;
@@ -38,7 +38,8 @@ public class MyCharacterData
 
     public List<RoutineRecordData> RoutineRecordList = new();
     public List<SiestaTimeRecordData> SiestaTimeRecordList = new();
-    public List<(int YearMonth, int RewardCount)> MonthlyWaterPointRecordList = new();
+    [XmlArray("MonthlyWaterPointRecordList")]
+    public List<(int YearMonth, int CheckCount)> MonthlyWaterCheckCounts = new();
 
     #endregion
 
@@ -50,10 +51,10 @@ public class MyCharacterData
 
     
     [XmlIgnore]  // NOTE : 앱 푸쉬에서 물 마심을 누른 날짜
-    public DateTime LatestWaterDrinkingDateFromAndroid { get; private set; }
+    public DateTime LastWaterCheckDate { get; private set; }
     
-    [XmlElement(DataType = "date")]  // NOTE : 가장 최근에 물 마심으로 포인트를 올린 날짜
-    public DateTime LatestWaterPointRewardDate { get; set; }
+    [XmlElement("LatestWaterPointRewardDate", DataType = "date")]  // NOTE : 가장 최근에 물 마심으로 포인트를 올린 날짜
+    public DateTime LastWaterPointDate { get; set; }
 
     [XmlIgnore]
     public ImmutableSortedDictionary<string, ImmutableList<bool>> RoutineRecordDictionary
@@ -77,8 +78,8 @@ public class MyCharacterData
     // 지금 이 자료구조를 굳이 저장하지 않으려 한다.
     // 왜냐면 아직 만들지도 않은 걸 확장 설계할 필요가 없거든
     [XmlIgnore]
-    public ImmutableDictionary<int, int> MonthlyWaterPointRecordDictionary =>
-        MonthlyWaterPointRecordList.ToImmutableDictionary(record => record.YearMonth, record => record.RewardCount);
+    public ImmutableDictionary<int, int> WaterCheckCountsByMonth =>
+        MonthlyWaterCheckCounts.ToImmutableDictionary(record => record.YearMonth, record => record.CheckCount);
 
     #endregion
 
@@ -159,30 +160,30 @@ public class MyCharacterData
 
     #region 5. Methods
 
-    public void UpdateLatestWaterDrinkingDateFromAndroid(DateTime latestWaterDrinkingDateFromAndroid)
+    public void SetLastWaterCheckDate(DateTime date)
     {
-        LatestWaterDrinkingDateFromAndroid = latestWaterDrinkingDateFromAndroid;
+        LastWaterCheckDate = date;
     }
 
-    public void SynchronizeWaterDrinkingDates()
+    public void SyncWaterPointDate()
     {
-        LatestWaterPointRewardDate = LatestWaterDrinkingDateFromAndroid;
+        LastWaterPointDate = LastWaterCheckDate;
     }
 
-    public void IncrementMonthlyWaterPointRewardCount(DateTime waterDrinkingDate)
+    public void IncrementWaterCheckCount(DateTime checkDate)
     {
-        var yearMonth = DateTimeHelper.ToYearMonth(waterDrinkingDate);
-        var recordIndex = MonthlyWaterPointRecordList.FindIndex(record => record.YearMonth == yearMonth);
+        var yearMonth = DateTimeHelper.ToYearMonth(checkDate);
+        var recordIndex = MonthlyWaterCheckCounts.FindIndex(record => record.YearMonth == yearMonth);
 
         if (recordIndex < 0)
         {
-            MonthlyWaterPointRecordList.Add((yearMonth, 1));
+            MonthlyWaterCheckCounts.Add((yearMonth, 1));
             return;
         }
 
-        var monthlyWaterPointRecord = MonthlyWaterPointRecordList[recordIndex];
-        monthlyWaterPointRecord.RewardCount++;
-        MonthlyWaterPointRecordList[recordIndex] = monthlyWaterPointRecord;
+        var monthRecord = MonthlyWaterCheckCounts[recordIndex];
+        monthRecord.CheckCount++;
+        MonthlyWaterCheckCounts[recordIndex] = monthRecord;
     }
 
     public void UpdateRoutineRecordDictionary(List<int> todaySuccessfulRoutineIndexByView, DateTime dateTime)

@@ -24,7 +24,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
     private MyCharacterData _myCharacterData;
     private XmlDataManager _xmlDataManager;
     private SiestaHandler _siestaHandler;
-    private DrinkingWaterHandler _drinkingWaterHandler;
+    private WaterPointHandler _waterPointHandler;
 
     private readonly Subject<Unit> _onUpdateRoutineSuccess = new();
     private readonly Subject<int> _onUpdateSiestaRecord = new();
@@ -107,7 +107,7 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
     private void InitializeHandlers()
     {
         _siestaHandler = new SiestaHandler(_myCharacterData);
-        _drinkingWaterHandler = new DrinkingWaterHandler(_myCharacterData);
+        _waterPointHandler = new WaterPointHandler(_myCharacterData);
     }
 
     [CanBeNull]
@@ -166,21 +166,20 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         return _siestaHandler.GetTodaySiestaMoney();
     }
 
-    public int GetMoneyPerWaterDrinking()
+    public int GetWaterPointsPerDay()
     {
-        return MyCharacterData.MONEY_PER_WATER_DRINKING;
+        return MyCharacterData.WATER_POINTS_PER_DAY;
     }
 
-    public int GetMonthlyWaterPointRewardCount()
+    public int GetMonthlyWaterCheckCount()
     {
-        return _drinkingWaterHandler.GetMonthlyWaterPointRewardCount();
+        return _waterPointHandler.GetMonthlyCheckCount();
     }
 
     public void LogSiestaTimeRecordList()
     {
         _myCharacterData.LogSiestaTimeRecordList();
     }
-
 
     private void UpdateXmlData()
     {
@@ -199,12 +198,12 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
 
     #endregion
 
-    private sealed class DrinkingWaterHandler
+    private sealed class WaterPointHandler
     {
         private readonly MyCharacterData _myCharacterData;
         private readonly AndroidManager _androidManager;
 
-        public DrinkingWaterHandler(MyCharacterData myCharacterData)
+        public WaterPointHandler(MyCharacterData myCharacterData)
         {
             _myCharacterData = myCharacterData;
             ExceptionHelper.CheckNullException(_myCharacterData, "_myCharacterData");
@@ -214,20 +213,20 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
             
             // NOTE
             // 1. 계산에 필요한 두 변수 초기화
-            InitializeDates(out var latestRewardDate, out var androidConfirmedHashSet);
+            ReadDates(out var lastPointDate, out var confirmedDates);
             
             // NOTE
             // 2. 미지급 포인트 횟수 계산
-            var pendingRewardCount = CountPendingRewards(latestRewardDate, androidConfirmedHashSet);
+            var pendingCheckCount = CountPendingChecks(lastPointDate, confirmedDates);
             
             // NOTE
             // 3. 데이터에 최신 포인트 지급일 업데이트
-            UpdateDrinkingWaterPoint(latestRewardDate, androidConfirmedHashSet);
+            UpdateLastPointDate(lastPointDate, confirmedDates);
         }
 
-        private void InitializeDates(out DateTime latestRewardDate, out HashSet<string> confirmedDates)
+        private void ReadDates(out DateTime lastPointDate, out HashSet<string> confirmedDates)
         {
-            latestRewardDate = _myCharacterData.LatestWaterPointRewardDate;
+            lastPointDate = _myCharacterData.LastWaterPointDate;
             confirmedDates = _androidManager.GetConfirmedWaterDrinkingDates();
         }
 
@@ -246,15 +245,15 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
         //     _myCharacterData.UpdateLatestWaterDrinkingDateFromAndroid(latestWaterDrinkingDateFromAndroid);
         // }
 
-        private int CountPendingRewards(DateTime latestRewardDate, HashSet<string> androidConfirmedHashSet)
+        private int CountPendingChecks(DateTime lastPointDate, HashSet<string> confirmedDates)
         {
-            var latestRewardDateNumber = DateTimeHelper.ToDateNumber(latestRewardDate);
+            var lastPointDateNumber = DateTimeHelper.ToDateNumber(lastPointDate);
             var count = 0;
 
-            foreach (var confirmedDate in androidConfirmedHashSet)
+            foreach (var confirmedDate in confirmedDates)
             {
                 if (DateTime.TryParseExact(confirmedDate, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date) &&
-                    DateTimeHelper.ToDateNumber(date) > latestRewardDateNumber)
+                    DateTimeHelper.ToDateNumber(date) > lastPointDateNumber)
                 {
                     count++;
                 }
@@ -263,37 +262,37 @@ public class MyCharacterManager : ManagerBase<MyCharacterManager>
             return count;
         }
         
-        private void UpdateDrinkingWaterPoint(DateTime latestRewardDate, HashSet<string> androidConfirmedHashSet)
+        private void UpdateLastPointDate(DateTime lastPointDate, HashSet<string> confirmedDates)
         {
-            var newestConfirmedDate = latestRewardDate.Date;
+            var latestCheckDate = lastPointDate.Date;
 
-            foreach (var confirmedDate in androidConfirmedHashSet)
+            foreach (var confirmedDate in confirmedDates)
             {
                 if (DateTime.TryParseExact(confirmedDate, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date) &&
-                    date > newestConfirmedDate)
+                    date > latestCheckDate)
                 {
-                    newestConfirmedDate = date;
+                    latestCheckDate = date;
                 }
             }
 
-            if (newestConfirmedDate > latestRewardDate.Date)
+            if (latestCheckDate > lastPointDate.Date)
             {
-                _myCharacterData.LatestWaterPointRewardDate = newestConfirmedDate;
+                _myCharacterData.LastWaterPointDate = latestCheckDate;
             }
         }
 
-        public int GetMonthlyWaterPointRewardCount()
+        public int GetMonthlyCheckCount()
         {
-            var currentYearMonth = DateTimeHelper.ToYearMonth(DateTime.Now);
-            var monthlyWaterPointRecordDictionary = _myCharacterData.MonthlyWaterPointRecordDictionary;
+            var yearMonth = DateTimeHelper.ToYearMonth(DateTime.Now);
+            var checkCounts = _myCharacterData.WaterCheckCountsByMonth;
 
-            if (!monthlyWaterPointRecordDictionary.TryGetValue(currentYearMonth, out var rewardCount))
+            if (!checkCounts.TryGetValue(yearMonth, out var checkCount))
             {
                 // WARNING : 없어도 계산을 위해 0을 리턴해줘야 한다!
                 return 0;
             }
 
-            return rewardCount;
+            return checkCount;
         }
     }
 
