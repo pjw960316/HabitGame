@@ -1,11 +1,10 @@
-using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Globalization;
 using System.Linq;
-using System.Numerics;
 using System.Xml.Serialization;
+using UnityEngine;
 
 [XmlRoot]
 public class MyCharacterData
@@ -34,7 +33,7 @@ public class MyCharacterData
     private int _name;
     private int _age;
     private int _monthlyRoutineSuccessMoney;
-    
+
     private Dictionary<string, List<bool>> _routineRecordDictionary = new();
     private Dictionary<string, int> _siestaTimeRecordDictionary = new();
     private HashSet<int> _confirmedWaterDates;
@@ -53,9 +52,8 @@ public class MyCharacterData
     // NOTE
     // 지금까지 모은 총 포인트를 카카오뱅크로 입금한 날
     // 이게 set 되면 zero가 되어야 한다.
-    [XmlElement(DataType = "date")]
-    public DateTime LatestWithdrawnPointDate { get; set; }
-    
+    [XmlElement(DataType = "date")] public DateTime LatestWithdrawnPointDate { get; set; }
+
     [XmlIgnore]
     public ImmutableSortedDictionary<string, ImmutableList<bool>> RoutineRecordDictionary
     {
@@ -77,7 +75,7 @@ public class MyCharacterData
     [XmlIgnore]
     public ImmutableHashSet<int> ConfirmedWaterDates =>
         _confirmedWaterDates?.ToImmutableHashSet() ?? ImmutableHashSet<int>.Empty;
-    
+
     #endregion
 
     #region 3. Constructor
@@ -162,7 +160,8 @@ public class MyCharacterData
         _confirmedWaterDates = new HashSet<int>();
         foreach (var confirmedDate in confirmedDates)
         {
-            if (DateTime.TryParseExact(confirmedDate, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
+            if (DateTime.TryParseExact(confirmedDate, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                    out var date))
             {
                 _confirmedWaterDates.Add(DateTimeHelper.ToDateNumber(date));
             }

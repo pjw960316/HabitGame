@@ -28,6 +28,9 @@ public class CameraManager : ManagerBase<CameraManager>, IHasController<CameraCo
 
     public sealed override void BindEvent()
     {
+        // TODO
+        // 이게 정상 의돈지 모르겠다.
+        // 과연 내가 과거에 모든 popup 열리면 카메라 무빙을 치려고 했을까...?
         _uiManager.OnOpenPopup
             .Subscribe(_ => { FollowSparrow(); })
             .AddTo(_followSparrowCameraMoveDisposable);
