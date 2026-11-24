@@ -1,5 +1,3 @@
-using System;
-using UniRx;
 using UnityEngine;
 
 public class UIOpenPopupButtonBase : UIButtonBase
@@ -9,14 +7,12 @@ public class UIOpenPopupButtonBase : UIButtonBase
     [SerializeField] private Canvas _canvas;
     [SerializeField] private EPopupKey _ePopupKey;
     private Transform _canvasTransform;
-    private readonly Subject<UIPopupBase> _onPopupOpened = new();
 
     #endregion
 
     #region 2. Properties
 
     private Canvas Canvas => _canvas;
-    public IObservable<UIPopupBase> OnPopupOpened => _onPopupOpened;
 
     #endregion
 
@@ -47,22 +43,14 @@ public class UIOpenPopupButtonBase : UIButtonBase
             return;
         }
 
-        var popup = _uiManager.OpenPopupByStringKey(_ePopupKey, _canvasTransform);
-        if (popup != null)
-        {
-            _onPopupOpened.OnNext(popup);
-        }
+        _uiManager.OpenPopupByStringKey(_ePopupKey, _canvasTransform);
     }
 
     #endregion
 
     #region 5. EventHandlers
 
-    private void OnDestroy()
-    {
-        _onPopupOpened.OnCompleted();
-        _onPopupOpened.Dispose();
-    }
+    // default
 
     #endregion
 }

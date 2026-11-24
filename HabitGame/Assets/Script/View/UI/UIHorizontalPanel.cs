@@ -1,6 +1,7 @@
 using System;
 using UniRx;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 // TODO
 // 추후에는 Panel 자체를 Base로 만들고 abstract 화 시킬 지 모른다.
@@ -13,7 +14,8 @@ public class UIHorizontalPanel : MonoBehaviour, IView
     [SerializeField] private UIImageWidget _siestaPointWidget;
     [SerializeField] private UIImageWidget _waterPointWidget;
     [SerializeField] private UIImageWidget _monthlyHarvestMoneyWidget;
-    [SerializeField] private UIOpenPopupButtonBase _uiOpenPopupButton;
+    [FormerlySerializedAs("_uiOpenPopupButton")]
+    [SerializeField] private UIButtonBase _withdrawButton;
 
     private readonly Subject<Unit> _onDestroyPanel = new();
 
@@ -22,9 +24,9 @@ public class UIHorizontalPanel : MonoBehaviour, IView
     #region 2. Properties
 
     public IObservable<Unit> OnDestroyPanel => _onDestroyPanel;
-    public IObservable<UIPopupBase> OnWithdrawPopupOpened => _uiOpenPopupButton != null
-        ? _uiOpenPopupButton.OnPopupOpened
-        : Observable.Empty<UIPopupBase>();
+    public IObservable<Unit> OnWithdrawClicked => _withdrawButton != null
+        ? _withdrawButton.Button.OnClickAsObservable()
+        : Observable.Empty<Unit>();
 
     #endregion
 
