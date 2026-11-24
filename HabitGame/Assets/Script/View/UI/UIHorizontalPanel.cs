@@ -13,6 +13,7 @@ public class UIHorizontalPanel : MonoBehaviour, IView
     [SerializeField] private UIImageWidget _siestaPointWidget;
     [SerializeField] private UIImageWidget _waterPointWidget;
     [SerializeField] private UIImageWidget _monthlyHarvestMoneyWidget;
+    [SerializeField] private UIOpenPopupButtonBase _uiOpenPopupButton;
 
     private readonly Subject<Unit> _onDestroyPanel = new();
 

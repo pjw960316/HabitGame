@@ -4663,6 +4663,7 @@ MonoBehaviour:
   _siestaPointWidget: {fileID: 2146000012}
   _waterPointWidget: {fileID: 8146000012}
   _monthlyHarvestMoneyWidget: {fileID: 8146000022}
+  _uiOpenPopupButton: {fileID: 2146000037}
 --- !u!1001 &2146000010
 PrefabInstance:
   m_ObjectHideFlags: 0
