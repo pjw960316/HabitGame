@@ -62,7 +62,7 @@ public class UIManager : ManagerBase<UIManager>
     //
 
 
-    public void OpenPopupByStringKey(EPopupKey popupKey, Transform transform)
+    public UIPopupBase OpenPopupByStringKey(EPopupKey popupKey, Transform transform)
     {
         var popupPrefab = _popupData.GetPopupByEPopupKey(popupKey);
 
@@ -80,6 +80,8 @@ public class UIManager : ManagerBase<UIManager>
 
             _onOpenPopup.OnNext(popupKey);
         }
+
+        return popup;
     }
 
     public void RemoveOpenedPopup(EPopupKey popupKey)

@@ -22,6 +22,9 @@ public class UIHorizontalPanel : MonoBehaviour, IView
     #region 2. Properties
 
     public IObservable<Unit> OnDestroyPanel => _onDestroyPanel;
+    public IObservable<UIPopupBase> OnWithdrawPopupOpened => _uiOpenPopupButton != null
+        ? _uiOpenPopupButton.OnPopupOpened
+        : Observable.Empty<UIPopupBase>();
 
     #endregion
 

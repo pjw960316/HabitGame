@@ -48,6 +48,13 @@ public class HorizontalPanelPresenter : PresenterBase
             .Subscribe(OnUpdateSiestaRecord)
             .AddTo(_disposable);
 
+        _uiHorizontalPanel.OnWithdrawPopupOpened
+            .OfType<UIPopupBase, UIConfirmPopup>()
+            .SelectMany(popup => popup.OnConfirmed.Take(1))
+            .TakeUntil(_uiHorizontalPanel.OnDestroyPanel)
+            .Subscribe(OnWithdrawConfirmed)
+            .AddTo(_disposable);
+
         // TODO 
         // Terminate는 내 시스템에서 다시 구성
         //_uiHorizontalPanel.OnDestroyPanel.Subscribe(_ => OnDestroyPanel()).AddTo(_disposable);
@@ -60,6 +67,10 @@ public class HorizontalPanelPresenter : PresenterBase
     private void OnUpdateSiestaRecord(int monthlySiestaMoney)
     {
         _uiHorizontalPanel.UpdateSiestaPoint(monthlySiestaMoney);
+    }
+
+    private void OnWithdrawConfirmed(Unit confirmation)
+    {
     }
 
     /* private void OnDestroyPanel()
