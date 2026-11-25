@@ -4663,7 +4663,7 @@ MonoBehaviour:
   _siestaPointWidget: {fileID: 2146000012}
   _waterPointWidget: {fileID: 8146000012}
   _monthlyHarvestMoneyWidget: {fileID: 8146000022}
-  _withdrawButton: {fileID: 2146000037}
+  _withdrawButton: {fileID: 0}
 --- !u!1001 &2146000010
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4885,13 +4885,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 2146000030}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c797e6cf97fd56f4787bb549589e43d6, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d8a8210b8fe9024f9467d9fb06b798c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _isAutoText: 1
   _button: {fileID: 2146000034}
   _buttonText: {fileID: 2146000043}
   _buttonTextKey: 0
+  _canvas: {fileID: 1367084003}
+  _ePopupKey: 4
 --- !u!1 &2146000040
 GameObject:
   m_ObjectHideFlags: 0

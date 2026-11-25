@@ -58,10 +58,10 @@ public class UIManager : ManagerBase<UIManager>
     #endregion
 
     #region 5. Methods
-
-    //
-
-
+    
+    // WARNING
+    // 이거러만 열려야 _openedPopupKeyList 여기에 추가되는데 
+    // 위험하다고 판단.
     public UIPopupBase OpenPopupByStringKey(EPopupKey popupKey, Transform transform)
     {
         var popupPrefab = _popupData.GetPopupByEPopupKey(popupKey);

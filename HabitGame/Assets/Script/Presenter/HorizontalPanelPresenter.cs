@@ -6,7 +6,6 @@ public class HorizontalPanelPresenter : PresenterBase
 
     private UIHorizontalPanel _uiHorizontalPanel;
     private HorizontalPanelData _horizontalPanelData;
-    private readonly SerialDisposable _withdrawConfirmationSubscription = new();
 
     #endregion
 
@@ -49,11 +48,6 @@ public class HorizontalPanelPresenter : PresenterBase
             .Subscribe(OnUpdateSiestaRecord)
             .AddTo(_disposable);
 
-        _withdrawConfirmationSubscription.AddTo(_disposable);
-        _uiHorizontalPanel.OnWithdrawClicked
-            .TakeUntil(_uiHorizontalPanel.OnDestroyPanel)
-            .Subscribe(OnWithdrawClicked)
-            .AddTo(_disposable);
 
         // TODO 
         // Terminate는 내 시스템에서 다시 구성
@@ -68,26 +62,10 @@ public class HorizontalPanelPresenter : PresenterBase
     {
         _uiHorizontalPanel.UpdateSiestaPoint(monthlySiestaMoney);
     }
+    
 
-    private void OnWithdrawClicked(Unit click)
-    {
-        if (_uiManager.IsAnyPopupOpened())
-        {
-            return;
-        }
-
-        var popup = _uiManager.OpenPopupByStringKey(EPopupKey.ConfirmPopup, _uiManager.MainCanvasTransform) as UIConfirmPopup;
-        if (popup == null)
-        {
-            return;
-        }
-
-        _withdrawConfirmationSubscription.Disposable = popup.OnConfirmed
-            .Take(1)
-            .TakeUntil(_uiHorizontalPanel.OnDestroyPanel)
-            .Subscribe(OnWithdrawConfirmed);
-    }
-
+    // NOTE
+    // 이건 자신과 직접 의존된 View가 들고 있는 Widget과의 상호작용이므로 Manager의 도움을 받는다.
     private void OnWithdrawConfirmed(Unit confirmation)
     {
     }

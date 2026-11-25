@@ -14,8 +14,7 @@ public class UIHorizontalPanel : MonoBehaviour, IView
     [SerializeField] private UIImageWidget _siestaPointWidget;
     [SerializeField] private UIImageWidget _waterPointWidget;
     [SerializeField] private UIImageWidget _monthlyHarvestMoneyWidget;
-    [FormerlySerializedAs("_uiOpenPopupButton")]
-    [SerializeField] private UIButtonBase _withdrawButton;
+    [SerializeField] private UIOpenPopupButtonBase _withdrawButton;
 
     private readonly Subject<Unit> _onDestroyPanel = new();
 
@@ -24,9 +23,6 @@ public class UIHorizontalPanel : MonoBehaviour, IView
     #region 2. Properties
 
     public IObservable<Unit> OnDestroyPanel => _onDestroyPanel;
-    public IObservable<Unit> OnWithdrawClicked => _withdrawButton != null
-        ? _withdrawButton.Button.OnClickAsObservable()
-        : Observable.Empty<Unit>();
 
     #endregion
 
