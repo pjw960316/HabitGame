@@ -62,6 +62,10 @@ public class UIManager : ManagerBase<UIManager>
     // WARNING
     // 이거러만 열려야 _openedPopupKeyList 여기에 추가되는데 
     // 위험하다고 판단.
+    
+    // NOTE
+    // 팝업이 열린다면 OnOpenPopup을 통해 
+    // 여러 이벤트를 수행할 수 있다.
     public UIPopupBase OpenPopupByStringKey(EPopupKey popupKey, Transform transform)
     {
         var popupPrefab = _popupData.GetPopupByEPopupKey(popupKey);
