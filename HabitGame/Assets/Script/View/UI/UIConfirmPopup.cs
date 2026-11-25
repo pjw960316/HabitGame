@@ -21,6 +21,9 @@ public class UIConfirmPopup : UIPopupBase
 
     protected override void CreatePresenterByManager()
     {
+        // NOTE
+        // 현재는 단순한 기능이라 YAGNI 관점에서
+        // 구현하지 않는다.
     }
 
     protected override void BindEvent()
