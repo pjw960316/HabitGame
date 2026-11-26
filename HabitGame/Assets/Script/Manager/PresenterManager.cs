@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using UniRx;
 
 // NOTE
 // Factory 역할
@@ -7,6 +9,8 @@ using System.Collections.Generic;
 public class PresenterManager : ManagerBase<PresenterManager>
 {
     #region 1. Fields
+
+    private UIManager _uiManager;
 
     private readonly HashSet<PresenterBase> _livedPresenterHashSet = new();
     private readonly Dictionary<Type, Type> _fieldObjectViewModelTypeMatchDictionary = new();
@@ -23,6 +27,8 @@ public class PresenterManager : ManagerBase<PresenterManager>
     
     public sealed override void Initialize()
     {
+        _uiManager = UIManager.Instance;
+
         SetModelMappingDict();
     }
 
@@ -40,15 +46,32 @@ public class PresenterManager : ManagerBase<PresenterManager>
 
     #endregion
 
+    public sealed override void BindEvent()
+    {
+        _uiManager.OnOpenPopup.Subscribe(BroadcastPopupOpened);
+    }
+
     #region 4. EventHandlers
 
-    //
+    // NOTE
+    // 팝업이 열리면 Presenter 전체에게 전달한다.
+    // 그러면 Presenter는 다른 View의 이벤트를 걸 수 있다.
+    
+    // WARNING
+    // 자신과 직접 묶인 (MVP) view의 생성 때도 호출된다.
+    // 이중 바인딩이 되지 않게 주의해야 한다.
+    // 자신과 생명주기가 다른 Popup의 생성 때 UniRx Subscribe 하기 위한 용도
+    private void BroadcastPopupOpened(UIPopupBase popup)
+    {
+        foreach (var presenter in _livedPresenterHashSet)
+        {
+            presenter.OnPopupOpened(popup);
+        }
+    }
 
     #endregion
 
     #region 5. Methods
-
-    // 
 
 
     // NOTE

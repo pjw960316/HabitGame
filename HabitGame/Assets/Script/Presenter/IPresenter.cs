@@ -7,4 +7,6 @@ internal interface IPresenter
     public void SetView();
 
     public void BindEvent();
+    
+    public void OnPopupOpened(UIPopupBase popup);
 }

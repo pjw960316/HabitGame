@@ -16,7 +16,7 @@ public class UIManager : ManagerBase<UIManager>
     private readonly HashSet<EPopupKey> _openedPopupKeyList = new();
     private readonly Dictionary<EPopupKey, UIPopupBase> _popupDictionary = new();
 
-    private readonly Subject<EPopupKey> _onOpenPopup = new();
+    private readonly Subject<UIPopupBase> _onOpenPopup = new();
     private readonly Subject<EPopupKey> _onClosePopup = new();
 
     #endregion
@@ -26,7 +26,7 @@ public class UIManager : ManagerBase<UIManager>
     public Canvas MainCanvas => _mainCanvas;
     public Transform MainCanvasTransform => _mainCanvasTransform;
 
-    public IObservable<EPopupKey> OnOpenPopup => _onOpenPopup;
+    public IObservable<UIPopupBase> OnOpenPopup => _onOpenPopup;
 
     public Subject<EPopupKey> OnClosePopup => _onClosePopup;
 
@@ -82,7 +82,7 @@ public class UIManager : ManagerBase<UIManager>
             _popupDictionary[popupKey] = popup;
             _openedPopupKeyList.Add(popupKey);
 
-            _onOpenPopup.OnNext(popupKey);
+            _onOpenPopup.OnNext(popup);
         }
 
         return popup;

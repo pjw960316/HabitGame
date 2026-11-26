@@ -58,6 +58,10 @@ public abstract class PresenterBase : IPresenter
     public abstract void SetView();
 
     public abstract void BindEvent();
+    public virtual void OnPopupOpened(UIPopupBase popup)
+    {
+        // 필요한 놈만 쓰자.
+    }
 
     protected abstract void InitializeView();
 

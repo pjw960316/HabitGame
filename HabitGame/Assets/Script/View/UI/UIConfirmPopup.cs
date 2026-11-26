@@ -14,6 +14,13 @@ public class UIConfirmPopup : UIPopupBase
     private readonly Subject<Unit> _onConfirmed = new();
     public IObservable<Unit> OnConfirmed => _onConfirmed;
 
+    protected sealed override void Initialize()
+    {
+        base.Initialize();
+        
+        
+    }
+    
     protected override void InitializeEPopupKey()
     {
         _ePopupKey = EPopupKey.ConfirmPopup;
