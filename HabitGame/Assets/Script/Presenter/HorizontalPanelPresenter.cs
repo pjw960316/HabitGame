@@ -63,11 +63,20 @@ public class HorizontalPanelPresenter : PresenterBase
         _uiHorizontalPanel.UpdateSiestaPoint(monthlySiestaMoney);
     }
     
-
-    // NOTE
-    // 이건 자신과 직접 의존된 View가 들고 있는 Widget과의 상호작용이므로 Manager의 도움을 받는다.
+    public override void OnPopupOpened(UIPopupBase popup)
+    {
+        var confirmPopup = popup as UIConfirmPopup;
+        if (confirmPopup != null)
+        {
+            confirmPopup.OnConfirmed
+                .Subscribe(OnWithdrawConfirmed).AddTo(_disposable);
+        }
+    }
+    
     private void OnWithdrawConfirmed(Unit confirmation)
     {
+        // TODO
+        // 출금 기능 구현만 남았군
     }
 
     /* private void OnDestroyPanel()
