@@ -5,6 +5,9 @@ using UniRx;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
+// NOTE
+// Presenter의 주기 관리는 여기서 하지 않는다.
+// PresenterManager가 책임진다.
 public class UIManager : ManagerBase<UIManager>
 {
     #region 1. Fields

@@ -6,6 +6,10 @@ using UniRx;
 // NOTE
 // Factory 역할
 // Presenter를 통해 Model도 매핑하고 있다.
+
+// NOTE
+// Presenter의 관리는 여기서 한다.
+// UIManager에서 하지 않는다.
 public class PresenterManager : ManagerBase<PresenterManager>
 {
     #region 1. Fields
