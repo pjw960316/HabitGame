@@ -75,6 +75,8 @@ public class HorizontalPanelPresenter : PresenterBase
     
     private void OnWithdrawConfirmed(Unit confirmation)
     {
+        UnityEngine.Debug.Log("[HorizontalPanelPresenter] 출금 확인 이벤트 수신");
+
         // TODO
         // 출금 기능 구현만 남았군
     }
